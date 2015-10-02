@@ -24,19 +24,19 @@ public class StorageManager {
 	private static String line;
 	private static ArrayList<CalenderYear> year;
 
-	//private static List<String> backup;
+	private static List<String> backup;
 	//static CalenderYear name;
 	
 	public StorageManager(){
 		year= new ArrayList<CalenderYear>();
-		//backup= new ArrayList<String>();
+		backup= new ArrayList<String>();
 	}
 	
 	@SuppressWarnings("deprecation")
 	public void add(Event event){
 		int index;
 
-		//updateStatus();
+		updateStatus();
 		if(!isYearAvaliable(event.getStartDateTime().getTime().getYear())){
 			year.add(new CalenderYear(event));
 		}
@@ -49,18 +49,14 @@ public class StorageManager {
 	@SuppressWarnings("deprecation")
 	public void remove(Event event){	
 		int index=returnIndex(event.getStartDateTime().getTime().getYear());
-		//updateStatus();
+		updateStatus();
 		year.get(index).getMonth(event.getStartDateTime().getTime().getMonth()).getDate(event.getStartDateTime().getTime().getDate()).deleteTask(event);
 	}
 	
 	public void update(Event eventOld, Event eventNew){
-		//updateStatus();
+		updateStatus();
 		remove(eventOld);
 		add(eventNew);
-	}
-	
-	public void clear(){
-		year.clear();
 	}
 	
 	public List<Event> load(){
@@ -85,7 +81,7 @@ public class StorageManager {
 		return data;
 	}
 	
-	/*//update the current status that prepared for undo function.
+	//update the current status that prepared for undo function.
 	public void updateStatus() {
 		int i, j = 0;
 		List<Event> data = new ArrayList<Event>();
@@ -101,30 +97,10 @@ public class StorageManager {
 	public void undo(){
 		year.clear();
 		processInputFromFile(backup);
-	}*/
-	
-	public static Boolean isYearAvaliable (int info) {
-		
-		int i, size = year.size();
-
-		for (i = 0; i < size; i++) {
-			if (year.get(i).getYear()==info) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
-	//it return the index for year in the List.
-	public static int returnIndex (int info){
-		int i, index=0;
-		
-		for(i=0;i<year.size();i++){
-			if(year.get(i).getYear()==info){
-				index=i;
-			}
-		}
-		return index;
+	public void clear(){
+		year.clear();
 	}
 	
 	/**
@@ -333,5 +309,29 @@ public class StorageManager {
 			return Priority.LOW;
 		}
 		return Priority.MEDIUM;
+	}
+
+	private static Boolean isYearAvaliable (int info) {
+		
+		int i, size = year.size();
+
+		for (i = 0; i < size; i++) {
+			if (year.get(i).getYear()==info) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	// it return the index for year in the List.
+	private static int returnIndex(int info) {
+		int i, index = 0;
+
+		for (i = 0; i < year.size(); i++) {
+			if (year.get(i).getYear() == info) {
+				index = i;
+			}
+		}
+		return index;
 	}
 }
