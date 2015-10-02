@@ -46,8 +46,20 @@ public class EventHandler {
 	}
 
 	public Event update(String identifier, Event eventDetails) {
-//		manage.update(eventOld, eventDetails);
-		return null;
+		Event eventToBeUpdated = new Event();
+		
+		// find event to be updated
+		for (Event e : events) {
+			if (e.getId().equals(identifier)) {
+				eventToBeUpdated = e;
+				events.remove(e);
+				
+				break;
+			}
+		}
+		manage.update(eventToBeUpdated, eventDetails);
+		events.add(eventDetails);
+		return eventDetails;
 	}
 
 	public Event view(String identifier) {
