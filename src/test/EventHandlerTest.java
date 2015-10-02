@@ -117,13 +117,13 @@ public class EventHandlerTest {
 		// simulating inputs from a parsed command
 		String title = "testAdd";
 		String location = "Holland Village";
-		String eventId = "ADD1";
+		String eventId = "GROC1";
 		String description = "buy groceries";
-		String recurring = "yes";
+		String recurring = "no";
 
 		Event oldEvent = new Event();
 
-		// adding attributes to event
+		// adding attributes to oldEvent
 		oldEvent.setId(eventId);
 		oldEvent.setTitle(title);
 		oldEvent.setStartDateTime(startDate);
@@ -136,9 +136,34 @@ public class EventHandlerTest {
 		// Create EventHandler()
 		EventHandler handle = new EventHandler();
 		oldEvent = handle.add(eventId, oldEvent);
+
+		// simulating calendar inputs from a command?
+		Calendar newstartDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+		startDate.set(2015, 9, 20, 10, 33, 25);
+		Calendar newendDate = Calendar.getInstance();
+		endDate.set(2015, 9, 21, 11, 34, 26);
+
+		// simulating inputs from a parsed command
+		String newtitle = "testUPDATE";
+		String newlocation = "Orchard Road";
+		String newdescription = "purchase groceries";
+		String newrecurring = "yes";
+
+		Event newEvent = new Event();
+		newEvent.setId(eventId);
+		newEvent.setTitle(newtitle);
+		newEvent.setStartDateTime(startDate);
+		newEvent.setEndDateTime(endDate);
+		newEvent.setPriority(utils.Priority.HIGH);
+		newEvent.setAddLocation(newlocation);
+		newEvent.setAddRecurring(newrecurring);
+		newEvent.setAddTaskDescription(newdescription);
 		
+		handle.update(eventId, newEvent);
 		
-//		fail();
+		// tests
+		assertFalse(handle.getAllEvents().contains(oldEvent));
+		assertTrue(handle.getAllEvents().contains(newEvent));
 	}
 
 	// @Test
