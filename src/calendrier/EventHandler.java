@@ -5,18 +5,25 @@ import java.util.List;
 
 import utils.Event;
 
+/**
+ * This class is used to create event objects using data passed in from
+ * MainLogic. These event objects are then sent to StorageManager.
+ * 
+ * @author Shan
+ *
+ */
 public class EventHandler {
-	
+
 	StorageManager manage;
 	ArrayList<Event> events = new ArrayList<>();
-	
+
 	public EventHandler() {
-		 manage = new StorageManager();
+		manage = new StorageManager();
 	}
-	
-	public Event add(String identifier, Event eventDetails){
+
+	public Event add(String identifier, Event eventDetails) {
 		Event newEvent = new Event();
-		
+
 		// The following seem redundant, as the event is created in the parser
 		newEvent.setId(identifier);
 		newEvent.setTitle(eventDetails.getTitle());
@@ -26,36 +33,47 @@ public class EventHandler {
 		newEvent.setAddLocation(eventDetails.getAddLocation());
 		newEvent.setAddRecurring(eventDetails.getAddRecurring());
 		newEvent.setAddTaskDescription(eventDetails.getAddTaskDescription());
-		
+
 		manage.add(newEvent);
 		events.add(newEvent);
 		return newEvent;
 	}
-	
-	public Event remove(String identifier, Event eventDetails){
+
+	public Event remove(String identifier, Event eventDetails) {
 		manage.remove(eventDetails);
 		events.remove(eventDetails);
 		return null;
 	}
-	
-	public Event update(String identifier, Event eventDetails){
+
+	public Event update(String identifier, Event eventDetails) {
+//		manage.update(eventOld, eventDetails);
 		return null;
 	}
-	
-	public Event view(String identifier){
+
+	public Event view(String identifier) {
 		return null;
 	}
-	
-	public List<Event> getAllEvents(){
+
+	public List<Event> getAllEvents() {
 		return events;
 	}
-	
-	public List<Event> getOutstandingEvents(){
+
+	/**
+	 * NOT YET IMPLEMENTED
+	 * 
+	 * @return
+	 */
+	public List<Event> getOutstandingEvents() {
 		List<Event> events = new ArrayList<>();
 		return events;
 	}
-	
-	public List<Event> getFilteredEvents(Event event){
+
+	/**
+	 * NOT YET IMPLEMENTED
+	 * 
+	 * @return
+	 */
+	public List<Event> getFilteredEvents(Event event) {
 		return null;
 	}
 }

@@ -69,7 +69,7 @@ public class EventHandlerTest {
 
 	@Test
 	public void testRemoveEvent() {
-		
+
 		// simulating calendar inputs from a command?
 		Calendar startDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 		startDate.set(2015, 9, 20, 10, 33, 25);
@@ -98,17 +98,48 @@ public class EventHandlerTest {
 		// Create EventHandler()
 		EventHandler handle = new EventHandler();
 		newEvent = handle.add(eventId, newEvent);
-		
+
 		handle.remove(eventId, newEvent);
 
 		// Test
 		assertFalse(handle.getAllEvents().contains(newEvent));
 	}
 
-	// @Test
-	// public void testUpdateEvent() {
-	//
-	// }
+	@Test
+	public void testUpdateEvent() {
+
+		// simulating calendar inputs from a command?
+		Calendar startDate = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+		startDate.set(2015, 9, 20, 10, 33, 25);
+		Calendar endDate = Calendar.getInstance();
+		endDate.set(2015, 9, 21, 11, 34, 26);
+
+		// simulating inputs from a parsed command
+		String title = "testAdd";
+		String location = "Holland Village";
+		String eventId = "ADD1";
+		String description = "buy groceries";
+		String recurring = "yes";
+
+		Event oldEvent = new Event();
+
+		// adding attributes to event
+		oldEvent.setId(eventId);
+		oldEvent.setTitle(title);
+		oldEvent.setStartDateTime(startDate);
+		oldEvent.setEndDateTime(endDate);
+		oldEvent.setPriority(utils.Priority.HIGH);
+		oldEvent.setAddLocation(location);
+		oldEvent.setAddRecurring(recurring);
+		oldEvent.setAddTaskDescription(description);
+
+		// Create EventHandler()
+		EventHandler handle = new EventHandler();
+		oldEvent = handle.add(eventId, oldEvent);
+		
+		
+//		fail();
+	}
 
 	// @Test
 	// public void testView() {
