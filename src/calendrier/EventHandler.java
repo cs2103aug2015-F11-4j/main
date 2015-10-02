@@ -63,7 +63,13 @@ public class EventHandler {
 	}
 
 	public Event view(String identifier) {
-		return null;
+		Event eventToBeViewed =  new Event();
+		for (Event e : events) {
+			if (e.getId().equals(identifier)) {
+				eventToBeViewed = e;
+			}
+		}
+		return eventToBeViewed;
 	}
 
 	public List<Event> getAllEvents() {
