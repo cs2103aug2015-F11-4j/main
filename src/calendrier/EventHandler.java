@@ -50,8 +50,7 @@ public class EventHandler {
 			Event viewedEvent = view(pc);
 			eventsReturned.add(viewedEvent);
 		} else if (pc.getCommand() == Command.VIEW_ALL) {
-			// yet to be implemented
-
+			eventsReturned = events;
 		} else if (pc.getCommand() == Command.UNDO) {
 			// will we need a blank message/event for this?
 			undo();
@@ -125,12 +124,11 @@ public class EventHandler {
 	 * @return eventToBeUpdated
 	 */
 	public Event update(ParsedCommand pc) {
-		Event eventToBeUpdated = new Event();
+		Event eventToBeUpdated = generator.createEvent(pc);
 
 		// find event to be updated
 		for (Event e : events) {
 			if (e.getId().equals(pc.getId())) {
-				eventToBeUpdated = e;
 				events.remove(e);
 				break;
 			}
