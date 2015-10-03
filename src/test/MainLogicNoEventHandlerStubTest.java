@@ -125,7 +125,7 @@ public class MainLogicNoEventHandlerStubTest {
 		MainLogic mainLogic = new MainLogic();
 		mainLogic.injectParser(new ParserStub());
 
-		String id = addDummyEvents(mainLogic);
+		addDummyEvents(mainLogic);
 		
 		assertTrue("should not be null", mainLogic.getAllEvents() != null);
 		assertTrue("should not be null", mainLogic.getEvent() != null);
