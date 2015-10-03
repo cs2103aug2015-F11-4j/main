@@ -24,12 +24,15 @@ public class EventHandler {
 		gen = new EventGenerator();
 	}
 	
-	public void execute(ParsedCommand pc) throws Exception {
+	public Event execute(ParsedCommand pc) throws Exception {
 		// generate Event
 		Event newEvent = gen.createEvent(pc);
 		
+		// 
+		
 		// add new event to structure of events
 		events.add(newEvent);
+		return newEvent;
 	}
 
 	public Event add(String identifier, Event eventDetails) {

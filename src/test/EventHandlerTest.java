@@ -21,7 +21,6 @@ public class EventHandlerTest {
 	
 	@Test
 	public void testExecute() {
-		fail();
 		
 		ParsedCommand parsedExample = new ParsedCommand();
 		
@@ -32,6 +31,9 @@ public class EventHandlerTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		fail();
+
 		
 	}
 

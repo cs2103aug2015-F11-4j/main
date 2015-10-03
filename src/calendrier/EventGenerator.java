@@ -18,7 +18,7 @@ public class EventGenerator {
 	 */
 	public Event createEvent(ParsedCommand pc) {
 		Event e = new Event();
+		
 		return e;
 	}
-
 }
