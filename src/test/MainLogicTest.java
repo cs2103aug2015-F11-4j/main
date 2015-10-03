@@ -23,8 +23,10 @@ public class MainLogicTest {
 		mainLogic.injectParser(new ParserStub());
 		
 		String command = "add addTitle, "
-				+ "date 2015/09/20, "
-				+ "time 10.33, "
+				+ "startdate 2015/09/23, "
+				+ "starttime 10.55, "
+				+ "enddate 2015/09/23, "
+				+ "endtime 10.56, "
 				+ "priority very high, "
 				+ "location addLocation, "
 				+ "notes addNotes, "
@@ -43,14 +45,16 @@ public class MainLogicTest {
 		mainLogic.injectParser(new ParserStub());
 		
 		String command = "add addTitle, "
-			+ "date 2015/09/20, "
-			+ "time 10.33, "
-			+ "priority very high, "
-			+ "location addLocation, "
-			+ "notes addNotes, "
-			+ "recurring yes, "
-			+ "reminderdate 2015/09/19, "
-			+ "remindertime 10.33";
+				+ "startdate 2015/09/23, "
+				+ "starttime 10.55, "
+				+ "enddate 2015/09/23, "
+				+ "endtime 10.56, "
+				+ "priority very high, "
+				+ "location addLocation, "
+				+ "notes addNotes, "
+				+ "recurring yes, "
+				+ "reminderdate 2015/09/19, "
+				+ "remindertime 10.33";
 		List<Event> eventList = mainLogic.execute(command);
 		assertTrue("should be > 0", eventList.size() > 0);
 	}
@@ -62,8 +66,10 @@ public class MainLogicTest {
 		mainLogic.injectParser(new ParserStub());
 		
 		String command = "add addTitle, "
-				+ "date 2015/09/20, "
-				+ "time 10.33, "
+				+ "startdate 2015/09/23, "
+				+ "starttime 10.55, "
+				+ "enddate 2015/09/23, "
+				+ "endtime 10.56, "
 				+ "priority very high, "
 				+ "location addLocation, "
 				+ "notes addNotes, "
@@ -111,8 +117,10 @@ public class MainLogicTest {
 		mainLogic.injectParser(new ParserStub());
 		
 		String command = "update id updateId, "
-				+ "date 2015/09/23, "
-				+ "time 10.55, "
+				+ "startdate 2015/09/23, "
+				+ "starttime 10.55, "
+				+ "enddate 2015/09/23, "
+				+ "endtime 10.56, "
 				+ "priority high, "
 				+ "location updateLocation, "
 				+ "notes updateNotes, "

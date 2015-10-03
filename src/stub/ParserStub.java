@@ -15,15 +15,17 @@ public class ParserStub extends Parser {
 		// TODO Auto-generated method stub
 		ParsedCommand parsedCommand = null;
 
-		if (command.equals("add addTitle, " + "date 2015/09/20, " + "time 10.33, " + "priority very high, "
-				+ "location addLocation, " + "notes addNotes, " + "recurring yes, " + "reminderdate 2015/09/19, "
-				+ "remindertime 10.33")) {
+		if (command.equals("add addTitle, "
+
+				+ "startdate 2015/09/23, " + "starttime 10.55, " + "enddate 2015/09/23, " + "endtime 10.56, "
+				+ "priority very high, " + "location addLocation, " + "notes addNotes, " + "recurring yes, "
+				+ "reminderdate 2015/09/19, " + "remindertime 10.33")) {
 			parsedCommand = generateAdd();
 		} else if (command.equals("delete deleteId")) {
 			parsedCommand = generateDelete();
-		} else if (command.equals("update id updateId, " + "date 2015/09/23, " + "time 10.55, " + "priority high, "
-				+ "location updateLocation, " + "notes updateNotes, " + "recurring yes, " + "reminderdate 2015/09/22, "
-				+ "remindertime 10.55")) {
+		} else if (command.equals("update id updateId, " + "startdate 2015/09/23, " + "starttime 10.55, "
+				+ "enddate 2015/09/23, " + "endtime 10.56, " + "priority high, " + "location updateLocation, "
+				+ "notes updateNotes, " + "recurring yes, " + "reminderdate 2015/09/22, " + "remindertime 10.55")) {
 			parsedCommand = generateUpdate();
 		} else if (command.equals("view viewId")) {
 			parsedCommand = generateView();
