@@ -22,8 +22,8 @@ public class MainLogic {
 
 	public MainLogic() {
 		super();
-		parser = new ParserStub();
-		eventHandler = new EventHandlerStub();
+		parser = new Parser();
+		eventHandler = new EventHandler();
 	}
 	
 	public void injectEventHandler(EventHandler eventHandler){

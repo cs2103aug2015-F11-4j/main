@@ -87,12 +87,12 @@ public class MainLogicNoEventHandlerStubTest {
 				+ "enddate 2015/09/23, " + "endtime 10.56, " + "priority high, " + "location updateLocation, "
 				+ "notes updateNotes, " + "recurring yes, " + "reminderdate 2015/09/22, " + "remindertime 10.55";
 		List<Event> eventList = mainLogic.execute(command);
-		boolean isHigh = false;
+		boolean isHigh = true;
 		for (int i = 0; i < eventList.size(); i++) {
 			Event event = eventList.get(i);
-			if (event.getId().equals("updateId")) {
-				if (event.getPriority() == Priority.HIGH) {
-					isHigh = true;
+			if (event.getId() != null && event.getId().equals("updateId")) {
+				if (event.getPriority() != Priority.HIGH) {
+					isHigh = false;
 				}
 				break;
 			}
@@ -113,7 +113,7 @@ public class MainLogicNoEventHandlerStubTest {
 		for (int i = 0; i < eventList.size(); i++) {
 			Event event = eventList.get(i);
 			if (event != null) {
-				if (event.getId().equals("viewId")) {
+				if (event.getId() != null && event.getId().equals("viewId")) {
 					isViewEvent = true;
 					break;
 				}
