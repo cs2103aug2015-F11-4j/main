@@ -3,6 +3,8 @@ package test;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
+import java.util.Calendar;
+
 import org.junit.Test;
 
 import calendrier.Parser;
