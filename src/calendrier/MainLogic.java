@@ -19,6 +19,9 @@ import utils.ParsedCommand;
 public class MainLogic {
 	private Parser parser = null;
 	private EventHandler eventHandler = null;
+	
+	private Event event = null;
+	private List<Event> events = null;
 
 	public MainLogic() {
 		super();
@@ -79,5 +82,14 @@ public class MainLogic {
 	 *            event that is starting soon
 	 */
 	public void notifyUser(Event event) {
+	}
+	
+	public Event getEvent(){
+		return event;
+	}
+	
+	public List<Event> getAllEvents(){
+		events = eventHandler.getAllEvents();
+		return events;
 	}
 }
