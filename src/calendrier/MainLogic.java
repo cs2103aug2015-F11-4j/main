@@ -7,6 +7,7 @@ import java.util.List;
 
 import stub.EventHandlerStub;
 import stub.ParserStub;
+import utils.Command;
 import utils.Event;
 import utils.ParsedCommand;
 
@@ -42,9 +43,9 @@ public class MainLogic {
 	 * 
 	 * @param command
 	 *            Command string input from user
-	 * @return List of events (to be shown to user)
+	 * @return command action
 	 */
-	public List<Event> execute(String command) {
+	public Command execute(String command) {
 		List<Event> eventList = new ArrayList<>();
 
 		ParsedCommand parsedCommand = parser.parse(command);
@@ -53,6 +54,12 @@ public class MainLogic {
 		if (parsedCommand.getCommand() != null) {
 			try {
 				eventList = eventHandler.execute(parsedCommand);
+				if(eventList.size() > 0){
+					event = eventList.get(0);
+				}
+				else{
+					event = null;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -61,18 +68,8 @@ public class MainLogic {
 		else{
 			// Throw invalid command exception
 		}
-
-		Collections.sort(eventList, new Comparator<Event>(){
-
-			@Override
-			public int compare(Event o1, Event o2) {
-				// TODO Auto-generated method stub
-				return o2.getPriority().compareTo(o1.getPriority());
-			}
-			
-		});
 		
-		return eventList;
+		return parsedCommand.getCommand();
 	}
 
 	/**
