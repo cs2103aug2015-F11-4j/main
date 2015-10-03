@@ -17,6 +17,11 @@ import utils.Priority;
 import java.util.List;
 import java.util.TimeZone;
 
+//class ErrorFromStorage extends Exception {
+//	public ErrorFromStorage(String msg) {
+//		super(msg);
+//	}
+//}
 
 public class StorageManager {
 	private static String fileName;
@@ -59,6 +64,55 @@ public class StorageManager {
 		add(eventNew);
 	}
 	
+	public void update(String id,Event newEvent){
+		Event oldEvent;
+		
+		if(view(id)!=null){
+			oldEvent = view(id);
+			newEvent = combineEvents(oldEvent,newEvent);
+			remove(oldEvent);
+			add(newEvent);
+		}
+		else{
+			//throw new ErrorFromStorage("Update ID cannot be empty.");
+		}
+	}
+	
+	private Event combineEvents(Event oldEvent, Event newEvent) {
+		newEvent.setId(oldEvent.getId());
+		if(newEvent.getTitle().equals(null)){
+			newEvent.setTitle(oldEvent.getTitle());
+		}
+		if(newEvent.getStartDateTime().equals(null)){
+			newEvent.setStartDateTime(oldEvent.getStartDateTime());
+		}
+		if(newEvent.getEndDateTime().equals(null)){
+			newEvent.setEndDateTime(oldEvent.getEndDateTime());
+		}
+		if(newEvent.getLocation().equals(null)){
+			newEvent.setLocation(oldEvent.getLocation());
+		}
+		if(newEvent.getNotes().equals(null)){
+			newEvent.setNotes(oldEvent.getNotes());
+		}
+		if(newEvent.getPriority().equals(null)){
+			newEvent.setPriority(oldEvent.getPriority());
+		}
+		if(newEvent.getReminder().equals(null)){
+			newEvent.setReminder(oldEvent.getReminder());
+		}
+		
+		return newEvent;
+	}
+
+	public void delete(String id){
+		if(view(id)!=null){
+			remove(view(id));
+		}
+		else{
+			//throw new ErrorFromStorage("Delete ID cannot be empty.");
+		}
+	}
 	public Event view(String id){
 		List<Event> events = new ArrayList<>();
 		Event result=null;

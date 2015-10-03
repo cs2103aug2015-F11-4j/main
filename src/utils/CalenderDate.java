@@ -2,10 +2,18 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 import java.util.Calendar;
 
 import utils.CalenderTime;
 import utils.Event;
+
+//class ErrorForAddding extends Exception {
+//	public ErrorForAddding(String msg) {
+//		super(msg);
+//	}
+//}
 
 public class CalenderDate {
 	
@@ -33,10 +41,47 @@ public class CalenderDate {
 			}
 		}
 		else{
+			//throw new ErrorForAddding("Clash with another time slot");
+		}
+	}
+	
+	public CalenderDate(Event event, int numDate, int startTime, int endTime) {
+		timeSlot = new ArrayList<CalenderTime>();
+		defineTimeSlot();
+		this.date=numDate;
+		addTask(event, startTime,endTime);
+	}
+	
+	public void addTask(Event event, int startTime, int endTime){
+		
+		int slot, range, i;
+		
+		if(checkTimeSlot(startTime, endTime)){
+			numOfSlot++;
+			slot=convertIndex(startTime);
+			range=convertIndex(endTime);
+			for(i=slot; i<range; i++){
+				timeSlot.get(i).setTime(true, event);
+			}
+		}
+		else{
 			System.out.println("Warning time slot is being taken! Retry!");
 		}
 	}
 	
+	private boolean checkTimeSlot(int startTime, int endTime) {
+		
+		int start, end, i;
+
+		start = convertIndex(startTime);
+		end = convertIndex(endTime);
+		for (i = start; i < end; i++) {
+			if (timeSlot.get(i).getTimeSlot() == true)
+				return false;
+		}
+		return true;
+	}
+
 	public void deleteTask(Event event){
 		int slot, range, i;
 		
@@ -59,6 +104,15 @@ public class CalenderDate {
 				events.add(timeSlot.get(i).getEvent());
 			}
 		}
+		/*for(i=0;i<timeSlot.size();i++){
+			if(timeSlot.get(i).getTimeSlot()==true){
+				System.out.println(date+" " +timeSlot.get(i).getTask());
+			}
+			else{
+				System.out.println(date+" " +timeSlot.get(i).getTimeSlot());
+			}
+		}
+		System.out.println();*/
 		return events;
 	}
 	
