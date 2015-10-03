@@ -32,6 +32,7 @@ public class EventGeneratorTest {
 	Priority priority = utils.Priority.LOW;
 	String location = "Orchard Road";
 	String notes = "Run at least 5 km";
+	String group = "Exercise";
 //	Calendar reminder;
 	
 
@@ -47,6 +48,7 @@ public class EventGeneratorTest {
 		pc.setPriority(priority);
 		pc.setLocation(location);
 		pc.setNotes(notes);
+		pc.setGroup(group);
 		
 		// create event to test against
 		testEvent = new Event();
@@ -57,6 +59,7 @@ public class EventGeneratorTest {
 		testEvent.setPriority(priority);
 		testEvent.setLocation(location);
 		testEvent.setNotes(notes);
+		testEvent.addGroup(group);
 	}
 
 	@Test
@@ -71,5 +74,6 @@ public class EventGeneratorTest {
 		assertEquals(generatedEvent.getPriority(), testEvent.getPriority());
 		assertEquals(generatedEvent.getLocation(), testEvent.getLocation());
 		assertEquals(generatedEvent.getNotes(), testEvent.getNotes());
+		assertEquals(generatedEvent.getGroups(), testEvent.getGroups());
 	}
 }

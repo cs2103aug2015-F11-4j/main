@@ -28,6 +28,8 @@ public class EventHandlerTest {
 	Priority priority = utils.Priority.LOW;
 	String location = "Orchard Road";
 	String notes = "Run at least 5 km";
+	String group = "Exercise";
+
 	
 	static Calendar startDateTime;
 	static Calendar endDateTime;
@@ -56,6 +58,8 @@ public class EventHandlerTest {
 		pc.setPriority(priority);
 		pc.setLocation(location);
 		pc.setNotes(notes);
+		pc.setGroup(group);
+
 		
 		// create event
 		testEvent.setId(ID);
@@ -66,6 +70,8 @@ public class EventHandlerTest {
 		testEvent.setLocation(location);
 		testEvent.setNotes(notes);
 		testEvent.setReminder(reminder);
+		testEvent.addGroup(group);
+
 	}
 
 	@Test
@@ -94,13 +100,10 @@ public class EventHandlerTest {
 	@Test
 	public void testRemoveEvent() {
 
-		// Create EventHandler()
 		EventHandler handle = new EventHandler();
 		handle.add(testEvent);
 
 		handle.remove(pc);
-
-		// Test
 		assertFalse(handle.getAllEvents().contains(testEvent));
 	}
 
@@ -111,7 +114,6 @@ public class EventHandlerTest {
 
 	@Test
 	public void testView() {
-		// Create EventHandler()
 		EventHandler handle = new EventHandler();
 		handle.add(testEvent);
 		Event viewedEvent = handle.view(pc);
@@ -130,9 +132,9 @@ public class EventHandlerTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (Event e : list) {
-			System.out.println(e);
-		}
+//		for (Event e : list) {
+//			System.out.println(e);
+//		}
 	}
 
 }

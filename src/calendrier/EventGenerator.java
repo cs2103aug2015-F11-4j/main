@@ -23,9 +23,7 @@ public class EventGenerator {
 		e.setLocation(pc.getLocation());
 		e.setNotes(pc.getNotes());
 		e.setReminder(pc.getReminder());
-		
-		// figure out group implementation
-//		e.setGroups(pc.getGroup());
+		e.addGroup(pc.getGroup());
 		
 		return e;
 	}

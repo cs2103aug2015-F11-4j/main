@@ -26,8 +26,8 @@ public class EventHandler {
 	}
 
 	/**
-	 * Method called by external classes
-	 * Determines the type of command to execute based on parameter pc
+	 * Method called by external classes Determines the type of command to
+	 * execute based on parameter pc
 	 * 
 	 * @param pc
 	 * @return eventsReturned - an arraylist of the events that were executed
@@ -56,11 +56,32 @@ public class EventHandler {
 		} else if (pc.getCommand() == Command.UNDO) {
 			// will we need a blank message/event for this?
 			undo();
+		} else if (pc.getCommand() == Command.FILTER) {
+			// filter??
+			eventsReturned = filter(pc);
+
 		} else {
 			// throw an exception indicating a command was blank
 		}
 
 		return eventsReturned;
+	}
+
+	private ArrayList<Event> filter(ParsedCommand pc) {
+		ArrayList<Event> filteredEvents = new ArrayList<>();
+		
+		// for every event in the current set of events, if any of them contain stuff in the pc, select them
+		for (Event e : events) {
+			if (e.getGroups().contains(pc.getGroup())) {
+				filteredEvents.add(e);
+			}
+			else if (e.getPriority().equals(pc.getPriority())) {
+				filteredEvents.add(e);
+			}
+		}
+		
+		
+		return filteredEvents;		
 	}
 
 	private Event undo() {
