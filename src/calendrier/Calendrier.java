@@ -26,8 +26,8 @@ public class Calendrier {
 		String input = getInput(bufferedReader);
 		
 		while (input != null) {
-			List<Event> eventList = mainLogic.execute(input);
-			showEventListToUser(eventList);
+			mainLogic.execute(input);
+			showEventListToUser(mainLogic.getAllEvents());
 			input = getInput(bufferedReader);
 		}
 	}
