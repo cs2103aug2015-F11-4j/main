@@ -16,9 +16,8 @@ import utils.ParsedCommand;
 import utils.Priority;
 
 public class EventHandlerTest {
-	
-	ParsedCommand pc;
-	Event testEvent;
+	ParsedCommand pc = new ParsedCommand();
+	Event testEvent = new Event();
 
 	// simulating inputs from a parsed command
 	String ID = "TEST";
@@ -50,7 +49,6 @@ public class EventHandlerTest {
 		pc.setId(ID);
 		
 		// create event
-		testEvent = new Event();
 		testEvent.setId(ID);
 		testEvent.setTitle(title);
 		testEvent.setStartDateTime(startDateTime);
@@ -69,14 +67,13 @@ public class EventHandlerTest {
 		handle.add(testEvent);
 
 		// Tests
-//		assertEquals(eventId, newEvent.getId());
-//		assertEquals(title, newEvent.getTitle());
-//		assertEquals(startDate, newEvent.getStartDateTime());
-//		assertEquals(endDate, newEvent.getEndDateTime());
-//		assertEquals(utils.Priority.HIGH, newEvent.getPriority());
-//		assertEquals(location, newEvent.getAddLocation());
-//		assertEquals(recurring, newEvent.getAddRecurring());
-//		assertEquals(description, newEvent.getAddTaskDescription());
+		assertEquals(testEvent.getId(), testEvent.getId());
+		assertEquals(testEvent.getTitle(), testEvent.getTitle());
+		assertEquals(testEvent.getStartDateTime(), testEvent.getStartDateTime());
+		assertEquals(testEvent.getEndDateTime(), testEvent.getEndDateTime());
+		assertEquals(testEvent.getPriority(), testEvent.getPriority());
+		assertEquals(testEvent.getLocation(), testEvent.getLocation());
+		assertEquals(testEvent.getNotes(), testEvent.getNotes());
 		assertTrue(handle.getAllEvents().contains(testEvent));
 	}
 
