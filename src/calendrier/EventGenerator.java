@@ -6,10 +6,6 @@ import utils.ParsedCommand;
 
 public class EventGenerator {
 	
-	public EventGenerator() {
-		
-	}
-	
 	/**
 	 * Creates an event from a given ParsedCommand object
 	 * 

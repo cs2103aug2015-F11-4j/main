@@ -72,10 +72,4 @@ public class EventGeneratorTest {
 		assertEquals(generatedEvent.getLocation(), testEvent.getLocation());
 		assertEquals(generatedEvent.getNotes(), testEvent.getNotes());
 	}
-
-	@AfterClass
-	public static void tearDownAfterClass() {
-
-	}
-
 }
