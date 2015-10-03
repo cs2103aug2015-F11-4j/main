@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -11,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import calendrier.EventHandler;
+import utils.Command;
 import utils.Event;
 import utils.ParsedCommand;
 import utils.Priority;
@@ -46,7 +48,14 @@ public class EventHandlerTest {
 	@Before
 	public void setUp() {
 		// create parsedCommand
+		pc.setCommand(Command.ADD);
 		pc.setId(ID);
+		pc.setTitle(title);
+		pc.setStartDateTime(startDateTime);
+		pc.setEndDateTime(endDateTime);
+		pc.setPriority(priority);
+		pc.setLocation(location);
+		pc.setNotes(notes);
 		
 		// create event
 		testEvent.setId(ID);
@@ -109,20 +118,21 @@ public class EventHandlerTest {
 		assertEquals(viewedEvent, testEvent);
 	}
 	
-//	@Test
-//	public void testExecute() {
-//
-//		ParsedCommand parsedExample = new ParsedCommand();
-//
-//		EventHandler handle = new EventHandler();
-//		try {
-//			handle.execute(parsedExample);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		fail();
-//	}
+	@Test
+	public void testExecute() {
+
+		ArrayList<Event> list = new ArrayList<>();
+
+		EventHandler handle = new EventHandler();
+		try {
+			list = handle.execute(pc);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (Event e : list) {
+			System.out.println(e);
+		}
+	}
 
 }
