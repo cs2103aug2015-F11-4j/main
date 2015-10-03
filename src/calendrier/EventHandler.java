@@ -24,10 +24,17 @@ public class EventHandler {
 		gen = new EventGenerator();
 	}
 
+
 	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		Event newEvent;
 		// if new add/update - generate Event
 		newEvent = gen.createEvent(pc);
+		return events;
+	}
+	
+	public Event add(String identifier, Event eventDetails) {
+		Event newEvent = new Event();
+
 
 		// else if view
 
@@ -37,7 +44,8 @@ public class EventHandler {
 
 		// add new event to structure of events
 		events.add(newEvent);
-		return events;
+
+		return newEvent;
 	}
 
 	public Event add(Event event) {
