@@ -59,7 +59,7 @@ public class StorageManager {
 		add(eventNew);
 	}
 	
-	public Event viewTask(String id){
+	public Event view(String id){
 		List<Event> events = new ArrayList<>();
 		Event result=null;
 		events=load();
