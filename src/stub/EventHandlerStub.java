@@ -4,91 +4,119 @@ import java.util.ArrayList;
 import java.util.List;
 
 import calendrier.EventHandler;
+import utils.Command;
 import utils.Event;
+import utils.ParsedCommand;
 import utils.Priority;
 
 public class EventHandlerStub extends EventHandler {
 	private List<Event> events = new ArrayList<>();
-	
-	public EventHandlerStub(){
+
+	public EventHandlerStub() {
 		Event deleteEvent = new Event();
-		deleteEvent.setId("deleted");
-		deleteEvent.setTitle("deleted");
-		deleteEvent.setPriority(Priority.LOW);
+		deleteEvent.setId("deleteId");
+		deleteEvent.setTitle("deleteTitle");
+		deleteEvent.setPriority(Priority.HIGH);
+		deleteEvent.setLocation("deleteLocation");
+		deleteEvent.setNotes("deleteNotes");
 		events.add(deleteEvent);
-		
+
 		Event updateEvent = new Event();
-		updateEvent.setId("updated");
-		updateEvent.setTitle("updated");
-		updateEvent.setPriority(Priority.LOW);
+		updateEvent.setId("updateId");
+		updateEvent.setTitle("updateTitle");
+		updateEvent.setPriority(Priority.VERY_HIGH);
+		updateEvent.setLocation("updateLocation");
+		updateEvent.setNotes("updateNotes");
 		events.add(updateEvent);
 		
 		Event viewEvent = new Event();
-		viewEvent.setId("viewDetails");
-		viewEvent.setTitle("viewDetails");
-		viewEvent.setPriority(Priority.HIGH);
+		viewEvent.setId("viewId");
+		viewEvent.setTitle("viewTitle");
+		viewEvent.setPriority(Priority.VERY_HIGH);
+		viewEvent.setLocation("viewLocation");
+		viewEvent.setNotes("viewNotes");
 		events.add(viewEvent);
 	}
-	
-	@Override
-	public Event add(String identifier, Event eventDetails) {
-		// TODO Auto-generated method stub
-		events.add(eventDetails);
-		return eventDetails;
-	}
 
-	
+	public List<Event> execute(ParsedCommand parsedCommand) {
+		List<Event> eventList = new ArrayList<>();
 
-	@Override
-	public Event remove(String identifier, Event eventDetails) {
-		// TODO Auto-generated method stub
-		Event deletedItem = null;
-		for(Event eventItem : events){
-			if(eventItem.getId().equals(identifier)){
-				deletedItem = eventItem;
-				break;
-			}
+		if (parsedCommand.getCommand() == Command.ADD) {
+			eventList = add(parsedCommand);
+		} else if (parsedCommand.getCommand() == Command.DELETE) {
+			eventList = delete(parsedCommand);
+		} else if (parsedCommand.getCommand() == Command.UPDATE) {
+			eventList = update(parsedCommand);
+		} else if (parsedCommand.getCommand() == Command.VIEW) {
+			eventList = view(parsedCommand);
 		}
-		events.remove(deletedItem);
-		return eventDetails;
-	}
-	
-	
 
-	@Override
-	public Event view(String identifier) {
-		// TODO Auto-generated method stub
-		Event viewEvent = null;
-		for(Event event : events){
-			if(event.getId().equals(identifier)){
-				viewEvent = event;
-				break;
-			}
-		}
-		return viewEvent;
+		return eventList;
 	}
 
-	@Override
-	public Event update(String identifier, Event eventDetails) {
-		// TODO Auto-generated method stub
-		for(Event eventItem : events){
-			if(eventItem.getId().equals(identifier)){
-				eventItem.setPriority(eventDetails.getPriority());
-				break;
-			}
-		}
-		return eventDetails;
-	}
+	public List<Event> add(ParsedCommand parsedCommand) {
+		Event event = new Event();
+		event.setId(parsedCommand.getTitle() + "Id");
+		event.setTitle(parsedCommand.getTitle());
+		event.setStartDateTime(parsedCommand.getStartDateTime());
+		event.setEndDateTime(parsedCommand.getEndDateTime());
+		event.setPriority(parsedCommand.getPriority());
+		event.setLocation(parsedCommand.getLocation());
+		event.setNotes(parsedCommand.getNotes());
+		event.setReminder(parsedCommand.getReminder());
 
-	public List<Event> getEvents() {
+		events.add(event);
+		
 		return events;
 	}
 
-	@Override
-	public List<Event> getAllEvents() {
-		// TODO Auto-generated method stub
+	public List<Event> delete(ParsedCommand parsedCommand) {
+		// Do nothing (delete is not there)
+		int position = -1;
+		for (int i = 0; i < events.size(); i++) {
+			if (events.get(i).getId().equals(parsedCommand.getId())) {
+				position = i;
+				break;
+			}
+		}
+
+		if (position >= 0) {
+			events.remove(position);
+		}
+
 		return events;
 	}
-	
-	
+
+	public List<Event> update(ParsedCommand parsedCommand) {
+		for (int i = 0; i < events.size(); i++) {
+			Event event = events.get(i);
+			if (event.getId().equals(parsedCommand.getId())) {
+				event.setTitle(parsedCommand.getTitle());
+				event.setStartDateTime(parsedCommand.getStartDateTime());
+				event.setEndDateTime(parsedCommand.getEndDateTime());
+				event.setPriority(parsedCommand.getPriority());
+				event.setLocation(parsedCommand.getLocation());
+				event.setNotes(parsedCommand.getNotes());
+				event.setReminder(parsedCommand.getReminder());
+				break;
+			}
+		}
+
+		return events;
+	}
+
+	public List<Event> view(ParsedCommand parsedCommand) {
+		List<Event> viewEvents = new ArrayList<>();
+		
+		for (int i = 0; i < events.size(); i++) {
+			Event event = events.get(i);
+			if(event.getId().equals(parsedCommand.getId())){
+				viewEvents.add(event);
+				break;
+			}
+		}
+
+		return viewEvents;
+	}
+
 }

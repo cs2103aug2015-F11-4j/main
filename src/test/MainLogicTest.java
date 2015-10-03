@@ -1,79 +1,102 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.Test;
 
 import calendrier.MainLogic;
+import stub.EventHandlerStub;
+import stub.ParserStub;
 import utils.Event;
-import utils.ParsedCommand;
 import utils.Priority;
 
 public class MainLogicTest {
 
-	// @Test
-	// public void test() {
-	// fail("Not yet implemented");
-	// }
-
-	@Test
-	public void parsedCommandShouldNotBeNull() {
-		MainLogic mainLogic = new MainLogic();
-		ParsedCommand parsedCommand = mainLogic.getParsedCommand("add added");
-		assertFalse("parsedCommand should not be null", parsedCommand == null);
-	}
-
-	@Test
-	public void commandShouldNotBeNull() {
-		MainLogic mainLogic = new MainLogic();
-		ParsedCommand parsedCommand = mainLogic.getParsedCommand(null);
-		assertTrue("command should not be null", parsedCommand == null);
-	}
-
-	@Test
-	public void commandShouldNotBeEmpty() {
-		MainLogic mainLogic = new MainLogic();
-		ParsedCommand parsedCommand = mainLogic.getParsedCommand("");
-		assertTrue("command should not be empty", parsedCommand == null);
-	}
 
 	@Test
 	public void executeShouldNotReturnNull() {
 		MainLogic mainLogic = new MainLogic();
-		List<Event> eventList = mainLogic.execute("add added");
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+		
+		String command = "add addTitle, "
+				+ "date 2015/09/20, "
+				+ "time 10.33, "
+				+ "priority very high, "
+				+ "location addLocation, "
+				+ "notes addNotes, "
+				+ "recurring yes, "
+				+ "reminderdate 2015/09/19, "
+				+ "remindertime 10.33";
+		
+		List<Event> eventList = mainLogic.execute(command);
 		assertFalse("should not return null", eventList == null);
 	}
 
 	@Test
 	public void executeEventListSizeShouldBeGreaterThanZero() {
 		MainLogic mainLogic = new MainLogic();
-		List<Event> eventList = mainLogic.execute("add added");
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+		
+		String command = "add addTitle, "
+			+ "date 2015/09/20, "
+			+ "time 10.33, "
+			+ "priority very high, "
+			+ "location addLocation, "
+			+ "notes addNotes, "
+			+ "recurring yes, "
+			+ "reminderdate 2015/09/19, "
+			+ "remindertime 10.33";
+		List<Event> eventList = mainLogic.execute(command);
 		assertTrue("should be > 0", eventList.size() > 0);
 	}
 
 	@Test
 	public void executeEventListShouldHaveAdded() {
 		MainLogic mainLogic = new MainLogic();
-		List<Event> eventList = mainLogic.execute("add added");
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+		
+		String command = "add addTitle, "
+				+ "date 2015/09/20, "
+				+ "time 10.33, "
+				+ "priority very high, "
+				+ "location addLocation, "
+				+ "notes addNotes, "
+				+ "recurring yes, "
+				+ "reminderdate 2015/09/19, "
+				+ "remindertime 10.33";
+		List<Event> eventList = mainLogic.execute(command);
+		
 		boolean haveAdded = false;
-		for (Event event : eventList) {
-			if (event.getTitle().equals("added")) {
+		for (int i = 0; i < eventList.size(); i++) {
+			Event event = eventList.get(i);
+			if (event.getTitle().equals("addTitle") &&
+					event.getPriority().equals(Priority.VERY_HIGH) &&
+					event.getLocation().equals("addLocation") &&
+					event.getNotes().equals("addNotes")) {
 				haveAdded = true;
 				break;
 			}
 		}
-		assertTrue("should not have \"added\" event", haveAdded);
+		assertTrue("should have added event", haveAdded);
 	}
 
 	@Test
-	public void executeEventListShouldNotHaveDeleted() {
+	public void executeEventListShouldHaveDeletedEvent() {
 		MainLogic mainLogic = new MainLogic();
-		List<Event> eventList = mainLogic.execute("delete deleted");
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+		
+		String command = "delete deleteId";
+		List<Event> eventList = mainLogic.execute(command);
 		boolean haveDeleted = false;
 		for (Event event : eventList) {
-			if (event.getTitle().equals("deleted")) {
+			if (event.getTitle().equals("deleteId")) {
 				haveDeleted = true;
 				break;
 			}
@@ -84,50 +107,74 @@ public class MainLogicTest {
 	@Test
 	public void executeEventListShouldBeUpdated() {
 		MainLogic mainLogic = new MainLogic();
-		List<Event> eventList = mainLogic.execute("update updated");
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+		
+		String command = "update id updateId, "
+				+ "date 2015/09/23, "
+				+ "time 10.55, "
+				+ "priority high, "
+				+ "location updateLocation, "
+				+ "notes updateNotes, "
+				+ "recurring yes, "
+				+ "reminderdate 2015/09/22, "
+				+ "remindertime 10.55";
+		List<Event> eventList = mainLogic.execute(command);
 		boolean isHigh = false;
-		for (Event event : eventList) {
-			if (event.getTitle().equals("updated")) {
+		for (int i = 0; i < eventList.size(); i++) {
+			Event event = eventList.get(i);
+			if (event.getId().equals("updateId")) {
 				if (event.getPriority() == Priority.HIGH) {
 					isHigh = true;
 				}
 				break;
 			}
 		}
-		assertTrue("\"updated\" should have \"HIGH\" priority", isHigh);
+		assertTrue("\"updateId\" should have \"HIGH\" priority", isHigh);
 	}
 
 	@Test
 	public void executeEventListShouldHaveOnlyOneEvent() {
 		MainLogic mainLogic = new MainLogic();
-		List<Event> eventList = mainLogic.execute("view viewDetails");
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+		
+		String command = "view viewId";
+		List<Event> eventList = mainLogic.execute(command);
 		boolean isViewEvent = false;
 		assertTrue("should only have 1 event", eventList.size() == 1);
 
-		for (Event event : eventList) {
+		for (int i = 0; i < eventList.size(); i++) {
+			Event event = eventList.get(i);
 			if (event != null) {
-				if (event.getTitle().equals("viewDetails")) {
+				if (event.getId().equals("viewId")) {
 					isViewEvent = true;
 					break;
 				}
 			}
 		}
-		assertTrue("should only have \"viewDetails\"", isViewEvent);
+		assertTrue("should only have \"viewId\"", isViewEvent);
 	}
 
 	@Test
 	public void executeEventListShouldHaveAllEvent() {
 		MainLogic mainLogic = new MainLogic();
-		List<Event> eventList = mainLogic.execute("view");
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+		
+		String command = "view all";
+		List<Event> eventList = mainLogic.execute(command);
 
-		assertTrue("should have all event", eventList.size() > 1);
+		assertTrue("should have all event", eventList.size() >= 0);
 
 	}
 
 	@Test
 	public void executeEventListShouldBeInDecreasingPriority() {
 		MainLogic mainLogic = new MainLogic();
-		List<Event> eventList = mainLogic.execute("view");
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+		List<Event> eventList = mainLogic.execute("view all");
 
 		boolean isDecreasing = true;
 		Priority previousPriority = Priority.VERY_HIGH;
