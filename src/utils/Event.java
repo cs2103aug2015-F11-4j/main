@@ -1,7 +1,11 @@
 package utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import sun.rmi.runtime.Log;
 
 public class Event {
 	private String id;
@@ -23,6 +27,23 @@ public class Event {
 		this.location = null;
 		this.notes = null;
 		this.reminder = null;
+		this.groups = new ArrayList<String>();
+	}
+
+	public String toString() {
+		String eventString = "";
+
+		eventString += String.format("id: %s, ", (this.id != null) ? this.id : "null");
+		eventString += String.format("title: %s, ", (this.title != null) ? this.title : "null");
+		eventString += String.format("startDateTime: %s, ", (this.startDateTime != null) ? this.startDateTime.getTime() : "null");
+		eventString += String.format("endDateTime: %s, ", (this.endDateTime != null) ? this.endDateTime.getTime() : "null");
+		eventString += String.format("priority: %s, ", (this.priority != null) ? this.priority.name() : "null");
+		eventString += String.format("location: %s, ", (this.location != null) ? this.location : "null");
+		eventString += String.format("notes: %s, ", (this.notes != null) ? this.notes : "null");
+		eventString += String.format("reminder: %s, ", (this.reminder != null) ? this.reminder.getTime() : "null");
+		eventString += String.format("groups: %s, ", Arrays.toString(this.groups.toArray()));
+
+		return eventString;
 	}
 
 	public String getId() {
@@ -92,9 +113,24 @@ public class Event {
 	public List<String> getGroups() {
 		return groups;
 	}
-
-	public void setGroups(List<String> groups) {
-		this.groups = groups;
+	
+	public void addGroup(String group){
+		this.groups.add(group);
+	}
+	
+	public void removeGroup(String group){
+		int position = -1;
+		
+		for(int i = 0; i < groups.size(); i++){
+			if(groups.get(i).equals(group)){
+				position = i;
+				break;
+			}
+		}
+		
+		if(position >= 0){
+			this.groups.remove(position);
+		}
 	}
 
 }
