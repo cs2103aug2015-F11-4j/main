@@ -46,7 +46,12 @@ public class MainLogic {
 
 		assert(parsedCommand != null);
 		if (parsedCommand.getCommand() != null) {
-			eventList = eventHandler.execute(parsedCommand);
+			try {
+				eventList = eventHandler.execute(parsedCommand);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else{
 			// Throw invalid command exception

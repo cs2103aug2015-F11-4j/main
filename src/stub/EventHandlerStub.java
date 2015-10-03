@@ -10,7 +10,7 @@ import utils.ParsedCommand;
 import utils.Priority;
 
 public class EventHandlerStub extends EventHandler {
-	private List<Event> events = new ArrayList<>();
+	private ArrayList<Event> events = new ArrayList<>();
 
 	public EventHandlerStub() {
 		Event deleteEvent = new Event();
@@ -38,23 +38,23 @@ public class EventHandlerStub extends EventHandler {
 		events.add(viewEvent);
 	}
 
-	public List<Event> execute(ParsedCommand parsedCommand) {
-		List<Event> eventList = new ArrayList<>();
+	public ArrayList<Event> execute(ParsedCommand parsedCommand) {
+		ArrayList<Event> eventList = new ArrayList<>();
 
 		if (parsedCommand.getCommand() == Command.ADD) {
-			eventList = add(parsedCommand);
+			eventList = addStub(parsedCommand);
 		} else if (parsedCommand.getCommand() == Command.DELETE) {
-			eventList = delete(parsedCommand);
+			eventList = deleteStub(parsedCommand);
 		} else if (parsedCommand.getCommand() == Command.UPDATE) {
-			eventList = update(parsedCommand);
+			eventList = updateStub(parsedCommand);
 		} else if (parsedCommand.getCommand() == Command.VIEW) {
-			eventList = view(parsedCommand);
+			eventList = viewStub(parsedCommand);
 		}
 
 		return eventList;
 	}
 
-	public List<Event> add(ParsedCommand parsedCommand) {
+	public ArrayList<Event> addStub(ParsedCommand parsedCommand) {
 		Event event = new Event();
 		event.setId(parsedCommand.getTitle() + "Id");
 		event.setTitle(parsedCommand.getTitle());
@@ -70,7 +70,7 @@ public class EventHandlerStub extends EventHandler {
 		return events;
 	}
 
-	public List<Event> delete(ParsedCommand parsedCommand) {
+	public ArrayList<Event> deleteStub(ParsedCommand parsedCommand) {
 		// Do nothing (delete is not there)
 		int position = -1;
 		for (int i = 0; i < events.size(); i++) {
@@ -87,7 +87,7 @@ public class EventHandlerStub extends EventHandler {
 		return events;
 	}
 
-	public List<Event> update(ParsedCommand parsedCommand) {
+	public ArrayList<Event> updateStub(ParsedCommand parsedCommand) {
 		for (int i = 0; i < events.size(); i++) {
 			Event event = events.get(i);
 			if (event.getId().equals(parsedCommand.getId())) {
@@ -105,8 +105,8 @@ public class EventHandlerStub extends EventHandler {
 		return events;
 	}
 
-	public List<Event> view(ParsedCommand parsedCommand) {
-		List<Event> viewEvents = new ArrayList<>();
+	public ArrayList<Event> viewStub(ParsedCommand parsedCommand) {
+		ArrayList<Event> viewEvents = new ArrayList<>();
 		
 		for (int i = 0; i < events.size(); i++) {
 			Event event = events.get(i);
