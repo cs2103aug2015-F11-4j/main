@@ -9,18 +9,16 @@ import org.junit.Test;
 
 import calendrier.MainLogic;
 import stub.EventHandlerStub;
-import stub.ParserStub;
 import utils.Command;
 import utils.Event;
 import utils.Priority;
 
-public class MainLogicTest {
+public class MainLogicNoParserStubTest {
 
 	@Test
 	public void executeShouldNotReturnNull() {
 		MainLogic mainLogic = new MainLogic();
 		mainLogic.injectEventHandler(new EventHandlerStub());
-		mainLogic.injectParser(new ParserStub());
 
 		String command = "add addTitle, " + "startdate 2015/09/23, " + "starttime 10.55, " + "enddate 2015/09/23, "
 				+ "endtime 10.56, " + "priority very high, " + "location addLocation, " + "notes addNotes, "
@@ -34,7 +32,6 @@ public class MainLogicTest {
 	public void executeAdd() {
 		MainLogic mainLogic = new MainLogic();
 		mainLogic.injectEventHandler(new EventHandlerStub());
-		mainLogic.injectParser(new ParserStub());
 
 		addDummyEvents(mainLogic);
 	}
@@ -43,7 +40,6 @@ public class MainLogicTest {
 	public void executeDelete() {
 		MainLogic mainLogic = new MainLogic();
 		mainLogic.injectEventHandler(new EventHandlerStub());
-		mainLogic.injectParser(new ParserStub());
 
 		String id = addDummyEvents(mainLogic);
 		
@@ -75,7 +71,6 @@ public class MainLogicTest {
 	public void executeUpdate() {
 		MainLogic mainLogic = new MainLogic();
 		mainLogic.injectEventHandler(new EventHandlerStub());
-		mainLogic.injectParser(new ParserStub());
 
 		String id = addDummyEvents(mainLogic);
 
@@ -109,7 +104,6 @@ public class MainLogicTest {
 	public void executeView() {
 		MainLogic mainLogic = new MainLogic();
 		mainLogic.injectEventHandler(new EventHandlerStub());
-		mainLogic.injectParser(new ParserStub());
 
 		String id = addDummyEvents(mainLogic);
 		
@@ -130,7 +124,6 @@ public class MainLogicTest {
 	public void executeViewAll() {
 		MainLogic mainLogic = new MainLogic();
 		mainLogic.injectEventHandler(new EventHandlerStub());
-		mainLogic.injectParser(new ParserStub());
 
 		addDummyEvents(mainLogic);
 		
@@ -151,7 +144,6 @@ public class MainLogicTest {
 	public void getAllEvents() {
 		MainLogic mainLogic = new MainLogic();
 		mainLogic.injectEventHandler(new EventHandlerStub());
-		mainLogic.injectParser(new ParserStub());
 
 		addDummyEvents(mainLogic);
 		
