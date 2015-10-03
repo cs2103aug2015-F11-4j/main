@@ -24,8 +24,12 @@ public class EventHandler {
 		gen = new EventGenerator();
 	}
 	
-	public void Execute(ParsedCommand pc) throws Exception {
-		// read data from parsed command
+	public void execute(ParsedCommand pc) throws Exception {
+		// generate Event
+		Event newEvent = gen.createEvent(pc);
+		
+		// add new event to structure of events
+		events.add(newEvent);
 	}
 
 	public Event add(String identifier, Event eventDetails) {
@@ -60,7 +64,6 @@ public class EventHandler {
 			if (e.getId().equals(identifier)) {
 				eventToBeUpdated = e;
 				events.remove(e);
-				
 				break;
 			}
 		}

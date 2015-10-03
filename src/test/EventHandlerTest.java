@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import calendrier.EventHandler;
 import utils.Event;
+import utils.ParsedCommand;
 import utils.Priority;
 
 public class EventHandlerTest {
@@ -17,6 +18,22 @@ public class EventHandlerTest {
 	// protected void setUp() {
 	//
 	// }
+	
+	@Test
+	public void testExecute() {
+		fail();
+		
+		ParsedCommand parsedExample = new ParsedCommand();
+		
+		EventHandler handle = new EventHandler();
+		try {
+			handle.execute(parsedExample);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	@Test
 	public void testAddEvent() {
