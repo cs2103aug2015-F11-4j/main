@@ -36,7 +36,7 @@ public class CalenderDate {
 			System.out.println("Warning time slot is being taken! Retry!");
 		}
 	}
-
+	
 	public void deleteTask(Event event){
 		int slot, range, i;
 		

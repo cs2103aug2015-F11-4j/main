@@ -24,12 +24,12 @@ public class StorageManager {
 	private static String line;
 	private static ArrayList<CalenderYear> year;
 
-	private static List<String> backup;
+	private static List<List<String>> backup;
 	//static CalenderYear name;
 	
 	public StorageManager(){
 		year= new ArrayList<CalenderYear>();
-		backup= new ArrayList<String>();
+		backup= new ArrayList<List<String>>();
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -59,6 +59,20 @@ public class StorageManager {
 		add(eventNew);
 	}
 	
+	public Event viewTask(String id){
+		List<Event> events = new ArrayList<>();
+		Event result=null;
+		events=load();
+		int i;
+		
+		for(i=0;i<events.size();i++){
+			if(events.get(i).getId().equals(id)){
+				result=events.get(i);
+			}
+		}
+		return result;
+	}
+	
 	public List<Event> load(){
 		int i;
 		List<Event> events = new ArrayList<>();
@@ -83,20 +97,24 @@ public class StorageManager {
 	
 	//update the current status that prepared for undo function.
 	public void updateStatus() {
-		int i, j = 0;
+		int i, j = 0, index;
 		List<Event> data = new ArrayList<Event>();
-		backup.clear();
+		backup.add(new ArrayList<String>());
+		index=backup.size()-1;
 		for (i = 0; i < year.size(); i++) {
 			data = year.get(i).getTask();
 			while (j < data.size()) {
-				backup.add(data.get(j).toString());
+				backup.get(index).add(data.get(j).toString());
 				j++;
 			}
 		}
 	}
 	public void undo(){
+		int index=backup.size()-1;
+		
 		year.clear();
-		processInputFromFile(backup);
+		processInputFromFile(backup.get(index));
+		backup.remove(index);
 	}
 	
 	public void clear(){
@@ -193,27 +211,31 @@ public class StorageManager {
 	 */
 	private void processInputFromFile(List<String> dataList) {
 		int i;
-		int[] startDate= new int[6], endDate= new int[6];
-		String title, id;
-		String[] splitedData = new String[6];
+		int[] startDate= new int[6], endDate= new int[6], remindDate = new int[6];
+		String title, id, location, notes, group;
+		String[] splitedData = new String[11];
 		Priority prior;
 		
 		for(i=0; i<dataList.size();i++){
 			
-			splitedData=dataList.get(i).split(", ", 5);
+			splitedData=dataList.get(i).split(", ", 10);
 
 			id=removeName(splitedData[0]);
 			title=removeName(splitedData[1]);
 			prior=determinePrior(removeName(splitedData[4]));
-			
+			location = removeName(splitedData[5]);
+			notes = removeName(splitedData[6]);
 			startDate=convertDate(removeName(splitedData[2]));
 			endDate=convertDate(removeName(splitedData[3]));
+			remindDate=convertDate(removeName(splitedData[7]));
+			group = removeName(splitedData[8]);
 			
 			Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 			calendarStart.set(startDate[0], startDate[1], startDate[2], startDate[3], startDate[4], startDate[5]);
 			Calendar calendarEnd = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 			calendarEnd.set(endDate[0], endDate[1], endDate[2], endDate[3], endDate[4], endDate[5]);
-			
+			Calendar calendarReminder = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+			calendarReminder.set(remindDate[0], remindDate[1], remindDate[2], remindDate[3], remindDate[4], remindDate[5]);
 			
 			Event event1 = new Event();
 			event1.setId(id);
@@ -221,7 +243,10 @@ public class StorageManager {
 			event1.setStartDateTime(calendarStart);
 			event1.setEndDateTime(calendarEnd);
 			event1.setPriority(prior);
-			
+			event1.setLocation(location);
+			event1.setNotes(notes);
+			event1.setReminder(calendarReminder);
+			//event1.addGroup(group);
 			add(event1);
 		}
 	}

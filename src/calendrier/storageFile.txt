@@ -1,2 +1,2 @@
-id: abc, title: def, startDateTime: Tue Oct 20 10:33:25 SGT 2015, endDateTime: Wed Oct 21 11:34:26 SGT 2015, priority: MEDIUM, 
-id: abc, title: def, startDateTime: Tue Oct 20 18:33:25 SGT 2015, endDateTime: Wed Oct 21 19:34:26 SGT 2015, priority: MEDIUM, 
+id: testId, title: testTitle, startDateTime: Tue Oct 20 10:33:25 SGT 2015, endDateTime: Tue Oct 20 11:34:26 SGT 2015, priority: MEDIUM, location: test location, notes: test note, reminder: Tue Oct 20 10:33:25 SGT 2015, groups: [], 
+id: abc, title: def, startDateTime: Tue Oct 20 18:33:25 SGT 2015, endDateTime: Tue Oct 20 19:34:26 SGT 2015, priority: MEDIUM, location: test location, notes: test note, reminder: Tue Oct 20 10:33:25 SGT 2015, groups: [], 
