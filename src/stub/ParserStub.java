@@ -132,7 +132,7 @@ public class ParserStub extends Parser {
 	private ParsedCommand generateViewAll() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
-		parsedCommand.setCommand(Command.VIEW);
+		parsedCommand.setCommand(Command.VIEW_ALL);
 
 		return parsedCommand;
 	}

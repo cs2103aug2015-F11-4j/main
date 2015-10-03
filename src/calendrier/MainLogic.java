@@ -1,6 +1,8 @@
 package calendrier;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import stub.EventHandlerStub;
@@ -57,6 +59,16 @@ public class MainLogic {
 			// Throw invalid command exception
 		}
 
+		Collections.sort(eventList, new Comparator<Event>(){
+
+			@Override
+			public int compare(Event o1, Event o2) {
+				// TODO Auto-generated method stub
+				return o2.getPriority().compareTo(o1.getPriority());
+			}
+			
+		});
+		
 		return eventList;
 	}
 

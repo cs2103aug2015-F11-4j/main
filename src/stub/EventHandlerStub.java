@@ -28,7 +28,7 @@ public class EventHandlerStub extends EventHandler {
 		updateEvent.setLocation("updateLocation");
 		updateEvent.setNotes("updateNotes");
 		events.add(updateEvent);
-		
+
 		Event viewEvent = new Event();
 		viewEvent.setId("viewId");
 		viewEvent.setTitle("viewTitle");
@@ -49,6 +49,8 @@ public class EventHandlerStub extends EventHandler {
 			eventList = updateStub(parsedCommand);
 		} else if (parsedCommand.getCommand() == Command.VIEW) {
 			eventList = viewStub(parsedCommand);
+		} else if (parsedCommand.getCommand() == Command.VIEW_ALL) {
+			eventList = events;
 		}
 
 		return eventList;
@@ -66,7 +68,7 @@ public class EventHandlerStub extends EventHandler {
 		event.setReminder(parsedCommand.getReminder());
 
 		events.add(event);
-		
+
 		return events;
 	}
 
@@ -107,10 +109,10 @@ public class EventHandlerStub extends EventHandler {
 
 	public ArrayList<Event> viewStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> viewEvents = new ArrayList<>();
-		
+
 		for (int i = 0; i < events.size(); i++) {
 			Event event = events.get(i);
-			if(event.getId().equals(parsedCommand.getId())){
+			if (event.getId().equals(parsedCommand.getId())) {
 				viewEvents.add(event);
 				break;
 			}
