@@ -8,6 +8,8 @@ import java.util.List;
 import sun.rmi.runtime.Log;
 
 public class Event {
+	private static final String NULL = "null";
+	
 	private String id;
 	private String title;
 	private Calendar startDateTime;
@@ -33,14 +35,14 @@ public class Event {
 	public String toString() {
 		String eventString = "";
 
-		eventString += String.format("id: %s, ", (this.id != null) ? this.id : "null");
-		eventString += String.format("title: %s, ", (this.title != null) ? this.title : "null");
-		eventString += String.format("startDateTime: %s, ", (this.startDateTime != null) ? this.startDateTime.getTime() : "null");
-		eventString += String.format("endDateTime: %s, ", (this.endDateTime != null) ? this.endDateTime.getTime() : "null");
-		eventString += String.format("priority: %s, ", (this.priority != null) ? this.priority.name() : "null");
-		eventString += String.format("location: %s, ", (this.location != null) ? this.location : "null");
-		eventString += String.format("notes: %s, ", (this.notes != null) ? this.notes : "null");
-		eventString += String.format("reminder: %s, ", (this.reminder != null) ? this.reminder.getTime() : "null");
+		eventString += String.format("id: %s, ", (this.id != null) ? this.id : NULL);
+		eventString += String.format("title: %s, ", (this.title != null) ? this.title : NULL);
+		eventString += String.format("startDateTime: %s, ", (this.startDateTime != null) ? this.startDateTime.getTime() : NULL);
+		eventString += String.format("endDateTime: %s, ", (this.endDateTime != null) ? this.endDateTime.getTime() : NULL);
+		eventString += String.format("priority: %s, ", (this.priority != null) ? this.priority.name() : NULL);
+		eventString += String.format("location: %s, ", (this.location != null) ? this.location : NULL);
+		eventString += String.format("notes: %s, ", (this.notes != null) ? this.notes : NULL);
+		eventString += String.format("reminder: %s, ", (this.reminder != null) ? this.reminder.getTime() : NULL);
 		eventString += String.format("groups: %s, ", Arrays.toString(this.groups.toArray()));
 
 		return eventString;
