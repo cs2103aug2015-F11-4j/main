@@ -21,13 +21,13 @@ public class ParserStub extends Parser {
 				+ "priority very high, " + "location addLocation, " + "notes addNotes, " + "recurring yes, "
 				+ "reminderdate 2015/09/19, " + "remindertime 10.33")) {
 			parsedCommand = generateAdd();
-		} else if (command.equals("delete deleteId")) {
+		} else if (command.equals("delete ggId")) {
 			parsedCommand = generateDelete();
-		} else if (command.equals("update id updateId, " + "startdate 2015/09/23, " + "starttime 10.55, "
-				+ "enddate 2015/09/23, " + "endtime 10.56, " + "priority high, " + "location updateLocation, "
-				+ "notes updateNotes, " + "recurring yes, " + "reminderdate 2015/09/22, " + "remindertime 10.55")) {
+		} else if (command.equals("update ggId, priority low")) {
 			parsedCommand = generateUpdate();
-		} else if (command.equals("view viewId")) {
+		} else if (command.equals("view all")) {
+			parsedCommand = generateViewAll();
+		} else if (command.equals("view ggId")) {
 			parsedCommand = generateView();
 		} else if (command.equals("filter group filterGroup")) {
 			parsedCommand = generateFilterGroup();
@@ -35,8 +35,6 @@ public class ParserStub extends Parser {
 			parsedCommand = generateFilterPriority();
 		} else if (command.equals("filter date 2015/09/20")) {
 			parsedCommand = generateFilterDate();
-		} else if (command.equals("view all")) {
-			parsedCommand = generateViewAll();
 		}
 
 		return parsedCommand;
@@ -46,13 +44,17 @@ public class ParserStub extends Parser {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
 		Calendar startDateTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		startDateTime.set(2015, 9, 20, 10, 33, 00);
+		startDateTime.set(2015, 9, 23, 10, 55, 00);
+		Calendar endDateTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+		endDateTime.set(2015, 9, 23, 10, 56, 00);
 		Calendar reminder = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 		reminder.set(2015, 9, 19, 10, 33, 00);
 
 		parsedCommand.setCommand(Command.ADD);
 		parsedCommand.setTitle("addTitle");
+		parsedCommand.setId("ggId");
 		parsedCommand.setStartDateTime(startDateTime);
+		parsedCommand.setEndDateTime(endDateTime);
 		parsedCommand.setPriority(Priority.VERY_HIGH);
 		parsedCommand.setLocation("addLocation");
 		parsedCommand.setNotes("addNotes");
@@ -65,20 +67,9 @@ public class ParserStub extends Parser {
 	private ParsedCommand generateUpdate() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
-		Calendar startDateTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		startDateTime.set(2015, 9, 23, 10, 55, 00);
-		Calendar reminder = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		reminder.set(2015, 9, 22, 10, 55, 00);
-
 		parsedCommand.setCommand(Command.UPDATE);
-		parsedCommand.setId("updateId");
-		parsedCommand.setTitle("updateTitle");
-		parsedCommand.setStartDateTime(startDateTime);
-		parsedCommand.setPriority(Priority.HIGH);
-		parsedCommand.setLocation("updateLocation");
-		parsedCommand.setNotes("updateNotes");
-		parsedCommand.setRecurring(true);
-		parsedCommand.setReminder(reminder);
+		parsedCommand.setId("ggId");
+		parsedCommand.setPriority(Priority.LOW);
 
 		return parsedCommand;
 	}
@@ -87,7 +78,7 @@ public class ParserStub extends Parser {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
 		parsedCommand.setCommand(Command.DELETE);
-		parsedCommand.setId("deleteId");
+		parsedCommand.setId("ggId");
 
 		return parsedCommand;
 	}
@@ -96,7 +87,7 @@ public class ParserStub extends Parser {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
 		parsedCommand.setCommand(Command.VIEW);
-		parsedCommand.setId("viewId");
+		parsedCommand.setId("ggId");
 
 		return parsedCommand;
 	}
