@@ -51,7 +51,6 @@ public class EventHandler {
 			eventsReturned.add(viewedEvent);
 		} else if (pc.getCommand() == Command.VIEW_ALL) {
 			// yet to be implemented
-			eventsReturned = events;
 
 		} else if (pc.getCommand() == Command.UNDO) {
 			// will we need a blank message/event for this?

@@ -12,7 +12,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import calendrier.EventHandler;
-import utils.Command;
 import utils.Event;
 import utils.ParsedCommand;
 import utils.Priority;
@@ -50,7 +49,6 @@ public class EventHandlerTest {
 	@Before
 	public void setUp() {
 		// create parsedCommand
-		pc.setCommand(Command.ADD);
 		pc.setId(ID);
 		pc.setTitle(title);
 		pc.setStartDateTime(startDateTime);
@@ -83,12 +81,12 @@ public class EventHandlerTest {
 
 		// Tests
 		assertEquals(testEvent.getId(), testEvent.getId());
-		assertEquals(testEvent.getTitle(), testEvent.getTitle());
-		assertEquals(testEvent.getStartDateTime(), testEvent.getStartDateTime());
-		assertEquals(testEvent.getEndDateTime(), testEvent.getEndDateTime());
-		assertEquals(testEvent.getPriority(), testEvent.getPriority());
-		assertEquals(testEvent.getLocation(), testEvent.getLocation());
-		assertEquals(testEvent.getNotes(), testEvent.getNotes());
+//		assertEquals(testEvent.getTitle(), testEvent.getTitle());
+//		assertEquals(testEvent.getStartDateTime(), testEvent.getStartDateTime());
+//		assertEquals(testEvent.getEndDateTime(), testEvent.getEndDateTime());
+//		assertEquals(testEvent.getPriority(), testEvent.getPriority());
+//		assertEquals(testEvent.getLocation(), testEvent.getLocation());
+//		assertEquals(testEvent.getNotes(), testEvent.getNotes());
 		assertTrue(handle.getAllEvents().contains(testEvent));
 	}
 
@@ -120,6 +118,7 @@ public class EventHandlerTest {
 		assertEquals(viewedEvent, testEvent);
 	}
 	
+
 	@Test
 	public void testExecute() {
 
@@ -136,5 +135,7 @@ public class EventHandlerTest {
 //			System.out.println(e);
 //		}
 	}
+
+
 
 }

@@ -12,32 +12,6 @@ import utils.Priority;
 public class EventHandlerStub extends EventHandler {
 	private ArrayList<Event> events = new ArrayList<>();
 
-	public EventHandlerStub() {
-		Event deleteEvent = new Event();
-		deleteEvent.setId("deleteId");
-		deleteEvent.setTitle("deleteTitle");
-		deleteEvent.setPriority(Priority.HIGH);
-		deleteEvent.setLocation("deleteLocation");
-		deleteEvent.setNotes("deleteNotes");
-		events.add(deleteEvent);
-
-		Event updateEvent = new Event();
-		updateEvent.setId("updateId");
-		updateEvent.setTitle("updateTitle");
-		updateEvent.setPriority(Priority.VERY_HIGH);
-		updateEvent.setLocation("updateLocation");
-		updateEvent.setNotes("updateNotes");
-		events.add(updateEvent);
-
-		Event viewEvent = new Event();
-		viewEvent.setId("viewId");
-		viewEvent.setTitle("viewTitle");
-		viewEvent.setPriority(Priority.VERY_HIGH);
-		viewEvent.setLocation("viewLocation");
-		viewEvent.setNotes("viewNotes");
-		events.add(viewEvent);
-	}
-
 	public ArrayList<Event> execute(ParsedCommand parsedCommand) {
 		ArrayList<Event> eventList = new ArrayList<>();
 
@@ -57,8 +31,10 @@ public class EventHandlerStub extends EventHandler {
 	}
 
 	public ArrayList<Event> addStub(ParsedCommand parsedCommand) {
+		ArrayList<Event> currentEvents = new ArrayList<Event>();
+		
 		Event event = new Event();
-		event.setId(parsedCommand.getTitle() + "Id");
+		event.setId("ggId");
 		event.setTitle(parsedCommand.getTitle());
 		event.setStartDateTime(parsedCommand.getStartDateTime());
 		event.setEndDateTime(parsedCommand.getEndDateTime());
@@ -68,12 +44,13 @@ public class EventHandlerStub extends EventHandler {
 		event.setReminder(parsedCommand.getReminder());
 
 		events.add(event);
+		currentEvents.add(event);
 
-		return events;
+		return currentEvents;
 	}
 
 	public ArrayList<Event> deleteStub(ParsedCommand parsedCommand) {
-		// Do nothing (delete is not there)
+		ArrayList<Event> currentEvents = new ArrayList<Event>();
 		int position = -1;
 		for (int i = 0; i < events.size(); i++) {
 			if (events.get(i).getId().equals(parsedCommand.getId())) {
@@ -83,28 +60,26 @@ public class EventHandlerStub extends EventHandler {
 		}
 
 		if (position >= 0) {
+			currentEvents.add(events.get(position));
 			events.remove(position);
 		}
 
-		return events;
+		return currentEvents;
 	}
 
 	public ArrayList<Event> updateStub(ParsedCommand parsedCommand) {
+		ArrayList<Event> currentEvents = new ArrayList<Event>();
 		for (int i = 0; i < events.size(); i++) {
 			Event event = events.get(i);
 			if (event.getId().equals(parsedCommand.getId())) {
-				event.setTitle(parsedCommand.getTitle());
-				event.setStartDateTime(parsedCommand.getStartDateTime());
-				event.setEndDateTime(parsedCommand.getEndDateTime());
 				event.setPriority(parsedCommand.getPriority());
-				event.setLocation(parsedCommand.getLocation());
-				event.setNotes(parsedCommand.getNotes());
-				event.setReminder(parsedCommand.getReminder());
+				
+				currentEvents.add(event);
 				break;
 			}
 		}
 
-		return events;
+		return currentEvents;
 	}
 
 	public ArrayList<Event> viewStub(ParsedCommand parsedCommand) {
@@ -120,5 +95,12 @@ public class EventHandlerStub extends EventHandler {
 
 		return viewEvents;
 	}
+
+	@Override
+	public List<Event> getAllEvents() {
+		return events;
+	}
+	
+	
 
 }
