@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utils.Event;
+import utils.ParsedCommand;
 
 /**
  * This class is used to create event objects using data passed in from
@@ -16,23 +17,29 @@ public class EventHandler {
 
 	StorageManager manage;
 	ArrayList<Event> events = new ArrayList<>();
+	EventGenerator gen;
 
 	public EventHandler() {
 		manage = new StorageManager();
+		gen = new EventGenerator();
+	}
+	
+	public void Execute(ParsedCommand pc) throws Exception {
+		// read data from parsed command
 	}
 
 	public Event add(String identifier, Event eventDetails) {
 		Event newEvent = new Event();
 
 		// The following seem redundant, as the event is created in the parser
-		newEvent.setId(identifier);
-		newEvent.setTitle(eventDetails.getTitle());
-		newEvent.setStartDateTime(eventDetails.getStartDateTime());
-		newEvent.setEndDateTime(eventDetails.getEndDateTime());
-		newEvent.setPriority(eventDetails.getPriority());
-		newEvent.setAddLocation(eventDetails.getAddLocation());
-		newEvent.setAddRecurring(eventDetails.getAddRecurring());
-		newEvent.setAddTaskDescription(eventDetails.getAddTaskDescription());
+//		newEvent.setId(identifier);
+//		newEvent.setTitle(eventDetails.getTitle());
+//		newEvent.setStartDateTime(eventDetails.getStartDateTime());
+//		newEvent.setEndDateTime(eventDetails.getEndDateTime());
+//		newEvent.setPriority(eventDetails.getPriority());
+//		newEvent.setAddLocation(eventDetails.getAddLocation());
+//		newEvent.setAddRecurring(eventDetails.getAddRecurring());
+//		newEvent.setAddTaskDescription(eventDetails.getAddTaskDescription());
 
 		manage.add(newEvent);
 		events.add(newEvent);
