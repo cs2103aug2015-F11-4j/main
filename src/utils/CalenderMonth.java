@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import utils.Event;
@@ -17,7 +18,7 @@ public class CalenderMonth {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public CalenderMonth(Event event) {
+	public CalenderMonth(Event event){
 		date=new ArrayList <CalenderDate> ();
 		this.month=event.getStartDateTime().getTime().getMonth();
 		if(isSameDate(event)){
@@ -41,19 +42,44 @@ public class CalenderMonth {
 	
 	@SuppressWarnings("deprecation")
 	public void addDifferentDate(Event event) {
-		int startDate, endDate,i;
+		int startDate, endDate,i, startDateTime, endDateTime;
 		startDate = event.getStartDateTime().getTime().getDate();
 		endDate=event.getEndDateTime().getTime().getDate();
+		
+		startDateTime= convertTime(event.getStartDateTime());
+		endDateTime = convertTime(event.getStartDateTime());
+
+		
 		for(i=startDate;i<endDate+1;i++){
 			if(!isDateAvaliable(i)){
-				date.add(new CalenderDate(event));
+				if(i==startDate){
+					date.add(new CalenderDate(event,startDate, startDateTime, 2359));
+					startDate++;
+				}else if(i==endDate){
+					date.add(new CalenderDate(event,startDate, 0000, endDateTime));
+				}
+				else{
+					date.add(new CalenderDate(event,startDate, 0000, 2359));
+					startDate++;
+				}
 			}
 			else{
-				int Index= returnIndex(i);
-				date.get(Index).addTask(event);
+				if(i==startDate){
+					int Index= returnIndex(i);
+					date.get(Index).addTask(event, startDateTime, 2359);
+				}else if(i==endDate){
+					int Index= returnIndex(i);
+					date.get(Index).addTask(event, 0000, endDateTime);
+				}
+				else{
+					int Index= returnIndex(i);
+					date.get(Index).addTask(event, 0000, 2359);
+				}
+				
 			}
 		}
 	}
+	
 
 	/*@SuppressWarnings("deprecation")
 	public List<Event> splitDifferentEvent (Event event) {
@@ -118,12 +144,32 @@ public class CalenderMonth {
 	}
 	
 	public List<Event> getTask(){
-		int i;
+		int i,j;
 		List<Event> events = new ArrayList<>();
 		for(i=0;i<date.size();i++){
-			events.addAll(date.get(i).getTask());
+			for(j=0;j<date.get(i).getTask().size();j++){
+				if(!events.contains(date.get(i).getTask().get(j))){
+					events.add(date.get(i).getTask().get(j));
+				}
+			}
 		}
 		return events;
+	}
+	
+	@SuppressWarnings("deprecation")
+	private int convertTime(Calendar input){
+		int hour, minutes;
+		
+		hour=input.getTime().getHours();
+		minutes = input.getTime().getMinutes();
+		
+		if(minutes<30){
+			hour=hour*100;
+		}
+		else{
+			hour=hour*100+30;
+		}
+		return hour;
 	}
 	
 	@SuppressWarnings("deprecation")
