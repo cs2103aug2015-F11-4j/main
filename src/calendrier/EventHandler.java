@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utils.Event;
+import utils.ParsedCommand;
 
 /**
  * This class is used to create event objects using data passed in from
@@ -21,6 +22,13 @@ public class EventHandler {
 		manage = new StorageManager();
 	}
 
+	/**
+	 * Need to implement this
+	 */
+	public List<Event> execute(ParsedCommand parsedCommand){
+		return null;
+	}
+	
 	public Event add(String identifier, Event eventDetails) {
 		Event newEvent = new Event();
 
