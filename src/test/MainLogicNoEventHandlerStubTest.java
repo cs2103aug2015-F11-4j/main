@@ -8,17 +8,15 @@ import java.util.List;
 import org.junit.Test;
 
 import calendrier.MainLogic;
-import stub.EventHandlerStub;
 import stub.ParserStub;
 import utils.Event;
 import utils.Priority;
 
-public class MainLogicTest {
+public class MainLogicNoEventHandlerStubTest {
 
 	@Test
 	public void executeShouldNotReturnNull() {
 		MainLogic mainLogic = new MainLogic();
-		mainLogic.injectEventHandler(new EventHandlerStub());
 		mainLogic.injectParser(new ParserStub());
 
 		String command = "add addTitle, " + "startdate 2015/09/23, " + "starttime 10.55, " + "enddate 2015/09/23, "
@@ -32,7 +30,6 @@ public class MainLogicTest {
 	@Test
 	public void executeEventListSizeShouldBeGreaterThanZero() {
 		MainLogic mainLogic = new MainLogic();
-		mainLogic.injectEventHandler(new EventHandlerStub());
 		mainLogic.injectParser(new ParserStub());
 
 		String command = "add addTitle, " + "startdate 2015/09/23, " + "starttime 10.55, " + "enddate 2015/09/23, "
@@ -45,7 +42,6 @@ public class MainLogicTest {
 	@Test
 	public void executeEventListShouldHaveAdded() {
 		MainLogic mainLogic = new MainLogic();
-		mainLogic.injectEventHandler(new EventHandlerStub());
 		mainLogic.injectParser(new ParserStub());
 
 		String command = "add addTitle, " + "startdate 2015/09/23, " + "starttime 10.55, " + "enddate 2015/09/23, "
@@ -68,7 +64,6 @@ public class MainLogicTest {
 	@Test
 	public void executeEventListShouldHaveDeletedEvent() {
 		MainLogic mainLogic = new MainLogic();
-		mainLogic.injectEventHandler(new EventHandlerStub());
 		mainLogic.injectParser(new ParserStub());
 
 		String command = "delete deleteId";
@@ -86,7 +81,6 @@ public class MainLogicTest {
 	@Test
 	public void executeEventListShouldBeUpdated() {
 		MainLogic mainLogic = new MainLogic();
-		mainLogic.injectEventHandler(new EventHandlerStub());
 		mainLogic.injectParser(new ParserStub());
 
 		String command = "update id updateId, " + "startdate 2015/09/23, " + "starttime 10.55, "
@@ -109,7 +103,6 @@ public class MainLogicTest {
 	@Test
 	public void executeEventListShouldHaveOnlyOneEvent() {
 		MainLogic mainLogic = new MainLogic();
-		mainLogic.injectEventHandler(new EventHandlerStub());
 		mainLogic.injectParser(new ParserStub());
 
 		String command = "view viewId";
@@ -132,7 +125,6 @@ public class MainLogicTest {
 	@Test
 	public void executeEventListShouldHaveAllEvent() {
 		MainLogic mainLogic = new MainLogic();
-		mainLogic.injectEventHandler(new EventHandlerStub());
 		mainLogic.injectParser(new ParserStub());
 
 		String command = "view all";
@@ -145,7 +137,6 @@ public class MainLogicTest {
 	@Test
 	public void executeEventListShouldBeInDecreasingPriority() {
 		MainLogic mainLogic = new MainLogic();
-		mainLogic.injectEventHandler(new EventHandlerStub());
 		mainLogic.injectParser(new ParserStub());
 		List<Event> eventList = mainLogic.execute("view all");
 
