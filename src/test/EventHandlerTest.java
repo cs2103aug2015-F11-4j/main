@@ -32,9 +32,9 @@ public class EventHandlerTest {
 			e.printStackTrace();
 		}
 		
-		fail();
-
 		
+		
+		fail();		
 	}
 
 	@Test

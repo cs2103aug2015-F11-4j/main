@@ -24,7 +24,7 @@ public class EventHandler {
 		gen = new EventGenerator();
 	}
 
-	public Event execute(ParsedCommand pc) throws Exception {
+	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		Event newEvent;
 		// if new add/update - generate Event
 		newEvent = gen.createEvent(pc);
@@ -37,7 +37,7 @@ public class EventHandler {
 
 		// add new event to structure of events
 		events.add(newEvent);
-		return newEvent;
+		return events;
 	}
 
 	public Event add(Event event) {
