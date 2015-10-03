@@ -8,7 +8,7 @@ import utils.Event;
 import utils.ParsedCommand;
 
 /**
- * This class is used to create event objects using data passed in from
+ * This class is used to manage event objects using data passed in from
  * MainLogic. These event objects are then sent to StorageManager.
  * 
  * @author Shan
@@ -18,18 +18,26 @@ public class EventHandler {
 
 	StorageManager manage;
 	ArrayList<Event> events = new ArrayList<>();
-	EventGenerator gen;
+	EventGenerator generator;
 
 	public EventHandler() {
 		manage = new StorageManager();
-		gen = new EventGenerator();
+		generator = new EventGenerator();
 	}
 
+	/**
+	 * Method called by external classes
+	 * Determines the type of command to execute based on parameter pc
+	 * 
+	 * @param pc
+	 * @return eventsReturned - an arraylist of the events that were executed
+	 * @throws Exception
+	 */
 	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		ArrayList<Event> eventsReturned = new ArrayList<>();
 
 		if (pc.getCommand() == Command.ADD) {
-			Event newEvent = gen.createEvent(pc);
+			Event newEvent = generator.createEvent(pc);
 			add(newEvent);
 			eventsReturned.add(newEvent);
 		} else if (pc.getCommand() == Command.DELETE) {
@@ -41,17 +49,41 @@ public class EventHandler {
 		} else if (pc.getCommand() == Command.VIEW) {
 			Event viewedEvent = view(pc);
 			eventsReturned.add(viewedEvent);
+		} else if (pc.getCommand() == Command.VIEW_ALL) {
+			// yet to be implemented
+
+		} else if (pc.getCommand() == Command.UNDO) {
+			// will we need a blank message/event for this?
+			undo();
+		} else {
+			// throw an exception indicating a command was blank
 		}
 
 		return eventsReturned;
 	}
 
+	private Event undo() {
+		manage.undo();
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param event
+	 * @return
+	 */
 	public Event add(Event event) {
 		manage.add(event);
 		events.add(event);
 		return event;
 	}
 
+	/**
+	 * Removes an event identified by the ParsedCommand pc
+	 * 
+	 * @param pc
+	 * @return eventToBeRemoved
+	 */
 	public Event remove(ParsedCommand pc) {
 		Event eventToBeRemoved = new Event();
 		for (Event e : events) {
@@ -66,10 +98,10 @@ public class EventHandler {
 	}
 
 	/**
+	 * Updates an event identified by the ParsedCommand pc
 	 * 
-	 * @param identifier
-	 * @param eventDetails
-	 * @return
+	 * @param pc
+	 * @return eventToBeUpdated
 	 */
 	public Event update(ParsedCommand pc) {
 		Event eventToBeUpdated = new Event();
@@ -88,9 +120,10 @@ public class EventHandler {
 	}
 
 	/**
+	 * Views an event identified by the ParsedCommand pc
 	 * 
-	 * @param identifier
-	 * @return
+	 * @param pc
+	 * @return eventToBeViewed
 	 */
 	public Event view(ParsedCommand pc) {
 		Event eventToBeViewed = new Event();
@@ -102,6 +135,11 @@ public class EventHandler {
 		return eventToBeViewed;
 	}
 
+	/**
+	 * Returns the list of all events
+	 * 
+	 * @return events
+	 */
 	public List<Event> getAllEvents() {
 		return events;
 	}
