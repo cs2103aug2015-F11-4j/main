@@ -3,6 +3,7 @@ package calendrier;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.Command;
 import utils.Event;
 import utils.ParsedCommand;
 
@@ -17,63 +18,84 @@ public class EventHandler {
 
 	StorageManager manage;
 	ArrayList<Event> events = new ArrayList<>();
+	EventGenerator gen;
 
 	public EventHandler() {
 		manage = new StorageManager();
+		gen = new EventGenerator();
 	}
 
-	/**
-	 * Need to implement this
-	 */
-	public List<Event> execute(ParsedCommand parsedCommand){
-		return null;
-	}
-	
-	public Event add(String identifier, Event eventDetails) {
-		Event newEvent = new Event();
+	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
+		ArrayList<Event> eventsReturned = new ArrayList<>();
 
-		// The following seem redundant, as the event is created in the parser
-		newEvent.setId(identifier);
-		newEvent.setTitle(eventDetails.getTitle());
-		newEvent.setStartDateTime(eventDetails.getStartDateTime());
-		newEvent.setEndDateTime(eventDetails.getEndDateTime());
-		newEvent.setPriority(eventDetails.getPriority());
-		newEvent.setAddLocation(eventDetails.getAddLocation());
-		newEvent.setAddRecurring(eventDetails.getAddRecurring());
-		newEvent.setAddTaskDescription(eventDetails.getAddTaskDescription());
+		if (pc.getCommand() == Command.ADD) {
+			Event newEvent = gen.createEvent(pc);
+			add(newEvent);
+			eventsReturned.add(newEvent);
+		} else if (pc.getCommand() == Command.DELETE) {
+			Event removedEvent = remove(pc);
+			eventsReturned.add(removedEvent);
+		} else if (pc.getCommand() == Command.UPDATE) {
+			Event updatedEvent = update(pc);
+			eventsReturned.add(updatedEvent);
+		} else if (pc.getCommand() == Command.VIEW) {
+			Event viewedEvent = view(pc);
+			eventsReturned.add(viewedEvent);
+		}
 
-		manage.add(newEvent);
-		events.add(newEvent);
-		return newEvent;
+		return eventsReturned;
 	}
 
-	public Event remove(String identifier, Event eventDetails) {
-		manage.remove(eventDetails);
-		events.remove(eventDetails);
-		return null;
+	public Event add(Event event) {
+		manage.add(event);
+		events.add(event);
+		return event;
 	}
 
-	public Event update(String identifier, Event eventDetails) {
-		Event eventToBeUpdated = new Event();
-		
-		// find event to be updated
+	public Event remove(ParsedCommand pc) {
+		Event eventToBeRemoved = new Event();
 		for (Event e : events) {
-			if (e.getId().equals(identifier)) {
-				eventToBeUpdated = e;
-				events.remove(e);
-				
+			if (e.getId() == pc.getId()) {
+				eventToBeRemoved = e;
 				break;
 			}
 		}
-		manage.update(eventToBeUpdated, eventDetails);
-		events.add(eventDetails);
-		return eventDetails;
+		manage.remove(eventToBeRemoved);
+		events.remove(eventToBeRemoved);
+		return eventToBeRemoved;
 	}
 
-	public Event view(String identifier) {
-		Event eventToBeViewed =  new Event();
+	/**
+	 * 
+	 * @param identifier
+	 * @param eventDetails
+	 * @return
+	 */
+	public Event update(ParsedCommand pc) {
+		Event eventToBeUpdated = new Event();
+
+		// find event to be updated
 		for (Event e : events) {
-			if (e.getId().equals(identifier)) {
+			if (e.getId().equals(pc.getId())) {
+				eventToBeUpdated = e;
+				events.remove(e);
+				break;
+			}
+		}
+		// manage.update(eventToBeUpdated, eventDetails);
+		events.add(eventToBeUpdated);
+		return eventToBeUpdated;
+	}
+
+	/**
+	 * 
+	 * @param identifier
+	 * @return
+	 */
+	public Event view(ParsedCommand pc) {
+		Event eventToBeViewed = new Event();
+		for (Event e : events) {
+			if (e.getId().equals(pc.getId())) {
 				eventToBeViewed = e;
 			}
 		}
