@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.Test;
 
 import calendrier.MainLogic;
-import stub.EventHandlerStub;
 import stub.ParserStub;
 import utils.Command;
 import utils.Event;
