@@ -47,8 +47,8 @@ public class ParsedCommand {
 	public String getNotes() { return notes; }
 	public void setNotes(String notes) { this.notes = notes; }
 	
-	public boolean isRecurring() { return recurring; }
-	public void setRecurring(boolean recurring) { this.recurring = recurring; }
+	public boolean isRecurring() { return isRecurring; }
+	public void setRecurring(boolean recurring) { this.isRecurring = recurring; }
 	
 	public Calendar getReminder() { return reminder; }
 	public void setReminder(Calendar reminder) { this.reminder = reminder; }
