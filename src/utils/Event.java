@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class Event {
 	private String id;
@@ -11,6 +12,7 @@ public class Event {
 	private String location;
 	private String notes;
 	private Calendar reminder;
+	private List<String> groups;
 
 	public Event() {
 		this.id = null;
@@ -85,6 +87,14 @@ public class Event {
 
 	public void setReminder(Calendar reminder) {
 		this.reminder = reminder;
+	}
+
+	public List<String> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<String> groups) {
+		this.groups = groups;
 	}
 
 }
