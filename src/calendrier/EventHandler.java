@@ -23,45 +23,45 @@ public class EventHandler {
 		manage = new StorageManager();
 		gen = new EventGenerator();
 	}
-	
+
 	public Event execute(ParsedCommand pc) throws Exception {
-		// generate Event
-		Event newEvent = gen.createEvent(pc);
-		
-		// 
-		
+		Event newEvent;
+		// if new add/update - generate Event
+		newEvent = gen.createEvent(pc);
+
+		// else if view
+
+		// else if remove/delete
+
+		// else
+
 		// add new event to structure of events
 		events.add(newEvent);
 		return newEvent;
 	}
 
-	public Event add(String identifier, Event eventDetails) {
-		Event newEvent = new Event();
-
-		// The following seem redundant, as the event is created in the parser
-//		newEvent.setId(identifier);
-//		newEvent.setTitle(eventDetails.getTitle());
-//		newEvent.setStartDateTime(eventDetails.getStartDateTime());
-//		newEvent.setEndDateTime(eventDetails.getEndDateTime());
-//		newEvent.setPriority(eventDetails.getPriority());
-//		newEvent.setAddLocation(eventDetails.getAddLocation());
-//		newEvent.setAddRecurring(eventDetails.getAddRecurring());
-//		newEvent.setAddTaskDescription(eventDetails.getAddTaskDescription());
-
-		manage.add(newEvent);
-		events.add(newEvent);
-		return newEvent;
+	public Event add(Event event) {
+		manage.add(event);
+		events.add(event);
+		return event;
 	}
 
-	public Event remove(String identifier, Event eventDetails) {
-		manage.remove(eventDetails);
-		events.remove(eventDetails);
-		return null;
+	public Event remove(Event event) {
+		manage.remove(event);
+		events.remove(event);
+		return event;
 	}
 
+	
+	/**
+	 * NEED TO REFACTOR IN ORDER TO UTILIZE SOMETHING OTHER THAN IDENTIFIER
+	 * @param identifier
+	 * @param eventDetails
+	 * @return
+	 */
 	public Event update(String identifier, Event eventDetails) {
 		Event eventToBeUpdated = new Event();
-		
+
 		// find event to be updated
 		for (Event e : events) {
 			if (e.getId().equals(identifier)) {
@@ -75,8 +75,13 @@ public class EventHandler {
 		return eventDetails;
 	}
 
+	/**
+	 * NEED TO BE REFACTORED
+	 * @param identifier
+	 * @return
+	 */
 	public Event view(String identifier) {
-		Event eventToBeViewed =  new Event();
+		Event eventToBeViewed = new Event();
 		for (Event e : events) {
 			if (e.getId().equals(identifier)) {
 				eventToBeViewed = e;
