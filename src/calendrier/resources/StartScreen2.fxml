@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ListView?>
+
+<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<GridPane xmlns="http://javafx.com/javafx/8.0.40" xmls:fx="http://javafx.com/fxml/1" hgap="10" vgap="10">
+			<children>
+				<Text text="Purpose" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+				<Text text="Command" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+				
+				<Text text="Save in folder" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+				<Text text="save in <FOLDER_NAME>" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				
+				<Text text="Exit program" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+				<Text text="exit" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+				
+				<Text text="Command Help" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+				<Text text="help" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+				
+				<Text text="Navigate to next page" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+				<Text text="next" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+				
+				<Text text="Navigate to previous page" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+				<Text text="previous" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+				
+				<Text text="Viewing all Events" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+				<Text text="view all" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+				
+				<Text text="Viewing Specific Events" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+				<Text text="view <TASK_ID/NAME>" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+				
+				<Text text="Undoing operation" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+				<Text text="undo" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+			</children>
+		</GridPane>
+	</children>
+</fx:root>

@@ -1,0 +1,8 @@
+#root {
+	-fx-background-color: #E8F2F2;
+}
+
+.commandText {
+	-fx-font-size:15pt;
+	-fx-font-family: 'herculanum', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
+}

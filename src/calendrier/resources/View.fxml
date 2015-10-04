@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ListView?>
+<?import com.foo.bar.EventBox?>
+
+<fx:root type="FlowPane" xmlns:fx="http://javafx.com/fxml" stylesheets="view/Style.css">
+  <children>
+   
+  </children>
+</fx:root>

@@ -1,0 +1,10 @@
+what,kind,bundleId,bundleVersion,description,time
+stopped,bundle,org.eclipse.jst.ws.axis2.consumption.ui,1.0.102.v200807232000,org.eclipse.jst.ws.axis2.consumption.ui,1443759038166
+stopped,bundle,org.eclipse.jst.ws.axis2.creation.core,1.0.103.v200807162242,org.eclipse.jst.ws.axis2.creation.core,1443759038167
+stopped,bundle,org.eclipse.jst.ws.axis2.consumption.core,1.0.103.v200807232000,org.eclipse.jst.ws.axis2.consumption.core,1443759038167
+stopped,bundle,org.eclipse.jst.ws.creation.ui,1.0.306.v200807302056,org.eclipse.jst.ws.creation.ui,1443759038168
+stopped,bundle,org.eclipse.jst.ws.consumption.ui,1.1.2.v200808200318,org.eclipse.jst.ws.consumption.ui,1443759038169
+stopped,bundle,org.eclipse.jst.j2ee.webservice.ui,1.1.200.v200805140020,org.eclipse.jst.j2ee.webservice.ui,1443759038170
+stopped,bundle,org.eclipse.jst.servlet.ui,1.1.202.v200809102205,org.eclipse.jst.servlet.ui,1443759038171
+stopped,bundle,org.eclipse.jst.jee.ui,1.0.102.v200809102205,org.eclipse.jst.jee.ui,1443759038172
+stopped,bundle,org.eclipse.jst.j2ee.navigator.ui,1.1.201.v200807240600,org.eclipse.jst.j2ee.navigator.ui,1443759038173

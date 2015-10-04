@@ -1,4 +1,4 @@
-package calendrier;
+package calendrier.gui;
 
 /*
 * This class handles: 
@@ -7,10 +7,10 @@ package calendrier;
 * (e.g. successful add/update/delete event)
 */
 
-import java.io.IOExeption;
+import java.io.IOException;
 
 import javafx.fxml.FXML;
-import javafx.fml.FXMLoader;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -24,7 +24,7 @@ public class CommandBarController extends BorderPane {
 	@FXML
 	private TextField tfCommandBar;
 
-	private static final String COMMAND_BAR_LAYOUT_FXML = "calendrier/resources/CommandBar.fxml";
+	private static final String COMMAND_BAR_LAYOUT_FXML = "/calendrier/resources/CommandBar.fxml";
 
 	private UserInterface userInterface;
 
@@ -34,7 +34,7 @@ public class CommandBarController extends BorderPane {
 		loader.setRoot(this);
 		try {
 			loader.load();
-		} catch (IOExeption e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -51,6 +51,6 @@ public class CommandBarController extends BorderPane {
 	}
 
 	public void setMessage(String messageText) {
-		lblMessage.setText(feedbackText);
+		lblMessage.setText(messageText);
 	}
 }

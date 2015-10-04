@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ListView?>
+
+<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<GridPane xmlns="http://javafx.com/javafx/8.0.40" xmls:fx="http://javafx.com/fxml/1" hgap="10" vgap="10">
+			<children>
+				<Text text="Purpose" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+				<Text text="Command" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+				
+				<Text text="# Adding of Event" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+				<Text text="add <TASK_TITLE>, date <DATE>, time <TIME>, priority <PRIORITY>, location <LOCATION>, notes <NOTES>, recurring <RECURRING>, reminderDate <DATE>, reminderTime <TIME>" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+			
+				<Text text="# Updating of Event" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+				<Text text="update <TASK_TITLE>, date <DATE>, time <TIME>, priority <PRIORITY>, location <LOCATION>, notes <NOTES>, recurring <RECURRING>, reminderDate <DATE>, reminderTime <TIME>" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+			
+				<Text text="Deleting of Event" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+				<Text text="delete <TASK_ID/NAME" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+				
+				<Text text="# Filtering of Events" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+				<Text text="filter priority <PRIORITY>, date <DATE>" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+			
+				<Text text="# indication of field is not in order" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+				// --> <Text text="Command" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+			</children>
+		</GridPane>
+	</children>
+</fx:root>

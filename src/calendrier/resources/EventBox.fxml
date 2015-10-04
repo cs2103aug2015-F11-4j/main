@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+
+<fx:root type ="StackPane" xmlns:fx="http://javafx.com/fxml">
+	<children>
+		<GridPane fx:id="eventGridPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" hgap="10" vgap="10" >
+			<children>
+				<ImageView fx:id="activity" fitHeight="50" fitWidth="50" pickOnBounds="true"
+					preserveRatio="true" visible="true"
+					GridPane.columnIndex="0" GridPane.rowIndex="0" rowspan="3">
+				</ImageView>
+				<Text fx:id="eventID" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+				<Text fx:id="eventTitle" GridPane.rowIndex="0" GridPane.columnIndex="3" />
+				<ImageView fitHeight="10" fitWidth="10" pickOnBounds="true"
+					preserveRatio="true" visible="true"
+					GridPane.columnIndex="2" GridPane.rowIndex="1">
+					<image>
+						<Image url="/calendrier/resources/date.png" />
+					</image>
+				</ImageView>
+				<Text fx:id="eventDate" GridPane.rowIndex="1" GridPane.columnIndex="3" />
+				<ImageView fitHeight="10" fitWidth="10" pickOnBounds="true"
+					preserveRatio="true" visible="true"
+					GridPane.columnIndex="2" GridPane.rowIndex="3">
+					<image>
+						<Image url="/calendrier/resources/time.png" />
+					</image>
+				</ImageView>
+				<Text fx:id="eventTime" GridPane.rowIndex="2" GridPane.columnIndex="3" />
+			</children>
+		</GridPane>
+	</children>
+</fx:root>
+
+
+// changes made in view.fxml
+
