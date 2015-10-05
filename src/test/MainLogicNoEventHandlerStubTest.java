@@ -60,7 +60,7 @@ public class MainLogicNoEventHandlerStubTest {
 		assertTrue("should not be null", currentList != null);
 		
 		for(int i = 0; i < currentList.size(); i++){
-			assertFalse("not deleted id", currentList.get(i).getId().equals(id));
+			assertFalse("should not have deleted id", currentList.get(i).getId().equals(id));
 		}
 		
 		assertTrue("should not be null", mainLogic.getEvent() != null);
@@ -91,7 +91,8 @@ public class MainLogicNoEventHandlerStubTest {
 		for(int i = 0; i < currentList.size(); i++){
 			if(currentList.get(i).getId().equals(id)){
 				foundId = true;
-				assertTrue("after: is low", currentList.get(i).getPriority() == Priority.LOW);
+				assertTrue("should not be null", currentList.get(i).getPriority() != null);
+				assertTrue("after: should be low, but get " + currentList.get(i).getPriority().name(), currentList.get(i).getPriority() == Priority.LOW);
 			}
 		}
 		assertTrue("can find id", foundId);
