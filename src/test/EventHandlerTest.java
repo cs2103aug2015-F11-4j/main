@@ -90,10 +90,10 @@ public class EventHandlerTest {
 		assertTrue(handle.getAllEvents().contains(testEvent));
 	}
 
-	// @Test
-	// public void testUndoAddEvent() {
-	//
-	// }
+	 @Test
+	 public void testUndoAddEvent() {
+		 fail();
+	 }
 	
 	// @Test
 		// public void testUndoDeleteEvent() {
