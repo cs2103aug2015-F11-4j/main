@@ -147,7 +147,7 @@ public class EventHandler {
 	 * @return eventToBeUpdated
 	 */
 	public Event update(ParsedCommand pc) {
-		Event eventToBeUpdated = generator.createEvent(pc);
+		Event newEvent = generator.createEvent(pc);
 		Event oldEvent = new Event();
 
 		// find event to be updated
@@ -158,31 +158,39 @@ public class EventHandler {
 				break;
 			}
 		}
-		manage.update(oldEvent, eventToBeUpdated);
+		// manage.update(oldEvent, newEvent);
+		// PROBLEM WITH STORAGE MANAGER
 
 		// ensure updatedEvent contains all relevant info from oldEvent
-		if (eventToBeUpdated.getTitle() == null) {
-			eventToBeUpdated.setTitle(oldEvent.getTitle());
-		} else if (eventToBeUpdated.getStartDateTime() == null) {
-			eventToBeUpdated.setStartDateTime(oldEvent.getStartDateTime());
-		}  else if (eventToBeUpdated.getEndDateTime() == null) {
-			eventToBeUpdated.setEndDateTime(oldEvent.getEndDateTime());
-		}  else if (eventToBeUpdated.getPriority() == null) {
-			eventToBeUpdated.setPriority(oldEvent.getPriority());
-		}  else if (eventToBeUpdated.getLocation() == null) {
-			eventToBeUpdated.setLocation(oldEvent.getLocation());
-		}  else if (eventToBeUpdated.getNotes() == null) {
-			eventToBeUpdated.setNotes(oldEvent.getNotes());
-		}  else if (eventToBeUpdated.getReminder() == null) {
-			eventToBeUpdated.setReminder(oldEvent.getReminder());
-		}  else if (eventToBeUpdated.getGroups() == null) {
-			for (String s : eventToBeUpdated.getGroups()) {
-				eventToBeUpdated.addGroup(s);
+		if (newEvent.getTitle() == null) {
+			newEvent.setTitle(oldEvent.getTitle());
+		}
+		if (newEvent.getStartDateTime() == null) {
+			newEvent.setStartDateTime(oldEvent.getStartDateTime());
+		}
+		if (newEvent.getEndDateTime() == null) {
+			newEvent.setEndDateTime(oldEvent.getEndDateTime());
+		}
+		if (newEvent.getPriority() == null) {
+			newEvent.setPriority(oldEvent.getPriority());
+		}
+		if (newEvent.getLocation() == null) {
+			newEvent.setLocation(oldEvent.getLocation());
+		}
+		if (newEvent.getNotes() == null) {
+			newEvent.setNotes(oldEvent.getNotes());
+		}
+		if (newEvent.getReminder() == null) {
+			newEvent.setReminder(oldEvent.getReminder());
+		}
+		if (newEvent.getGroups().isEmpty()) {
+			for (String s : newEvent.getGroups()) {
+				newEvent.addGroup(s);
 			}
 		}
-		
-		events.add(eventToBeUpdated);
-		return eventToBeUpdated;
+
+		events.add(newEvent);
+		return newEvent;
 	}
 
 	/**

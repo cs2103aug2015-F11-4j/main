@@ -117,8 +117,17 @@ public class EventHandlerTest {
 		
 		ParsedCommand updatingCommand = new ParsedCommand();
 		updatingCommand.setId(ID);
-		updatingCommand.setNotes("Ps - email boss");
+		String newNotes = "Ps - email boss";
+		updatingCommand.setNotes(newNotes);
 		handle.update(updatingCommand);
+		
+		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getId(), ID);
+		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getTitle(), title);
+		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getStartDateTime(), startDateTime);
+		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getEndDateTime(), endDateTime);
+		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getPriority(), priority);
+		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getLocation(), location);
+		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getNotes(), newNotes);
 	}
 
 	@Test
