@@ -80,20 +80,25 @@ public class EventHandlerTest {
 		handle.add(testEvent);
 
 		// Tests
-		assertEquals(testEvent.getId(), testEvent.getId());
-//		assertEquals(testEvent.getTitle(), testEvent.getTitle());
-//		assertEquals(testEvent.getStartDateTime(), testEvent.getStartDateTime());
-//		assertEquals(testEvent.getEndDateTime(), testEvent.getEndDateTime());
-//		assertEquals(testEvent.getPriority(), testEvent.getPriority());
-//		assertEquals(testEvent.getLocation(), testEvent.getLocation());
-//		assertEquals(testEvent.getNotes(), testEvent.getNotes());
+		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
+		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
+		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());
+		assertEquals(handle.getAllEvents().get(0).getEndDateTime(), testEvent.getEndDateTime());
+		assertEquals(handle.getAllEvents().get(0).getPriority(), testEvent.getPriority());
+		assertEquals(handle.getAllEvents().get(0).getLocation(), testEvent.getLocation());
+		assertEquals(handle.getAllEvents().get(0).getNotes(), testEvent.getNotes());
 		assertTrue(handle.getAllEvents().contains(testEvent));
 	}
 
 	// @Test
-	// public void testUndoEvent() {
+	// public void testUndoAddEvent() {
 	//
 	// }
+	
+	// @Test
+		// public void testUndoDeleteEvent() {
+		//
+		// }
 
 	@Test
 	public void testRemoveEvent() {
@@ -107,7 +112,13 @@ public class EventHandlerTest {
 
 	@Test
 	public void testUpdateEvent() {
+		EventHandler handle = new EventHandler();
+		handle.add(testEvent);
 		
+		ParsedCommand updatingCommand = new ParsedCommand();
+		updatingCommand.setId(ID);
+		updatingCommand.setNotes("Ps - email boss");
+		handle.update(updatingCommand);
 	}
 
 	@Test

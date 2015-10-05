@@ -18,7 +18,7 @@ public class ParsedCommand {
 	
 	private String group = null;	// for filter
 	
-	private String storageLocation;
+	private String storageLocation = null;
 	
 	public Command getCommand() { return command; }
 	public void setCommand(Command command) { this.command = command; }
@@ -55,6 +55,14 @@ public class ParsedCommand {
 	
 	public String getGroup() { return group; }
 	public void setGroup(String group) { this.group = group; }
+	
+	public String getStorageLocation() {
+		return storageLocation; 
+	}
+	
+	public void setStorageLocation(String storage) {
+		this.storageLocation = storage;
+	}
 }
 	
 

@@ -2,6 +2,7 @@ package calendrier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import utils.Command;
 import utils.Event;
@@ -19,10 +20,14 @@ public class EventHandler {
 	StorageManager manage;
 	ArrayList<Event> events = new ArrayList<>();
 	EventGenerator generator;
+	Stack<ParsedCommand> commandHistory;
+	Event previousEvent;
 
 	public EventHandler() {
 		manage = new StorageManager();
 		generator = new EventGenerator();
+		commandHistory = new Stack<>();
+		previousEvent = new Event();
 	}
 
 	/**
@@ -35,6 +40,7 @@ public class EventHandler {
 	 */
 	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		ArrayList<Event> eventsReturned = new ArrayList<>();
+		commandHistory.push(pc);
 
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
@@ -58,6 +64,9 @@ public class EventHandler {
 			// filter??
 			eventsReturned = filter(pc);
 
+		} else if (pc.getCommand() == Command.STORAGE_LOCATION) {
+			setStorage(pc);
+
 		} else {
 			// throw an exception indicating a command was blank
 		}
@@ -65,24 +74,36 @@ public class EventHandler {
 		return eventsReturned;
 	}
 
+	private void setStorage(ParsedCommand pc) {
+		manage.setStorageLocation(pc.getStorageLocation());
+	}
+
 	private ArrayList<Event> filter(ParsedCommand pc) {
 		ArrayList<Event> filteredEvents = new ArrayList<>();
-		
-		// for every event in the current set of events, if any of them contain stuff in the pc, select them
+
+		// for every event in the current set of events, if any of them contain
+		// stuff in the pc, select them
 		for (Event e : events) {
 			if (e.getGroups().contains(pc.getGroup())) {
 				filteredEvents.add(e);
-			}
-			else if (e.getPriority().equals(pc.getPriority())) {
+			} else if (e.getPriority().equals(pc.getPriority())) {
 				filteredEvents.add(e);
 			}
 		}
-		
-		
-		return filteredEvents;		
+
+		return filteredEvents;
 	}
 
 	private Event undo() {
+		ParsedCommand lastCommand = commandHistory.pop();
+		if (lastCommand.getCommand() == Command.ADD) {
+			events.remove(events.size());
+		} else if (lastCommand.getCommand() == Command.DELETE) {
+			events.add(previousEvent);
+		} else {
+
+		}
+
 		manage.undo();
 		return null;
 	}
@@ -93,8 +114,10 @@ public class EventHandler {
 	 * @return
 	 */
 	public Event add(Event event) {
+		previousEvent = event;
 		manage.add(event);
 		events.add(event);
+
 		return event;
 	}
 
@@ -125,15 +148,39 @@ public class EventHandler {
 	 */
 	public Event update(ParsedCommand pc) {
 		Event eventToBeUpdated = generator.createEvent(pc);
+		Event oldEvent = new Event();
 
 		// find event to be updated
 		for (Event e : events) {
 			if (e.getId().equals(pc.getId())) {
+				oldEvent = e;
 				events.remove(e);
 				break;
 			}
 		}
-		// manage.update(eventToBeUpdated, eventDetails);
+		manage.update(oldEvent, eventToBeUpdated);
+
+		// ensure updatedEvent contains all relevant info from oldEvent
+		if (eventToBeUpdated.getTitle() == null) {
+			eventToBeUpdated.setTitle(oldEvent.getTitle());
+		} else if (eventToBeUpdated.getStartDateTime() == null) {
+			eventToBeUpdated.setStartDateTime(oldEvent.getStartDateTime());
+		}  else if (eventToBeUpdated.getEndDateTime() == null) {
+			eventToBeUpdated.setEndDateTime(oldEvent.getEndDateTime());
+		}  else if (eventToBeUpdated.getPriority() == null) {
+			eventToBeUpdated.setPriority(oldEvent.getPriority());
+		}  else if (eventToBeUpdated.getLocation() == null) {
+			eventToBeUpdated.setLocation(oldEvent.getLocation());
+		}  else if (eventToBeUpdated.getNotes() == null) {
+			eventToBeUpdated.setNotes(oldEvent.getNotes());
+		}  else if (eventToBeUpdated.getReminder() == null) {
+			eventToBeUpdated.setReminder(oldEvent.getReminder());
+		}  else if (eventToBeUpdated.getGroups() == null) {
+			for (String s : eventToBeUpdated.getGroups()) {
+				eventToBeUpdated.addGroup(s);
+			}
+		}
+		
 		events.add(eventToBeUpdated);
 		return eventToBeUpdated;
 	}
