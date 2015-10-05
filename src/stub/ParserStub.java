@@ -37,6 +37,16 @@ public class ParserStub extends Parser {
 			parsedCommand = generateFilterPriority();
 		} else if (command.equals("filter date 2015/09/20")) {
 			parsedCommand = generateFilterDate();
+		} else if (command.equals("undelete")) {
+			parsedCommand = generateUndelete();
+		} else if (command.equals("undo")) {
+			parsedCommand = generateUndo();
+		} else if (command.equals("previous")) {
+			parsedCommand = generatePrevious();
+		} else if (command.equals("next")) {
+			parsedCommand = generateNext();
+		} else if (command.equals("save in ggFile.txt")){
+			parsedCommand = generateSaveLocation();
 		}
 
 		return parsedCommand;
@@ -139,6 +149,47 @@ public class ParserStub extends Parser {
 
 		parsedCommand.setCommand(Command.VIEW_ALL);
 
+		return parsedCommand;
+	}
+	
+	private ParsedCommand generateUndelete(){
+		ParsedCommand parsedCommand = new ParsedCommand();
+		
+		parsedCommand.setCommand(Command.UNDELETE);
+		
+		return parsedCommand;
+	}
+	
+	private ParsedCommand generateUndo(){
+		ParsedCommand parsedCommand = new ParsedCommand();
+		
+		parsedCommand.setCommand(Command.UNDO);
+		
+		return parsedCommand;
+	}
+	
+	private ParsedCommand generatePrevious(){
+		ParsedCommand parsedCommand = new ParsedCommand();
+		
+		parsedCommand.setCommand(Command.PREVIOUS);
+		
+		return parsedCommand;
+	}
+	
+	private ParsedCommand generateNext(){
+		ParsedCommand parsedCommand = new ParsedCommand();
+		
+		parsedCommand.setCommand(Command.NEXT);
+		
+		return parsedCommand;
+	}
+	
+	private ParsedCommand generateSaveLocation(){
+		ParsedCommand parsedCommand = new ParsedCommand();
+		
+		parsedCommand.setCommand(Command.STORAGE_LOCATION);
+		parsedCommand.setStorageLocation("ggFile.txt");
+		
 		return parsedCommand;
 	}
 
