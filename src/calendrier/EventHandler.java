@@ -130,7 +130,7 @@ public class EventHandler {
 	public Event remove(ParsedCommand pc) {
 		Event eventToBeRemoved = new Event();
 		for (Event e : events) {
-			if (e.getId() == pc.getId()) {
+			if (e.getId().equals(pc.getId())) {
 				eventToBeRemoved = e;
 				break;
 			}
