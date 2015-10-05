@@ -170,9 +170,10 @@ public class Parser {
 				cal5 = dateAndTimeToCalendar(reminderDate, reminderTime);
 				pc.setReminder(cal5);
 			}
-		} else if (command.equals("save in")) {
-			// save in desktop
+		} else if (command.equals("savein")) {
+			// savein my desktop
 			pc.setCommand(Command.STORAGE_LOCATION);
+			pc.setStorageLocation(inputAfterCommand);
 		} else if (command.equals("add")) {
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
 			pc.setId(String.valueOf(numCurrentTask+1));
