@@ -12,43 +12,44 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import calendrier.EventHandler;
+import utils.Command;
 import utils.Event;
 import utils.ParsedCommand;
 import utils.Priority;
 
 public class EventHandlerTest {
 	ParsedCommand pc = new ParsedCommand();
+	ParsedCommand deleteCommand = new ParsedCommand();
 	Event testEvent = new Event();
 
 	// simulating inputs from a parsed command
 	String ID = "TEST";
 	String title = "testing the first time";
-	
+
 	Priority priority = utils.Priority.LOW;
 	String location = "Orchard Road";
 	String notes = "Run at least 5 km";
 	String group = "Exercise";
 
-	
 	static Calendar startDateTime;
 	static Calendar endDateTime;
 	static Calendar reminder;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		startDateTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 		startDateTime.set(2015, 9, 20, 10, 33, 25);
-		
+
 		endDateTime = Calendar.getInstance();
 		endDateTime.set(2015, 11, 21, 11, 34, 26);
-		
+
 		reminder = Calendar.getInstance();
-		reminder.set(2015,  10, 21, 11, 34, 26);
+		reminder.set(2015, 10, 21, 11, 34, 26);
 	}
 
 	@Before
 	public void setUp() {
-		// create parsedCommand
+		// create parsedCommand add
 		pc.setId(ID);
 		pc.setTitle(title);
 		pc.setStartDateTime(startDateTime);
@@ -58,7 +59,6 @@ public class EventHandlerTest {
 		pc.setNotes(notes);
 		pc.setGroup(group);
 
-		
 		// create event
 		testEvent.setId(ID);
 		testEvent.setTitle(title);
@@ -69,6 +69,9 @@ public class EventHandlerTest {
 		testEvent.setNotes(notes);
 		testEvent.setReminder(reminder);
 		testEvent.addGroup(group);
+
+		deleteCommand.setCommand(Command.DELETE);
+		deleteCommand.setId(ID);
 
 	}
 
@@ -90,15 +93,40 @@ public class EventHandlerTest {
 		assertTrue(handle.getAllEvents().contains(testEvent));
 	}
 
-	 @Test
-	 public void testUndoAddEvent() {
-		 fail();
-	 }
-	
-	// @Test
-		// public void testUndoDeleteEvent() {
-		//
-		// }
+	@Test
+	public void testUndoAddEvent() {
+		EventHandler handle = new EventHandler();
+		try {
+			handle.execute(pc);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		handle.undo();
+		assertTrue(handle.getAllEvents().isEmpty());
+	}
+
+	@Test
+	public void testUndoDeleteEvent() {
+		EventHandler handle = new EventHandler();
+		try {
+			handle.execute(pc);
+			handle.execute(deleteCommand);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		handle.undo();
+		assertFalse(handle.getAllEvents().isEmpty());
+		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
+		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
+		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());
+		assertEquals(handle.getAllEvents().get(0).getEndDateTime(), testEvent.getEndDateTime());
+		assertEquals(handle.getAllEvents().get(0).getPriority(), testEvent.getPriority());
+		assertEquals(handle.getAllEvents().get(0).getLocation(), testEvent.getLocation());
+		assertEquals(handle.getAllEvents().get(0).getNotes(), testEvent.getNotes());
+	}
 
 	@Test
 	public void testRemoveEvent() {
@@ -114,13 +142,13 @@ public class EventHandlerTest {
 	public void testUpdateEvent() {
 		EventHandler handle = new EventHandler();
 		handle.add(testEvent);
-		
+
 		ParsedCommand updatingCommand = new ParsedCommand();
 		updatingCommand.setId(ID);
 		String newNotes = "Ps - email boss";
 		updatingCommand.setNotes(newNotes);
 		handle.update(updatingCommand);
-		
+
 		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getId(), ID);
 		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getTitle(), title);
 		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getStartDateTime(), startDateTime);
@@ -137,7 +165,6 @@ public class EventHandlerTest {
 		Event viewedEvent = handle.view(pc);
 		assertEquals(viewedEvent, testEvent);
 	}
-	
 
 	@Test
 	public void testExecute() {
@@ -151,11 +178,9 @@ public class EventHandlerTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		for (Event e : list) {
-//			System.out.println(e);
-//		}
+		// for (Event e : list) {
+		// System.out.println(e);
+		// }
 	}
-
-
 
 }

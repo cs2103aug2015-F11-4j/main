@@ -94,7 +94,7 @@ public class EventHandler {
 		return filteredEvents;
 	}
 
-	private Event undo() {
+	public Event undo() {
 		ParsedCommand lastCommand = commandHistory.pop();
 		if (lastCommand.getCommand() == Command.ADD) {
 			events.remove(events.size());
@@ -104,7 +104,7 @@ public class EventHandler {
 
 		}
 
-		manage.undo();
+//		manage.undo();
 		return null;
 	}
 
