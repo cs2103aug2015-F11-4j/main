@@ -58,7 +58,7 @@ public class ParserStub extends Parser {
 		parsedCommand.setPriority(Priority.VERY_HIGH);
 		parsedCommand.setLocation("addLocation");
 		parsedCommand.setNotes("addNotes");
-		parsedCommand.setRecurring(true);
+		parsedCommand.setIsRecurring(true);
 		parsedCommand.setReminder(reminder);
 
 		return parsedCommand;

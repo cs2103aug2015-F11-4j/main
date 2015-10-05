@@ -47,8 +47,8 @@ public class ParsedCommand {
 	public String getNotes() { return notes; }
 	public void setNotes(String notes) { this.notes = notes; }
 	
-	public boolean isRecurring() { return isRecurring; }
-	public void setRecurring(boolean recurring) { this.isRecurring = recurring; }
+	public boolean getIsRecurring() { return isRecurring; }
+	public void setIsRecurring(boolean isRecurring) { this.isRecurring = isRecurring; }
 	
 	public Calendar getReminder() { return reminder; }
 	public void setReminder(Calendar reminder) { this.reminder = reminder; }
@@ -56,13 +56,8 @@ public class ParsedCommand {
 	public String getGroup() { return group; }
 	public void setGroup(String group) { this.group = group; }
 	
-	public String getStorageLocation() {
-		return storageLocation; 
-	}
-	
-	public void setStorageLocation(String storage) {
-		this.storageLocation = storage;
-	}
+	public String getStorageLocation() { return storageLocation; }
+	public void setStorageLocation(String storageLocation) { this.storageLocation = storageLocation; }
 }
 	
 
