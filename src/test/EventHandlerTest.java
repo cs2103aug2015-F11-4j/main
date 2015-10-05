@@ -1,10 +1,11 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 import org.junit.Before;
@@ -106,27 +107,33 @@ public class EventHandlerTest {
 		assertTrue(handle.getAllEvents().isEmpty());
 	}
 
-//	@Test
-//	public void testUndoDeleteEvent() {
-//		EventHandler handle = new EventHandler();
-//		try {
-//			handle.execute(pc);
-//			handle.execute(deleteCommand);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		handle.undo();
-//		assertFalse(handle.getAllEvents().isEmpty());
-//		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
-//		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
-//		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());
-//		assertEquals(handle.getAllEvents().get(0).getEndDateTime(), testEvent.getEndDateTime());
-//		assertEquals(handle.getAllEvents().get(0).getPriority(), testEvent.getPriority());
-//		assertEquals(handle.getAllEvents().get(0).getLocation(), testEvent.getLocation());
-//		assertEquals(handle.getAllEvents().get(0).getNotes(), testEvent.getNotes());
-//	}
+	// @Test
+	// public void testUndoDeleteEvent() {
+	// EventHandler handle = new EventHandler();
+	// try {
+	// handle.execute(pc);
+	// handle.execute(deleteCommand);
+	// } catch (Exception e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	//
+	// handle.undo();
+	// assertFalse(handle.getAllEvents().isEmpty());
+	// assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
+	// assertEquals(handle.getAllEvents().get(0).getTitle(),
+	// testEvent.getTitle());
+	// assertEquals(handle.getAllEvents().get(0).getStartDateTime(),
+	// testEvent.getStartDateTime());
+	// assertEquals(handle.getAllEvents().get(0).getEndDateTime(),
+	// testEvent.getEndDateTime());
+	// assertEquals(handle.getAllEvents().get(0).getPriority(),
+	// testEvent.getPriority());
+	// assertEquals(handle.getAllEvents().get(0).getLocation(),
+	// testEvent.getLocation());
+	// assertEquals(handle.getAllEvents().get(0).getNotes(),
+	// testEvent.getNotes());
+	// }
 
 	@Test
 	public void testRemoveEvent() {

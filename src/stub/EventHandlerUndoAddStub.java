@@ -34,7 +34,7 @@ public class EventHandlerUndoAddStub extends EventHandler {
 
 	public ArrayList<Event> addStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
-		
+
 		Event event = new Event();
 		event.setId("ggId");
 		event.setTitle(parsedCommand.getTitle());
@@ -75,7 +75,7 @@ public class EventHandlerUndoAddStub extends EventHandler {
 			Event event = events.get(i);
 			if (event.getId().equals(parsedCommand.getId())) {
 				event.setPriority(parsedCommand.getPriority());
-				
+
 				currentEvents.add(event);
 				break;
 			}

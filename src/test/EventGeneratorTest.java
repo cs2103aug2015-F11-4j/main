@@ -1,13 +1,11 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import calendrier.EventGenerator;
@@ -22,23 +20,22 @@ public class EventGeneratorTest {
 	// Information in parsedCommand/Event
 	String ID = "TEST1";
 	String title = "TEST1";
-	
+
 	Calendar startDateTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-//	startDateTime.set(2015, 9, 20, 10, 33, 25);
-	
+	// startDateTime.set(2015, 9, 20, 10, 33, 25);
+
 	Calendar endDateTime = Calendar.getInstance();
-//	endDateTime.set(2015, 9, 21, 11, 34, 26);
-	
+	// endDateTime.set(2015, 9, 21, 11, 34, 26);
+
 	Priority priority = utils.Priority.LOW;
 	String location = "Orchard Road";
 	String notes = "Run at least 5 km";
 	String group = "Exercise";
-//	Calendar reminder;
-	
+	// Calendar reminder;
 
 	@Before
 	public void setUp() {
-		
+
 		// create parsedCommand
 		pc = new ParsedCommand();
 		pc.setId(ID);
@@ -49,7 +46,7 @@ public class EventGeneratorTest {
 		pc.setLocation(location);
 		pc.setNotes(notes);
 		pc.setGroup(group);
-		
+
 		// create event to test against
 		testEvent = new Event();
 		testEvent.setId(ID);

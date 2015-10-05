@@ -12,13 +12,12 @@ public class Calendrier {
 	private static MainLogic mainLogic = new MainLogic();
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-//		loop();
+		// Calls the main function of the GUI
 		calendrier.gui.UserInterface.main(args);
 	}
 
 	/**
-	 * Loop program until no input
+	 * Loop program until no input (basic console based UI)
 	 */
 	private static void loop() {
 		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
@@ -65,7 +64,7 @@ public class Calendrier {
 	 * @param event event to show
 	 */
 	private static void showToUser(Event event) {
-		System.out.println(event.getTitle());
+		showToUser(event.getTitle());
 	}
 	
 	/**

@@ -45,7 +45,7 @@ public class ParserStub extends Parser {
 			parsedCommand = generatePrevious();
 		} else if (command.equals("next")) {
 			parsedCommand = generateNext();
-		} else if (command.equals("save in ggFile.txt")){
+		} else if (command.equals("save in ggFile.txt")) {
 			parsedCommand = generateSaveLocation();
 		}
 
@@ -75,7 +75,7 @@ public class ParserStub extends Parser {
 
 		return parsedCommand;
 	}
-	
+
 	private ParsedCommand generateAddOnlyTitle() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -151,45 +151,45 @@ public class ParserStub extends Parser {
 
 		return parsedCommand;
 	}
-	
-	private ParsedCommand generateUndelete(){
+
+	private ParsedCommand generateUndelete() {
 		ParsedCommand parsedCommand = new ParsedCommand();
-		
+
 		parsedCommand.setCommand(Command.UNDELETE);
-		
+
 		return parsedCommand;
 	}
-	
-	private ParsedCommand generateUndo(){
+
+	private ParsedCommand generateUndo() {
 		ParsedCommand parsedCommand = new ParsedCommand();
-		
+
 		parsedCommand.setCommand(Command.UNDO);
-		
+
 		return parsedCommand;
 	}
-	
-	private ParsedCommand generatePrevious(){
+
+	private ParsedCommand generatePrevious() {
 		ParsedCommand parsedCommand = new ParsedCommand();
-		
+
 		parsedCommand.setCommand(Command.PREVIOUS);
-		
+
 		return parsedCommand;
 	}
-	
-	private ParsedCommand generateNext(){
+
+	private ParsedCommand generateNext() {
 		ParsedCommand parsedCommand = new ParsedCommand();
-		
+
 		parsedCommand.setCommand(Command.NEXT);
-		
+
 		return parsedCommand;
 	}
-	
-	private ParsedCommand generateSaveLocation(){
+
+	private ParsedCommand generateSaveLocation() {
 		ParsedCommand parsedCommand = new ParsedCommand();
-		
+
 		parsedCommand.setCommand(Command.STORAGE_LOCATION);
 		parsedCommand.setStorageLocation("ggFile.txt");
-		
+
 		return parsedCommand;
 	}
 

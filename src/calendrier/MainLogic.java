@@ -1,12 +1,8 @@
 package calendrier;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import stub.EventHandlerStub;
-import stub.ParserStub;
 import utils.Command;
 import utils.Event;
 import utils.ParsedCommand;
@@ -20,21 +16,35 @@ import utils.ParsedCommand;
 public class MainLogic {
 	private Parser parser = null;
 	private EventHandler eventHandler = null;
-	
 	private Event event = null;
 	private List<Event> events = null;
 
+	/**
+	 * Constructor to initialize the main components of Main Logic
+	 */
 	public MainLogic() {
 		super();
 		parser = new Parser();
 		eventHandler = new EventHandler();
 	}
-	
-	public void injectEventHandler(EventHandler eventHandler){
+
+	/**
+	 * Inject a stub event handler
+	 * 
+	 * @param eventHandler
+	 *            stub event handler to be injected
+	 */
+	public void injectEventHandler(EventHandler eventHandler) {
 		this.eventHandler = eventHandler;
 	}
-	
-	public void injectParser(Parser parser){
+
+	/**
+	 * Inject a stub parser
+	 * 
+	 * @param parser
+	 *            stub parser to be injected
+	 */
+	public void injectParser(Parser parser) {
 		this.parser = parser;
 	}
 
@@ -46,30 +56,47 @@ public class MainLogic {
 	 * @return command action
 	 */
 	public Command execute(String command) {
-		List<Event> eventList = new ArrayList<>();
 
 		ParsedCommand parsedCommand = parser.parse(command);
 
-		assert(parsedCommand != null);
+		assert (parsedCommand != null);
 		if (parsedCommand.getCommand() != null) {
-			try {
-				eventList = eventHandler.execute(parsedCommand);
-				if(eventList.size() > 0){
-					event = eventList.get(0);
-				}
-				else{
-					event = null;
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			performCommand(parsedCommand);
 		}
-		else{
-			// Throw invalid command exception
-		}
-		
+
 		return parsedCommand.getCommand();
+	}
+
+	/**
+	 * Perform the parsed command
+	 * 
+	 * @param parsedCommand
+	 *            parsedCommand from the parser
+	 */
+	private void performCommand(ParsedCommand parsedCommand) {
+		List<Event> eventList = new ArrayList<>();
+
+		try {
+			eventList = eventHandler.execute(parsedCommand);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		updateEvent(eventList);
+	}
+
+	/**
+	 * Update event of the last action
+	 * 
+	 * @param eventList
+	 *            events returned from event handler after execution
+	 */
+	private void updateEvent(List<Event> eventList) {
+		if (eventList.size() > 0) {
+			event = eventList.get(0);
+		} else {
+			event = null;
+		}
 	}
 
 	/**
@@ -80,12 +107,22 @@ public class MainLogic {
 	 */
 	public void notifyUser(Event event) {
 	}
-	
-	public Event getEvent(){
+
+	/**
+	 * Gets the event of the last action performed
+	 * 
+	 * @return event which the last action has performed on
+	 */
+	public Event getEvent() {
 		return event;
 	}
-	
-	public List<Event> getAllEvents(){
+
+	/**
+	 * Gets all available events
+	 * 
+	 * @return all events
+	 */
+	public List<Event> getAllEvents() {
 		events = eventHandler.getAllEvents();
 		return events;
 	}
