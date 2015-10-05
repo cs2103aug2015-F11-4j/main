@@ -21,6 +21,8 @@ public class ParserStub extends Parser {
 				+ "priority very high, " + "location addLocation, " + "notes addNotes, " + "recurring yes, "
 				+ "reminderdate 2015/09/19, " + "remindertime 10.33")) {
 			parsedCommand = generateAdd();
+		} else if (command.equals("add addTitle")) {
+			parsedCommand = generateAddOnlyTitle();
 		} else if (command.equals("delete ggId")) {
 			parsedCommand = generateDelete();
 		} else if (command.equals("update id ggId, priority low")) {
@@ -60,6 +62,16 @@ public class ParserStub extends Parser {
 		parsedCommand.setNotes("addNotes");
 		parsedCommand.setIsRecurring(true);
 		parsedCommand.setReminder(reminder);
+
+		return parsedCommand;
+	}
+	
+	private ParsedCommand generateAddOnlyTitle() {
+		ParsedCommand parsedCommand = new ParsedCommand();
+
+		parsedCommand.setCommand(Command.ADD);
+		parsedCommand.setTitle("addTitle");
+		parsedCommand.setId("ggId");
 
 		return parsedCommand;
 	}

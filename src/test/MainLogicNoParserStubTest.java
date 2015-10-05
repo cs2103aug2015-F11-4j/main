@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import calendrier.MainLogic;
 import stub.EventHandlerStub;
+import stub.ParserStub;
 import utils.Command;
 import utils.Event;
 import utils.Priority;
@@ -34,6 +35,35 @@ public class MainLogicNoParserStubTest {
 		mainLogic.injectEventHandler(new EventHandlerStub());
 
 		addDummyEvents(mainLogic);
+	}
+	
+	@Test
+	public void executeAddOnlyTitle() {
+		MainLogic mainLogic = new MainLogic();
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		
+		String command = "add addTitle";
+		
+		Command cmd = mainLogic.execute(command);
+		assertTrue("is add command", cmd == Command.ADD);
+		
+		Event ev = mainLogic.getEvent();
+		assertTrue("should have an event", ev != null);
+		assertTrue("should have an id", ev.getId() != null);
+		String id = ev.getId();
+		assertTrue("should have title", ev.getTitle() != null);
+		String title = ev.getTitle();
+		
+		List<Event> eventList = mainLogic.getAllEvents();
+		boolean haveAdded = false;
+		for (int i = 0; i < eventList.size(); i++) {
+			Event event = eventList.get(i);
+			if (event.getId().equals(id) && event.getTitle().equals(title)) {
+				haveAdded = true;
+				break;
+			}
+		}
+		assertTrue("list should have added event", haveAdded);
 	}
 
 	@Test
