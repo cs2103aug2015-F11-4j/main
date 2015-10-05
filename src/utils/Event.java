@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import sun.rmi.runtime.Log;
-
 public class Event {
 	private static final String NULL = "null";
 	
