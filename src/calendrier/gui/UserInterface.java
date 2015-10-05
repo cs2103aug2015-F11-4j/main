@@ -1,10 +1,8 @@
 package calendrier.gui;
 
-import utils.Event;
+
 
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
 
 import calendrier.MainLogic;
 import javafx.application.Application;
@@ -33,11 +31,15 @@ public class UserInterface extends Application {
 	private static final int VALUE_START_SCREEN = 1;
 	private static final int VALUE_VIEW_SCREEN = 2;
 	
+	private static final int VALUE_NO_EVENT = 0;
+	
 	private static final String PARAM_NAVIGATION_NEXT = "next";
 	private static final String PARAM_NAVIGATION_PREVIOUS = "previous";
 	
 	private int startScreenPage = VALUE_START_SCREEN_MIN;
 	private int currentScreenState = VALUE_START_SCREEN;
+	
+	private String setMessage = "";
 	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
@@ -90,12 +92,18 @@ public class UserInterface extends Application {
 	
 	private void addEventView(UserInterface userInterface) {
 		currentScreenState = VALUE_VIEW_SCREEN;
-		// rootLayout.setCenter(new ViewEventController(mainLogic.getEvent()));
+		// rootLayout.setCenter(new SingleEventController(mainLogic.getEvent()));
 	}
 	
 	private void addView(UserInterface userInterface) {
 		currentScreenState = VALUE_VIEW_SCREEN;
-		rootLayout.setCenter(new ViewController(mainLogic.getAllEvents()));
+		
+		if(mainLogic.getAllEvents().size() == VALUE_NO_EVENT) {
+			rootLayout.setCenter(new NoEventController(userInterface));
+		} else {
+			rootLayout.setCenter(new EventAllController(mainLogic.getAllEvents()));
+		}
+		
 	}
 	
 	private void getHelp(UserInterface userInterface) {
@@ -117,7 +125,7 @@ public class UserInterface extends Application {
 	private void getPreviousPage(UserInterface userInterface) {
 		if(currentScreenState == VALUE_START_SCREEN) {
 			if(isValidScreen(PARAM_NAVIGATION_PREVIOUS)) {
-				// rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
+				rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
 			}
 		} else {
 			// for view events next page... 
@@ -151,11 +159,11 @@ public class UserInterface extends Application {
 //			commandBarController.setMessage(userInput);
 		switch (mainLogic.execute(userInput)) {
 			case STORAGE_LOCATION :
-				commandBarController.setMessage(MESSAGE_WELCOME);
+				setMessage = MESSAGE_WELCOME;
 				addView(this);
 				break;
 			case ADD :
-				commandBarController.setMessage(MESSAGE_SUCCESSFUL_ADD);
+				setMessage = MESSAGE_SUCCESSFUL_ADD;
 				addView(this);
 				break;
 			case VIEW_ALL :
@@ -168,29 +176,31 @@ public class UserInterface extends Application {
 				//addFilterView(this);
 				break;
 			case UPDATE :
-				commandBarController.setMessage(MESSAGE_SUCCESSFUL_UPDATE);
+				setMessage = MESSAGE_SUCCESSFUL_UPDATE;
 				addView(this);
 				break;
 			case DELETE :
-				commandBarController.setMessage(MESSAGE_SUCCESSFUL_DELETE);
+				setMessage = MESSAGE_SUCCESSFUL_DELETE;
 				addView(this);
 				break;
 			case UNDO :
-				commandBarController.setMessage(MESSAGE_SUCCESSFUL_UNDO);
+				setMessage = MESSAGE_SUCCESSFUL_UNDO;
 				addView(this);
 				break;
-			case EXIT :
-			case PREVIOUS :
-				getPreviousPage(this);
-				break;
-			case NEXT :
-				getNextPage(this);
-				break;
-			case HELP :
-				getHelp(this);
-				break;
+//			case EXIT :
+//			case PREVIOUS :
+//				getPreviousPage(this);
+//				break;
+//			case NEXT :
+//				getNextPage(this);
+//				break;
+//			case HELP :
+//				getHelp(this);
+//				break;
 			default :
 				commandBarController.setMessage(MESSAGE_INVALID_COMMAND);
 		}
+		commandBarController.setMessage(setMessage);
+		commandBarController.clear();
 	}
 }

@@ -13,8 +13,8 @@ public class StartScreenController extends BorderPane {
 
 	private UserInterface userInterface;
 	
-	public StartScreenController(UserInterface userInterface, int pageNum) {
-		FXMLLoader loader = getLoader(pageNum);
+	public StartScreenController(UserInterface userInterface, int screenNum) {
+		FXMLLoader loader = getLoader(screenNum);
 		loader.setController(this);
 		loader.setRoot(this);
 		try {

@@ -25,14 +25,7 @@ public class ViewController extends BorderPane {
 		
 	}
 	
-	public void setHand(List<Event> events) {
-		
-		for(int i = 0; i < events.size(); i++) {
-			addEvent(events.get(i));
-		}
-	}
-	
-	public void addEvent(Event event) {
-		getChildren().add(new EventController(event));
-	}
+//	public void setHand(List<Events> events) {
+//		
+//	}
 }
