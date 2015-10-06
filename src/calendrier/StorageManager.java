@@ -67,10 +67,11 @@ public class StorageManager {
 		year.get(index).getMonth(event.getStartDateTime().getTime().getMonth()).getDate(event.getStartDateTime().getTime().getDate()).deleteTask(event);
 	}
 	
-	public void update(Event eventOld, Event eventNew){
+	public void update(Event oldEvent, Event newEvent){
 		updateStatus();
-		remove(eventOld);
-		add(eventNew);
+		newEvent = combineEvents(oldEvent,newEvent);
+		remove(oldEvent);
+		add(newEvent);
 	}
 	
 	public void update(String id,Event newEvent){
