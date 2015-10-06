@@ -38,33 +38,37 @@ public class ParserTest {
 	@Test
 	public void undo() {
 		Parser parser = new Parser();
-		String userInput = "undo";
+		String userInput = "undo 1";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UNDO", pc.getCommand().toString());
+		assertEquals("id: ", "1", pc.getQueryId());
 	}
 
 	@Test
 	public void undelete() {
 		Parser parser = new Parser();
-		String userInput = "undelete";
+		String userInput = "undelete 2";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UNDELETE", pc.getCommand().toString());
+		assertEquals("id: ", "2", pc.getQueryId());
 	}
 
 	@Test
 	public void view() {
 		Parser parser = new Parser();
-		String userInput = "view";
+		String userInput = "view 3";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "VIEW", pc.getCommand().toString());
+		assertEquals("id: ", "3", pc.getQueryId());
 	}
 
 	@Test
 	public void delete() {
 		Parser parser = new Parser();
-		String userInput = "delete";
+		String userInput = "delete 4";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "DELETE", pc.getCommand().toString());
+		assertEquals("id: ", "4", pc.getQueryId());
 	}
 
 	@Test
@@ -114,9 +118,9 @@ public class ParserTest {
 	}
 
 	@Test
-	public void save() {
+	public void saveIn() {
 		Parser parser = new Parser();
-		String userInput = "savein my desktop";
+		String userInput = "save in my desktop";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "STORAGE_LOCATION", pc.getCommand().toString());
 		assertEquals("storage location: ", "my desktop", pc.getStorageLocation());
@@ -126,14 +130,14 @@ public class ParserTest {
 	// Task is not a deadline
 	public void update1() {
 		Parser parser = new Parser();
-		String userInput = "update id 3, title repeat sleep drink eat, "
+		String userInput = "update 3, title repeat sleep drink eat, "
 				+ "startdate 2015/12/29, starttime 13.37, enddate 2015/12/30, "
 				+ "endtime 14.44, priority very low, location my home, notes must do, "
 				+ "recurring no, reminderdate 2015/12/30, remindertime 15.30 ";
 
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
-		assertEquals("id: ", "3", pc.getId());
+		assertEquals("id: ", "3", pc.getQueryId());
 		assertEquals("title: ", "repeat sleep drink eat", pc.getTitle());
 
 		Calendar cal = pc.getStartDateTime();
@@ -182,13 +186,13 @@ public class ParserTest {
 	// Task is a deadline
 	public void update2() {
 		Parser parser = new Parser();
-		String userInput = "update id 3, title repeat sleep drink eat, " + "enddate 2015/12/30, "
+		String userInput = "update 3, title repeat sleep drink eat, " + "enddate 2015/12/30, "
 				+ "endtime 14.44, priority very low, location my home, notes must do, "
 				+ "recurring no, reminderdate 2015/12/30, remindertime 15.30 ";
 
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
-		assertEquals("id: ", "3", pc.getId());
+		assertEquals("id: ", "3", pc.getQueryId());
 		assertEquals("title: ", "repeat sleep drink eat", pc.getTitle());
 
 		Calendar cal = pc.getEndDateTime();

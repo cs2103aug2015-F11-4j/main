@@ -25,32 +25,49 @@ public class Parser {
 			return pc;
 		} else if (userInput.equals("exit")) {
 			pc.setCommand(Command.EXIT);
+			return pc;
+		} else if (userInput.equals("previous")) {
+			pc.setCommand(Command.PREVIOUS);
+			return pc;
+		} else if (userInput.equals("next")) {
+			pc.setCommand(Command.NEXT);
+			return pc;
 		}
 
 		Scanner lineTokens = new Scanner(userInput);
 		String command = lineTokens.next();
+		
+		if (command.equals("save")) {
+			// save in my desktop
+			String nextWord = lineTokens.next();
+			if (nextWord.equals("in")) {
+				String saveLocation = lineTokens.nextLine().trim();
+				pc.setCommand(Command.STORAGE_LOCATION);
+				pc.setStorageLocation(saveLocation);
+				lineTokens.close();
+				return pc;
+			}
+		}
+		lineTokens.close();
 		String inputAfterCommand = userInput.substring(userInput.indexOf(" ") + 1);
-
+		
+		
 		if (command.equals("undo")) {
-			// e.g. undo id 2
-			String id = inputAfterCommand.substring(inputAfterCommand.indexOf(" ") + 1);
+			// e.g. undo 2
 			pc.setCommand(Command.UNDO);
-			pc.setId(id);
+			pc.setQueryId(inputAfterCommand);
 		} else if (command.equals("undelete")) {
-			// e.g. undelete id 3
-			String id = inputAfterCommand.substring(inputAfterCommand.indexOf(" ") + 1);
+			// e.g. undelete 3
 			pc.setCommand(Command.UNDELETE);
-			pc.setId(id);
+			pc.setQueryId(inputAfterCommand);
 		} else if (command.equals("view")) {
-			// e.g. view id 2
-			String id = inputAfterCommand.substring(inputAfterCommand.indexOf(" ") + 1);
+			// e.g. view 2
 			pc.setCommand(Command.VIEW);
-			pc.setId(id);
+			pc.setQueryId(inputAfterCommand);
 		} else if (command.equals("delete")) {
-			// e.g. delete id 2
-			String id = inputAfterCommand.substring(inputAfterCommand.indexOf(" ") + 1);
+			// e.g. delete 2
 			pc.setCommand(Command.DELETE);
-			pc.setId(id);
+			pc.setQueryId(inputAfterCommand);
 		} else if (command.equals("filter")) {
 			// e.g. filter group personal OR filter priority very high OR
 			// filter startdate yyyy/mm/dd OR filter enddate yyyy/mm/dd
@@ -58,24 +75,22 @@ public class Parser {
 			setFilterParameters(new Scanner(inputAfterCommand), pc);
 		} else if (command.equals("update")) {
 			/*
-			 * Case 1: not a deadline No. of parameters: 12 e.g. update id 3,
+			 * Case 1: not a deadline No. of parameters: 12 e.g. update 3, 
 			 * title repeat sleep drink eat, startdate 2015/12/29, starttime
 			 * 13.37, enddate 2015/12/30, endtime 14.44, priority very low,
 			 * location my home, notes must do, recurring no, reminderdate
 			 * 2015/12/30, remindertime 15.30
 			 * 
-			 * Case 2: deadline No. of parameters: 10 e.g. update id 4, title
+			 * Case 2: deadline No. of parameters: 10 e.g. update 4, title
 			 * repeat sleep drink eat, enddate 2015/12/29, enddate 13.37,
 			 * priority very low, location my home, notes must do, recurring no,
 			 * reminderdate 2015/12/30, remindertime 15.30
 			 */
 			String[] updateInfo = inputAfterCommand.split(",");
 			int paramLength = updateInfo.length;
-
 			pc.setCommand(Command.UPDATE);
 
-			String id = updateInfo[0].substring(updateInfo[0].indexOf(" ") + 1);
-			pc.setId(id);
+			pc.setQueryId(updateInfo[0]);
 
 			updateInfo[1] = updateInfo[1].trim();
 			String title = updateInfo[1].substring(updateInfo[1].indexOf(" ") + 1);
@@ -169,13 +184,10 @@ public class Parser {
 				cal5 = dateAndTimeToCalendar(reminderDate, reminderTime);
 				pc.setReminder(cal5);
 			}
-		} else if (command.equals("savein")) {
-			// savein my desktop
-			pc.setCommand(Command.STORAGE_LOCATION);
-			pc.setStorageLocation(inputAfterCommand);
 		} else if (command.equals("add")) {
+			pc.setCommand(Command.ADD);
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
-			pc.setId(String.valueOf(numCurrentTask + 1));
+			pc.setTaskId(String.valueOf(numCurrentTask + 1));
 			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
 
 			/*
@@ -193,7 +205,6 @@ public class Parser {
 
 			String[] addInfo = inputAfterCommand.split(",");
 			int paramLength = addInfo.length;
-			pc.setCommand(Command.ADD);
 
 			String title = addInfo[0].substring(addInfo[0].indexOf(" ") + 1);
 			pc.setTitle(title);

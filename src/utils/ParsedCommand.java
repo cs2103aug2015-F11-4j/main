@@ -4,8 +4,9 @@ import java.util.Calendar;
 
 public class ParsedCommand {
 	private Command command = null;
-	private String id = null;	// for update, undo, undelete
-	private static int numCurrentTask = 0;	// Used to generate task id for add task
+	private String taskId = null;	// Auto generated id when add command is called
+	private String queryId = null;
+	private static int numCurrentTask = 0;
 	
 	private String title = null;
 	private Calendar startDateTime = null;
@@ -23,8 +24,11 @@ public class ParsedCommand {
 	public Command getCommand() { return command; }
 	public void setCommand(Command command) { this.command = command; }
 	
-	public String getId() { return id; }
-	public void setId(String id) { this.id = id;}
+	public String getTaskId() { return taskId; }
+	public void setTaskId(String taskId) { this.taskId= taskId;}
+	
+	public String getQueryId() { return queryId; }
+	public void setQueryId(String queryId) { this.queryId = queryId; }
 	
 	public static int getNumCurrentTask() { return numCurrentTask; }
 	public static void setNumCurrentTask(int numCurrentTask) { ParsedCommand.numCurrentTask = numCurrentTask; }
@@ -58,6 +62,7 @@ public class ParsedCommand {
 	
 	public String getStorageLocation() { return storageLocation; }
 	public void setStorageLocation(String storageLocation) { this.storageLocation = storageLocation; }
+	
 }
 	
 
