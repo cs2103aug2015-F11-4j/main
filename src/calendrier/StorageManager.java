@@ -90,7 +90,7 @@ public class StorageManager {
 	
 	private Event combineEvents(Event oldEvent, Event newEvent) {
 		newEvent.setId(oldEvent.getId());
-		if(newEvent.getTitle().equals(null)){
+		if(newEvent.getTitle()==null){
 			newEvent.setTitle(oldEvent.getTitle());
 		}
 		if(newEvent.getStartDateTime()==null){
