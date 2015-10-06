@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import calendrier.EventHandler;
+import stub.StorageManagerStub;
 import utils.Command;
 import utils.Event;
 import utils.ParsedCommand;
@@ -21,6 +22,7 @@ import utils.Priority;
 public class EventHandlerTest {
 	ParsedCommand pc = new ParsedCommand();
 	ParsedCommand deleteCommand = new ParsedCommand();
+	ParsedCommand undoCommand = new ParsedCommand();
 	Event testEvent = new Event();
 
 	// simulating inputs from a parsed command
@@ -73,7 +75,8 @@ public class EventHandlerTest {
 
 		deleteCommand.setCommand(Command.DELETE);
 		deleteCommand.setId(ID);
-
+		
+		undoCommand.setCommand(Command.UNDO);
 	}
 
 	@Test
@@ -81,6 +84,7 @@ public class EventHandlerTest {
 
 		// Create EventHandler()
 		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
 		handle.add(testEvent);
 
 		// Tests
@@ -97,13 +101,15 @@ public class EventHandlerTest {
 	@Test
 	public void testUndoAddEvent() {
 		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
 		try {
 			handle.execute(pc);
+			handle.execute(undoCommand);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		handle.undo();
 		assertTrue(handle.getAllEvents().isEmpty());
 		assertTrue(handle.getAllEvents().size() == 0);
 	}
@@ -111,6 +117,8 @@ public class EventHandlerTest {
 	// @Test
 	// public void testUndoDeleteEvent() {
 	// EventHandler handle = new EventHandler();
+//	handle.injectStorageManager(new StorageManagerStub());
+
 	// try {
 	// handle.execute(pc);
 	// handle.execute(deleteCommand);
@@ -140,6 +148,8 @@ public class EventHandlerTest {
 	public void testRemoveEvent() {
 
 		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
 		handle.add(testEvent);
 
 		handle.remove(pc);
@@ -149,6 +159,8 @@ public class EventHandlerTest {
 	@Test
 	public void testUpdateEvent() {
 		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
 		handle.add(testEvent);
 
 		ParsedCommand updatingCommand = new ParsedCommand();
@@ -169,6 +181,8 @@ public class EventHandlerTest {
 	@Test
 	public void testView() {
 		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
 		handle.add(testEvent);
 		Event viewedEvent = handle.view(pc);
 		assertEquals(viewedEvent, testEvent);
@@ -180,6 +194,8 @@ public class EventHandlerTest {
 		ArrayList<Event> list = new ArrayList<>();
 
 		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
 		try {
 			list = handle.execute(pc);
 		} catch (Exception e) {

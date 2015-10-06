@@ -31,6 +31,10 @@ public class EventHandler {
 		previousEvent = new Event();
 		beforeUpdate = new Event();
 	}
+	
+	public void injectStorageManager(StorageManager manager) {
+		this.manage = manager;
+	}
 
 	/**
 	 * Method called by external classes Determines the type of command to
@@ -75,7 +79,7 @@ public class EventHandler {
 			setStorage(pc);
 
 		} else {
-			// throw an exception indicating a command was blank
+			// EXIT, PREV, NEXT commands, do nothing!
 		}
 
 		commandHistory.push(pc);

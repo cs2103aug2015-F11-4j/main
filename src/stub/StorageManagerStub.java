@@ -1,20 +1,25 @@
 package stub;
 
 import java.util.HashSet;
+import java.util.Stack;
+
 import calendrier.StorageManager;
 import utils.Event;
 
 public class StorageManagerStub extends StorageManager {
 
+	Stack<HashSet<Event>> history;
 	HashSet<Event> store;
 	String storageLocation;
 
 	public StorageManagerStub() {
 		store = new HashSet<>();
+		history = new Stack<>();
 	}
 
 	public void add(Event e) {
 		store.add(e);
+		history.push(store);
 	}
 
 	public void remove(Event e) {
@@ -25,6 +30,7 @@ public class StorageManagerStub extends StorageManager {
 		// remove Event from storage
 		store.remove(eventToRemove);
 		assert(!store.contains(eventToRemove));
+		history.push(store);
 	}
 
 	public void update(Event oldEvent, Event newEvent) {
@@ -40,7 +46,8 @@ public class StorageManagerStub extends StorageManager {
 	}
 
 	public void undo() {
-
+		history.pop();
+		store = history.peek();
 	}
 
 	/**
