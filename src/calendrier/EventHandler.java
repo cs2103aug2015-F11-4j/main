@@ -22,12 +22,14 @@ public class EventHandler {
 	EventGenerator generator;
 	Stack<ParsedCommand> commandHistory;
 	Event previousEvent;
+	Event beforeUpdate;
 
 	public EventHandler() {
 		manage = new StorageManager();
 		generator = new EventGenerator();
 		commandHistory = new Stack<>();
 		previousEvent = new Event();
+		beforeUpdate = new Event();
 	}
 
 	/**
@@ -40,7 +42,6 @@ public class EventHandler {
 	 */
 	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		ArrayList<Event> eventsReturned = new ArrayList<>();
-		commandHistory.push(pc);
 
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
@@ -59,8 +60,14 @@ public class EventHandler {
 			eventsReturned = events;
 		} else if (pc.getCommand() == Command.UNDO) {
 			// will we need a blank message/event for this?
-			undo();
-		} else if (pc.getCommand() == Command.FILTER) {
+			Event undoneEvent = undo();
+			eventsReturned.add(undoneEvent);
+		} else if (pc.getCommand() == Command.UNDELETE) {
+			Event undeletedEvent = undo();
+			eventsReturned.add(undeletedEvent);
+		}
+		
+		else if (pc.getCommand() == Command.FILTER) {
 			// filter??
 			eventsReturned = filter(pc);
 
@@ -70,7 +77,8 @@ public class EventHandler {
 		} else {
 			// throw an exception indicating a command was blank
 		}
-
+		
+		commandHistory.push(pc);
 		return eventsReturned;
 	}
 
@@ -95,17 +103,25 @@ public class EventHandler {
 	}
 
 	public Event undo() {
+		Event undone = new Event();
 		ParsedCommand lastCommand = commandHistory.pop();
 		if (lastCommand.getCommand() == Command.ADD) {
-			events.remove(events.size());
+			undone = events.get(events.size() - 1);
+			events.remove(events.size() - 1);
 		} else if (lastCommand.getCommand() == Command.DELETE) {
 			events.add(previousEvent);
-		} else {
+			undone = previousEvent;
+		} else if (lastCommand.getCommand() == Command.UPDATE) {
+			events.remove(events.size() - 1);
+			events.add(beforeUpdate);
+			undone = beforeUpdate;
+		}
+		else {
 
 		}
 
-//		manage.undo();
-		return null;
+		manage.undo();
+		return undone;
 	}
 
 	/**
@@ -189,6 +205,7 @@ public class EventHandler {
 			}
 		}
 
+		beforeUpdate = oldEvent;
 		events.add(newEvent);
 		return newEvent;
 	}
