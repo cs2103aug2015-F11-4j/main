@@ -89,6 +89,18 @@ public class MainLogicStub extends MainLogic {
 				events.add(event);
 			}
 		}
+		else if(command.equals("save in abcFile.txt")){
+			cmd = Command.STORAGE_LOCATION;
+		}
+		else if(command.equals("previous")){
+			cmd = Command.PREVIOUS;
+		}
+		else if(command.equals("next")){
+			cmd = Command.NEXT;
+		}
+		else if(command.equals("view all")){
+			cmd = Command.VIEW_ALL;
+		}
 		return cmd;
 	}
 
