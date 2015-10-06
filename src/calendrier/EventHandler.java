@@ -59,16 +59,14 @@ public class EventHandler {
 		} else if (pc.getCommand() == Command.VIEW_ALL) {
 			eventsReturned = events;
 		} else if (pc.getCommand() == Command.UNDO) {
-			// will we need a blank message/event for this?
 			Event undoneEvent = undo();
 			eventsReturned.add(undoneEvent);
 		} else if (pc.getCommand() == Command.UNDELETE) {
 			Event undeletedEvent = undo();
 			eventsReturned.add(undeletedEvent);
 		}
-		
+
 		else if (pc.getCommand() == Command.FILTER) {
-			// filter??
 			eventsReturned = filter(pc);
 
 		} else if (pc.getCommand() == Command.STORAGE_LOCATION) {
@@ -77,7 +75,7 @@ public class EventHandler {
 		} else {
 			// throw an exception indicating a command was blank
 		}
-		
+
 		commandHistory.push(pc);
 		return eventsReturned;
 	}
@@ -89,8 +87,6 @@ public class EventHandler {
 	private ArrayList<Event> filter(ParsedCommand pc) {
 		ArrayList<Event> filteredEvents = new ArrayList<>();
 
-		// for every event in the current set of events, if any of them contain
-		// stuff in the pc, select them
 		for (Event e : events) {
 			if (e.getGroups().contains(pc.getGroup())) {
 				filteredEvents.add(e);
@@ -115,8 +111,7 @@ public class EventHandler {
 			events.remove(events.size() - 1);
 			events.add(beforeUpdate);
 			undone = beforeUpdate;
-		}
-		else {
+		} else {
 
 		}
 
@@ -174,7 +169,7 @@ public class EventHandler {
 				break;
 			}
 		}
-		// manage.update(oldEvent, newEvent);
+		 manage.update(oldEvent, newEvent);
 		// PROBLEM WITH STORAGE MANAGER
 
 		// ensure updatedEvent contains all relevant info from oldEvent
