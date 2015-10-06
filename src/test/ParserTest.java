@@ -41,7 +41,7 @@ public class ParserTest {
 		String userInput = "undo 1";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UNDO", pc.getCommand().toString());
-		assertEquals("id: ", "1", pc.getQueryId());
+		assertEquals("id: ", "1", pc.getId());
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class ParserTest {
 		String userInput = "undelete 2";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UNDELETE", pc.getCommand().toString());
-		assertEquals("id: ", "2", pc.getQueryId());
+		assertEquals("id: ", "2", pc.getId());
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class ParserTest {
 		String userInput = "view 3";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "VIEW", pc.getCommand().toString());
-		assertEquals("id: ", "3", pc.getQueryId());
+		assertEquals("id: ", "3", pc.getId());
 	}
 
 	@Test
@@ -68,7 +68,7 @@ public class ParserTest {
 		String userInput = "delete 4";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "DELETE", pc.getCommand().toString());
-		assertEquals("id: ", "4", pc.getQueryId());
+		assertEquals("id: ", "4", pc.getId());
 	}
 
 	@Test
@@ -137,7 +137,7 @@ public class ParserTest {
 
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
-		assertEquals("id: ", "3", pc.getQueryId());
+		assertEquals("id: ", "3", pc.getId());
 		assertEquals("title: ", "repeat sleep drink eat", pc.getTitle());
 
 		Calendar cal = pc.getStartDateTime();
@@ -192,7 +192,7 @@ public class ParserTest {
 
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
-		assertEquals("id: ", "3", pc.getQueryId());
+		assertEquals("id: ", "3", pc.getId());
 		assertEquals("title: ", "repeat sleep drink eat", pc.getTitle());
 
 		Calendar cal = pc.getEndDateTime();

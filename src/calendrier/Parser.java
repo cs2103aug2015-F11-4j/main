@@ -55,19 +55,19 @@ public class Parser {
 		if (command.equals("undo")) {
 			// e.g. undo 2
 			pc.setCommand(Command.UNDO);
-			pc.setQueryId(inputAfterCommand);
+			pc.setId(inputAfterCommand);
 		} else if (command.equals("undelete")) {
 			// e.g. undelete 3
 			pc.setCommand(Command.UNDELETE);
-			pc.setQueryId(inputAfterCommand);
+			pc.setId(inputAfterCommand);
 		} else if (command.equals("view")) {
 			// e.g. view 2
 			pc.setCommand(Command.VIEW);
-			pc.setQueryId(inputAfterCommand);
+			pc.setId(inputAfterCommand);
 		} else if (command.equals("delete")) {
 			// e.g. delete 2
 			pc.setCommand(Command.DELETE);
-			pc.setQueryId(inputAfterCommand);
+			pc.setId(inputAfterCommand);
 		} else if (command.equals("filter")) {
 			// e.g. filter group personal OR filter priority very high OR
 			// filter startdate yyyy/mm/dd OR filter enddate yyyy/mm/dd
@@ -90,7 +90,7 @@ public class Parser {
 			int paramLength = updateInfo.length;
 			pc.setCommand(Command.UPDATE);
 
-			pc.setQueryId(updateInfo[0]);
+			pc.setId(updateInfo[0]);
 
 			updateInfo[1] = updateInfo[1].trim();
 			String title = updateInfo[1].substring(updateInfo[1].indexOf(" ") + 1);
@@ -187,7 +187,7 @@ public class Parser {
 		} else if (command.equals("add")) {
 			pc.setCommand(Command.ADD);
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
-			pc.setTaskId(String.valueOf(numCurrentTask + 1));
+			pc.setId(String.valueOf(numCurrentTask + 1));
 			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
 
 			/*
