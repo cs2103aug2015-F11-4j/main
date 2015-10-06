@@ -356,6 +356,28 @@ public class StorageManagerTest {
 				rm.listToString());
 		rm.delete("testId");
 		assertEquals("", rm.listToString());
+		Event event2 = new Event();
+		event2.setId("123");
+		event2.setTitle("123");
+		event2.setNotes(null);
+		event2.setStartDateTime(null);
+		event2.setEndDateTime(null);
+		event2.setPriority(null);
+		event2.setLocation(null);
+		event2.setReminder(null);
+		rm.add(event2);
+		assertEquals("id: 123, "
+				+ "title: 123, "
+				+ "startDateTime: null, "
+				+ "endDateTime: null, "
+				+ "priority: null, "
+				+ "location: null, "
+				+ "notes: null, "
+				+ "reminder: null, "
+				+ "groups: [], \n",
+				rm.listToString());
+		rm.delete("123");
+		assertEquals("", rm.listToString());
 	}
 	
 	@Test
