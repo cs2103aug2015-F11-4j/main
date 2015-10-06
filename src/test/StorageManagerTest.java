@@ -40,7 +40,7 @@ public class StorageManagerTest {
 	@Test
 	public void testSave() {
 		StorageManager rm= new StorageManager();
-		rm.setStorageLocation("src/calendrier/storageFile.txt") ;
+		//rm.setStorageLocation("src/calendrier/storageFile.txt") ;
 		rm.clear();
 		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 		calendarStart.set(2015, 9, 20, 10, 33, 25);
@@ -358,7 +358,7 @@ public class StorageManagerTest {
 		assertEquals("", rm.listToString());
 	}
 	
-	/*@Test
+	@Test
 	public void testUpdate(){
 		StorageManager rm= new StorageManager();
 		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
@@ -392,6 +392,12 @@ public class StorageManagerTest {
 		Event event1 = new Event();
 		event1.setTitle("123");
 		event1.setNotes("test 123");
+		event1.setId("abc");
+		event1.setStartDateTime(null);
+		event1.setEndDateTime(null);
+		event1.setPriority(null);
+		event1.setLocation(null);
+		event1.setReminder(null);
 		
 		rm.update("testId", event1);
 		assertEquals("id: testId, "
@@ -404,7 +410,7 @@ public class StorageManagerTest {
 				+ "reminder: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "groups: [], \n",
 				rm.listToString());
-	}*/
+	}
 	
 	@Test
 	public void testUndo() {
