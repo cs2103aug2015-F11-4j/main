@@ -28,10 +28,10 @@ public class EventAllController extends BorderPane {
 	private TableColumn<Event, Date> eventTimeColumn;
 
 	private static final String EVENT_ALL_LAYOUT_FXML = "/calendrier/resources/ViewAll.fxml";
-	private static final String NO_EVENT_LAYOUT_FXML = "/calendrier/resources/NoEvent.fxml";
 
 	public EventAllController(Collection<Event> inputAllEvents) {
-		FXMLLoader loader = getLoader(inputAllEvents);
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(
+				EVENT_ALL_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
 		try {
@@ -39,28 +39,10 @@ public class EventAllController extends BorderPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		if(isEventsInCollection(inputAllEvents)) {
-			drawTable(inputAllEvents);
-		}
+		drawTable(inputAllEvents);
+
 	}
 
-	public boolean isEventsInCollection(Collection<Event> inputAllEvents) {
-
-		if (inputAllEvents.size() == 0) {
-			return false;
-		}
-		return true;
-	}
-
-	private FXMLLoader getLoader(Collection<Event> inputAllEvents) {
-		if (isEventsInCollection(inputAllEvents)) {
-			return new FXMLLoader(getClass().getResource(EVENT_ALL_LAYOUT_FXML));
-		} else {
-			return new FXMLLoader(getClass().getResource(NO_EVENT_LAYOUT_FXML));
-		}
-	}
-	
 	private void drawTable(Collection<Event> inputAllEvents) {
 		ObservableList<Event> allEvents = FXCollections.observableArrayList();
 		for (Event event : inputAllEvents) {

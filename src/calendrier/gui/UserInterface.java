@@ -1,9 +1,10 @@
 package calendrier.gui;
 
-
-
 import java.io.IOException;
+import java.util.List;
 
+import stub.MainLogicStub;
+import utils.Event;
 import calendrier.MainLogic;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,10 @@ public class UserInterface extends Application {
 	private static final String MESSAGE_SUCCESSFUL_UPDATE = "Event has been updated.";
 	private static final String MESSAGE_SUCCESSFUL_DELETE = "Event has been deleted.";
 	private static final String MESSAGE_SUCCESSFUL_UNDO = "Successful undo operation.";
+	private static final String MESSAGE_FAIL_ADD = "Fail to add event ";
+	private static final String MESSAGE_FAIL_DELETE = "Fail to delete event";
 	private static final String MESSAGE_WELCOME = "Welcome!";
+	private static final String MESSAGE_EMPTY = "";
 	
 	private static final int VALUE_START_SCREEN_MIN = 1;
 	private static final int VALUE_START_SCREEN_MAX = 3;
@@ -40,11 +44,13 @@ public class UserInterface extends Application {
 	private int currentScreenState = VALUE_START_SCREEN;
 	
 	private String setMessage = "";
+	private static int eventSize = 0;
 	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	
 	private MainLogic mainLogic = null;
+	//private MainLogicStub mainLogic = null;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -79,7 +85,7 @@ public class UserInterface extends Application {
 	}
 	
 	private void initLogic() {
-		mainLogic = new MainLogic();
+		mainLogic = new MainLogicStub();
 	}
 	
 	private void addCommandBar(UserInterface userInterface) {
@@ -92,7 +98,7 @@ public class UserInterface extends Application {
 	
 	private void addEventView(UserInterface userInterface) {
 		currentScreenState = VALUE_VIEW_SCREEN;
-		// rootLayout.setCenter(new SingleEventController(mainLogic.getEvent()));
+		rootLayout.setCenter(new EventDetailController(mainLogic.getEvent()));
 	}
 	
 	private void addView(UserInterface userInterface) {
@@ -163,13 +169,15 @@ public class UserInterface extends Application {
 				addView(this);
 				break;
 			case ADD :
-				setMessage = MESSAGE_SUCCESSFUL_ADD;
+				setMessage = checkAdding();
 				addView(this);
 				break;
 			case VIEW_ALL :
+				setMessage = MESSAGE_EMPTY;
 				addView(this);
 				break;
 			case VIEW :
+				setMessage = MESSAGE_EMPTY;
 				addEventView(this);
 				break;
 			case FILTER :
@@ -180,7 +188,7 @@ public class UserInterface extends Application {
 				addView(this);
 				break;
 			case DELETE :
-				setMessage = MESSAGE_SUCCESSFUL_DELETE;
+				setMessage = checkDeleting();
 				addView(this);
 				break;
 			case UNDO :
@@ -202,5 +210,25 @@ public class UserInterface extends Application {
 		}
 		commandBarController.setMessage(setMessage);
 		commandBarController.clear();
+	}
+	
+	private String checkAdding() {
+		int currentEventSize = mainLogic.getAllEvents().size();
+		if((currentEventSize - eventSize) == VALUE_TO_ADD_OR_MINUS) {
+			eventSize = currentEventSize;
+			return MESSAGE_SUCCESSFUL_ADD;
+		} else {
+			return MESSAGE_FAIL_ADD;
+		}
+	}
+	
+	private String checkDeleting() {
+		int currentEventSize = mainLogic.getAllEvents().size();
+		if((eventSize - currentEventSize) == VALUE_TO_ADD_OR_MINUS) {
+			eventSize = currentEventSize;
+			return MESSAGE_SUCCESSFUL_DELETE;
+		} else {
+			return MESSAGE_FAIL_DELETE;
+		}
 	}
 }
