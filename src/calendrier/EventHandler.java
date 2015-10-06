@@ -42,6 +42,8 @@ public class EventHandler {
 	 */
 	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		ArrayList<Event> eventsReturned = new ArrayList<>();
+		
+		assert(pc !=  null);
 
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
@@ -98,6 +100,10 @@ public class EventHandler {
 		return filteredEvents;
 	}
 
+	/**
+	 * 
+	 * @returns the undone event
+	 */
 	public Event undo() {
 		Event undone = new Event();
 		ParsedCommand lastCommand = commandHistory.pop();
