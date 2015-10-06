@@ -18,7 +18,23 @@ public class ParserTest {
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "VIEW_ALL", pc.getCommand().toString());
 	}
-
+	
+	@Test
+	public void help() {
+		Parser parser = new Parser();
+		String userInput = "help";
+		ParsedCommand pc = parser.parse(userInput);
+		assertEquals("command: ", "HELP", pc.getCommand().toString());
+	}
+	
+	@Test
+	public void exit() {
+		Parser parser = new Parser();
+		String userInput = "exit";
+		ParsedCommand pc = parser.parse(userInput);
+		assertEquals("command: ", "EXIT", pc.getCommand().toString());
+	}
+	
 	@Test
 	public void undo() {
 		Parser parser = new Parser();

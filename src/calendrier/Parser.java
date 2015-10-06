@@ -20,6 +20,11 @@ public class Parser {
 		if (userInput.equals("view all")) {
 			pc.setCommand(Command.VIEW_ALL);
 			return pc;
+		} else if (userInput.equals("help")) {
+			pc.setCommand(Command.HELP);
+			return pc;
+		} else if (userInput.equals("exit")) {
+			pc.setCommand(Command.EXIT);
 		}
 
 		Scanner lineTokens = new Scanner(userInput);
