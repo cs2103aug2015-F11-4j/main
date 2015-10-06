@@ -13,6 +13,9 @@ public class EventHandlerUndoUpdateStub extends EventHandler {
 	private ArrayList<Event> events = new ArrayList<>();
 	private ParsedCommand addParsedCommand = null;
 
+	/**
+	 * Execute command
+	 */
 	public ArrayList<Event> execute(ParsedCommand parsedCommand) {
 		ArrayList<Event> eventList = new ArrayList<>();
 
@@ -36,6 +39,11 @@ public class EventHandlerUndoUpdateStub extends EventHandler {
 		return eventList;
 	}
 
+	/**
+	 * Undo update
+	 * 
+	 * @return list of events
+	 */
 	private ArrayList<Event> undoStub() {
 		for (Event event : events) {
 			event.setPriority(Priority.VERY_HIGH);
@@ -44,6 +52,13 @@ public class EventHandlerUndoUpdateStub extends EventHandler {
 		return events;
 	}
 
+	/**
+	 * add mock event
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of events added
+	 */
 	public ArrayList<Event> addStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
 
@@ -63,6 +78,13 @@ public class EventHandlerUndoUpdateStub extends EventHandler {
 		return currentEvents;
 	}
 
+	/**
+	 * delete mock event
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of deleted events
+	 */
 	public ArrayList<Event> deleteStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
 		int position = -1;
@@ -81,6 +103,13 @@ public class EventHandlerUndoUpdateStub extends EventHandler {
 		return currentEvents;
 	}
 
+	/**
+	 * update mock event
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of updated events
+	 */
 	public ArrayList<Event> updateStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
 		for (int i = 0; i < events.size(); i++) {
@@ -96,6 +125,13 @@ public class EventHandlerUndoUpdateStub extends EventHandler {
 		return currentEvents;
 	}
 
+	/**
+	 * view mock events
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of events to be viewed
+	 */
 	public ArrayList<Event> viewStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> viewEvents = new ArrayList<>();
 
@@ -110,6 +146,9 @@ public class EventHandlerUndoUpdateStub extends EventHandler {
 		return viewEvents;
 	}
 
+	/**
+	 * Get all events
+	 */
 	@Override
 	public List<Event> getAllEvents() {
 		return events;

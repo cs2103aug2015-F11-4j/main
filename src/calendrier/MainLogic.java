@@ -23,7 +23,6 @@ public class MainLogic {
 	 * Constructor to initialize the main components of Main Logic
 	 */
 	public MainLogic() {
-		super();
 		parser = new Parser();
 		eventHandler = new EventHandler();
 	}
@@ -100,7 +99,7 @@ public class MainLogic {
 	}
 
 	/**
-	 * Notifies user about event starting soon
+	 * Notifies user about event starting soon (Not Implemented Yet)
 	 * 
 	 * @param event
 	 *            event that is starting soon

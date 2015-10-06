@@ -12,6 +12,9 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 	private ArrayList<Event> events = new ArrayList<>();
 	private ParsedCommand addParsedCommand = null;
 
+	/**
+	 * Execute command
+	 */
 	public ArrayList<Event> execute(ParsedCommand parsedCommand) {
 		ArrayList<Event> eventList = new ArrayList<>();
 
@@ -35,6 +38,13 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 		return eventList;
 	}
 
+	/**
+	 * Add mock event
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of added events
+	 */
 	public ArrayList<Event> addStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
 
@@ -54,6 +64,13 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 		return currentEvents;
 	}
 
+	/**
+	 * delete mock events
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of deleted events
+	 */
 	public ArrayList<Event> deleteStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
 		int position = -1;
@@ -72,6 +89,13 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 		return currentEvents;
 	}
 
+	/**
+	 * update mock events
+	 * 
+	 * @param parsedCommand
+	 *            structure command
+	 * @return list of updated events
+	 */
 	public ArrayList<Event> updateStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
 		for (int i = 0; i < events.size(); i++) {
@@ -87,6 +111,13 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 		return currentEvents;
 	}
 
+	/**
+	 * view mock event
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of events to be viewed
+	 */
 	public ArrayList<Event> viewStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> viewEvents = new ArrayList<>();
 
@@ -101,6 +132,9 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 		return viewEvents;
 	}
 
+	/**
+	 * Get all events
+	 */
 	@Override
 	public List<Event> getAllEvents() {
 		return events;

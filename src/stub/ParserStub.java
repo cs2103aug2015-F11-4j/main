@@ -10,9 +10,11 @@ import utils.Priority;
 
 public class ParserStub extends Parser {
 
+	/**
+	 * Parse command
+	 */
 	@Override
 	public ParsedCommand parse(String command) {
-		// TODO Auto-generated method stub
 		ParsedCommand parsedCommand = null;
 
 		if (command.equals("add addTitle, "
@@ -56,6 +58,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate add structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateAdd() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -80,6 +87,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate add structured command (with only title)
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateAddOnlyTitle() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -90,6 +102,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate update structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateUpdate() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -100,6 +117,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate delete structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateDelete() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -109,6 +131,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate view structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateView() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -118,6 +145,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate filter priority structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateFilterPriority() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -127,6 +159,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate filter group structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateFilterGroup() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -136,6 +173,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate filter date structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateFilterDate() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -148,6 +190,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate view all structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateViewAll() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -156,6 +203,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate undelete structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateUndelete() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -164,6 +216,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate undo structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateUndo() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -172,6 +229,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate previous structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generatePrevious() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -180,6 +242,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * Generate next structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateNext() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -188,6 +255,11 @@ public class ParserStub extends Parser {
 		return parsedCommand;
 	}
 
+	/**
+	 * generate save in structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateSaveLocation() {
 		ParsedCommand parsedCommand = new ParsedCommand();
 
@@ -196,20 +268,30 @@ public class ParserStub extends Parser {
 
 		return parsedCommand;
 	}
-	
+
+	/**
+	 * Generate exit structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateExit() {
 		ParsedCommand parsedCommand = new ParsedCommand();
-		
+
 		parsedCommand.setCommand(Command.EXIT);
-		
+
 		return parsedCommand;
 	}
-	
+
+	/**
+	 * Generate help structured command
+	 * 
+	 * @return structured command
+	 */
 	private ParsedCommand generateHelp() {
 		ParsedCommand parsedCommand = new ParsedCommand();
-		
+
 		parsedCommand.setCommand(Command.HELP);
-		
+
 		return parsedCommand;
 	}
 

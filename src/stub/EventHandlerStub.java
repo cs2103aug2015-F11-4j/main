@@ -11,6 +11,9 @@ import utils.ParsedCommand;
 public class EventHandlerStub extends EventHandler {
 	private ArrayList<Event> events = new ArrayList<>();
 
+	/**
+	 * Execute Command
+	 */
 	public ArrayList<Event> execute(ParsedCommand parsedCommand) {
 		ArrayList<Event> eventList = new ArrayList<>();
 
@@ -29,6 +32,13 @@ public class EventHandlerStub extends EventHandler {
 		return eventList;
 	}
 
+	/**
+	 * Add mock event
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of added event
+	 */
 	public ArrayList<Event> addStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
 
@@ -48,6 +58,13 @@ public class EventHandlerStub extends EventHandler {
 		return currentEvents;
 	}
 
+	/**
+	 * Delete mock event
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of deleted event
+	 */
 	public ArrayList<Event> deleteStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
 		int position = -1;
@@ -66,6 +83,13 @@ public class EventHandlerStub extends EventHandler {
 		return currentEvents;
 	}
 
+	/**
+	 * Update mock event
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of updated events
+	 */
 	public ArrayList<Event> updateStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> currentEvents = new ArrayList<Event>();
 		for (int i = 0; i < events.size(); i++) {
@@ -81,6 +105,13 @@ public class EventHandlerStub extends EventHandler {
 		return currentEvents;
 	}
 
+	/**
+	 * view mock events
+	 * 
+	 * @param parsedCommand
+	 *            structured command
+	 * @return list of event to be viewed
+	 */
 	public ArrayList<Event> viewStub(ParsedCommand parsedCommand) {
 		ArrayList<Event> viewEvents = new ArrayList<>();
 
@@ -95,6 +126,9 @@ public class EventHandlerStub extends EventHandler {
 		return viewEvents;
 	}
 
+	/**
+	 * Get all events
+	 */
 	@Override
 	public List<Event> getAllEvents() {
 		return events;
