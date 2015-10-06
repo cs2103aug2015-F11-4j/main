@@ -62,9 +62,14 @@ public class StorageManager {
 	
 	@SuppressWarnings("deprecation")
 	public void remove(Event event){	
-		int index=returnIndex(event.getStartDateTime().getTime().getYear());
 		updateStatus();
-		year.get(index).getMonth(event.getStartDateTime().getTime().getMonth()).getDate(event.getStartDateTime().getTime().getDate()).deleteTask(event);
+		if(event.getStartDateTime()!=null){
+			int index=returnIndex(event.getStartDateTime().getTime().getYear());
+			year.get(index).getMonth(event.getStartDateTime().getTime().getMonth()).getDate(event.getStartDateTime().getTime().getDate()).deleteTask(event);
+		}
+		else{
+			floatingTasks.remove(event);
+		}
 	}
 	
 	public void update(Event oldEvent, Event newEvent){
