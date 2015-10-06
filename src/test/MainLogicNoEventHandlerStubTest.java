@@ -385,6 +385,26 @@ public class MainLogicNoEventHandlerStubTest {
 		assertTrue("is next command", cmd == Command.NEXT);
 	}
 
+	@Test
+	public void executeExit() {
+		MainLogic mainLogic = new MainLogic();
+		mainLogic.injectParser(new ParserStub());
+
+		String command = "exit";
+		Command cmd = mainLogic.execute(command);
+		assertTrue("is exit command", cmd == Command.EXIT);
+	}
+
+	@Test
+	public void executeHelp() {
+		MainLogic mainLogic = new MainLogic();
+		mainLogic.injectParser(new ParserStub());
+
+		String command = "help";
+		Command cmd = mainLogic.execute(command);
+		assertTrue("is help command", cmd == Command.HELP);
+	}
+
 	public String addDummyEvents(MainLogic mainLogic) {
 		String command = "add addTitle, " + "startdate 2015/09/23, " + "starttime 10.55, " + "enddate 2015/09/23, "
 				+ "endtime 10.56, " + "priority very high, " + "location addLocation, " + "notes addNotes, "

@@ -47,6 +47,10 @@ public class ParserStub extends Parser {
 			parsedCommand = generateNext();
 		} else if (command.equals("save in ggFile.txt")) {
 			parsedCommand = generateSaveLocation();
+		} else if (command.equals("exit")) {
+			parsedCommand = generateExit();
+		} else if (command.equals("help")) {
+			parsedCommand = generateHelp();
 		}
 
 		return parsedCommand;
@@ -190,6 +194,22 @@ public class ParserStub extends Parser {
 		parsedCommand.setCommand(Command.STORAGE_LOCATION);
 		parsedCommand.setStorageLocation("ggFile.txt");
 
+		return parsedCommand;
+	}
+	
+	private ParsedCommand generateExit() {
+		ParsedCommand parsedCommand = new ParsedCommand();
+		
+		parsedCommand.setCommand(Command.EXIT);
+		
+		return parsedCommand;
+	}
+	
+	private ParsedCommand generateHelp() {
+		ParsedCommand parsedCommand = new ParsedCommand();
+		
+		parsedCommand.setCommand(Command.HELP);
+		
 		return parsedCommand;
 	}
 

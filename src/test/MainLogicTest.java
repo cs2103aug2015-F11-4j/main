@@ -394,6 +394,28 @@ public class MainLogicTest {
 	}
 
 	@Test
+	public void executeExit() {
+		MainLogic mainLogic = new MainLogic();
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+
+		String command = "exit";
+		Command cmd = mainLogic.execute(command);
+		assertTrue("is exit command", cmd == Command.EXIT);
+	}
+
+	@Test
+	public void executeHelp() {
+		MainLogic mainLogic = new MainLogic();
+		mainLogic.injectEventHandler(new EventHandlerStub());
+		mainLogic.injectParser(new ParserStub());
+
+		String command = "help";
+		Command cmd = mainLogic.execute(command);
+		assertTrue("is help command", cmd == Command.HELP);
+	}
+
+	@Test
 	public void executeNext() {
 		MainLogic mainLogic = new MainLogic();
 		mainLogic.injectEventHandler(new EventHandlerStub());
