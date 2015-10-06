@@ -22,12 +22,14 @@ public class EventHandler {
 	EventGenerator generator;
 	Stack<ParsedCommand> commandHistory;
 	Event previousEvent;
+	Event beforeUpdate;
 
 	public EventHandler() {
 		manage = new StorageManager();
 		generator = new EventGenerator();
 		commandHistory = new Stack<>();
 		previousEvent = new Event();
+		beforeUpdate = new Event();
 	}
 
 	/**
@@ -40,7 +42,6 @@ public class EventHandler {
 	 */
 	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		ArrayList<Event> eventsReturned = new ArrayList<>();
-		commandHistory.push(pc);
 
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
@@ -58,10 +59,14 @@ public class EventHandler {
 		} else if (pc.getCommand() == Command.VIEW_ALL) {
 			eventsReturned = events;
 		} else if (pc.getCommand() == Command.UNDO) {
-			// will we need a blank message/event for this?
-			undo();
-		} else if (pc.getCommand() == Command.FILTER) {
-			// filter??
+			Event undoneEvent = undo();
+			eventsReturned.add(undoneEvent);
+		} else if (pc.getCommand() == Command.UNDELETE) {
+			Event undeletedEvent = undo();
+			eventsReturned.add(undeletedEvent);
+		}
+
+		else if (pc.getCommand() == Command.FILTER) {
 			eventsReturned = filter(pc);
 
 		} else if (pc.getCommand() == Command.STORAGE_LOCATION) {
@@ -71,6 +76,7 @@ public class EventHandler {
 			// throw an exception indicating a command was blank
 		}
 
+		commandHistory.push(pc);
 		return eventsReturned;
 	}
 
@@ -81,8 +87,6 @@ public class EventHandler {
 	private ArrayList<Event> filter(ParsedCommand pc) {
 		ArrayList<Event> filteredEvents = new ArrayList<>();
 
-		// for every event in the current set of events, if any of them contain
-		// stuff in the pc, select them
 		for (Event e : events) {
 			if (e.getGroups().contains(pc.getGroup())) {
 				filteredEvents.add(e);
@@ -95,17 +99,24 @@ public class EventHandler {
 	}
 
 	public Event undo() {
+		Event undone = new Event();
 		ParsedCommand lastCommand = commandHistory.pop();
 		if (lastCommand.getCommand() == Command.ADD) {
-			events.remove(events.size());
+			undone = events.get(events.size() - 1);
+			events.remove(events.size() - 1);
 		} else if (lastCommand.getCommand() == Command.DELETE) {
 			events.add(previousEvent);
+			undone = previousEvent;
+		} else if (lastCommand.getCommand() == Command.UPDATE) {
+			events.remove(events.size() - 1);
+			events.add(beforeUpdate);
+			undone = beforeUpdate;
 		} else {
 
 		}
 
-//		manage.undo();
-		return null;
+		manage.undo();
+		return undone;
 	}
 
 	/**
@@ -158,7 +169,7 @@ public class EventHandler {
 				break;
 			}
 		}
-		// manage.update(oldEvent, newEvent);
+		 manage.update(oldEvent, newEvent);
 		// PROBLEM WITH STORAGE MANAGER
 
 		// ensure updatedEvent contains all relevant info from oldEvent
@@ -189,6 +200,7 @@ public class EventHandler {
 			}
 		}
 
+		beforeUpdate = oldEvent;
 		events.add(newEvent);
 		return newEvent;
 	}

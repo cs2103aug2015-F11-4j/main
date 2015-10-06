@@ -105,6 +105,7 @@ public class EventHandlerTest {
 		}
 		handle.undo();
 		assertTrue(handle.getAllEvents().isEmpty());
+		assertTrue(handle.getAllEvents().size() == 0);
 	}
 
 	// @Test
