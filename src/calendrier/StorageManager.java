@@ -92,22 +92,22 @@ public class StorageManager {
 		if(newEvent.getTitle().equals(null)){
 			newEvent.setTitle(oldEvent.getTitle());
 		}
-		if(newEvent.getStartDateTime().equals(null)){
+		if(newEvent.getStartDateTime()==null){
 			newEvent.setStartDateTime(oldEvent.getStartDateTime());
 		}
-		if(newEvent.getEndDateTime().equals(null)){
+		if(newEvent.getEndDateTime()==null){
 			newEvent.setEndDateTime(oldEvent.getEndDateTime());
 		}
-		if(newEvent.getLocation().equals(null)){
+		if(newEvent.getLocation()==null){
 			newEvent.setLocation(oldEvent.getLocation());
 		}
-		if(newEvent.getNotes().equals(null)){
+		if(newEvent.getNotes()==null){
 			newEvent.setNotes(oldEvent.getNotes());
 		}
-		if(newEvent.getPriority().equals(null)){
+		if(newEvent.getPriority()==null){
 			newEvent.setPriority(oldEvent.getPriority());
 		}
-		if(newEvent.getReminder().equals(null)){
+		if(newEvent.getReminder()==null){
 			newEvent.setReminder(oldEvent.getReminder());
 		}
 		
