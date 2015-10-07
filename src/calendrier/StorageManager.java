@@ -14,7 +14,6 @@ import java.io.File;
 import utils.CalenderYear;
 import utils.Event;
 import utils.Priority;
-
 import java.util.List;
 import java.util.TimeZone;
 
@@ -25,14 +24,13 @@ import java.util.TimeZone;
 //}
 
 public class StorageManager {
+	
 	private static String fileName=null;
 	private static List<String> inputData;
 	private static String line;
 	private static ArrayList<CalenderYear> year;
 	private static ArrayList<Event> floatingTasks;
-
 	private static List<List<String>> backup;
-	//static CalenderYear name;
 	
 	public StorageManager(){
 		year= new ArrayList<CalenderYear>();
@@ -42,22 +40,18 @@ public class StorageManager {
 	
 	@SuppressWarnings("deprecation")
 	public void add(Event event){
-		try {
-			int index;
-	
-			updateStatus();
-			if (event.getStartDateTime()==null){
-				floatingTasks.add(event);
-			} else if(!isYearAvaliable(event.getStartDateTime().getTime().getYear())){
-				year.add(new CalenderYear(event));
-			}
-			else{
-				index= returnIndex(event.getStartDateTime().getTime().getYear());
-				year.get(index).addMonth(event);
-			}
-		}catch (Exception e) {
-			System.out.println(e.toString() + " ERROR: Start Date Time could not be empty!");
+		int index;
+
+		updateStatus();
+		if (event.getStartDateTime() == null) {
+			floatingTasks.add(event);
+		} else if (!isYearAvaliable(event.getStartDateTime().getTime().getYear())) {
+			year.add(new CalenderYear(event));
+		} else {
+			index = returnIndex(event.getStartDateTime().getTime().getYear());
+			year.get(index).addMonth(event);
 		}
+		save();
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -70,6 +64,7 @@ public class StorageManager {
 		else{
 			floatingTasks.remove(event);
 		}
+		save();
 	}
 	
 	public void update(Event oldEvent, Event newEvent){
@@ -77,6 +72,7 @@ public class StorageManager {
 		newEvent = combineEvents(oldEvent,newEvent);
 		remove(oldEvent);
 		add(newEvent);
+		save();
 	}
 	
 	public void update(String id,Event newEvent){
@@ -88,41 +84,12 @@ public class StorageManager {
 			remove(oldEvent);
 			add(newEvent);
 		}
-		else{
-			//throw new ErrorFromStorage("Update ID cannot be empty.");
-		}
 	}
 	
-	private Event combineEvents(Event oldEvent, Event newEvent) {
-		newEvent.setId(oldEvent.getId());
-		if(newEvent.getTitle()==null){
-			newEvent.setTitle(oldEvent.getTitle());
-		}
-		if(newEvent.getStartDateTime()==null){
-			newEvent.setStartDateTime(oldEvent.getStartDateTime());
-		}
-		if(newEvent.getEndDateTime()==null){
-			newEvent.setEndDateTime(oldEvent.getEndDateTime());
-		}
-		if(newEvent.getLocation()==null){
-			newEvent.setLocation(oldEvent.getLocation());
-		}
-		if(newEvent.getNotes()==null){
-			newEvent.setNotes(oldEvent.getNotes());
-		}
-		if(newEvent.getPriority()==null){
-			newEvent.setPriority(oldEvent.getPriority());
-		}
-		if(newEvent.getReminder()==null){
-			newEvent.setReminder(oldEvent.getReminder());
-		}
-		
-		return newEvent;
-	}
-
 	public void delete(String id){
 		if(view(id)!=null){
 			remove(view(id));
+			save();
 		}
 		else{
 			//throw new ErrorFromStorage("Delete ID cannot be empty.");
@@ -190,12 +157,15 @@ public class StorageManager {
 		int index=backup.size()-1;
 		
 		year.clear();
+		floatingTasks.clear();
 		processInputFromFile(backup.get(index));
 		backup.remove(index);
+		save();
 	}
 	
 	public void clear(){
 		year.clear();
+		floatingTasks.clear();
 	}
 	
 	/**
@@ -239,6 +209,12 @@ public class StorageManager {
 			FileWriter fileWrite = new FileWriter(fileName);
 			BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
 			PrintWriter fileOut = new PrintWriter(bufferWrite);
+			
+			if(floatingTasks.size()!=0){
+				for(i=0;i<floatingTasks.size();i++){
+					fileOut.println(floatingTasks.get(i).toString());
+				}
+			}
 			
 			for(i=0;i<year.size();i++){
 				data=year.get(i).getTask();
@@ -435,6 +411,33 @@ public class StorageManager {
 			return Priority.LOW;
 		}
 		return Priority.MEDIUM;
+	}
+	
+	private Event combineEvents(Event oldEvent, Event newEvent) {
+		newEvent.setId(oldEvent.getId());
+		if(newEvent.getTitle()==null){
+			newEvent.setTitle(oldEvent.getTitle());
+		}
+		if(newEvent.getStartDateTime()==null){
+			newEvent.setStartDateTime(oldEvent.getStartDateTime());
+		}
+		if(newEvent.getEndDateTime()==null){
+			newEvent.setEndDateTime(oldEvent.getEndDateTime());
+		}
+		if(newEvent.getLocation()==null){
+			newEvent.setLocation(oldEvent.getLocation());
+		}
+		if(newEvent.getNotes()==null){
+			newEvent.setNotes(oldEvent.getNotes());
+		}
+		if(newEvent.getPriority()==null){
+			newEvent.setPriority(oldEvent.getPriority());
+		}
+		if(newEvent.getReminder()==null){
+			newEvent.setReminder(oldEvent.getReminder());
+		}
+		
+		return newEvent;
 	}
 
 	private static Boolean isYearAvaliable (int info) {
