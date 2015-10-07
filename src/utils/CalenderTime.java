@@ -1,12 +1,15 @@
 package utils;
 import utils.Event;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CalenderTime{
 	private Boolean avalibility;
-	private Event event;
+	private List<Event> events;
 	
 	public CalenderTime(){}
 	public CalenderTime(Boolean input){
+		events=new ArrayList<Event>();
 		this.avalibility=input;
 	}
 	public void setTime(Boolean input, Event event){
@@ -17,22 +20,19 @@ public class CalenderTime{
 		this.avalibility = input;
 	}
 	public void setTask(Event event){
-		this.event = event;
+		events.add(event);
 	}
-	public String getTask(){
-		return event.getTitle();
-	}
-	public Event getEvent(){
-		return event;
-	}
-	public String getTaskID(){
-		return event.getId();
+	public List<Event> getEvent(){
+		return events;
 	}
 	public Boolean getTimeSlot(){
 		return avalibility;
 	}
 	public void clear(){
 		avalibility=false;
-		event=null;
+		events.clear();
+	}
+	public void delete(Event event) {
+		events.remove(event);
 	}
 }

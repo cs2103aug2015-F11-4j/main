@@ -56,6 +56,7 @@ public class StorageManager {
 	
 	@SuppressWarnings("deprecation")
 	public void remove(Event event){	
+
 		updateStatus();
 		if(event.getStartDateTime()!=null){
 			int index=returnIndex(event.getStartDateTime().getTime().getYear());
@@ -217,7 +218,7 @@ public class StorageManager {
 					fileOut.println(floatingTasks.get(i).toString());
 				}
 			}
-			
+		
 			for(i=0;i<year.size();i++){
 				data=year.get(i).getTask();
 				while (j < data.size()) {
