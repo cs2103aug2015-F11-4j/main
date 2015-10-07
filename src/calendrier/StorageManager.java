@@ -56,6 +56,7 @@ public class StorageManager {
 	
 	@SuppressWarnings("deprecation")
 	public void remove(Event event){	
+
 		updateStatus();
 		if(event.getStartDateTime()!=null){
 			int index=returnIndex(event.getStartDateTime().getTime().getYear());
@@ -136,14 +137,16 @@ public class StorageManager {
 	public void updateStatus() {
 		int i, j = 0, index;
 		List<Event> data = new ArrayList<Event>();
-		if(floatingTasks.size()!=0){
-			backup.add(new ArrayList<String>());
-			for(i=0;i<floatingTasks.size();i++){
-				backup.get(0).add(floatingTasks.get(i).toString());
-			}
-		}
+		
 		backup.add(new ArrayList<String>());
 		index=backup.size()-1;
+		
+		if(floatingTasks.size()!=0){
+			for(i=0;i<floatingTasks.size();i++){
+				backup.get(index).add(floatingTasks.get(i).toString());
+			}
+		}
+
 		for (i = 0; i < year.size(); i++) {
 			data = year.get(i).getTask();
 			while (j < data.size()) {
@@ -215,7 +218,7 @@ public class StorageManager {
 					fileOut.println(floatingTasks.get(i).toString());
 				}
 			}
-			
+		
 			for(i=0;i<year.size();i++){
 				data=year.get(i).getTask();
 				while (j < data.size()) {
@@ -288,7 +291,7 @@ public class StorageManager {
 			}
 			location = removeName(splitedData[5]);
 			notes = removeName(splitedData[6]);
-			if(splitedData[2]!=null){
+			if(!removeName(splitedData[2]).equals("null")){
 				startDate=convertDate(removeName(splitedData[2]));
 				Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 				calendarStart.set(startDate[0], startDate[1], startDate[2], startDate[3], startDate[4], startDate[5]);
@@ -297,7 +300,7 @@ public class StorageManager {
 			else{
 				startDate=null;
 			}
-			if(splitedData[3]!=null){
+			if(!removeName(splitedData[3]).equals("null")){
 				endDate=convertDate(removeName(splitedData[3]));
 				Calendar calendarEnd = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 				calendarEnd.set(endDate[0], endDate[1], endDate[2], endDate[3], endDate[4], endDate[5]);
@@ -306,7 +309,7 @@ public class StorageManager {
 			else{
 				endDate=null;
 			}
-			if(splitedData[3]!=null){
+			if(!removeName(splitedData[3]).equals("null")){
 				remindDate=convertDate(removeName(splitedData[7]));
 				Calendar calendarReminder = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 				calendarReminder.set(remindDate[0], remindDate[1], remindDate[2], remindDate[3], remindDate[4], remindDate[5]);

@@ -32,17 +32,17 @@ public class CalenderDate {
 		
 		int slot, range, i;
 		
-		if(checkTimeSlot(event)){
+		//if(checkTimeSlot(event)){
 			numOfSlot++;
 			slot=convertIndex(convertTime(event.getStartDateTime()));
 			range=convertIndex(convertTime(event.getEndDateTime()));
-			for(i=slot; i<range; i++){
+			for(i=slot; i<range+1; i++){
 				timeSlot.get(i).setTime(true, event);
 			}
-		}
-		else{
+		//}
+		//else{
 			//throw new ErrorForAddding("Clash with another time slot");
-		}
+		//}
 	}
 	
 	public CalenderDate(Event event, int numDate, int startTime, int endTime) {
@@ -90,18 +90,24 @@ public class CalenderDate {
 		slot=convertIndex(convertTime(event.getStartDateTime()));
 		range=convertIndex(convertTime(event.getEndDateTime()));
 
-		for(i=slot; i<range; i++){
-			timeSlot.get(i).clear();
+		for(i=slot; i<range+1; i++){
+			timeSlot.get(i).delete(event);
 		}
 	}
 	
 	public List<Event> getTask(){
-		int i;
+		int i, j;
 		List<Event> events = new ArrayList<>();
+		List<Event> eventsTime = new ArrayList<>();
 		
 		for(i=0;i<timeSlot.size();i++){
-			if(timeSlot.get(i).getTimeSlot()==true&&!events.contains(timeSlot.get(i).getEvent())){
-				events.add(timeSlot.get(i).getEvent());
+			if(timeSlot.get(i).getTimeSlot()==true){
+				eventsTime=timeSlot.get(i).getEvent();
+				for(j=0;j<eventsTime.size();j++){
+					if(!events.contains(eventsTime.get(j))){
+						events.add(eventsTime.get(j));
+					}
+				}
 			}
 		}
 		/*for(i=0;i<timeSlot.size();i++){
