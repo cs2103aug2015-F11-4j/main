@@ -229,7 +229,7 @@ public class ParserTest {
 	// Task is not a deadline
 	public void add1() {
 		Parser parser = new Parser();
-		String userInput = "add title eat sleep drink repeat, startdate 2015/12/29, "
+		String userInput = "add eat sleep drink repeat, startdate 2015/12/29, "
 				+ "starttime 13.37, enddate 2015/12/30, endtime 14.44, priority very low, "
 				+ "location my home, notes must do, recurring no, reminderdate 2015/12/30, " + "remindertime 15.30";
 
@@ -283,7 +283,7 @@ public class ParserTest {
 	// Task is a deadline
 	public void add2() {
 		Parser parser = new Parser();
-		String userInput = "add title eat sleep drink repeat, "
+		String userInput = "add eat sleep drink repeat, "
 				+ "enddate 2015/12/30, endtime 14.44, priority very low, "
 				+ "location my home, notes must do, recurring no, reminderdate 2015/12/30, " + "remindertime 15.30";
 

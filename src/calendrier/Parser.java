@@ -36,7 +36,7 @@ public class Parser {
 
 		Scanner lineTokens = new Scanner(userInput);
 		String command = lineTokens.next();
-		
+
 		if (command.equals("save")) {
 			// save in my desktop
 			String nextWord = lineTokens.next();
@@ -50,8 +50,7 @@ public class Parser {
 		}
 		lineTokens.close();
 		String inputAfterCommand = userInput.substring(userInput.indexOf(" ") + 1);
-		
-		
+
 		if (command.equals("undo")) {
 			// e.g. undo 2
 			pc.setCommand(Command.UNDO);
@@ -75,115 +74,184 @@ public class Parser {
 			setFilterParameters(new Scanner(inputAfterCommand), pc);
 		} else if (command.equals("update")) {
 			/*
-			 * Case 1: not a deadline No. of parameters: 12 e.g. update 3, 
-			 * title repeat sleep drink eat, startdate 2015/12/29, starttime
-			 * 13.37, enddate 2015/12/30, endtime 14.44, priority very low,
-			 * location my home, notes must do, recurring no, reminderdate
-			 * 2015/12/30, remindertime 15.30
+			 * Case 1: not a deadline No. of parameters: 12 e.g. update 3, title
+			 * repeat sleep drink eat, startdate 2015/12/29, starttime 13.37,
+			 * enddate 2015/12/30, endtime 14.44, priority very low, location my
+			 * home, notes must do, recurring no, reminderdate 2015/12/30,
+			 * remindertime 15.30
 			 * 
 			 * Case 2: deadline No. of parameters: 10 e.g. update 4, title
 			 * repeat sleep drink eat, enddate 2015/12/29, enddate 13.37,
 			 * priority very low, location my home, notes must do, recurring no,
 			 * reminderdate 2015/12/30, remindertime 15.30
 			 */
-			String[] updateInfo = inputAfterCommand.split(",");
-			int paramLength = updateInfo.length;
 			pc.setCommand(Command.UPDATE);
+			
+			int idEndIndex;
+			String id;
+			
+			idEndIndex = inputAfterCommand.indexOf(",");
+			if (idEndIndex == -1) {
+				id = inputAfterCommand.substring(0);
+			} else {
+				id = inputAfterCommand.substring(0, idEndIndex);
+			}
+			pc.setId(id);
 
-			pc.setId(updateInfo[0]);
+			String title = getAttributeFromInput(inputAfterCommand, "title", 5);
+			if (title != null) {
+				pc.setTitle(title);
+			}
 
-			updateInfo[1] = updateInfo[1].trim();
-			String title = updateInfo[1].substring(updateInfo[1].indexOf(" ") + 1);
-			pc.setTitle(title);
-
-			// Task Is not a deadline
-			if (paramLength == 12) {
-				updateInfo[2] = updateInfo[2].trim();
-				String startDate = updateInfo[2].substring(updateInfo[2].indexOf(" ") + 1);
-
-				updateInfo[3] = updateInfo[3].trim();
-				String startTime = updateInfo[3].substring(updateInfo[3].indexOf(" ") + 1);
-
+			String startDate = getAttributeFromInput(inputAfterCommand, "startdate", 9);
+			String startTime = getAttributeFromInput(inputAfterCommand, "starttime", 9);
+			if (startDate != null && startTime != null) {
 				Calendar cal = dateAndTimeToCalendar(startDate, startTime);
 				pc.setStartDateTime(cal);
-
-				updateInfo[4] = updateInfo[4].trim();
-				String endDate = updateInfo[4].substring(updateInfo[4].indexOf(" ") + 1);
-
-				updateInfo[5] = updateInfo[5].trim();
-				String endTime = updateInfo[5].substring(updateInfo[5].indexOf(" ") + 1);
-
-				Calendar cal2 = Calendar.getInstance();
-				cal2 = dateAndTimeToCalendar(endDate, endTime);
-				pc.setEndDateTime(cal2);
-
-				updateInfo[6] = updateInfo[6].trim();
-				String priority = updateInfo[6].substring(updateInfo[6].indexOf(" ") + 1);
-				setPriority(pc, priority);
-
-				updateInfo[7] = updateInfo[7].trim();
-				String location = updateInfo[7].substring(updateInfo[7].indexOf(" ") + 1);
-				pc.setLocation(location);
-
-				updateInfo[8] = updateInfo[8].trim();
-				String notes = updateInfo[8].substring(updateInfo[8].indexOf(" ") + 1);
-				pc.setNotes(notes);
-
-				updateInfo[9] = updateInfo[9].trim();
-				String recurring = updateInfo[9].substring(updateInfo[9].indexOf(" ") + 1);
-				boolean isRecurring = recurring.equals("yes");
-				pc.setIsRecurring(isRecurring);
-
-				updateInfo[10] = updateInfo[10].trim();
-				String reminderDate = updateInfo[10].substring(updateInfo[10].indexOf(" ") + 1);
-
-				updateInfo[11] = updateInfo[11].trim();
-				String reminderTime = updateInfo[11].substring(updateInfo[11].indexOf(" ") + 1);
-
-				Calendar cal3 = Calendar.getInstance();
-				cal3 = dateAndTimeToCalendar(reminderDate, reminderTime);
-				pc.setReminder(cal3);
-
+			} else if (startDate != null) {
+				Calendar cal = dateToCalendar(startDate);
+				pc.setStartDateTime(cal);
+			} else if (startTime != null) {
+				Calendar cal = timeToCalendar(startTime);
+				pc.setStartDateTime(cal);
 			}
-			// Task is a deadline
-			else if (paramLength == 10) {
-				updateInfo[2] = updateInfo[2].trim();
-				String endDate = updateInfo[2].substring(updateInfo[2].indexOf(" ") + 1);
 
-				updateInfo[3] = updateInfo[3].trim();
-				String endTime = updateInfo[3].substring(updateInfo[3].indexOf(" ") + 1);
-
-				Calendar cal4 = Calendar.getInstance();
-				cal4 = dateAndTimeToCalendar(endDate, endTime);
-				pc.setEndDateTime(cal4);
-
-				updateInfo[4] = updateInfo[4].trim();
-				String priority = updateInfo[4].substring(updateInfo[4].indexOf(" ") + 1);
-				setPriority(pc, priority);
-
-				updateInfo[5] = updateInfo[5].trim();
-				String location = updateInfo[5].substring(updateInfo[5].indexOf(" ") + 1);
-				pc.setLocation(location);
-
-				updateInfo[6] = updateInfo[6].trim();
-				String notes = updateInfo[6].substring(updateInfo[6].indexOf(" ") + 1);
-				pc.setNotes(notes);
-
-				updateInfo[7] = updateInfo[7].trim();
-				String recurring = updateInfo[7].substring(updateInfo[7].indexOf(" ") + 1);
-				boolean isRecurring = recurring.equals("yes");
-				pc.setIsRecurring(isRecurring);
-
-				updateInfo[8] = updateInfo[8].trim();
-				String reminderDate = updateInfo[8].substring(updateInfo[8].indexOf(" ") + 1);
-
-				updateInfo[9] = updateInfo[9].trim();
-				String reminderTime = updateInfo[9].substring(updateInfo[9].indexOf(" ") + 1);
-
-				Calendar cal5 = Calendar.getInstance();
-				cal5 = dateAndTimeToCalendar(reminderDate, reminderTime);
-				pc.setReminder(cal5);
+			String endDate = getAttributeFromInput(inputAfterCommand, "enddate", 7);
+			String endTime = getAttributeFromInput(inputAfterCommand, "endtime", 7);
+			if (endDate != null && endTime != null) {
+				Calendar cal = dateAndTimeToCalendar(endDate, endTime);
+				pc.setEndDateTime(cal);
+			} else if (endDate != null) {
+				Calendar cal = dateToCalendar(endDate);
+				pc.setEndDateTime(cal);
+			} else if (endTime != null) {
+				Calendar cal = timeToCalendar(endTime);
+				pc.setEndDateTime(cal);
 			}
+
+			String priority = getAttributeFromInput(inputAfterCommand, "priority", 8);
+			if (priority != null) {
+				setPriority(pc, priority);
+			}
+
+			String location = getAttributeFromInput(inputAfterCommand, "location", 8);
+			if (location != null) {
+				pc.setLocation(location);
+			}
+
+			String notes = getAttributeFromInput(inputAfterCommand, "notes", 5);
+			if (notes != null) {
+				pc.setNotes(notes);
+			}
+
+			String recurring = getAttributeFromInput(inputAfterCommand, "recurring", 9);
+			if (recurring != null) {
+				pc.setIsRecurring(recurring.equals("yes"));
+			}
+
+			String reminderDate = getAttributeFromInput(inputAfterCommand, "reminderdate", 12);
+			String reminderTime = getAttributeFromInput(inputAfterCommand, "remindertime", 12);
+			if (reminderDate != null && reminderTime != null) {
+				reminderTime = reminderTime.trim();
+				Calendar cal = dateAndTimeToCalendar(reminderDate, reminderTime);
+				pc.setReminder(cal);
+			} else if (reminderDate != null) {
+				Calendar cal = dateToCalendar(reminderDate);
+				pc.setReminder(cal);
+			} else if (reminderTime != null) {
+				reminderTime = reminderTime.trim();
+				Calendar cal = timeToCalendar(reminderTime);
+				pc.setReminder(cal);
+			}
+
+			/*
+			 * updateInfo[1] = updateInfo[1].trim(); String title =
+			 * updateInfo[1].substring(updateInfo[1].indexOf(" ") + 1);
+			 * pc.setTitle(title);
+			 * 
+			 * // Task Is not a deadline if (paramLength == 12) { updateInfo[2]
+			 * = updateInfo[2].trim(); String startDate =
+			 * updateInfo[2].substring(updateInfo[2].indexOf(" ") + 1);
+			 * 
+			 * updateInfo[3] = updateInfo[3].trim(); String startTime =
+			 * updateInfo[3].substring(updateInfo[3].indexOf(" ") + 1);
+			 * 
+			 * Calendar cal = dateAndTimeToCalendar(startDate, startTime);
+			 * pc.setStartDateTime(cal);
+			 * 
+			 * updateInfo[4] = updateInfo[4].trim(); String endDate =
+			 * updateInfo[4].substring(updateInfo[4].indexOf(" ") + 1);
+			 * 
+			 * updateInfo[5] = updateInfo[5].trim(); String endTime =
+			 * updateInfo[5].substring(updateInfo[5].indexOf(" ") + 1);
+			 * 
+			 * Calendar cal2 = Calendar.getInstance(); cal2 =
+			 * dateAndTimeToCalendar(endDate, endTime); pc.setEndDateTime(cal2);
+			 * 
+			 * updateInfo[6] = updateInfo[6].trim(); String priority =
+			 * updateInfo[6].substring(updateInfo[6].indexOf(" ") + 1);
+			 * setPriority(pc, priority);
+			 * 
+			 * updateInfo[7] = updateInfo[7].trim(); String location =
+			 * updateInfo[7].substring(updateInfo[7].indexOf(" ") + 1);
+			 * pc.setLocation(location);
+			 * 
+			 * updateInfo[8] = updateInfo[8].trim(); String notes =
+			 * updateInfo[8].substring(updateInfo[8].indexOf(" ") + 1);
+			 * pc.setNotes(notes);
+			 * 
+			 * updateInfo[9] = updateInfo[9].trim(); String recurring =
+			 * updateInfo[9].substring(updateInfo[9].indexOf(" ") + 1); boolean
+			 * isRecurring = recurring.equals("yes");
+			 * pc.setIsRecurring(isRecurring);
+			 * 
+			 * updateInfo[10] = updateInfo[10].trim(); String reminderDate =
+			 * updateInfo[10].substring(updateInfo[10].indexOf(" ") + 1);
+			 * 
+			 * updateInfo[11] = updateInfo[11].trim(); String reminderTime =
+			 * updateInfo[11].substring(updateInfo[11].indexOf(" ") + 1);
+			 * 
+			 * Calendar cal3 = Calendar.getInstance(); cal3 =
+			 * dateAndTimeToCalendar(reminderDate, reminderTime);
+			 * pc.setReminder(cal3);
+			 * 
+			 * } // Task is a deadline else if (paramLength == 10) {
+			 * updateInfo[2] = updateInfo[2].trim(); String endDate =
+			 * updateInfo[2].substring(updateInfo[2].indexOf(" ") + 1);
+			 * 
+			 * updateInfo[3] = updateInfo[3].trim(); String endTime =
+			 * updateInfo[3].substring(updateInfo[3].indexOf(" ") + 1);
+			 * 
+			 * Calendar cal4 = Calendar.getInstance(); cal4 =
+			 * dateAndTimeToCalendar(endDate, endTime); pc.setEndDateTime(cal4);
+			 * 
+			 * updateInfo[4] = updateInfo[4].trim(); String priority =
+			 * updateInfo[4].substring(updateInfo[4].indexOf(" ") + 1);
+			 * setPriority(pc, priority);
+			 * 
+			 * updateInfo[5] = updateInfo[5].trim(); String location =
+			 * updateInfo[5].substring(updateInfo[5].indexOf(" ") + 1);
+			 * pc.setLocation(location);
+			 * 
+			 * updateInfo[6] = updateInfo[6].trim(); String notes =
+			 * updateInfo[6].substring(updateInfo[6].indexOf(" ") + 1);
+			 * pc.setNotes(notes);
+			 * 
+			 * updateInfo[7] = updateInfo[7].trim(); String recurring =
+			 * updateInfo[7].substring(updateInfo[7].indexOf(" ") + 1); boolean
+			 * isRecurring = recurring.equals("yes");
+			 * pc.setIsRecurring(isRecurring);
+			 * 
+			 * updateInfo[8] = updateInfo[8].trim(); String reminderDate =
+			 * updateInfo[8].substring(updateInfo[8].indexOf(" ") + 1);
+			 * 
+			 * updateInfo[9] = updateInfo[9].trim(); String reminderTime =
+			 * updateInfo[9].substring(updateInfo[9].indexOf(" ") + 1);
+			 * 
+			 * Calendar cal5 = Calendar.getInstance(); cal5 =
+			 * dateAndTimeToCalendar(reminderDate, reminderTime);
+			 * pc.setReminder(cal5); }
+			 */
 		} else if (command.equals("add")) {
 			pc.setCommand(Command.ADD);
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
@@ -191,119 +259,85 @@ public class Parser {
 			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
 
 			/*
-			 * Case 1: not a deadline No. of parameters: 11 e.g. add title eat
+			 * Case 1: not a deadline No. of parameters: 11 e.g. add eat
 			 * sleep drink repeat, startdate 2015/12/29, starttime 13.37,
 			 * enddate 2015/12/30, endtime 14.44, priority very low, location my
 			 * home, notes must do, recurring no, reminderdate 2015/12/30,
 			 * remindertime 15.30
 			 * 
-			 * Case 2: deadline No. of parameters: 9 e.g. add title eat sleep
+			 * Case 2: deadline No. of parameters: 9 e.g. add eat sleep
 			 * drink repeat, enddate 2015/12/29, enddate 13.37, priority very
 			 * low, location my home, notes must do, recurring no, reminderdate
 			 * 2015/12/30, remindertime 15.30
 			 */
-
-			String[] addInfo = inputAfterCommand.split(",");
-			int paramLength = addInfo.length;
-
-			String title = addInfo[0].substring(addInfo[0].indexOf(" ") + 1);
+			int titleEndIndex;
+			String title;
+			
+			titleEndIndex = inputAfterCommand.indexOf(",");
+			if (titleEndIndex == -1) {
+				title = inputAfterCommand.substring(0);
+			} else {
+				title = inputAfterCommand.substring(0, titleEndIndex);
+			}
 			pc.setTitle(title);
 
-			// Task is not a deadline
-			if (paramLength == 11) {
-				addInfo[1] = addInfo[1].trim();
-				String startDate = addInfo[1].substring(addInfo[1].indexOf(" ") + 1);
-
-				addInfo[2] = addInfo[2].trim();
-				String startTime = addInfo[2].substring(addInfo[2].indexOf(" ") + 1);
-
-				Calendar cal6 = Calendar.getInstance();
-				cal6 = dateAndTimeToCalendar(startDate, startTime);
-				pc.setStartDateTime(cal6);
-
-				addInfo[3] = addInfo[3].trim();
-				String endDate = addInfo[3].substring(addInfo[3].indexOf(" ") + 1);
-
-				addInfo[4] = addInfo[4].trim();
-				String endTime = addInfo[4].substring(addInfo[4].indexOf(" ") + 1);
-
-				Calendar cal7 = Calendar.getInstance();
-				cal7 = dateAndTimeToCalendar(endDate, endTime);
-				pc.setEndDateTime(cal7);
-
-				addInfo[5] = addInfo[5].trim();
-				String priority = addInfo[5].substring(addInfo[5].indexOf(" ") + 1);
-				setPriority(pc, priority);
-
-				addInfo[6] = addInfo[6].trim();
-				String location = addInfo[6].substring(addInfo[6].indexOf(" ") + 1);
-				pc.setLocation(location);
-
-				addInfo[7] = addInfo[7].trim();
-				String notes = addInfo[7].substring(addInfo[7].indexOf(" ") + 1);
-				pc.setNotes(notes);
-
-				addInfo[8] = addInfo[8].trim();
-				String recurring = addInfo[8].substring(addInfo[8].indexOf(" ") + 1);
-				boolean isRecurring = recurring.equals("yes");
-				pc.setIsRecurring(isRecurring);
-
-				addInfo[9] = addInfo[9].trim();
-				String reminderDate = addInfo[9].substring(addInfo[9].indexOf(" ") + 1);
-
-				addInfo[10] = addInfo[10].trim();
-				String reminderTime = addInfo[10].substring(addInfo[10].indexOf(" ") + 1);
-
-				Calendar cal8 = Calendar.getInstance();
-				cal8 = dateAndTimeToCalendar(reminderDate, reminderTime);
-				pc.setReminder(cal8);
+			String startDate = getAttributeFromInput(inputAfterCommand, "startdate", 9);
+			String startTime = getAttributeFromInput(inputAfterCommand, "starttime", 9);
+			if (startDate != null && startTime != null) {
+				Calendar cal = dateAndTimeToCalendar(startDate, startTime);
+				pc.setStartDateTime(cal);
+			} else if (startDate != null) {
+				Calendar cal = dateToCalendar(startDate);
+				pc.setStartDateTime(cal);
+			} else if (startTime != null) {
+				Calendar cal = timeToCalendar(startTime);
+				pc.setStartDateTime(cal);
 			}
-			// Task is a deadline
-			else if (paramLength == 9) {
-				// 1: endDate
-				addInfo[1] = addInfo[1].trim();
-				String endDate = addInfo[1].substring(addInfo[1].indexOf(" ") + 1);
 
-				// 2: endTime
-				addInfo[2] = addInfo[2].trim();
-				String endTime = addInfo[2].substring(addInfo[2].indexOf(" ") + 1);
+			String endDate = getAttributeFromInput(inputAfterCommand, "enddate", 7);
+			String endTime = getAttributeFromInput(inputAfterCommand, "endtime", 7);
+			if (endDate != null && endTime != null) {
+				Calendar cal = dateAndTimeToCalendar(endDate, endTime);
+				pc.setEndDateTime(cal);
+			} else if (endDate != null) {
+				Calendar cal = dateToCalendar(endDate);
+				pc.setEndDateTime(cal);
+			} else if (endTime != null) {
+				Calendar cal = timeToCalendar(endTime);
+				pc.setEndDateTime(cal);
+			}
 
-				Calendar cal9 = Calendar.getInstance();
-				cal9 = dateAndTimeToCalendar(endDate, endTime);
-				pc.setEndDateTime(cal9);
-
-				// 3: priority
-				addInfo[3] = addInfo[3].trim();
-				String priority = addInfo[3].substring(addInfo[3].indexOf(" ") + 1);
+			String priority = getAttributeFromInput(inputAfterCommand, "priority", 8);
+			if (priority != null) {
 				setPriority(pc, priority);
+			}
 
-				// 4: location
-				addInfo[4] = addInfo[4].trim();
-				String location = addInfo[4].substring(addInfo[4].indexOf(" ") + 1);
+			String location = getAttributeFromInput(inputAfterCommand, "location", 8);
+			if (location != null) {
 				pc.setLocation(location);
+			}
 
-				// 5: notes
-				addInfo[5] = addInfo[5].trim();
-				String notes = addInfo[5].substring(addInfo[5].indexOf(" ") + 1);
+			String notes = getAttributeFromInput(inputAfterCommand, "notes", 5);
+			if (notes != null) {
 				pc.setNotes(notes);
+			}
 
-				// 6: recurring
-				addInfo[6] = addInfo[6].trim();
-				String recurring = addInfo[6].substring(addInfo[6].indexOf(" ") + 1);
-				boolean isRecurring = recurring.equals("yes");
-				pc.setIsRecurring(isRecurring);
+			String recurring = getAttributeFromInput(inputAfterCommand, "recurring", 9);
+			if (recurring != null) {
+				pc.setIsRecurring(recurring.equals("yes"));
+			}
 
-				// 7: reminderdate
-				addInfo[7] = addInfo[7].trim();
-				String reminderDate = addInfo[7].substring(addInfo[7].indexOf(" ") + 1);
-
-				// 8: reminderTime
-				addInfo[8] = addInfo[8].trim();
-				String reminderTime = addInfo[8].substring(addInfo[8].indexOf(" ") + 1);
-
-				Calendar cal10 = Calendar.getInstance();
-				cal10 = dateAndTimeToCalendar(reminderDate, reminderTime);
-				pc.setReminder(cal10);
+			String reminderDate = getAttributeFromInput(inputAfterCommand, "reminderdate", 12);
+			String reminderTime = getAttributeFromInput(inputAfterCommand, "remindertime", 12);
+			if (reminderDate != null && reminderTime != null) {
+				Calendar cal = dateAndTimeToCalendar(reminderDate, reminderTime);
+				pc.setReminder(cal);
+			} else if (reminderDate != null) {
+				Calendar cal = dateToCalendar(reminderDate);
+				pc.setReminder(cal);
+			} else if (reminderTime != null) {
+				Calendar cal = timeToCalendar(reminderTime);
+				pc.setReminder(cal);
 			}
 		}
 		return pc;
@@ -355,6 +389,17 @@ public class Parser {
 		return cal;
 	}
 
+	public static Calendar timeToCalendar(String time) {
+		Calendar cal = Calendar.getInstance();
+		String[] timeParam = time.split("\\.");
+		int hour = Integer.parseInt(timeParam[0]);
+		int minute = Integer.parseInt(timeParam[1]);
+
+		cal.set(Calendar.HOUR_OF_DAY, hour);
+		cal.set(Calendar.MINUTE, minute);
+		return cal;
+	}
+
 	public static void setPriority(ParsedCommand pc, String priority) {
 		if (priority.equals("very low")) {
 			pc.setPriority(Priority.VERY_LOW);
@@ -367,6 +412,29 @@ public class Parser {
 		} else if (priority.equals("very high")) {
 			pc.setPriority(Priority.VERY_HIGH);
 		}
+	}
+
+	public static String getAttributeFromInput(String inputAfterCommand, String attr, int attrLength) {
+		String result;
+		if (inputAfterCommand.contains(attr)) {
+			int index = inputAfterCommand.indexOf(attr) + attrLength + 1;
+			int endIndex = inputAfterCommand.indexOf(",", index);
+			
+			//System.out.println("index of " + attr + ": " + index);
+			//System.out.println("endIndex: "  + attr + ": " + endIndex);
+
+			// last attribute input of the line
+			if (endIndex == -1) {
+				result = inputAfterCommand.substring(index);
+			} else {
+				result = inputAfterCommand.substring(index, endIndex);
+			}
+			// System.out.println("result: " + result);
+		} else {
+			return null;
+		}
+		//System.out.println(attr + ": " + result);
+		return result;
 	}
 
 }
