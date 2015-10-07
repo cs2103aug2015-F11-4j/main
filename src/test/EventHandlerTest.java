@@ -53,6 +53,7 @@ public class EventHandlerTest {
 	@Before
 	public void setUp() {
 		// create parsedCommand add
+		pc.setCommand(Command.ADD);
 		pc.setId(ID);
 		pc.setTitle(title);
 		pc.setStartDateTime(startDateTime);
@@ -84,7 +85,7 @@ public class EventHandlerTest {
 
 		// Create EventHandler()
 		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
+//		handle.injectStorageManager(new StorageManagerStub());
 		handle.add(testEvent);
 
 		// Tests
@@ -101,13 +102,12 @@ public class EventHandlerTest {
 	@Test
 	public void testUndoAddEvent() {
 		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
+//		handle.injectStorageManager(new StorageManagerStub());
 
 		try {
 			handle.execute(pc);
 			handle.execute(undoCommand);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertTrue(handle.getAllEvents().isEmpty());
@@ -148,7 +148,7 @@ public class EventHandlerTest {
 	public void testRemoveEvent() {
 
 		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
+//		handle.injectStorageManager(new StorageManagerStub());
 
 		handle.add(testEvent);
 
@@ -159,7 +159,7 @@ public class EventHandlerTest {
 	@Test
 	public void testUpdateEvent() {
 		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
+//		handle.injectStorageManager(new StorageManagerStub());
 
 		handle.add(testEvent);
 
@@ -181,7 +181,7 @@ public class EventHandlerTest {
 	@Test
 	public void testView() {
 		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
+//		handle.injectStorageManager(new StorageManagerStub());
 
 		handle.add(testEvent);
 		Event viewedEvent = handle.view(pc);
@@ -194,7 +194,7 @@ public class EventHandlerTest {
 		ArrayList<Event> list = new ArrayList<>();
 
 		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
+//		handle.injectStorageManager(new StorageManagerStub());
 
 		try {
 			list = handle.execute(pc);
