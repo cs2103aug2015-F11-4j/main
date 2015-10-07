@@ -110,7 +110,7 @@ public class MainLogicNoEventHandlerStubTest {
 			}
 		}
 
-		String command = "update id " + id + ", priority low";
+		String command = "update " + id + ", priority low";
 		Command cmd = mainLogic.execute(command);
 		assertTrue("is update command", cmd == Command.UPDATE);
 
@@ -314,7 +314,7 @@ public class MainLogicNoEventHandlerStubTest {
 			}
 		}
 
-		String command = "update id " + id + ", priority low";
+		String command = "update " + id + ", priority low";
 		Command cmd = mainLogic.execute(command);
 		assertTrue("is update command", cmd == Command.UPDATE);
 

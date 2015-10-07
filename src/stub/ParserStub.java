@@ -27,7 +27,7 @@ public class ParserStub extends Parser {
 			parsedCommand = generateAddOnlyTitle();
 		} else if (command.equals("delete ggId")) {
 			parsedCommand = generateDelete();
-		} else if (command.equals("update id ggId, priority low")) {
+		} else if (command.equals("update ggId, priority low")) {
 			parsedCommand = generateUpdate();
 		} else if (command.equals("view all")) {
 			parsedCommand = generateViewAll();
