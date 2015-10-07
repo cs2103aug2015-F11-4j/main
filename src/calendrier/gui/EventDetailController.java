@@ -3,7 +3,6 @@ package calendrier.gui;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.List;
 
 import utils.Event;
 import utils.Priority;
@@ -12,10 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
-public class EventDetailController extends BorderPane {
+public class EventDetailController extends StackPane {
 
+	@FXML
+	private GridPane gridPaneDetail;
 	@FXML
 	private ImageView imgType;
 	@FXML
@@ -39,7 +41,7 @@ public class EventDetailController extends BorderPane {
 	
 	private static final String EVENT_DETAIL_LAYOUT_FXML = "/calendrier/resources/ViewEventDetail.fxml";
 	
-	private static final String DEFAULT_EVENT_TYPE_IMAGE = "/calendrier/resources/information.jpeg";
+	private static final String DEFAULT_EVENT_TYPE_IMAGE = "/calendrier/resources/information.png";
 	private static final String REPORT_EVENT_TYPE_IMAGE = "/calendrier/resources/report.png";
 	private static final String DINNER_EVENT_TYPE_IMAGE = "/calendrier/resources/dinner.png.";
 	private static final String READING_EVENT_TYPE_IMAGE = "/calendrier/resources/reading.png";
@@ -67,11 +69,15 @@ public class EventDetailController extends BorderPane {
 		lblID.setText(checkExistValue(event.getId()));
 		lblTitle.setText(checkExistValue(event.getTitle()));
 		lblStartDateTime.setText(checkExistDate(event.getStartDateTime()));
-		lblStartDateTime.setText(checkExistDate(event.getEndDateTime()));
+		lblEndDateTime.setText(checkExistDate(event.getEndDateTime()));
 		lblLocation.setText(checkExistValue(event.getLocation()));
 		lblReminder.setText(checkExistDate(event.getReminder()));
 		lblNotes.setText(checkExistValue(event.getNotes()));
 		lblPriority.setText(checkExistPriority(event.getPriority()));
+		
+		if(!lblPriority.getText().equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+			changeBorderColor(event.getPriority());
+		}
 		
 		Image img;
 		if(checkExistValue(event.getGroups().toString()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
@@ -89,26 +95,25 @@ public class EventDetailController extends BorderPane {
 	
 	private static String checkExistPriority(Priority priority) {
 		try {
-			changeBorderColor(priority);
 			return priority.toString();
 		} catch (NullPointerException e) {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 	}
 	
-	private static void changeBorderColor(Priority priority) {
+	private void changeBorderColor(Priority priority) {
 		if(priority == Priority.VERY_HIGH) {
-			
+			gridPaneDetail.setStyle("-fx-border-color: red;");
 		} else if(priority == Priority.HIGH) {
-			
+			gridPaneDetail.setStyle("-fx-border-color: #FFA07A;");
 		} else if(priority == Priority.MEDIUM) {
-			
+			gridPaneDetail.setStyle("-fx-border-color: #FFFF00;");
 		} else if(priority == Priority.LOW) {
-			
+			gridPaneDetail.setStyle("-fx-border-color: #00FF7F;");
 		} else if(priority == Priority.VERY_LOW) {
-			
+			gridPaneDetail.setStyle("-fx-border-color: #2E8B57;");
 		} else {
-			
+			gridPaneDetail.setStyle("-fx-border-color: black;");
 		}
 	}
 	
@@ -120,9 +125,9 @@ public class EventDetailController extends BorderPane {
 		}
 	}
 	
-	private static String checkExistDate(Calendar calender) {
+	private static String checkExistDate(Calendar calendar) {
 		try {
-			return calender.toString();
+			return calendar.getTime().toString();
 		} catch (NullPointerException e) {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
@@ -135,6 +140,11 @@ public class EventDetailController extends BorderPane {
 				strGrp += str + ", ";	
 			}
 		}
+		
+		if(strGrp.equalsIgnoreCase("null, ")) {
+			return VALUE_SHOW_EMPTY_DATA;
+		}
+		
 		return strGrp;	
 	}
 	

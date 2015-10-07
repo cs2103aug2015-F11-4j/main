@@ -15,7 +15,6 @@
 				<TableColumn fx:id="eventIdColumn" text="ID" prefWidth="100.0" />
 				<TableColumn fx:id="eventTitleColumn" text="Title" prefWidth="100.0" />
 				<TableColumn fx:id="eventDateColumn" text="Date" prefWidth="100.0" />
-	<!-- 			<TableColumn fx:id="eventTimeColumn" text="Time" prefWidth="50.0" /> -->
 			</columns>
 		</TableView>
 	</children>

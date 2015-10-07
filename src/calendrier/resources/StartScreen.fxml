@@ -8,7 +8,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.geometry.*?>
 
-<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8.0.40"
+<fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
 	xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<GridPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" hgap="10" vgap="10" >

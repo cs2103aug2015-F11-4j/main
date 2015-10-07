@@ -5,27 +5,56 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.ListView?>
 
-<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="500.0"
+	maxWidth="500.0" maxHeight="500.0" >
 	<children>
-		<GridPane xmlns="http://javafx.com/javafx/8.0.40" xmls:fx="http://javafx.com/fxml/1" hgap="10" vgap="10">
+		<GridPane styleClass="gridPaneHelpScreen" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+			prefWidth="480.0" prefHeight="500.0"
+			maxWidth="500.0" maxHeight="500.0" vgap="10" hgap="10">
+			<columnConstraints>
+				<ColumnConstraints percentWidth="20.0" />
+				<ColumnConstraints percentWidth="80.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="25.0" />
+				<RowConstraints percentHeight="25.0" />
+				<RowConstraints percentHeight="15.0" />
+				<RowConstraints percentHeight="15.0" />
+				<RowConstraints percentHeight="10.0" />
+			</rowConstraints>
 			<children>
-				<Text text="Purpose" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-				<Text text="Command" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-				
-				<Text text="# Adding of Event" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-				<Text text="add <TASK_TITLE>, date <DATE>, time <TIME>, priority <PRIORITY>, location <LOCATION>, notes <NOTES>, recurring <RECURRING>, reminderDate <DATE>, reminderTime <TIME>" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-			
-				<Text text="# Updating of Event" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-				<Text text="update <TASK_TITLE>, date <DATE>, time <TIME>, priority <PRIORITY>, location <LOCATION>, notes <NOTES>, recurring <RECURRING>, reminderDate <DATE>, reminderTime <TIME>" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-			
-				<Text text="Deleting of Event" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-				<Text text="delete <TASK_ID/NAME" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-				
-				<Text text="# Filtering of Events" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-				<Text text="filter priority <PRIORITY>, date <DATE>" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-			
-				<Text text="# indication of field is not in order" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-				// --> <Text text="Command" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+				<Label text="Purpose" GridPane.columnIndex="0"
+					GridPane.rowIndex="0" wrapText="true" />
+				<Label text="Command" GridPane.columnIndex="1"
+					GridPane.rowIndex="0" wrapText="true" />
+
+				<Label text="&#35; Adding of Event" GridPane.columnIndex="0"
+					GridPane.rowIndex="1" wrapText="true" />
+				<Label styleClass="commandText"
+					text="add &#60;TASK_TITLE&#62;, date &#60;DATE&#62;, time &#60;TIME&#62;, priority &#60;PRIORITY&#62;, location &#60;LOCATION&#62;, notes &#60;NOTES&#62;, recurring &#60;RECURRING&#62;, reminderDate &#60;DATE&#62;, reminderTime &#60;TIME&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true" />
+
+				<Label text="&#35; Updating of Event" GridPane.columnIndex="0"
+					GridPane.rowIndex="2" wrapText="true" />
+				<Label styleClass="commandText"
+					text="update &#60;TASK_TITLE&#62;, date &#60;DATE&#62;, time &#60;TIME&#62;, priority &#60;PRIORITY&#62;, location &#60;LOCATION&#62;, notes &#60;NOTES&#62;, recurring &#60;RECURRING&#62;, reminderDate &#60;DATE&#62;, reminderTime &#60;TIME&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="2" wrapText="true" />
+
+				<Label text="Deleting of Event" GridPane.columnIndex="0"
+					GridPane.rowIndex="3" wrapText="true" />
+				<Label styleClass="commandText" text="delete &#60;TASK_ID/NAME&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="3" wrapText="true" />
+
+				<Label text="&#35; Filtering of Events" GridPane.columnIndex="0"
+					GridPane.rowIndex="4" wrapText="true" />
+				<Label styleClass="commandText" text="filter priority &#60;PRIORITY&#62;, date &#60;DATE&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="4" wrapText="true" />
+
+				<Label text="&#35; indication of field is not in order"
+					GridPane.columnIndex="0" GridPane.rowIndex="5" wrapText="true" GridPane.columnSpan="2" />
+
 			</children>
 		</GridPane>
 	</children>

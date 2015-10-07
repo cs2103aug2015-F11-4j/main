@@ -23,8 +23,6 @@ public class EventAllController extends StackPane {
 	private TableColumn<EventBean, String> eventTitleColumn;
 	@FXML
 	private TableColumn<EventBean, String> eventDateColumn;
-//	@FXML
-//	private TableColumn<EventBean, String> eventTimeColumn;
 
 	private static final String EVENT_ALL_LAYOUT_FXML = "/calendrier/resources/ViewAll.fxml";
 
@@ -42,42 +40,24 @@ public class EventAllController extends StackPane {
 	}
 
 	private void drawTable(Collection<Event> inputAllEvents) {
-		ObservableList<EventBean> allEvents = FXCollections.observableArrayList();
+		ObservableList<EventBean> allEvents = FXCollections
+				.observableArrayList();
 		for (Event event : inputAllEvents) {
 			allEvents.add(new EventBean(event));
 		}
-		
-		
+
 		eventIdColumn
 				.setCellValueFactory(new PropertyValueFactory<EventBean, String>(
 						"id"));
-		
+
 		eventTitleColumn
 				.setCellValueFactory(new PropertyValueFactory<EventBean, String>(
 						"title"));
-		
+
 		eventDateColumn
 				.setCellValueFactory(new PropertyValueFactory<EventBean, String>(
 						"eventDate"));
-		
+
 		viewAllTable.setItems(allEvents);
-		
-		viewAllTable.setVisible(true);
-	
-		viewAllTable.getColumns().get(0).setVisible(true);
-		viewAllTable.getColumns().get(1).setVisible(true);
-		viewAllTable.getColumns().get(2).setVisible(true);
-		
-		System.out.println(eventIdColumn.getCellData(0));
-		System.out.println(eventTitleColumn.getCellData(0));
-		System.out.println(eventDateColumn.getCellData(0));
-		System.out.println(viewAllTable.getColumns().size());
-		System.out.println(viewAllTable.getItems().size());
-		
-		System.out.println(viewAllTable.getWidth());
-		System.out.println(viewAllTable.getHeight());
-//		eventTimeColumn
-//				.setCellValueFactory(new PropertyValueFactory<EventBean, String>(
-//						"eventTime"));
 	}
 }

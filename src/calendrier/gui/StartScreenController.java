@@ -4,8 +4,9 @@ import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 
-public class StartScreenController extends BorderPane {
+public class StartScreenController extends StackPane {
 
 	private static final String START_SCREEN_1_LAYOUT_FXML = "/calendrier/resources/StartScreen.fxml";
 	private static final String START_SCREEN_2_LAYOUT_FXML = "/calendrier/resources/StartScreen2.fxml";

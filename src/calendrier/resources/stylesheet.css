@@ -3,7 +3,7 @@
 }
 
 .commandText {
-	-fx-font-size:15pt;
+	-fx-font-size:13pt;
 	-fx-font-family: 'herculanum', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
 
@@ -13,11 +13,32 @@
 
 #gridPaneDetail {
 	-fx-font-size: 16px;
-	-fx-padding: 20 20 20 20;
+	-fx-padding: 10;
 	-fx-background-color: white;
 	-fx-border-color: black;
+	-fx-border-style: solid;
+	-fx-border-width: 5px;
+	-fx-hgap: 10;
+	-fx-vgap: 10;
+	-fx-background-radius: 5.0;
+}
+
+.gridPaneHelpScreen {
+	-fx-font-size: 16px;
+	-fx-padding: 10;
+	-fx-background-color: white;
+	-fx-border-color: black;
+	-fx-border-style: solid;
+	-fx-border-width: 5px;
+	-fx-hgap: 10;
+	-fx-vgap: 10;
+	-fx-background-radius: 5.0;
 }
 
 #viewAllTable {
 	-fx-border-width: 0 0 1 0;
+}
+
+#lblTitle {
+	-fx-font-size: 25px;
 }

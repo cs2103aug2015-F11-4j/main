@@ -115,6 +115,7 @@ public class UserInterface extends Application {
 	private void getHelp(UserInterface userInterface) {
 		currentScreenState = VALUE_START_SCREEN;
 		startScreenPage = VALUE_START_SCREEN_MIN + VALUE_TO_ADD_OR_MINUS;
+		rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
 	}
 	
 	private void getNextPage(UserInterface userInterface) {
@@ -195,16 +196,17 @@ public class UserInterface extends Application {
 				setMessage = MESSAGE_SUCCESSFUL_UNDO;
 				addView(this);
 				break;
-//			case EXIT :
-//			case PREVIOUS :
-//				getPreviousPage(this);
-//				break;
-//			case NEXT :
-//				getNextPage(this);
-//				break;
-//			case HELP :
-//				getHelp(this);
-//				break;
+			case EXIT :
+				break;
+			case PREVIOUS :
+				getPreviousPage(this);
+				break;
+			case NEXT :
+				getNextPage(this);
+				break;
+			case HELP :
+				getHelp(this);
+				break;
 			default :
 				commandBarController.setMessage(MESSAGE_INVALID_COMMAND);
 		}
