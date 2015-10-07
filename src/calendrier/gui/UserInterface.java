@@ -85,7 +85,7 @@ public class UserInterface extends Application {
 	}
 	
 	private void initLogic() {
-		mainLogic = new MainLogicStub();
+		mainLogic = new MainLogic();
 	}
 	
 	private void addCommandBar(UserInterface userInterface) {
