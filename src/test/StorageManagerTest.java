@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class StorageManagerTest {
 	
-	/*@Test
+	@Test
 	public void checkProcessFile(){
 		StorageManager rm= new StorageManager();
 		rm.setStorageLocation("src/calendrier/storageFile.txt") ;
@@ -105,7 +105,7 @@ public class StorageManagerTest {
 				rm.listToString());
 		rm.save();
 	}
-	*/
+	
 	@Test
 	public void testAdd() {
 		StorageManager rm= new StorageManager();
@@ -437,6 +437,18 @@ public class StorageManagerTest {
 	@Test
 	public void testUndo() {
 		StorageManager rm= new StorageManager();
+		Event event1 = new Event();
+		event1.setId("abc");
+		event1.setTitle("def");
+		event1.setStartDateTime(null);
+		event1.setEndDateTime(null);
+		event1.setPriority(Priority.MEDIUM);
+		event1.setLocation("test location");
+		event1.setNotes("test note");
+		event1.setReminder(null);
+		
+		rm.add(event1);
+		
 		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 		calendarStart.set(2015, 9, 20, 10, 33, 25);
 		Calendar calendarEnd = Calendar.getInstance();
@@ -453,7 +465,7 @@ public class StorageManagerTest {
 		event.setReminder(calendarStart);
 		
 		rm.add(event);
-		assertEquals("id: testId, "
+		/*assertEquals("id: testId, "
 				+ "title: testTitle, "
 				+ "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Tue Oct 20 11:34:26 SGT 2015, "
@@ -462,19 +474,8 @@ public class StorageManagerTest {
 				+ "notes: test note, "
 				+ "reminder: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "groups: [], \n",
-				rm.listToString());
+				rm.listToString());*/
 	
-		Event event1 = new Event();
-		event1.setId("abc");
-		event1.setTitle("def");
-		event1.setStartDateTime(null);
-		event1.setEndDateTime(null);
-		event1.setPriority(Priority.MEDIUM);
-		event1.setLocation("test location");
-		event1.setNotes("test note");
-		event1.setReminder(null);
-		
-		rm.add(event1);
 		assertEquals("id: abc, "
 				+ "title: def, "
 				+ "startDateTime: null, "
@@ -494,14 +495,14 @@ public class StorageManagerTest {
 				+ "groups: [], \n",
 				rm.listToString());
 		rm.undo();
-		assertEquals("id: testId, "
-				+ "title: testTitle, "
-				+ "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-				+ "endDateTime: Tue Oct 20 11:34:26 SGT 2015, "
+		assertEquals("id: abc, "
+				+ "title: def, "
+				+ "startDateTime: null, "
+				+ "endDateTime: null, "
 				+ "priority: MEDIUM, "
 				+ "location: test location, "
 				+ "notes: test note, "
-				+ "reminder: Tue Oct 20 10:33:25 SGT 2015, "
+				+ "reminder: null, "
 				+ "groups: [], \n",
 				rm.listToString());
 		rm.undo();
