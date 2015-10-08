@@ -40,8 +40,9 @@ public class StorageManager {
 	@SuppressWarnings("deprecation")
 	public void add(Event event){
 		int index;
-
+		
 		updateStatus();
+		delete(event.getId());
 		if (event.getStartDateTime() == null || event.getEndDateTime() == null) {
 			floatingTasks.add(event);
 		} else if (!isYearAvaliable(event.getStartDateTime().getTime().getYear())) {
@@ -175,6 +176,7 @@ public class StorageManager {
 	public void clear(){
 		year.clear();
 		floatingTasks.clear();
+		backup.clear();
 	}
 	
 	/**
@@ -201,7 +203,7 @@ public class StorageManager {
 			}
 		} catch (IOException e) {
 			//printMessage(MESSAGE_ERRORREADFILE);
-			System.out.println("ERROR! unable to create file");
+			e.printStackTrace();
 		}
 	}
 	
