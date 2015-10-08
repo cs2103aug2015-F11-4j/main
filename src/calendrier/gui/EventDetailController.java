@@ -25,9 +25,7 @@ public class EventDetailController extends StackPane {
 	@FXML
 	private Label lblTitle;
 	@FXML
-	private Label lblStartDateTime;
-	@FXML
-	private Label lblEndDateTime;
+	private Label lblDate;
 	@FXML
 	private Label lblLocation;
 	@FXML
@@ -68,8 +66,7 @@ public class EventDetailController extends StackPane {
 	public void initEventValue(Event event){
 		lblID.setText(checkExistValue(event.getId()));
 		lblTitle.setText(checkExistValue(event.getTitle()));
-		lblStartDateTime.setText(checkExistDate(event.getStartDateTime()));
-		lblEndDateTime.setText(checkExistDate(event.getEndDateTime()));
+		lblDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 		lblLocation.setText(checkExistValue(event.getLocation()));
 		lblReminder.setText(checkExistDate(event.getReminder()));
 		lblNotes.setText(checkExistValue(event.getNotes()));
@@ -91,6 +88,26 @@ public class EventDetailController extends StackPane {
 			
 		}
 		imgType.setImage(img);
+	}
+	
+	private static String constructEventDate(Calendar startDateTime, Calendar endDateTime) {
+		
+		
+		String startDate = checkExistDate(startDateTime);
+		String endDate = checkExistDate(endDateTime);
+		
+		if(!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+			if(startDate.equalsIgnoreCase(endDate)) {
+				return startDate;
+			}
+			return startDate + " - " + endDate;
+		} else if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+			return startDate;
+		} else if (startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+			return endDate;
+		} else {
+			return VALUE_SHOW_EMPTY_DATA;
+		}
 	}
 	
 	private static String checkExistPriority(Priority priority) {

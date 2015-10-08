@@ -15,7 +15,7 @@
 	<children>
 		<GridPane fx:id="gridPaneDetail" xmlns="http://javafx.com/javafx/8.0.40"
 			xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="500.0"
-			maxWidth="500.0" maxHeight="500.0" vgap="10" hgap="10" >
+			maxWidth="500.0" maxHeight="500.0" vgap="10" hgap="10">
 			<columnConstraints>
 				<ColumnConstraints percentWidth="10.0" />
 				<ColumnConstraints percentWidth="10.0" />
@@ -24,12 +24,11 @@
 				<ColumnConstraints percentWidth="35.0" />
 			</columnConstraints>
 			<rowConstraints>
-				<RowConstraints percentHeight="10.0" />
-				<RowConstraints percentHeight="10.0" />
-				<RowConstraints percentHeight="20.0" />
-				<RowConstraints percentHeight="20.0" />
-				<RowConstraints percentHeight="20.0" />
-				<RowConstraints percentHeight="20.0" />
+				<RowConstraints percentHeight="14.0" />
+				<RowConstraints percentHeight="14.0" />
+				<RowConstraints percentHeight="24.0" />
+				<RowConstraints percentHeight="24.0" />
+				<RowConstraints percentHeight="24.0" />
 			</rowConstraints>
 			<children>
 				<ImageView fx:id="imgType" fitHeight="50" fitWidth="50"
@@ -40,57 +39,46 @@
 					wrapText="true" GridPane.valignment="BOTTOM" />
 				<Label fx:id="lblID" GridPane.columnIndex="2"
 					GridPane.rowIndex="0" wrapText="true" GridPane.valignment="BOTTOM" />
-				<Label fx:id="lblTitle" GridPane.columnIndex="1" underline="true"
-					GridPane.rowIndex="1" GridPane.columnSpan="2" wrapText="true" GridPane.valignment="TOP" />
 
-				<Label text="Priority: " GridPane.columnIndex="3"
-					GridPane.rowIndex="0" wrapText="true" />
+				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
+					preserveRatio="true" visible="true" GridPane.columnIndex="3"
+					GridPane.rowIndex="0">
+					<image>
+						<Image url="/calendrier/resources/priority.png" />
+					</image>
+				</ImageView>
 				<Label fx:id="lblPriority" GridPane.columnIndex="4"
 					GridPane.rowIndex="0" wrapText="true" />
-				<Label text="Group :" GridPane.columnIndex="3"
-					GridPane.rowIndex="1" wrapText="true" />
+
+				<Label fx:id="lblTitle" GridPane.columnIndex="1" underline="true"
+					GridPane.rowIndex="1" GridPane.columnSpan="2" wrapText="true"
+					GridPane.valignment="TOP" />
+
+				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
+					preserveRatio="true" visible="true" GridPane.columnIndex="3"
+					GridPane.rowIndex="1">
+					<image>
+						<Image url="/calendrier/resources/group.png" />
+					</image>
+				</ImageView>
 				<Label fx:id="lblGroup" GridPane.columnIndex="4"
 					GridPane.rowIndex="1" wrapText="true" />
+
+				<!-- <ImageView fitHeight="50" fitWidth="50" pickOnBounds="true" preserveRatio="true" 
+					visible="true" GridPane.columnIndex="0" GridPane.rowIndex="2"> <image> <Image 
+					url="/calendrier/resources/date.png" /> </image> </ImageView> <Label fx:id="lblStartDateTime" 
+					GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="2" wrapText="true" 
+					/> -->
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="0"
 					GridPane.rowIndex="2">
 					<image>
-						<Image url="/calendrier/resources/date.png" />
-					</image>
-				</ImageView>
-				<Label fx:id="lblStartDateTime" GridPane.columnIndex="1"
-					GridPane.rowIndex="2" GridPane.columnSpan="2" wrapText="true" />
-
-				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
-					preserveRatio="true" visible="true" GridPane.columnIndex="0"
-					GridPane.rowIndex="3">
-					<image>
 						<Image url="/calendrier/resources/time.png" />
 					</image>
 				</ImageView>
-				<Label fx:id="lblEndDateTime" GridPane.columnIndex="1"
-					GridPane.rowIndex="3" GridPane.columnSpan="2" wrapText="true" />
-
-				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
-					preserveRatio="true" visible="true" GridPane.columnIndex="0"
-					GridPane.rowIndex="4">
-					<image>
-						<Image url="/calendrier/resources/location.png" />
-					</image>
-				</ImageView>
-				<Label fx:id="lblLocation" GridPane.columnIndex="1"
-					GridPane.rowIndex="4" GridPane.columnSpan="2" wrapText="true" />
-
-				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
-					preserveRatio="true" visible="true" GridPane.columnIndex="0"
-					GridPane.rowIndex="5">
-					<image>
-						<Image url="/calendrier/resources/reminder.png" />
-					</image>
-				</ImageView>
-				<Label fx:id="lblReminder" GridPane.columnIndex="1"
-					GridPane.rowIndex="5" GridPane.columnSpan="2" wrapText="true" />
+				<Label fx:id="lblDate" GridPane.columnIndex="1"
+					GridPane.rowIndex="2" GridPane.columnSpan="2" wrapText="true" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="3"
@@ -101,6 +89,26 @@
 				</ImageView>
 				<Label fx:id="lblNotes" GridPane.columnIndex="4"
 					GridPane.rowIndex="2" wrapText="true" />
+
+				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
+					preserveRatio="true" visible="true" GridPane.columnIndex="0"
+					GridPane.rowIndex="3">
+					<image>
+						<Image url="/calendrier/resources/location.png" />
+					</image>
+				</ImageView>
+				<Label fx:id="lblLocation" GridPane.columnIndex="1"
+					GridPane.rowIndex="3" GridPane.columnSpan="2" wrapText="true" />
+
+				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
+					preserveRatio="true" visible="true" GridPane.columnIndex="0"
+					GridPane.rowIndex="4">
+					<image>
+						<Image url="/calendrier/resources/reminder.png" />
+					</image>
+				</ImageView>
+				<Label fx:id="lblReminder" GridPane.columnIndex="1"
+					GridPane.rowIndex="4" GridPane.columnSpan="2" wrapText="true" />
 			</children>
 		</GridPane>
 	</children>
