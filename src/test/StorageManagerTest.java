@@ -118,15 +118,14 @@ public class StorageManagerTest {
 		event.setLocation("test location");
 		event.setNotes("test note");
 		event.setReminder(calendarStart);
-		
 		rm.add(event);
 		assertEquals("id: testId, "
-				+ "title: 123, "
+				+ "title: testTitle, "
 				+ "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Tue Oct 20 11:34:26 SGT 2015, "
 				+ "priority: MEDIUM, "
 				+ "location: test location, "
-				+ "notes: test 123, "
+				+ "notes: test note, "
 				+ "reminder: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "groups: [], \n",
 				rm.listToString());
@@ -148,12 +147,12 @@ public class StorageManagerTest {
 		
 		rm.add(event1);
 		assertEquals("id: testId, "
-				+ "title: 123, "
+				+ "title: testTitle, "
 				+ "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Tue Oct 20 11:34:26 SGT 2015, "
 				+ "priority: MEDIUM, "
 				+ "location: test location, "
-				+ "notes: test 123, "
+				+ "notes: test note, "
 				+ "reminder: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "groups: [], \nid: abc, "
 				+ "title: def, "
