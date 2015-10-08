@@ -1,6 +1,8 @@
 package stub;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Stack;
 
 import calendrier.StorageManager;
@@ -47,7 +49,19 @@ public class StorageManagerStub extends StorageManager {
 
 	public void undo() {
 		history.pop();
-		store = history.peek();
+		if (!history.empty()) {
+			store = history.peek();
+		} else {
+			store.clear();
+		}
+	}
+	
+	public List<Event> load() {
+		ArrayList<Event> events = new ArrayList<>();
+		for (Event e : store) {
+			events.add(e);
+		}
+		return events;
 	}
 
 	/**

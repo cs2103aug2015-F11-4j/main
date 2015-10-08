@@ -23,11 +23,14 @@ public class EventHandlerTest {
 	ParsedCommand pc = new ParsedCommand();
 	ParsedCommand deleteCommand = new ParsedCommand();
 	ParsedCommand undoCommand = new ParsedCommand();
+	ParsedCommand updateCommand = new ParsedCommand();
+	ParsedCommand setStorage = new ParsedCommand();
 	Event testEvent = new Event();
 
 	// simulating inputs from a parsed command
 	String ID = "TEST";
 	String title = "testing the first time";
+	String newNotes = "Ps - email boss";
 
 	Priority priority = utils.Priority.LOW;
 	String location = "Orchard Road";
@@ -76,8 +79,16 @@ public class EventHandlerTest {
 
 		deleteCommand.setCommand(Command.DELETE);
 		deleteCommand.setId(ID);
-		
+
 		undoCommand.setCommand(Command.UNDO);
+
+		updateCommand.setCommand(Command.UPDATE);
+		updateCommand.setId(ID);
+		updateCommand.setNotes(newNotes);
+
+		setStorage.setCommand(Command.STORAGE_LOCATION);
+		setStorage.setStorageLocation("abc.txt");
+
 	}
 
 	@Test
@@ -85,7 +96,7 @@ public class EventHandlerTest {
 
 		// Create EventHandler()
 		EventHandler handle = new EventHandler();
-//		handle.injectStorageManager(new StorageManagerStub());
+		handle.injectStorageManager(new StorageManagerStub());
 		handle.add(testEvent);
 
 		// Tests
@@ -102,7 +113,7 @@ public class EventHandlerTest {
 	@Test
 	public void testUndoAddEvent() {
 		EventHandler handle = new EventHandler();
-//		handle.injectStorageManager(new StorageManagerStub());
+		handle.injectStorageManager(new StorageManagerStub());
 
 		try {
 			handle.execute(pc);
@@ -114,41 +125,35 @@ public class EventHandlerTest {
 		assertTrue(handle.getAllEvents().size() == 0);
 	}
 
-	// @Test
-	// public void testUndoDeleteEvent() {
-	// EventHandler handle = new EventHandler();
-//	handle.injectStorageManager(new StorageManagerStub());
+	@Test
+	public void testUndoDeleteEvent() {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
 
-	// try {
-	// handle.execute(pc);
-	// handle.execute(deleteCommand);
-	// } catch (Exception e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	//
-	// handle.undo();
-	// assertFalse(handle.getAllEvents().isEmpty());
-	// assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
-	// assertEquals(handle.getAllEvents().get(0).getTitle(),
-	// testEvent.getTitle());
-	// assertEquals(handle.getAllEvents().get(0).getStartDateTime(),
-	// testEvent.getStartDateTime());
-	// assertEquals(handle.getAllEvents().get(0).getEndDateTime(),
-	// testEvent.getEndDateTime());
-	// assertEquals(handle.getAllEvents().get(0).getPriority(),
-	// testEvent.getPriority());
-	// assertEquals(handle.getAllEvents().get(0).getLocation(),
-	// testEvent.getLocation());
-	// assertEquals(handle.getAllEvents().get(0).getNotes(),
-	// testEvent.getNotes());
-	// }
+		try {
+			handle.execute(pc);
+			handle.execute(deleteCommand);
+			handle.execute(undoCommand);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertFalse(handle.getAllEvents().isEmpty());
+		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
+		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
+		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());
+		assertEquals(handle.getAllEvents().get(0).getEndDateTime(), testEvent.getEndDateTime());
+		assertEquals(handle.getAllEvents().get(0).getPriority(), testEvent.getPriority());
+		assertEquals(handle.getAllEvents().get(0).getLocation(), testEvent.getLocation());
+		assertEquals(handle.getAllEvents().get(0).getNotes(), testEvent.getNotes());
+	}
 
 	@Test
 	public void testRemoveEvent() {
 
 		EventHandler handle = new EventHandler();
-//		handle.injectStorageManager(new StorageManagerStub());
+		handle.injectStorageManager(new StorageManagerStub());
 
 		handle.add(testEvent);
 
@@ -159,15 +164,16 @@ public class EventHandlerTest {
 	@Test
 	public void testUpdateEvent() {
 		EventHandler handle = new EventHandler();
-//		handle.injectStorageManager(new StorageManagerStub());
+		handle.injectStorageManager(new StorageManagerStub());
 
-		handle.add(testEvent);
-
-		ParsedCommand updatingCommand = new ParsedCommand();
-		updatingCommand.setId(ID);
-		String newNotes = "Ps - email boss";
-		updatingCommand.setNotes(newNotes);
-		handle.update(updatingCommand);
+		try {
+			handle.execute(setStorage);
+			handle.execute(pc);
+			handle.execute(updateCommand);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getId(), ID);
 		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getTitle(), title);
@@ -181,7 +187,7 @@ public class EventHandlerTest {
 	@Test
 	public void testView() {
 		EventHandler handle = new EventHandler();
-//		handle.injectStorageManager(new StorageManagerStub());
+		handle.injectStorageManager(new StorageManagerStub());
 
 		handle.add(testEvent);
 		Event viewedEvent = handle.view(pc);
@@ -190,21 +196,15 @@ public class EventHandlerTest {
 
 	@Test
 	public void testExecute() {
-
-		ArrayList<Event> list = new ArrayList<>();
-
 		EventHandler handle = new EventHandler();
-//		handle.injectStorageManager(new StorageManagerStub());
+		handle.injectStorageManager(new StorageManagerStub());
 
 		try {
-			list = handle.execute(pc);
+			handle.execute(pc);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// for (Event e : list) {
-		// System.out.println(e);
-		// }
+		assertEquals(pc.getId(), handle.getAllEvents().get(0).getId());
 	}
 
 }
