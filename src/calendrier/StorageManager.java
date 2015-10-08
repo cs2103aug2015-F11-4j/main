@@ -184,9 +184,7 @@ public class StorageManager {
 	 */
 	public void setStorageLocation(String fileLocation) {
 		if (fileLocation.length() == 0) {
-			//printMessage(MESSAGE_ERRORFILE);
 			System.out.println("Cannot detect the specific file!");
-			//System.exit(0);
 		}
 		File file = new File(fileLocation);
 		try {
@@ -208,9 +206,11 @@ public class StorageManager {
 	public void save() {
 		int i, j=0;
 		List<Event> data= new ArrayList<Event>();
+		
 		if(fileName==null){
-			setStorageLocation("src/calendrier/storageFile.txt");
+			setStorageLocation("storageFile.txt");
 		}
+		
 		try {
 			FileWriter fileWrite = new FileWriter(fileName);
 			BufferedWriter bufferWrite = new BufferedWriter(fileWrite);
