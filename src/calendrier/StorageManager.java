@@ -2,7 +2,6 @@ package calendrier;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-//import java.util.Collections;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,7 +42,7 @@ public class StorageManager {
 		int index;
 
 		updateStatus();
-		if (event.getStartDateTime() == null) {
+		if (event.getStartDateTime() == null || event.getEndDateTime() == null) {
 			floatingTasks.add(event);
 		} else if (!isYearAvaliable(event.getStartDateTime().getTime().getYear())) {
 			year.add(new CalenderYear(event));
@@ -58,7 +57,7 @@ public class StorageManager {
 	public void remove(Event event){	
 
 		updateStatus();
-		if(event.getStartDateTime()!=null){
+		if(event.getStartDateTime()!=null && event.getEndDateTime() != null){
 			int index=returnIndex(event.getStartDateTime().getTime().getYear());
 			year.get(index).getMonth(event.getStartDateTime().getTime().getMonth()).getDate(event.getStartDateTime().getTime().getDate()).deleteTask(event);
 		}
@@ -73,9 +72,8 @@ public class StorageManager {
 		newEvent = combineEvents(oldEvent,newEvent);
 		remove(oldEvent);
 		add(newEvent);
-		save();
 	}
-	
+
 	public void update(String id,Event newEvent){
 		Event oldEvent;
 		
@@ -442,7 +440,7 @@ public class StorageManager {
 		
 		return newEvent;
 	}
-
+	
 	private static Boolean isYearAvaliable (int info) {
 		
 		int i, size = year.size();
