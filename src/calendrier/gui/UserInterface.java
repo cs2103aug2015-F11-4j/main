@@ -211,12 +211,15 @@ public class UserInterface extends Application {
 		case EXIT:
 			System.exit(0);
 		case PREVIOUS:
+			setMessage = MESSAGE_EMPTY;
 			getPreviousPage(this);
 			break;
 		case NEXT:
+			setMessage = MESSAGE_EMPTY;
 			getNextPage(this);
 			break;
 		case HELP:
+			setMessage = MESSAGE_EMPTY;
 			getHelp(this);
 			break;
 		default:
