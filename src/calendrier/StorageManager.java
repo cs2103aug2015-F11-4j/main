@@ -72,6 +72,14 @@ public class StorageManager {
 		newEvent = combineEvents(oldEvent,newEvent);
 		remove(oldEvent);
 		add(newEvent);
+		removeStatus();
+	}
+	
+	private void removeStatus() {
+		int index=backup.size()-1;
+		backup.remove(index);
+		index--;
+		backup.remove(index);
 	}
 
 	public void update(String id,Event newEvent){
