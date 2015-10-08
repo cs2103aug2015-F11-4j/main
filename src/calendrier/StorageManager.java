@@ -204,6 +204,7 @@ public class StorageManager {
 		} catch (IOException e) {
 			//printMessage(MESSAGE_ERRORREADFILE);
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 	
