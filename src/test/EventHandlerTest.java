@@ -135,11 +135,10 @@ public class EventHandlerTest {
 			handle.execute(deleteCommand);
 			handle.execute(undoCommand);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-//		assertFalse(handle.getAllEvents().isEmpty());
+		assertFalse(handle.getAllEvents().isEmpty());
 		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
 		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
 		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());
@@ -205,6 +204,20 @@ public class EventHandlerTest {
 			e.printStackTrace();
 		}
 		assertEquals(pc.getId(), handle.getAllEvents().get(0).getId());
+	}
+	
+	@Test
+	public void testUndoUpdate() {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		try {
+			handle.execute(pc);
+			handle.execute(updateCommand);
+			handle.execute(undoCommand);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(pc.getNotes(), handle.getAllEvents().get(0).getNotes());
 	}
 
 }

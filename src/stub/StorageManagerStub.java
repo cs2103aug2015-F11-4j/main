@@ -27,7 +27,6 @@ public class StorageManagerStub extends StorageManager {
 			tempStore.add(event);
 		}
 		history.push(tempStore);
-//		history.push(store);
 	}
 
 	public void remove(Event e) {

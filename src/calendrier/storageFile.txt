@@ -1,1 +1,5 @@
 id: ggId, title: addTitle, startDateTime: Fri Oct 23 10:55:00 SGT 2015, endDateTime: Fri Oct 23 10:56:00 SGT 2015, priority: VERY_HIGH, location: addLocation, notes: addNotes, reminder: Mon Oct 19 10:33:00 SGT 2015, groups: [null], 
+id: ggId, title: addTitle, startDateTime: Fri Oct 23 10:55:00 SGT 2015, endDateTime: Fri Oct 23 10:56:00 SGT 2015, priority: VERY_HIGH, location: addLocation, notes: addNotes, reminder: Mon Oct 19 10:33:00 SGT 2015, groups: [], 
+id: ggId, title: addTitle, startDateTime: Fri Oct 23 10:55:00 SGT 2015, endDateTime: Fri Oct 23 10:56:00 SGT 2015, priority: VERY_HIGH, location: addLocation, notes: addNotes, reminder: Mon Oct 19 10:33:00 SGT 2015, groups: [], 
+id: ggId, title: addTitle, startDateTime: Fri Oct 23 10:55:00 SGT 2015, endDateTime: Fri Oct 23 10:56:00 SGT 2015, priority: VERY_HIGH, location: addLocation, notes: addNotes, reminder: Mon Oct 19 10:33:00 SGT 2015, groups: [], 
+id: 9, title: addTitle, startDateTime: Wed Sep 23 10:55:11 SGT 2015, endDateTime: Wed Sep 23 10:56:11 SGT 2015, priority: VERY_HIGH, location: addLocation, notes: addNotes, reminder: Sat Sep 19 10:33:11 SGT 2015, groups: [], 

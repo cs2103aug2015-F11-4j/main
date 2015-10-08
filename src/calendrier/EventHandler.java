@@ -20,14 +20,12 @@ public class EventHandler {
 	StorageManager manage;
 	ArrayList<Event> events = new ArrayList<>();
 	EventGenerator generator;
-//	Stack<ParsedCommand> commandHistory;
 	Event previousEvent;
 	Event beforeUpdate;
 
 	public EventHandler() {
 		manage = new StorageManager();
 		generator = new EventGenerator();
-//		commandHistory = new Stack<>();
 		previousEvent = new Event();
 		beforeUpdate = new Event();
 	}
@@ -81,8 +79,6 @@ public class EventHandler {
 		} else {
 			// EXIT, PREV, NEXT commands, do nothing!
 		}
-
-//		commandHistory.push(pc);
 		return eventsReturned;
 	}
 
@@ -111,21 +107,7 @@ public class EventHandler {
 	 */
 	public Event undo() {
 		Event undone = new Event();
-//		ParsedCommand lastCommand = commandHistory.pop();
-//		if (lastCommand.getCommand() == Command.ADD) {
-//			undone = events.get(events.size() - 1);
-//			events.remove(events.size() - 1);
-//		} else if (lastCommand.getCommand() == Command.DELETE) {
-//			events.add(previousEvent);
-//			undone = previousEvent;
-//		} else if (lastCommand.getCommand() == Command.UPDATE) {
-//			events.remove(events.size() - 1);
-//			events.add(beforeUpdate);
-//			undone = beforeUpdate;
-//		} else {
-//
-//		}
-
+		
 		manage.undo();
 		events = (ArrayList<Event>) manage.load();
 		return undone;
@@ -185,7 +167,6 @@ public class EventHandler {
 			}
 		}
 		 manage.update(oldEvent, newEvent);
-		// PROBLEM WITH STORAGE MANAGER
 
 		// ensure updatedEvent contains all relevant info from oldEvent
 		if (newEvent.getTitle() == null) {
@@ -245,6 +226,7 @@ public class EventHandler {
 	 * @return events
 	 */
 	public List<Event> getAllEvents() {
+		events = (ArrayList<Event>) manage.load();
 		return events;
 	}
 
