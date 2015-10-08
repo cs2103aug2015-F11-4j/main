@@ -191,18 +191,12 @@ public class StorageManager {
 		File file = new File(fileLocation);
 		try {
 			if (!file.exists()) {
-				//printMessage(MESSAGE_NEWFILE);
-				//System.out.println("File not found!");
+
 				file.createNewFile();
-				/*if(sc.nextLine().toUpperCase().equals("Y")){
-					file.createNewFile();
-				}*/
+
 			}
-			else{
-				processFile(fileLocation);
-			}
+			processFile(fileLocation);
 		} catch (IOException e) {
-			//printMessage(MESSAGE_ERRORREADFILE);
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
