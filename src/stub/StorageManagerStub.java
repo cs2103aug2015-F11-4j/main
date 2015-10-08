@@ -21,7 +21,13 @@ public class StorageManagerStub extends StorageManager {
 
 	public void add(Event e) {
 		store.add(e);
-		history.push(store);
+		HashSet<Event> tempStore = new HashSet<>();
+
+		for (Event event : store) {
+			tempStore.add(event);
+		}
+		history.push(tempStore);
+//		history.push(store);
 	}
 
 	public void remove(Event e) {
@@ -31,8 +37,14 @@ public class StorageManagerStub extends StorageManager {
 
 		// remove Event from storage
 		store.remove(eventToRemove);
-		assert(!store.contains(eventToRemove));
-		history.push(store);
+		assert (!store.contains(eventToRemove));
+
+		HashSet<Event> tempStore = new HashSet<>();
+
+		for (Event event : store) {
+			tempStore.add(event);
+		}
+		history.push(tempStore);
 	}
 
 	public void update(Event oldEvent, Event newEvent) {
@@ -41,6 +53,12 @@ public class StorageManagerStub extends StorageManager {
 
 		// add new event
 		store.add(newEvent);
+		HashSet<Event> tempStore = new HashSet<>();
+
+		for (Event e : store) {
+			tempStore.add(e);
+		}
+		history.push(tempStore);
 	}
 
 	public void setStorageLocation(String s) {
@@ -55,7 +73,7 @@ public class StorageManagerStub extends StorageManager {
 			store.clear();
 		}
 	}
-	
+
 	public List<Event> load() {
 		ArrayList<Event> events = new ArrayList<>();
 		for (Event e : store) {

@@ -139,7 +139,7 @@ public class EventHandlerTest {
 			e.printStackTrace();
 		}
 
-		assertFalse(handle.getAllEvents().isEmpty());
+//		assertFalse(handle.getAllEvents().isEmpty());
 		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
 		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
 		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());

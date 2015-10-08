@@ -139,7 +139,7 @@ public class EventHandler {
 	public Event add(Event event) {
 		previousEvent = event;
 		manage.add(event);
-		events.add(event);
+//		events.add(event);
 		
 		events = (ArrayList<Event>) manage.load();
 
@@ -160,9 +160,7 @@ public class EventHandler {
 				break;
 			}
 		}
-		manage.remove(eventToBeRemoved);
-		events.remove(eventToBeRemoved);
-		
+		manage.remove(eventToBeRemoved);		
 		events = (ArrayList<Event>) manage.load();
 
 		return eventToBeRemoved;
