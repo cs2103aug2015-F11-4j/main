@@ -356,6 +356,11 @@ public class MainLogicTest {
 
 		currentList = mainLogic.getAllEvents();
 		assertTrue("should be at least 1", currentList.size() > 0);
+
+		command = "view " + id;
+		cmd = mainLogic.execute(command);
+		assertTrue("is view command", cmd == Command.VIEW);
+		
 		foundId = false;
 		for (int i = 0; i < currentList.size(); i++) {
 			if (currentList.get(i).getId().equals(id)) {
