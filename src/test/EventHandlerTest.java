@@ -111,44 +111,6 @@ public class EventHandlerTest {
 	}
 
 	@Test
-	public void testUndoAddEvent() {
-		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
-
-		try {
-			handle.execute(pc);
-			handle.execute(undoCommand);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		assertTrue(handle.getAllEvents().isEmpty());
-		assertTrue(handle.getAllEvents().size() == 0);
-	}
-
-	@Test
-	public void testUndoDeleteEvent() {
-		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
-
-		try {
-			handle.execute(pc);
-			handle.execute(deleteCommand);
-			handle.execute(undoCommand);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		assertFalse(handle.getAllEvents().isEmpty());
-		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
-		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
-		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());
-		assertEquals(handle.getAllEvents().get(0).getEndDateTime(), testEvent.getEndDateTime());
-		assertEquals(handle.getAllEvents().get(0).getPriority(), testEvent.getPriority());
-		assertEquals(handle.getAllEvents().get(0).getLocation(), testEvent.getLocation());
-		assertEquals(handle.getAllEvents().get(0).getNotes(), testEvent.getNotes());
-	}
-
-	@Test
 	public void testRemoveEvent() {
 
 		EventHandler handle = new EventHandler();
@@ -184,6 +146,21 @@ public class EventHandlerTest {
 	}
 
 	@Test
+	public void testUndoAddEvent() {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
+		try {
+			handle.execute(pc);
+			handle.execute(undoCommand);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertTrue(handle.getAllEvents().isEmpty());
+		assertTrue(handle.getAllEvents().size() == 0);
+	}
+
+	@Test
 	public void testView() {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
@@ -194,18 +171,28 @@ public class EventHandlerTest {
 	}
 
 	@Test
-	public void testExecute() {
+	public void testUndoDeleteEvent() {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 
 		try {
 			handle.execute(pc);
+			handle.execute(deleteCommand);
+			handle.execute(undoCommand);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertEquals(pc.getId(), handle.getAllEvents().get(0).getId());
+
+		assertFalse(handle.getAllEvents().isEmpty());
+		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
+		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
+		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());
+		assertEquals(handle.getAllEvents().get(0).getEndDateTime(), testEvent.getEndDateTime());
+		assertEquals(handle.getAllEvents().get(0).getPriority(), testEvent.getPriority());
+		assertEquals(handle.getAllEvents().get(0).getLocation(), testEvent.getLocation());
+		assertEquals(handle.getAllEvents().get(0).getNotes(), testEvent.getNotes());
 	}
-	
+
 	@Test
 	public void testUndoUpdate() {
 		EventHandler handle = new EventHandler();
