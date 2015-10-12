@@ -5,6 +5,7 @@ import java.util.List;
 
 import utils.Command;
 import utils.Event;
+import utils.OnRemindListener;
 import utils.ParsedCommand;
 
 /**
@@ -124,5 +125,13 @@ public class MainLogic {
 	public List<Event> getAllEvents() {
 		events = eventHandler.getAllEvents();
 		return events;
+	}
+	
+	/**
+	 * Set OnRemindListener
+	 * @param listener	listener for reminder
+	 */
+	public void setOnRemindListener(OnRemindListener listener){
+		// Set in event handler
 	}
 }
