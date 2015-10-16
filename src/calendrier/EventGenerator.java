@@ -24,7 +24,6 @@ public class EventGenerator {
 		e.setNotes(pc.getNotes());
 		e.setReminder(pc.getReminder());
 		e.addGroup(pc.getGroup());
-		
 		return e;
 	}
 }

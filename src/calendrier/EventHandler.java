@@ -3,6 +3,7 @@ package calendrier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.logging.Logger;
 
 import utils.Command;
 import utils.Event;
@@ -18,18 +19,22 @@ import utils.ParsedCommand;
 public class EventHandler {
 
 	StorageManager manage;
+	Stack<ArrayList<Event>> history;
 	ArrayList<Event> events = new ArrayList<>();
 	EventGenerator generator;
 	Event previousEvent;
 	Event beforeUpdate;
+	Logger log;
 
 	public EventHandler() {
 		manage = new StorageManager();
 		generator = new EventGenerator();
 		previousEvent = new Event();
 		beforeUpdate = new Event();
+		log = Logger.getLogger(EventHandler.class.getName());
+		history = new Stack<>();
 	}
-	
+
 	public void injectStorageManager(StorageManager manager) {
 		this.manage = manager;
 	}
@@ -44,11 +49,12 @@ public class EventHandler {
 	 */
 	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		ArrayList<Event> eventsReturned = new ArrayList<>();
-		
-		assert(pc !=  null);
+
+		assert (pc != null);
 
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
+			assert (newEvent != null);
 			add(newEvent);
 			eventsReturned.add(newEvent);
 		} else if (pc.getCommand() == Command.DELETE) {
@@ -74,7 +80,7 @@ public class EventHandler {
 			eventsReturned = filter(pc);
 
 		} else if (pc.getCommand() == Command.STORAGE_LOCATION) {
-			setStorage(pc);
+			setStorageAndLoadEvents(pc);
 
 		} else {
 			// EXIT, PREV, NEXT commands, do nothing!
@@ -82,7 +88,7 @@ public class EventHandler {
 		return eventsReturned;
 	}
 
-	private void setStorage(ParsedCommand pc) {
+	private void setStorageAndLoadEvents(ParsedCommand pc) {
 		manage.setStorageLocation(pc.getStorageLocation());
 		events = (ArrayList<Event>) manage.load();
 	}
@@ -107,7 +113,7 @@ public class EventHandler {
 	 */
 	public Event undo() {
 		Event undone = new Event();
-		
+
 		manage.undo();
 		events = (ArrayList<Event>) manage.load();
 		return undone;
@@ -121,10 +127,10 @@ public class EventHandler {
 	public Event add(Event event) {
 		previousEvent = event;
 		manage.add(event);
-//		events.add(event);
+		events.add(event);
 		
-		events = (ArrayList<Event>) manage.load();
-
+		ArrayList<Event> currentEvents = events;
+		history.push(currentEvents);
 		return event;
 	}
 
@@ -142,9 +148,10 @@ public class EventHandler {
 				break;
 			}
 		}
-		manage.remove(eventToBeRemoved);		
-		events = (ArrayList<Event>) manage.load();
-
+		manage.remove(eventToBeRemoved);
+		events.remove(eventToBeRemoved);
+		ArrayList<Event> currentEvents = events;
+		history.push(currentEvents);
 		return eventToBeRemoved;
 	}
 
@@ -166,7 +173,7 @@ public class EventHandler {
 				break;
 			}
 		}
-		 manage.update(oldEvent, newEvent);
+		manage.update(oldEvent, newEvent);
 
 		// ensure updatedEvent contains all relevant info from oldEvent
 		if (newEvent.getTitle() == null) {
@@ -198,9 +205,8 @@ public class EventHandler {
 
 		beforeUpdate = oldEvent;
 		events.add(newEvent);
-		
-		events = (ArrayList<Event>) manage.load();
-
+		ArrayList<Event> currentEvents = events;
+		history.push(currentEvents);
 		return newEvent;
 	}
 
@@ -226,7 +232,6 @@ public class EventHandler {
 	 * @return events
 	 */
 	public List<Event> getAllEvents() {
-		events = (ArrayList<Event>) manage.load();
 		return events;
 	}
 
