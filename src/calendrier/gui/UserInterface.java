@@ -7,6 +7,7 @@ import java.util.Set;
 
 import utils.Event;
 import calendrier.MainLogic;
+import calendrier.ReminderManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -55,6 +56,7 @@ public class UserInterface extends Application {
 	private BorderPane rootLayout;
 
 	private MainLogic mainLogic = null;
+	private ReminderManager reminderMgr = null;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -66,6 +68,7 @@ public class UserInterface extends Application {
 		initPrimaryStage(primaryStage);
 
 		initLogic();
+		initReminder();
 
 		// Adding commandbar to RootLayout
 		addCommandBar(this);
@@ -90,9 +93,18 @@ public class UserInterface extends Application {
 	}
 
 	private void initLogic() {
+		// using singleton pattern for initiating MainLogic Object 
 		mainLogic = new MainLogic();
+		// mainLogic = MainLogic.getInstance();
+
 		eventSize = mainLogic.getAllEvents().size();
 		events = mainLogic.getAllEvents();
+	}
+	
+	private void initReminder() {
+		// using singleton pattern for initiating ReminderManager Object
+		reminderMgr = new ReminderManager();
+		// reminderMgr = ReminderManager.getInstance();
 	}
 
 	private void addCommandBar(UserInterface userInterface) {
@@ -195,6 +207,11 @@ public class UserInterface extends Application {
 			break;
 		case FILTER:
 			// addFilterView(this);
+			break;
+		case SEARCH:
+			// addView(this); 
+			// either 1 search view or use back view all view
+			// addSearchView(this);
 			break;
 		case UPDATE:
 			setMessage = checkUpdate();

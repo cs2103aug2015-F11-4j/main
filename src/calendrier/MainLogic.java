@@ -5,6 +5,7 @@ import java.util.List;
 
 import utils.Command;
 import utils.Event;
+import utils.OnRemindListener;
 import utils.ParsedCommand;
 
 /**
@@ -18,6 +19,7 @@ public class MainLogic {
 	private EventHandler eventHandler = null;
 	private Event event = null;
 	private List<Event> events = null;
+	private List<Event> filteredEvents = null;
 
 	/**
 	 * Constructor to initialize the main components of Main Logic
@@ -77,6 +79,9 @@ public class MainLogic {
 
 		try {
 			eventList = eventHandler.execute(parsedCommand);
+			if(parsedCommand.getCommand() == Command.FILTER){
+				filteredEvents = eventList;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -124,5 +129,17 @@ public class MainLogic {
 	public List<Event> getAllEvents() {
 		events = eventHandler.getAllEvents();
 		return events;
+	}
+	
+	public List<Event> getFilteredEvents(){
+		return filteredEvents;
+	}
+	
+	/**
+	 * Set OnRemindListener
+	 * @param listener	listener for reminder
+	 */
+	public void setOnRemindListener(OnRemindListener listener){
+		// Set in event handler
 	}
 }
