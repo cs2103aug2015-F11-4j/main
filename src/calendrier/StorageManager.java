@@ -11,7 +11,7 @@ import java.io.File;
 import utils.CalenderYear;
 import utils.Event;
 import java.util.List;
-//import java.util.logging.Logger;
+import java.util.logging.Logger;
 
 //class ErrorFromStorage extends Exception {
 //	public ErrorFromStorage(String msg) {
@@ -27,6 +27,7 @@ public class StorageManager {
 	private static ArrayList<CalenderYear> year;
 	private static ArrayList<Event> floatingTasks;
 	private static List<List<String>> backup;
+	private static Logger theLogger = Logger.getLogger(StorageManager.class.getName());
 	
 	public StorageManager(){
 		year= new ArrayList<CalenderYear>();
@@ -49,6 +50,7 @@ public class StorageManager {
 			year.get(index).addMonth(event);
 		}
 		save();
+		theLogger.info("Event Added!");
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -92,6 +94,8 @@ public class StorageManager {
 	}
 	
 	public void delete(String id){
+//		assert id > 0: " Not valid";  
+
 		if(view(id)!=null){
 			remove(view(id));
 			save();
