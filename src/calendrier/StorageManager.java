@@ -94,7 +94,8 @@ public class StorageManager {
 	}
 	
 	public void delete(String id){
-//		assert id > 0: " Not valid";  
+		
+		assert(id !=  null);  
 
 		if(view(id)!=null){
 			remove(view(id));
@@ -109,6 +110,8 @@ public class StorageManager {
 		Event result=null;
 		events=load();
 		int i;
+		
+		assert(id !=  null);  
 		
 		for(i=0;i<events.size();i++){
 			if(events.get(i).getId().equals(id)){
