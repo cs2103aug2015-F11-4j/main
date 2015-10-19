@@ -16,7 +16,7 @@ import org.junit.Test;
 public class StorageManagerTest {
 	
 	@Test
-	public void checkProcessFile(){
+	public void loadFromFile(){
 		StorageManager rm= new StorageManager();
 		rm.setStorageLocation("storageFile.txt") ;
 		assertEquals("id: testId, title: testTitle, startDateTime: Fri Oct 23 10:55:00 SGT 2015, endDateTime: Fri Oct 23 10:56:00 SGT 2015, priority: MEDIUM, location: test location, notes: test note, reminder: Mon Oct 19 10:33:00 SGT 2015, groups: [], \n"
