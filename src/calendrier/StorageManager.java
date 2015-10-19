@@ -24,9 +24,22 @@ public class StorageManager {
 	}
 	
 	public List<String> load(){
+		inputData.clear();
+		processFile(fileName);
 		return inputData;
 	}
-	
+	public String listToString(){
+		int i;
+		
+		String result="";
+		List<String> data=new ArrayList<String>();
+		data=load();
+		
+		for(i=0;i<data.size();i++){
+			result=result.concat(data.get(i).toString()+"\n");
+		}
+		return result;
+	}
 	/**
 	 * This method is to check for file location.
 	 */
