@@ -54,7 +54,8 @@ public class StorageManager {
 	 */
 	public void save(List<Event> data) {
 		int i;
-
+		assert(data !=  null);  
+		
 		if (fileName == null) {
 			setStorageLocation("storageFile.txt");
 		}
