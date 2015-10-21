@@ -132,7 +132,8 @@ public class ParserTest {
 		Parser parser = new Parser();
 		String userInput = "update 3, title repeat sleep drink eat, "
 				+ "startdate 2015/12/29, starttime 13.37, enddate 2015/12/30, "
-				+ "endtime 14.44, priority very low, location my home, notes must do, "
+				+ "endtime 14.44, priority very low, group my personal group, "
+				+ "location my home, notes must do, "
 				+ "recurring no, reminderdate 2015/12/30, remindertime 15.30 ";
 
 		ParsedCommand pc = parser.parse(userInput);
@@ -165,6 +166,7 @@ public class ParserTest {
 		assertEquals("end time: ", "14.44", endTime);
 
 		assertEquals("priority: ", "VERY_LOW", pc.getPriority().toString());
+		assertEquals("group: ", "my personal group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
 		assertEquals("recurring: ", false, pc.getIsRecurring());
@@ -187,7 +189,8 @@ public class ParserTest {
 	public void update2() {
 		Parser parser = new Parser();
 		String userInput = "update 3, title repeat sleep drink eat, " + "enddate 2015/12/30, "
-				+ "endtime 14.44, priority very low, location my home, notes must do, "
+				+ "endtime 14.44, priority very low, location my home, group my personal group, "
+				+ "notes must do, "
 				+ "recurring no, reminderdate 2015/12/30, remindertime 15.30 ";
 
 		ParsedCommand pc = parser.parse(userInput);
@@ -208,6 +211,7 @@ public class ParserTest {
 		assertEquals("end time: ", "14.44", endTime);
 
 		assertEquals("priority: ", "VERY_LOW", pc.getPriority().toString());
+		assertEquals("group: ", "my personal group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
 		assertEquals("recurring: ", false, pc.getIsRecurring());
@@ -230,8 +234,9 @@ public class ParserTest {
 	public void add1() {
 		Parser parser = new Parser();
 		String userInput = "add eat sleep drink repeat, startdate 2015/12/29, "
-				+ "starttime 13.37, enddate 2015/12/30, endtime 14.44, priority very low, "
-				+ "location my home, notes must do, recurring no, reminderdate 2015/12/30, " + "remindertime 15.30";
+				+ "starttime 13.37, enddate 2015/12/30, endtime 14.44, group my personal group, "
+				+ "priority very low, location my home, notes must do, "
+				+ "recurring no, reminderdate 2015/12/30, " + "remindertime 15.30";
 
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "ADD", pc.getCommand().toString());
@@ -262,6 +267,7 @@ public class ParserTest {
 		assertEquals("end time: ", "14.44", endTime);
 
 		assertEquals("priority: ", "VERY_LOW", pc.getPriority().toString());
+		assertEquals("group: ", "my personal group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
 		assertEquals("recurring: ", false, pc.getIsRecurring());
@@ -284,7 +290,7 @@ public class ParserTest {
 	public void add2() {
 		Parser parser = new Parser();
 		String userInput = "add eat sleep drink repeat, "
-				+ "enddate 2015/12/30, endtime 14.44, priority very low, "
+				+ "enddate 2015/12/30, endtime 14.44, priority very low, group my personal group, "
 				+ "location my home, notes must do, recurring no, reminderdate 2015/12/30, " + "remindertime 15.30";
 
 		ParsedCommand pc = parser.parse(userInput);
@@ -304,6 +310,7 @@ public class ParserTest {
 		assertEquals("end time: ", "14.44", endTime);
 
 		assertEquals("priority: ", "VERY_LOW", pc.getPriority().toString());
+		assertEquals("group: ", "my personal group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
 		assertEquals("recurring: ", false, pc.getIsRecurring());
