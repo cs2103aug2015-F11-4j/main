@@ -1,5 +1,7 @@
 package calendrier;
 
+import java.util.ArrayList;
+
 import utils.Event;
 
 import utils.ParsedCommand;
@@ -35,5 +37,19 @@ public class EventGenerator {
 	public Event createEvent(String s) {
 		Event e = new Event();
 		return e;
+	}
+	
+	/**
+	 * Method to create multiple event instances from a given arraylist of strings
+	 * @param strings
+	 * @return
+	 */
+	public ArrayList<Event> createMultipleEvents(ArrayList<String> strings) {
+		ArrayList<Event> events = new ArrayList<>();
+		for (String s : strings) {
+			Event e = createEvent(s);
+			events.add(e);
+		}
+		return events;
 	}
 }

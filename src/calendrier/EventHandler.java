@@ -91,12 +91,13 @@ public class EventHandler {
 
 	private void setStorageAndLoadEvents(ParsedCommand pc) {
 		manage.setStorageLocation(pc.getStorageLocation());
-		events = (ArrayList<Event>) manage.load();
+
+		ArrayList<String> eventsFromStorage = (ArrayList<String>)manage.load();
+		events = generator.createMultipleEvents(eventsFromStorage);
 	}
 
 	private ArrayList<Event> search(ParsedCommand pc) {
 		ArrayList<Event> searchedEvents = new ArrayList<>();
-
 		for (Event e : events) {
 			if (e.getGroups().contains(pc.getGroup())) {
 				searchedEvents.add(e);
@@ -104,7 +105,6 @@ public class EventHandler {
 				searchedEvents.add(e);
 			}
 		}
-
 		return searchedEvents;
 	}
 
@@ -115,8 +115,8 @@ public class EventHandler {
 	public Event undo() {
 		Event undone = new Event();
 
-		manage.undo();
-		events = (ArrayList<Event>) manage.load();
+//		manage.undo();
+//		events = (ArrayList<Event>) manage.load();
 		return undone;
 	}
 
@@ -134,8 +134,9 @@ public class EventHandler {
 //		}
 		
 		// if no conflicts, add
-		manage.add(event);
 		events.add(event);
+		// save to manager
+		manage.save(events);
 		
 		// else throw an exception
 		
@@ -158,7 +159,9 @@ public class EventHandler {
 				break;
 			}
 		}
-		manage.remove(eventToBeRemoved);
+		
+		// remove event from list 
+//		manage.remove(eventToBeRemoved);
 		events.remove(eventToBeRemoved);
 		ArrayList<Event> currentEvents = events;
 		history.push(currentEvents);
@@ -186,7 +189,7 @@ public class EventHandler {
 		
 		// check that date does not conflict some other date
 		
-		manage.update(oldEvent, newEvent);
+//		manage.update(oldEvent, newEvent);
 
 		// ensure updatedEvent contains all relevant info from oldEvent
 		if (newEvent.getTitle() == null) {

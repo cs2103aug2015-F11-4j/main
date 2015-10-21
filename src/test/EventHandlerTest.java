@@ -98,15 +98,17 @@ public class EventHandlerTest {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 		handle.add(testEvent);
+		
+		Event addedEvent = handle.getAllEvents().get(0);
 
 		// Tests
-		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
-		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
-		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());
-		assertEquals(handle.getAllEvents().get(0).getEndDateTime(), testEvent.getEndDateTime());
-		assertEquals(handle.getAllEvents().get(0).getPriority(), testEvent.getPriority());
-		assertEquals(handle.getAllEvents().get(0).getLocation(), testEvent.getLocation());
-		assertEquals(handle.getAllEvents().get(0).getNotes(), testEvent.getNotes());
+		assertEquals(addedEvent.getId(), testEvent.getId());
+		assertEquals(addedEvent.getTitle(), testEvent.getTitle());
+		assertEquals(addedEvent.getStartDateTime(), testEvent.getStartDateTime());
+		assertEquals(addedEvent.getEndDateTime(), testEvent.getEndDateTime());
+		assertEquals(addedEvent.getPriority(), testEvent.getPriority());
+		assertEquals(addedEvent.getLocation(), testEvent.getLocation());
+		assertEquals(addedEvent.getNotes(), testEvent.getNotes());
 		assertTrue(handle.getAllEvents().contains(testEvent));
 	}
 
