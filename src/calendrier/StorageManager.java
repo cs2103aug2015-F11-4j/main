@@ -11,6 +11,8 @@ import java.io.File;
 import utils.Event;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.FileHandler;
 
 public class StorageManager {
 	
@@ -18,9 +20,19 @@ public class StorageManager {
 	private static List<String> inputData;
 	private static String line;
 	private static Logger theLogger = Logger.getLogger(StorageManager.class.getName());
+	FileHandler logFile;
 	
 	public StorageManager(){
 		inputData=new ArrayList<String>();
+		try {
+			logFile = new FileHandler("Storage.log", true);
+		} catch (SecurityException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		theLogger.addHandler(logFile);
+	    theLogger.setLevel(Level.ALL);
+	    theLogger.setUseParentHandlers(false);
 	}
 	
 	public List<String> load(){
@@ -59,7 +71,7 @@ public class StorageManager {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-		theLogger.info("File successfully loaded!");
+		theLogger.log(Level.INFO, "set file location!");
 	}
 
 	/**
@@ -86,7 +98,7 @@ public class StorageManager {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		theLogger.info("Successfully save into file!");
+		theLogger.log(Level.INFO, "Successfully save data into file!");
 	}
 
 	/**
@@ -109,6 +121,6 @@ public class StorageManager {
 		} catch (Exception e) {
 			System.out.println("Error while reading file: " + e.getMessage());
 		}
-		theLogger.info("Data load successfully from file!");
+		theLogger.log(Level.INFO, "Successfully load data from file!");
 	}
 }
