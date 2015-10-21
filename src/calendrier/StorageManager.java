@@ -25,7 +25,7 @@ public class StorageManager {
 	public StorageManager(){
 		inputData=new ArrayList<String>();
 		try {
-			logFile = new FileHandler("Storage.log", true);
+			logFile = new FileHandler("storage.log", true);
 		} catch (SecurityException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
