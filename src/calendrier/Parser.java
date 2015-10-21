@@ -77,8 +77,8 @@ public class Parser {
 			/*
 			 * Case 1: not a deadline No. of parameters: 12 e.g. update 3, title
 			 * repeat sleep drink eat, startdate 2015/12/29, starttime 13.37,
-			 * enddate 2015/12/30, endtime 14.44, priority very low, location my
-			 * home, notes must do, recurring no, reminderdate 2015/12/30,
+			 * enddate 2015/12/30, endtime 14.44, group my personal group priority very low, 
+			 * location my home, notes must do, recurring no, reminderdate 2015/12/30,
 			 * remindertime 15.30
 			 */
 			pc.setCommand(Command.UPDATE);
@@ -174,9 +174,10 @@ public class Parser {
 			/*
 			 * Case 1: not a deadline No. of parameters: 11 e.g. add eat
 			 * sleep drink repeat, startdate 2015/12/29, starttime 13.37,
-			 * enddate 2015/12/30, endtime 14.44, priority very low, location my
-			 * home, notes must do, recurring no, reminderdate 2015/12/30,
+			 * enddate 2015/12/30, endtime 14.44, priority very low, group my personal group, 
+			 * location my home, notes must do, recurring no, reminderdate 2015/12/30,
 			 */
+			
 			int titleEndIndex;
 			String title;
 			
@@ -253,7 +254,7 @@ public class Parser {
 			}
 		}
 		if (pc.getCommand() == null) {
-			parseFlexibleCommand(pc, userInput);
+			// parseFlexibleCommand(pc, userInput);
 		} 
 		return pc;
 	}
@@ -311,10 +312,28 @@ public class Parser {
 			// -fil -sd yyyy/mm/dd OR -fil -ed yyyy/mm/dd
 			pc.setCommand(Command.FILTER);
 			setFlexibleFilterParameters(new Scanner(inputAfterCommand), pc);
-		}
+		} else if (userInput.contains('-up")) {
+			pc.setCommand(Command.UPDATE);
+				
+			int idEndIndex;
+			String id;
+			
+			idEndIndex = inputAfterCommand.indexOf(",");
+			if (idEndIndex == -1) {
+				id = inputAfterCommand.substring(0);
+			} else {
+				id = inputAfterCommand.substring(0, idEndIndex);
+			}
+			pc.setId(id);
+			
+			String title = getAttributeFromInput(inputAfterCommand, "-t", 2);
+			if (title != null) {
+				pc.setTitle(title);
+			}
 		
 		// e.g. e.g. -up 2, -t do homework, -st 2015/10/30, -ed 2015/11/12, -st 12.34, -et 13.37, 
-		//  -g personal circle, -l my home, -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11 
+		//  -g personal circle, -l my home, -p very high,  
+		/// -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11 
 		 
 		return pc;
 	}
@@ -337,6 +356,7 @@ public class Parser {
 			setPriority(pc, filterValue);
 		}
 	}
+	
 	*/
 
 	public void setFilterParameters(Scanner inputAfterCommand, ParsedCommand pc) {
