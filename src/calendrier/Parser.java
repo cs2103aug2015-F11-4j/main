@@ -17,6 +17,7 @@ public class Parser {
 	public ParsedCommand parse(String userInput) {
 		ParsedCommand pc = new ParsedCommand();
 
+		// Commands without additional arguments
 		if (userInput.equals("view all")) {
 			pc.setCommand(Command.VIEW_ALL);
 			return pc;
@@ -79,11 +80,6 @@ public class Parser {
 			 * enddate 2015/12/30, endtime 14.44, priority very low, location my
 			 * home, notes must do, recurring no, reminderdate 2015/12/30,
 			 * remindertime 15.30
-			 * 
-			 * Case 2: deadline No. of parameters: 10 e.g. update 4, title
-			 * repeat sleep drink eat, enddate 2015/12/29, enddate 13.37,
-			 * priority very low, location my home, notes must do, recurring no,
-			 * reminderdate 2015/12/30, remindertime 15.30
 			 */
 			pc.setCommand(Command.UPDATE);
 			
@@ -133,6 +129,11 @@ public class Parser {
 			if (priority != null) {
 				setPriority(pc, priority);
 			}
+			
+			String group = getAttributeFromInput(inputAfterCommand, "group", 5);
+			if (group != null) {
+				pc.setGroup(group);
+			}
 
 			String location = getAttributeFromInput(inputAfterCommand, "location", 8);
 			if (location != null) {
@@ -164,94 +165,6 @@ public class Parser {
 				pc.setReminder(cal);
 			}
 
-			/*
-			 * updateInfo[1] = updateInfo[1].trim(); String title =
-			 * updateInfo[1].substring(updateInfo[1].indexOf(" ") + 1);
-			 * pc.setTitle(title);
-			 * 
-			 * // Task Is not a deadline if (paramLength == 12) { updateInfo[2]
-			 * = updateInfo[2].trim(); String startDate =
-			 * updateInfo[2].substring(updateInfo[2].indexOf(" ") + 1);
-			 * 
-			 * updateInfo[3] = updateInfo[3].trim(); String startTime =
-			 * updateInfo[3].substring(updateInfo[3].indexOf(" ") + 1);
-			 * 
-			 * Calendar cal = dateAndTimeToCalendar(startDate, startTime);
-			 * pc.setStartDateTime(cal);
-			 * 
-			 * updateInfo[4] = updateInfo[4].trim(); String endDate =
-			 * updateInfo[4].substring(updateInfo[4].indexOf(" ") + 1);
-			 * 
-			 * updateInfo[5] = updateInfo[5].trim(); String endTime =
-			 * updateInfo[5].substring(updateInfo[5].indexOf(" ") + 1);
-			 * 
-			 * Calendar cal2 = Calendar.getInstance(); cal2 =
-			 * dateAndTimeToCalendar(endDate, endTime); pc.setEndDateTime(cal2);
-			 * 
-			 * updateInfo[6] = updateInfo[6].trim(); String priority =
-			 * updateInfo[6].substring(updateInfo[6].indexOf(" ") + 1);
-			 * setPriority(pc, priority);
-			 * 
-			 * updateInfo[7] = updateInfo[7].trim(); String location =
-			 * updateInfo[7].substring(updateInfo[7].indexOf(" ") + 1);
-			 * pc.setLocation(location);
-			 * 
-			 * updateInfo[8] = updateInfo[8].trim(); String notes =
-			 * updateInfo[8].substring(updateInfo[8].indexOf(" ") + 1);
-			 * pc.setNotes(notes);
-			 * 
-			 * updateInfo[9] = updateInfo[9].trim(); String recurring =
-			 * updateInfo[9].substring(updateInfo[9].indexOf(" ") + 1); boolean
-			 * isRecurring = recurring.equals("yes");
-			 * pc.setIsRecurring(isRecurring);
-			 * 
-			 * updateInfo[10] = updateInfo[10].trim(); String reminderDate =
-			 * updateInfo[10].substring(updateInfo[10].indexOf(" ") + 1);
-			 * 
-			 * updateInfo[11] = updateInfo[11].trim(); String reminderTime =
-			 * updateInfo[11].substring(updateInfo[11].indexOf(" ") + 1);
-			 * 
-			 * Calendar cal3 = Calendar.getInstance(); cal3 =
-			 * dateAndTimeToCalendar(reminderDate, reminderTime);
-			 * pc.setReminder(cal3);
-			 * 
-			 * } // Task is a deadline else if (paramLength == 10) {
-			 * updateInfo[2] = updateInfo[2].trim(); String endDate =
-			 * updateInfo[2].substring(updateInfo[2].indexOf(" ") + 1);
-			 * 
-			 * updateInfo[3] = updateInfo[3].trim(); String endTime =
-			 * updateInfo[3].substring(updateInfo[3].indexOf(" ") + 1);
-			 * 
-			 * Calendar cal4 = Calendar.getInstance(); cal4 =
-			 * dateAndTimeToCalendar(endDate, endTime); pc.setEndDateTime(cal4);
-			 * 
-			 * updateInfo[4] = updateInfo[4].trim(); String priority =
-			 * updateInfo[4].substring(updateInfo[4].indexOf(" ") + 1);
-			 * setPriority(pc, priority);
-			 * 
-			 * updateInfo[5] = updateInfo[5].trim(); String location =
-			 * updateInfo[5].substring(updateInfo[5].indexOf(" ") + 1);
-			 * pc.setLocation(location);
-			 * 
-			 * updateInfo[6] = updateInfo[6].trim(); String notes =
-			 * updateInfo[6].substring(updateInfo[6].indexOf(" ") + 1);
-			 * pc.setNotes(notes);
-			 * 
-			 * updateInfo[7] = updateInfo[7].trim(); String recurring =
-			 * updateInfo[7].substring(updateInfo[7].indexOf(" ") + 1); boolean
-			 * isRecurring = recurring.equals("yes");
-			 * pc.setIsRecurring(isRecurring);
-			 * 
-			 * updateInfo[8] = updateInfo[8].trim(); String reminderDate =
-			 * updateInfo[8].substring(updateInfo[8].indexOf(" ") + 1);
-			 * 
-			 * updateInfo[9] = updateInfo[9].trim(); String reminderTime =
-			 * updateInfo[9].substring(updateInfo[9].indexOf(" ") + 1);
-			 * 
-			 * Calendar cal5 = Calendar.getInstance(); cal5 =
-			 * dateAndTimeToCalendar(reminderDate, reminderTime);
-			 * pc.setReminder(cal5); }
-			 */
 		} else if (command.equals("add")) {
 			pc.setCommand(Command.ADD);
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
@@ -263,12 +176,6 @@ public class Parser {
 			 * sleep drink repeat, startdate 2015/12/29, starttime 13.37,
 			 * enddate 2015/12/30, endtime 14.44, priority very low, location my
 			 * home, notes must do, recurring no, reminderdate 2015/12/30,
-			 * remindertime 15.30
-			 * 
-			 * Case 2: deadline No. of parameters: 9 e.g. add eat sleep
-			 * drink repeat, enddate 2015/12/29, enddate 13.37, priority very
-			 * low, location my home, notes must do, recurring no, reminderdate
-			 * 2015/12/30, remindertime 15.30
 			 */
 			int titleEndIndex;
 			String title;
@@ -311,6 +218,11 @@ public class Parser {
 			if (priority != null) {
 				setPriority(pc, priority);
 			}
+			
+			String group = getAttributeFromInput(inputAfterCommand, "group", 5);
+			if (group != null) {
+				pc.setGroup(group);
+			}
 
 			String location = getAttributeFromInput(inputAfterCommand, "location", 8);
 			if (location != null) {
@@ -340,8 +252,92 @@ public class Parser {
 				pc.setReminder(cal);
 			}
 		}
+		if (pc.getCommand() == null) {
+			parseFlexibleCommand(pc, userInput);
+		} 
 		return pc;
 	}
+	
+	/*
+	public ParsedCommand parseFlexibleCommand(ParsedCommand pc, String userInput) {
+		if (userInput.contains("-all")) {
+			// e.g. view all: -all
+			pc.setCommand(Command.VIEW_ALL);
+			return pc;
+		} else if (userInput.contains("-h")) {
+			// e.g help: -h
+			pc.setCommand(Command.HELP);
+			return pc;
+		} else if (userInput.contains("-e")) {
+			// e.g. exit: -e
+			pc.setCommand(Command.EXIT);
+			return pc;
+		} else if (userInput.contains("-p")) {
+			// e.g. previous: -p
+			pc.setCommand(Command.PREVIOUS);
+			return pc;
+		} else if (userInput.contains("-n")) {
+			// e.g. next: -n
+			pc.setCommand(Command.NEXT);
+			return pc;
+		}
+		
+		String inputAfterCommand = "";
+		if (userInput != null && userInput.length() != 0) {
+			inputAfterCommand = userInput.substring(userInput.indexOf(" ")+1);
+		}
+		if (userInput.contains("-s")) {
+			// e.g. save in desktop: -s desktop			
+			pc.setCommand(Command.STORAGE_LOCATION);
+			pc.setStorageLocation(inputAfterCommand);
+		} else if (userInput.contains("-un")) {
+			// e.g. undo 3: -un 3
+			pc.setCommand(Command.UNDO);
+			pc.setId(inputAfterCommand);
+		} else if (userInput.contains("-undel")) {
+			// e.g. undelete 4: -undel 4
+			pc.setCommand(Command.UNDELETE);
+			pc.setId(inputAfterCommand);
+		} else if (userInput.contains("-v")) {
+			// e.g. view 2: -v 2
+			pc.setCommand(Command.VIEW);
+			pc.setId(inputAfterCommand);
+		} else if (userInput.contains("-d")) {
+			// e.g. delete 1: -d 1
+			pc.setCommand(Command.DELETE);
+			pc.setId(inputAfterCommand);
+		} else if (userInput.equals("-fil")) {
+			// e.g. -fil -g personal stuff OR -fil -p very high OR
+			// -fil -sd yyyy/mm/dd OR -fil -ed yyyy/mm/dd
+			pc.setCommand(Command.FILTER);
+			setFlexibleFilterParameters(new Scanner(inputAfterCommand), pc);
+		}
+		
+		// e.g. e.g. -up 2, -t do homework, -st 2015/10/30, -ed 2015/11/12, -st 12.34, -et 13.37, 
+		//  -g personal circle, -l my home, -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11 
+		 
+		return pc;
+	}
+	
+	public void setFlexibleFilterParameters(Scanner inputAfterCommand, ParsedCommand pc) {
+		String filterParameter = inputAfterCommand.next();
+		String filterValue = inputAfterCommand.nextLine().trim();
+
+		Calendar cal;
+
+		if (filterParameter.contains("-g")) {
+			pc.setGroup(filterValue);
+		} else if (filterParameter.contains("-sd")) {
+			cal = dateToCalendar(filterValue);
+			pc.setStartDateTime(cal);
+		} else if (filterParameter.contains("-ed")) {
+			cal = dateToCalendar(filterValue);
+			pc.setEndDateTime(cal);
+		} else if (filterParameter.contains("-p")) {
+			setPriority(pc, filterValue);
+		}
+	}
+	*/
 
 	public void setFilterParameters(Scanner inputAfterCommand, ParsedCommand pc) {
 		String filterParameter = inputAfterCommand.next();
@@ -358,7 +354,6 @@ public class Parser {
 			cal = dateToCalendar(filterValue);
 			pc.setEndDateTime(cal);
 		} else if (filterParameter.equals("priority")) {
-
 			setPriority(pc, filterValue);
 		}
 	}
