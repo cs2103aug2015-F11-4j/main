@@ -96,7 +96,7 @@ public class EventHandler {
 		events = generator.createMultipleEvents(eventsFromStorage);
 	}
 
-	private ArrayList<Event> search(ParsedCommand pc) {
+	public ArrayList<Event> search(ParsedCommand pc) {
 		ArrayList<Event> searchedEvents = new ArrayList<>();
 		for (Event e : events) {
 			if (e.getGroups().contains(pc.getGroup())) {
@@ -106,6 +106,22 @@ public class EventHandler {
 			}
 		}
 		return searchedEvents;
+	}
+	
+	/**
+	 * Views an event identified by the ParsedCommand pc
+	 * 
+	 * @param pc
+	 * @return eventToBeViewed
+	 */
+	public Event view(ParsedCommand pc) {
+		Event eventToBeViewed = new Event();
+		for (Event e : events) {
+			if (e.getId().equals(pc.getId())) {
+				eventToBeViewed = e;
+			}
+		}
+		return eventToBeViewed;
 	}
 
 	/**
@@ -160,9 +176,9 @@ public class EventHandler {
 			}
 		}
 		
-		// remove event from list 
-//		manage.remove(eventToBeRemoved);
 		events.remove(eventToBeRemoved);
+		manage.save(events);
+		
 		ArrayList<Event> currentEvents = events;
 		history.push(currentEvents);
 		return eventToBeRemoved;
@@ -186,10 +202,7 @@ public class EventHandler {
 				break;
 			}
 		}
-		
 		// check that date does not conflict some other date
-		
-//		manage.update(oldEvent, newEvent);
 
 		// ensure updatedEvent contains all relevant info from oldEvent
 		if (newEvent.getTitle() == null) {
@@ -218,29 +231,14 @@ public class EventHandler {
 				newEvent.addGroup(s);
 			}
 		}
-
 		beforeUpdate = oldEvent;
 		events.add(newEvent);
+		manage.save(events);
 		ArrayList<Event> currentEvents = events;
 		history.push(currentEvents);
 		return newEvent;
 	}
 
-	/**
-	 * Views an event identified by the ParsedCommand pc
-	 * 
-	 * @param pc
-	 * @return eventToBeViewed
-	 */
-	public Event view(ParsedCommand pc) {
-		Event eventToBeViewed = new Event();
-		for (Event e : events) {
-			if (e.getId().equals(pc.getId())) {
-				eventToBeViewed = e;
-			}
-		}
-		return eventToBeViewed;
-	}
 
 	/**
 	 * Returns the list of all events

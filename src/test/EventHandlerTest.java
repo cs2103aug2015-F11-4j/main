@@ -114,7 +114,6 @@ public class EventHandlerTest {
 
 	@Test
 	public void testRemoveEvent() {
-
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 
@@ -122,6 +121,34 @@ public class EventHandlerTest {
 
 		handle.remove(pc);
 		assertFalse(handle.getAllEvents().contains(testEvent));
+		assertTrue(handle.getAllEvents().isEmpty());
+	}
+	
+	@Test
+	public void testViewEvent() {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
+		handle.add(testEvent);
+		Event viewedEvent = handle.view(pc);
+		assertEquals(viewedEvent.getId(), testEvent.getId());
+		assertEquals(viewedEvent.getTitle(), testEvent.getTitle());
+		assertEquals(viewedEvent.getStartDateTime(), testEvent.getStartDateTime());
+		assertEquals(viewedEvent.getEndDateTime(), testEvent.getEndDateTime());
+		assertEquals(viewedEvent.getPriority(), testEvent.getPriority());
+		assertEquals(viewedEvent.getLocation(), testEvent.getLocation());
+		assertEquals(viewedEvent.getNotes(), testEvent.getNotes());
+	}
+	
+	@Test 
+	public void testSearchEvent() {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
+		handle.add(testEvent);
+		Event searchedEvent = handle.search(pc).get(0);
+		assertEquals(searchedEvent.getId(), testEvent.getId());
+		assertEquals(searchedEvent.getNotes(), testEvent.getNotes());
 	}
 
 	@Test
@@ -162,15 +189,6 @@ public class EventHandlerTest {
 		assertTrue(handle.getAllEvents().size() == 0);
 	}
 
-	@Test
-	public void testView() {
-		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
-
-		handle.add(testEvent);
-		Event viewedEvent = handle.view(pc);
-		assertEquals(viewedEvent, testEvent);
-	}
 
 	@Test
 	public void testUndoDeleteEvent() {
