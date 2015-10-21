@@ -19,7 +19,7 @@ import utils.ParsedCommand;
 public class EventHandler {
 
 	StorageManager manage;
-	Stack<ArrayList<Event>> history;
+	Stack<ParsedCommand> history;
 	ArrayList<Event> events = new ArrayList<>();
 	EventGenerator generator;
 	Event previousEvent;
@@ -56,12 +56,15 @@ public class EventHandler {
 			Event newEvent = generator.createEvent(pc);
 			assert (newEvent != null);
 			add(newEvent);
+			history.push(pc);
 			eventsReturned.add(newEvent);
 		} else if (pc.getCommand() == Command.DELETE) {
 			Event removedEvent = remove(pc);
+			history.push(pc);
 			eventsReturned.add(removedEvent);
 		} else if (pc.getCommand() == Command.UPDATE) {
 			Event updatedEvent = update(pc);
+			history.push(pc);
 			eventsReturned.add(updatedEvent);
 		} else if (pc.getCommand() == Command.VIEW) {
 			Event viewedEvent = view(pc);
@@ -73,6 +76,7 @@ public class EventHandler {
 			eventsReturned.add(undoneEvent);
 		} else if (pc.getCommand() == Command.UNDELETE) {
 			Event undeletedEvent = undo();
+			history.push(pc);
 			eventsReturned.add(undeletedEvent);
 		}
 
@@ -129,9 +133,22 @@ public class EventHandler {
 	 */
 	public Event undo() {
 		Event undone = new Event();
-
-//		manage.undo();
-//		events = (ArrayList<Event>) manage.load();
+		if (history.isEmpty()) {
+			// nothing to do!
+			
+		} else {
+			history.pop();
+			events.clear();
+			// run through every command so far and redo
+			for (ParsedCommand c : history) {
+				try {
+					execute(c);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		return undone;
 	}
 
@@ -154,9 +171,6 @@ public class EventHandler {
 		manage.save(events);
 		
 		// else throw an exception
-		
-		ArrayList<Event> currentEvents = events;
-		history.push(currentEvents);
 		return event;
 	}
 
@@ -174,12 +188,8 @@ public class EventHandler {
 				break;
 			}
 		}
-		
 		events.remove(eventToBeRemoved);
 		manage.save(events);
-		
-		ArrayList<Event> currentEvents = events;
-		history.push(currentEvents);
 		return eventToBeRemoved;
 	}
 
@@ -233,8 +243,6 @@ public class EventHandler {
 		beforeUpdate = oldEvent;
 		events.add(newEvent);
 		manage.save(events);
-		ArrayList<Event> currentEvents = events;
-		history.push(currentEvents);
 		return newEvent;
 	}
 

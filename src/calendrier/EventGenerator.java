@@ -36,6 +36,7 @@ public class EventGenerator {
 	 */
 	public Event createEvent(String s) {
 		Event e = new Event();
+		e.fromString(s);
 		return e;
 	}
 	
