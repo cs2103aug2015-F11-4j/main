@@ -42,3 +42,18 @@
 #lblTitle {
 	-fx-font-size: 25px;
 }
+
+#eventGridPane {
+	-fx-border-color: black;
+	-fx-border-style: solid;
+	-fx-border-width: 5px;
+	-fx-padding: 10.0 10.0 10.0 10.0;
+	-fx-hgap: 5;
+	-fx-vgap: 5;
+	-fx-background-color: white;
+}
+
+#flowPaneAllEvents {
+	-fx-hgap: 15;
+	-fx-vgap: 15;
+}

@@ -140,6 +140,7 @@ public class ReminderManager implements Runnable {
 	 *            onRemind listener to be used
 	 */
 	public void setOnRemindListener(OnRemindListener listener) {
+		assert(listener != null);
 		this.onRemindListener = listener;
 	}
 }

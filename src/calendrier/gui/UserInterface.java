@@ -34,21 +34,28 @@ public class UserInterface extends Application {
 
 	private static final int VALUE_START_SCREEN_MIN = 1;
 	private static final int VALUE_START_SCREEN_MAX = 3;
+	
 	private static final int VALUE_TO_ADD_OR_MINUS = 1;
+	private static final int VALUE_ADD_TO_ARRAY = 8;
 
 	private static final int VALUE_START_SCREEN = 1;
 	private static final int VALUE_VIEW_SCREEN = 2;
-
+	
+	private static final int VALUE_GET_ALL_EVENTS = 1;
+	private static final int VALUE_GET_FILTERED_EVENTS = 2;
+	
 	private static final int VALUE_NO_EVENT = 0;
-
+	
 	private static final String PARAM_NAVIGATION_NEXT = "next";
 	private static final String PARAM_NAVIGATION_PREVIOUS = "previous";
 
 	private int startScreenPage = VALUE_START_SCREEN_MIN;
 	private int currentScreenState = VALUE_START_SCREEN;
+	private int currentEventState = VALUE_GET_ALL_EVENTS;
 
 	private String setMessage = "";
 
+	private int arrStartIndex = 0;
 	private int eventSize = 0;
 	private List<Event> events;
 
@@ -93,18 +100,14 @@ public class UserInterface extends Application {
 	}
 
 	private void initLogic() {
-		// using singleton pattern for initiating MainLogic Object 
 		mainLogic = new MainLogic();
-		// mainLogic = MainLogic.getInstance();
 
 		eventSize = mainLogic.getAllEvents().size();
 		events = mainLogic.getAllEvents();
 	}
 	
 	private void initReminder() {
-		// using singleton pattern for initiating ReminderManager Object
 		reminderMgr = new ReminderManager();
-		// reminderMgr = ReminderManager.getInstance();
 	}
 
 	private void addCommandBar(UserInterface userInterface) {
@@ -127,8 +130,15 @@ public class UserInterface extends Application {
 		if (mainLogic.getAllEvents().size() == VALUE_NO_EVENT) {
 			rootLayout.setCenter(new NoEventController(userInterface));
 		} else {
-			rootLayout.setCenter(new EventAllController(mainLogic
-					.getAllEvents()));
+			//rootLayout.setCenter(new EventAllController(mainLogic.getAllEvents()));
+			List<Event> listEvents = null;
+			if(currentEventState == VALUE_GET_ALL_EVENTS) {
+				listEvents = mainLogic.getAllEvents();
+			} else if (currentEventState == VALUE_GET_FILTERED_EVENTS) {
+				listEvents = mainLogic.getFilteredEvents();
+			}
+			
+			rootLayout.setCenter(new ViewController(SortedEvents.sortEvents(listEvents), arrStartIndex));
 		}
 	}
 
@@ -147,8 +157,10 @@ public class UserInterface extends Application {
 						startScreenPage));
 			}
 		} else {
-			// for view events next page...
-			// to be implemented after changing GUI for viewAll page
+			if((arrStartIndex + VALUE_ADD_TO_ARRAY) <= (mainLogic.getAllEvents().size() - VALUE_TO_ADD_OR_MINUS)) {
+				arrStartIndex += VALUE_ADD_TO_ARRAY;
+				addView(userInterface);
+			}
 		}
 	}
 
@@ -159,8 +171,12 @@ public class UserInterface extends Application {
 						startScreenPage));
 			}
 		} else {
-			// for view events next page...
-			// to be implemented after changing GUI for viewAll page
+			if((arrStartIndex - VALUE_ADD_TO_ARRAY) >= 0) {
+				arrStartIndex -= VALUE_ADD_TO_ARRAY;
+			} else if ((arrStartIndex - VALUE_ADD_TO_ARRAY) < 0) {
+				arrStartIndex = 0;
+			}
+			addView(userInterface);
 		}
 	}
 
@@ -195,17 +211,21 @@ public class UserInterface extends Application {
 			break;
 		case ADD:
 			setMessage = checkAdding();
+			currentEventState = VALUE_GET_ALL_EVENTS;
 			addView(this);
 			break;
 		case VIEW_ALL:
 			setMessage = MESSAGE_EMPTY;
+			currentEventState = VALUE_GET_ALL_EVENTS;
 			addView(this);
 			break;
 		case VIEW:
 			setMessage = MESSAGE_EMPTY;
+			currentEventState = VALUE_GET_ALL_EVENTS;
 			addEventView(this);
 			break;
 		case FILTER:
+			currentEventState = VALUE_GET_FILTERED_EVENTS;
 			// addFilterView(this);
 			break;
 		case SEARCH:
@@ -215,14 +235,17 @@ public class UserInterface extends Application {
 			break;
 		case UPDATE:
 			setMessage = checkUpdate();
+			currentEventState = VALUE_GET_ALL_EVENTS;
 			addView(this);
 			break;
 		case DELETE:
 			setMessage = checkDeleting();
+			currentEventState = VALUE_GET_ALL_EVENTS;
 			addView(this);
 			break;
 		case UNDO:
 			setMessage = checkUndo();
+			currentEventState = VALUE_GET_ALL_EVENTS;
 			addView(this);
 			break;
 		case EXIT:
@@ -237,6 +260,7 @@ public class UserInterface extends Application {
 			break;
 		case HELP:
 			setMessage = MESSAGE_EMPTY;
+			currentEventState = VALUE_GET_ALL_EVENTS;
 			getHelp(this);
 			break;
 		default:
