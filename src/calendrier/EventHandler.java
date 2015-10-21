@@ -97,6 +97,7 @@ public class EventHandler {
 
 		ArrayList<String> eventsFromStorage = (ArrayList<String>)manage.load();
 		events = generator.createMultipleEvents(eventsFromStorage);
+		generator.setCurrentID(getLargestID());
 	}
 
 	public ArrayList<Event> search(ParsedCommand pc) {
@@ -247,6 +248,16 @@ public class EventHandler {
 		events.add(newEvent);
 		manage.save(events);
 		return newEvent;
+	}
+	
+	private int getLargestID() {
+		int largestID = 0;
+		for (Event e: events) {
+			if (Integer.parseInt(e.getId()) > largestID) {
+				largestID = Integer.parseInt(e.getId());
+			}
+		}
+		return largestID;
 	}
 
 

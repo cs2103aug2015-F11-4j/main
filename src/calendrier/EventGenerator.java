@@ -7,6 +7,11 @@ import utils.Event;
 import utils.ParsedCommand;
 
 public class EventGenerator {
+	String currentId;
+	
+	public void setCurrentID(int id) {
+		currentId = id + "";
+	}
 	
 	/**
 	 * Creates an event from a given ParsedCommand object
@@ -17,7 +22,11 @@ public class EventGenerator {
 	public Event createEvent(ParsedCommand pc) {
 		Event e = new Event();
 		
-		e.setId((pc.getId()));
+		if (pc.getId().equals(null)) {
+			e.setId(currentId);
+		} else {
+			e.setId((pc.getId()));
+		}
 		e.setTitle(pc.getTitle());
 		e.setStartDateTime(pc.getStartDateTime());
 		e.setEndDateTime(pc.getEndDateTime());
