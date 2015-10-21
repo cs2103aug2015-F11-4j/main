@@ -86,7 +86,7 @@ public class ReminderManager implements Runnable {
 	 *            time to be compared to
 	 * @return true if the two times are the same, false if otherwise
 	 */
-	private boolean compareTime(Calendar time1, Calendar time2) {
+	public boolean compareTime(Calendar time1, Calendar time2) {
 		return Math.abs(time1.getTimeInMillis() - time2.getTimeInMillis()) < 60000;
 	}
 
