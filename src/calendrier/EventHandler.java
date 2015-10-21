@@ -50,7 +50,8 @@ public class EventHandler {
 	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		ArrayList<Event> eventsReturned = new ArrayList<>();
 
-		assert (pc != null);
+		assert(pc != null);
+		assert(false);
 
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
@@ -76,8 +77,8 @@ public class EventHandler {
 			eventsReturned.add(undeletedEvent);
 		}
 
-		else if (pc.getCommand() == Command.FILTER) {
-			eventsReturned = filter(pc);
+		else if (pc.getCommand() == Command.SEARCH) {
+			eventsReturned = search(pc);
 
 		} else if (pc.getCommand() == Command.STORAGE_LOCATION) {
 			setStorageAndLoadEvents(pc);
@@ -93,18 +94,18 @@ public class EventHandler {
 		events = (ArrayList<Event>) manage.load();
 	}
 
-	private ArrayList<Event> filter(ParsedCommand pc) {
-		ArrayList<Event> filteredEvents = new ArrayList<>();
+	private ArrayList<Event> search(ParsedCommand pc) {
+		ArrayList<Event> searchedEvents = new ArrayList<>();
 
 		for (Event e : events) {
 			if (e.getGroups().contains(pc.getGroup())) {
-				filteredEvents.add(e);
+				searchedEvents.add(e);
 			} else if (e.getPriority().equals(pc.getPriority())) {
-				filteredEvents.add(e);
+				searchedEvents.add(e);
 			}
 		}
 
-		return filteredEvents;
+		return searchedEvents;
 	}
 
 	/**
@@ -126,8 +127,17 @@ public class EventHandler {
 	 */
 	public Event add(Event event) {
 		previousEvent = event;
+		
+		// check no conflicts are occuring
+//		for (Event e : events) {
+//			e.getStartDateTime()
+//		}
+		
+		// if no conflicts, add
 		manage.add(event);
 		events.add(event);
+		
+		// else throw an exception
 		
 		ArrayList<Event> currentEvents = events;
 		history.push(currentEvents);
@@ -173,6 +183,9 @@ public class EventHandler {
 				break;
 			}
 		}
+		
+		// check that date does not conflict some other date
+		
 		manage.update(oldEvent, newEvent);
 
 		// ensure updatedEvent contains all relevant info from oldEvent

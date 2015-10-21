@@ -26,4 +26,14 @@ public class EventGenerator {
 		e.addGroup(pc.getGroup());
 		return e;
 	}
+	
+	/**
+	 * Overloaded method used to create an event from a given string
+	 * @param s
+	 * @return Event e		The event created from the generator
+	 */
+	public Event createEvent(String s) {
+		Event e = new Event();
+		return e;
+	}
 }
