@@ -88,7 +88,6 @@ public class EventHandlerTest {
 
 		setStorage.setCommand(Command.STORAGE_LOCATION);
 		setStorage.setStorageLocation("abc.txt");
-
 	}
 
 	@Test
@@ -155,23 +154,17 @@ public class EventHandlerTest {
 	public void testUpdateEvent() {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
-
-		try {
-			handle.execute(setStorage);
-			handle.execute(pc);
-			handle.execute(updateCommand);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getId(), ID);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getTitle(), title);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getStartDateTime(), startDateTime);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getEndDateTime(), endDateTime);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getPriority(), priority);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getLocation(), location);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getNotes(), newNotes);
+		handle.add(testEvent);
+		
+		Event updatedEvent = handle.update(updateCommand);
+		
+		assertEquals(updatedEvent.getId(), ID);
+		assertEquals(updatedEvent.getTitle(), title);
+		assertEquals(updatedEvent.getStartDateTime(), startDateTime);
+		assertEquals(updatedEvent.getEndDateTime(), endDateTime);
+		assertEquals(updatedEvent.getPriority(), priority);
+		assertEquals(updatedEvent.getLocation(), location);
+		assertEquals(updatedEvent.getNotes(), newNotes);
 	}
 
 	@Test

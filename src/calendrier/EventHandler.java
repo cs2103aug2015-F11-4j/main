@@ -51,7 +51,6 @@ public class EventHandler {
 		ArrayList<Event> eventsReturned = new ArrayList<>();
 
 		assert(pc != null);
-		assert(false);
 
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
