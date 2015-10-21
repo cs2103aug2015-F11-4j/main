@@ -88,7 +88,6 @@ public class EventHandlerTest {
 
 		setStorage.setCommand(Command.STORAGE_LOCATION);
 		setStorage.setStorageLocation("abc.txt");
-
 	}
 
 	@Test
@@ -98,16 +97,74 @@ public class EventHandlerTest {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 		handle.add(testEvent);
+		
+		Event addedEvent = handle.getAllEvents().get(0);
 
 		// Tests
-		assertEquals(handle.getAllEvents().get(0).getId(), testEvent.getId());
-		assertEquals(handle.getAllEvents().get(0).getTitle(), testEvent.getTitle());
-		assertEquals(handle.getAllEvents().get(0).getStartDateTime(), testEvent.getStartDateTime());
-		assertEquals(handle.getAllEvents().get(0).getEndDateTime(), testEvent.getEndDateTime());
-		assertEquals(handle.getAllEvents().get(0).getPriority(), testEvent.getPriority());
-		assertEquals(handle.getAllEvents().get(0).getLocation(), testEvent.getLocation());
-		assertEquals(handle.getAllEvents().get(0).getNotes(), testEvent.getNotes());
+		assertEquals(addedEvent.getId(), testEvent.getId());
+		assertEquals(addedEvent.getTitle(), testEvent.getTitle());
+		assertEquals(addedEvent.getStartDateTime(), testEvent.getStartDateTime());
+		assertEquals(addedEvent.getEndDateTime(), testEvent.getEndDateTime());
+		assertEquals(addedEvent.getPriority(), testEvent.getPriority());
+		assertEquals(addedEvent.getLocation(), testEvent.getLocation());
+		assertEquals(addedEvent.getNotes(), testEvent.getNotes());
 		assertTrue(handle.getAllEvents().contains(testEvent));
+	}
+
+	@Test
+	public void testRemoveEvent() {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
+		handle.add(testEvent);
+
+		handle.remove(pc);
+		assertFalse(handle.getAllEvents().contains(testEvent));
+		assertTrue(handle.getAllEvents().isEmpty());
+	}
+	
+	@Test
+	public void testViewEvent() {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
+		handle.add(testEvent);
+		Event viewedEvent = handle.view(pc);
+		assertEquals(viewedEvent.getId(), testEvent.getId());
+		assertEquals(viewedEvent.getTitle(), testEvent.getTitle());
+		assertEquals(viewedEvent.getStartDateTime(), testEvent.getStartDateTime());
+		assertEquals(viewedEvent.getEndDateTime(), testEvent.getEndDateTime());
+		assertEquals(viewedEvent.getPriority(), testEvent.getPriority());
+		assertEquals(viewedEvent.getLocation(), testEvent.getLocation());
+		assertEquals(viewedEvent.getNotes(), testEvent.getNotes());
+	}
+	
+	@Test 
+	public void testSearchEvent() {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+
+		handle.add(testEvent);
+		Event searchedEvent = handle.search(pc).get(0);
+		assertEquals(searchedEvent.getId(), testEvent.getId());
+		assertEquals(searchedEvent.getNotes(), testEvent.getNotes());
+	}
+
+	@Test
+	public void testUpdateEvent() {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		handle.add(testEvent);
+		
+		Event updatedEvent = handle.update(updateCommand);
+		
+		assertEquals(updatedEvent.getId(), ID);
+		assertEquals(updatedEvent.getTitle(), title);
+		assertEquals(updatedEvent.getStartDateTime(), startDateTime);
+		assertEquals(updatedEvent.getEndDateTime(), endDateTime);
+		assertEquals(updatedEvent.getPriority(), priority);
+		assertEquals(updatedEvent.getLocation(), location);
+		assertEquals(updatedEvent.getNotes(), newNotes);
 	}
 
 	@Test
@@ -124,6 +181,7 @@ public class EventHandlerTest {
 		assertTrue(handle.getAllEvents().isEmpty());
 		assertTrue(handle.getAllEvents().size() == 0);
 	}
+
 
 	@Test
 	public void testUndoDeleteEvent() {
@@ -148,64 +206,6 @@ public class EventHandlerTest {
 		assertEquals(handle.getAllEvents().get(0).getNotes(), testEvent.getNotes());
 	}
 
-	@Test
-	public void testRemoveEvent() {
-
-		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
-
-		handle.add(testEvent);
-
-		handle.remove(pc);
-		assertFalse(handle.getAllEvents().contains(testEvent));
-	}
-
-	@Test
-	public void testUpdateEvent() {
-		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
-
-		try {
-			handle.execute(setStorage);
-			handle.execute(pc);
-			handle.execute(updateCommand);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getId(), ID);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getTitle(), title);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getStartDateTime(), startDateTime);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getEndDateTime(), endDateTime);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getPriority(), priority);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getLocation(), location);
-		assertEquals(handle.getAllEvents().get(handle.getAllEvents().size() - 1).getNotes(), newNotes);
-	}
-
-	@Test
-	public void testView() {
-		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
-
-		handle.add(testEvent);
-		Event viewedEvent = handle.view(pc);
-		assertEquals(viewedEvent, testEvent);
-	}
-
-	@Test
-	public void testExecute() {
-		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
-
-		try {
-			handle.execute(pc);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		assertEquals(pc.getId(), handle.getAllEvents().get(0).getId());
-	}
-	
 	@Test
 	public void testUndoUpdate() {
 		EventHandler handle = new EventHandler();
