@@ -42,7 +42,7 @@ public class ReminderManager implements Runnable {
 	/**
 	 * Check all the events
 	 */
-	private void checkEvents() {
+	public void checkEvents() {
 		for (int i = 0; i < events.size(); i++) {
 			Event event = events.get(i);
 			checkReminder(event);
