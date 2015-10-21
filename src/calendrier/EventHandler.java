@@ -137,14 +137,17 @@ public class EventHandler {
 			// nothing to do!
 			
 		} else {
-			history.pop();
+			Stack<ParsedCommand> newHistory = new Stack<>();
+			for (ParsedCommand c : history) {
+				newHistory.push(c);
+			}
+			newHistory.pop();
 			events.clear();
 			// run through every command so far and redo
-			for (ParsedCommand c : history) {
+			for (ParsedCommand c : newHistory) {
 				try {
 					execute(c);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
