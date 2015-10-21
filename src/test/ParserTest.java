@@ -38,19 +38,17 @@ public class ParserTest {
 	@Test
 	public void undo() {
 		Parser parser = new Parser();
-		String userInput = "undo 1";
+		String userInput = "undo";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UNDO", pc.getCommand().toString());
-		assertEquals("id: ", "1", pc.getId());
 	}
 
 	@Test
 	public void undelete() {
 		Parser parser = new Parser();
-		String userInput = "undelete 2";
+		String userInput = "undelete";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UNDELETE", pc.getCommand().toString());
-		assertEquals("id: ", "2", pc.getId());
 	}
 
 	@Test
@@ -327,5 +325,253 @@ public class ParserTest {
 		String reminderTime = String.valueOf(hour2) + "." + String.valueOf(minute2);
 		assertEquals("reminder time: ", "15.30", reminderTime);
 	}
-
+	
+	
+	
+	// SHORTENED COMMANDS
+	
+	@Test
+	public void viewAllShortened() {
+		Parser parser = new Parser();
+		String input = "-all";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "VIEW_ALL", pc.getCommand().toString());
+	}
+	
+	@Test
+	public void helpShortened() {
+		Parser parser = new Parser();
+		String input = "-h";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "HELP", pc.getCommand().toString());
+	}
+	
+	@Test
+	public void exitShortened() {
+		Parser parser = new Parser();
+		String input = "-e";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "EXIT", pc.getCommand().toString());
+	}
+	
+	@Test
+	public void previousShortened() {
+		Parser parser = new Parser();
+		String input = "-prev";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "PREVIOUS", pc.getCommand().toString());
+	}
+	
+	@Test
+	public void nextShortened() {
+		Parser parser = new Parser();
+		String input = "-nxt";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "NEXT", pc.getCommand().toString());
+	}
+	
+	@Test
+	public void saveInShortened() {
+		Parser parser = new Parser();
+		String input = "-s desktop";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "STORAGE_LOCATION", pc.getCommand().toString());
+		assertEquals("title: ", "desktop", pc.getStorageLocation());
+	}
+	
+	@Test
+	public void undoShortened() {
+		Parser parser = new Parser();
+		String input = "-u";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "UNDO", pc.getCommand().toString());
+	}
+	
+	@Test
+	public void undeleteShortened() {
+		Parser parser = new Parser();
+		String input = "-undel 4";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "UNDELETE", pc.getCommand().toString());
+		assertEquals("id: ", "4", pc.getId());
+	}
+	
+	@Test
+	public void viewShortened() {
+		Parser parser = new Parser();
+		String input = "-v 1";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "VIEW", pc.getCommand().toString());
+		assertEquals("id: ", "1", pc.getId());
+	}
+	
+	@Test
+	public void deleteShortened() {
+		Parser parser = new Parser();
+		String input = "-d 5";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "DELETE", pc.getCommand().toString());
+		assertEquals("id: ", "5", pc.getId());
+	}
+	
+	@Test
+	public void filterShortenedByGroup() {
+		Parser parser = new Parser();
+		String input = "-fil -g personal stuff";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "FILTER", pc.getCommand().toString());
+		assertEquals("group: ", "personal stuff", pc.getGroup());
+	}
+	
+	@Test
+	public void filterShortenedByPriority() {
+		Parser parser = new Parser();
+		String input = "-fil -p very high";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "FILTER", pc.getCommand().toString());
+		assertEquals("priority: ", "VERY_HIGH", pc.getPriority().toString());	
+	}
+	
+	@Test
+	public void filterShortenedByStartDate() {
+		Parser parser = new Parser();
+		String input = "-fil -sd 2015/10/11";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "FILTER", pc.getCommand().toString());
+		
+		Calendar cal = pc.getStartDateTime();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		String startDate = String.valueOf(year) + "/" + String.valueOf(month) + "/" + String.valueOf(day);
+		assertEquals("start date: ", "2015/10/11", startDate);
+	}
+	
+	@Test
+	public void filterShortenedByEndDate() {
+		Parser parser = new Parser();
+		String input = "-fil -ed 2015/10/15";
+		ParsedCommand pc = parser.parse(input);
+		assertEquals("command: ", "FILTER", pc.getCommand().toString());
+		
+		Calendar cal = pc.getEndDateTime();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		String endDate = String.valueOf(year) + "/" + String.valueOf(month) + "/" + String.valueOf(day);
+		assertEquals("end date: ", "2015/10/15", endDate);
+	}
+	
+	@Test
+	public void updateShortened() {
+		Parser parser = new Parser();
+		String input = "-up 2, -t do homework, -sd 2015/10/30, -st 12.34, -ed 2015/11/12, "
+				+ "-et 13.37, -g personal circle, -l my home, -p very high, "
+				+ "-n remember to do, -r yes, -rd 2015/11/11, -rt 11.11";
+		ParsedCommand pc = parser.parse(input);
+		
+		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
+		assertEquals("id: ", "2", pc.getId());
+		assertEquals("title: ", "do homework", pc.getTitle());
+		
+		Calendar cal = pc.getStartDateTime();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		String startDate = String.valueOf(year) + "/" + String.valueOf(month) + "/" + String.valueOf(day);
+		assertEquals("start date: ", "2015/10/30", startDate);
+		
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minute = cal.get(Calendar.MINUTE);
+		String startTime = String.valueOf(hour) + "." + String.valueOf(minute);
+		assertEquals("start time: ", "12.34", startTime);
+		
+		Calendar cal2 = pc.getEndDateTime();
+		int year2 = cal2.get(Calendar.YEAR);
+		int month2 = cal2.get(Calendar.MONTH) + 1;
+		int day2 = cal2.get(Calendar.DAY_OF_MONTH);
+		String endDate = String.valueOf(year2) + "/" + String.valueOf(month2) + "/" + String.valueOf(day2);
+		assertEquals("end date: ", "2015/11/12", endDate);
+		
+		int hour2 = cal2.get(Calendar.HOUR_OF_DAY);
+		int minute2 = cal2.get(Calendar.MINUTE);
+		String endTime = String.valueOf(hour2) + "." + String.valueOf(minute2);
+		assertEquals("end time: ", "13.37", endTime);
+		
+		assertEquals("group: ", "personal circle", pc.getGroup());
+		assertEquals("location: ", "my home", pc.getLocation());
+		assertEquals("priority: ", "VERY_HIGH", pc.getPriority().toString());
+		assertEquals("notes: ", "remember to do", pc.getNotes());
+		assertEquals("recurring: ", true, pc.getIsRecurring());
+		
+		Calendar cal3 = pc.getReminder();
+		int year3 = cal3.get(Calendar.YEAR);
+		int month3 = cal3.get(Calendar.MONTH) + 1;
+		int day3 = cal3.get(Calendar.DAY_OF_MONTH);
+		String reminderDate = String.valueOf(year3) + "/" + String.valueOf(month3) + "/" + String.valueOf(day3);
+		
+		assertEquals("reminder date: ", "2015/11/11", reminderDate);
+		
+		int hour3 = cal3.get(Calendar.HOUR_OF_DAY);
+		int minute3 = cal3.get(Calendar.MINUTE);
+		String reminderTime = String.valueOf(hour3) + "." + String.valueOf(minute3);
+		assertEquals("reminder time: ", "11.11", reminderTime);
+	}
+	
+	@Test
+	public void addShortened() {
+		Parser parser = new Parser();
+		String input = "-a eat drink sleep repeat, -sd 2015/10/12, -st 12.34, -ed 2015/10/14, "
+				+ "-et 13.37, -p very high, -g secret group, -l my home, -n must do, "
+				+ "-r no, -rd 2015/10/13, -rt 13.37";
+		ParsedCommand pc = parser.parse(input);
+		
+		assertEquals("command: ", "ADD", pc.getCommand().toString());
+		assertEquals("title: ", "eat drink sleep repeat", pc.getTitle());
+		
+		Calendar cal = pc.getStartDateTime();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		String startDate = String.valueOf(year) + "/" + String.valueOf(month) + "/" + String.valueOf(day);
+		assertEquals("start date: ", "2015/10/12", startDate);
+		
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minute = cal.get(Calendar.MINUTE);
+		String startTime = String.valueOf(hour) + "." + String.valueOf(minute);
+		assertEquals("start time: ", "12.34", startTime);
+		
+		Calendar cal2 = pc.getEndDateTime();
+		int year2 = cal2.get(Calendar.YEAR);
+		int month2 = cal2.get(Calendar.MONTH) + 1;
+		int day2 = cal2.get(Calendar.DAY_OF_MONTH);
+		String endDate = String.valueOf(year2) + "/" + String.valueOf(month2) + "/" + String.valueOf(day2);
+		assertEquals("end date: ", "2015/10/14", endDate);
+		
+		int hour2 = cal2.get(Calendar.HOUR_OF_DAY);
+		int minute2 = cal2.get(Calendar.MINUTE);
+		String endTime = String.valueOf(hour2) + "." + String.valueOf(minute2);
+		assertEquals("end time: ", "13.37", endTime);
+		
+		assertEquals("priority: ", "VERY_HIGH", pc.getPriority().toString());
+		assertEquals("group: ", "secret group", pc.getGroup());
+		assertEquals("location: ", "my home", pc.getLocation());
+		assertEquals("notes: ", "must do", pc.getNotes());
+		assertEquals("recurring: ", false, pc.getIsRecurring());
+		
+		Calendar cal3 = pc.getReminder();
+		int year3 = cal3.get(Calendar.YEAR);
+		int month3 = cal3.get(Calendar.MONTH) + 1;
+		int day3 = cal3.get(Calendar.DAY_OF_MONTH);
+		String reminderDate = String.valueOf(year3) + "/" + String.valueOf(month3) + "/" + String.valueOf(day3);
+		
+		assertEquals("reminder date: ", "2015/10/13", reminderDate);
+		
+		int hour3 = cal3.get(Calendar.HOUR_OF_DAY);
+		int minute3 = cal3.get(Calendar.MINUTE);
+		String reminderTime = String.valueOf(hour3) + "." + String.valueOf(minute3);
+		assertEquals("reminder time: ", "13.37", reminderTime);
+		
+	}
+	
 }

@@ -33,7 +33,14 @@ public class Parser {
 		} else if (userInput.equals("next")) {
 			pc.setCommand(Command.NEXT);
 			return pc;
-		}
+		} else if (userInput.equals("undo")) {
+			// e.g. undo
+			pc.setCommand(Command.UNDO);
+			return pc;
+		} else if (userInput.equals("undelete")) {
+			// e.g. undelete
+			pc.setCommand(Command.UNDELETE);
+		} 
 
 		Scanner lineTokens = new Scanner(userInput);
 		String command = lineTokens.next();
@@ -50,17 +57,10 @@ public class Parser {
 			}
 		}
 		lineTokens.close();
+		
 		String inputAfterCommand = userInput.substring(userInput.indexOf(" ") + 1);
 
-		if (command.equals("undo")) {
-			// e.g. undo 2
-			pc.setCommand(Command.UNDO);
-			pc.setId(inputAfterCommand);
-		} else if (command.equals("undelete")) {
-			// e.g. undelete 3
-			pc.setCommand(Command.UNDELETE);
-			pc.setId(inputAfterCommand);
-		} else if (command.equals("view")) {
+		if (command.equals("view")) {
 			// e.g. view 2
 			pc.setCommand(Command.VIEW);
 			pc.setId(inputAfterCommand);
@@ -187,6 +187,7 @@ public class Parser {
 			} else {
 				title = inputAfterCommand.substring(0, titleEndIndex);
 			}
+			
 			pc.setTitle(title);
 
 			String startDate = getAttributeFromInput(inputAfterCommand, "startdate", 9);
@@ -254,65 +255,70 @@ public class Parser {
 			}
 		}
 		if (pc.getCommand() == null) {
-			// parseFlexibleCommand(pc, userInput);
+			parseShortenedCommand(pc, userInput);
 		} 
 		return pc;
 	}
 	
-	/*
-	public ParsedCommand parseFlexibleCommand(ParsedCommand pc, String userInput) {
-		if (userInput.contains("-all")) {
+	public ParsedCommand parseShortenedCommand(ParsedCommand pc, String userInput) {
+		if (userInput.equals("-all")) {
 			// e.g. view all: -all
 			pc.setCommand(Command.VIEW_ALL);
 			return pc;
-		} else if (userInput.contains("-h")) {
+		} else if (userInput.equals("-h")) {
 			// e.g help: -h
 			pc.setCommand(Command.HELP);
 			return pc;
-		} else if (userInput.contains("-e")) {
+		} else if (userInput.equals("-e")) {
 			// e.g. exit: -e
 			pc.setCommand(Command.EXIT);
 			return pc;
-		} else if (userInput.contains("-p")) {
-			// e.g. previous: -p
+		} else if (userInput.equals("-prev")) {
+			// e.g. previous: -prev
 			pc.setCommand(Command.PREVIOUS);
 			return pc;
-		} else if (userInput.contains("-n")) {
-			// e.g. next: -n
+		} else if (userInput.equals("-nxt")) {
+			// e.g. next: -nxt
 			pc.setCommand(Command.NEXT);
+			return pc;
+		} else if (userInput.equals("-u")) {
+			// e.g. undo: -u
+			pc.setCommand(Command.UNDO);
 			return pc;
 		}
 		
 		String inputAfterCommand = "";
+		String command = "";
+		
 		if (userInput != null && userInput.length() != 0) {
 			inputAfterCommand = userInput.substring(userInput.indexOf(" ")+1);
+			command = userInput.substring(0, userInput.indexOf(" "));
 		}
-		if (userInput.contains("-s")) {
+		if (command.equals("-s")) {
 			// e.g. save in desktop: -s desktop			
 			pc.setCommand(Command.STORAGE_LOCATION);
 			pc.setStorageLocation(inputAfterCommand);
-		} else if (userInput.contains("-un")) {
-			// e.g. undo 3: -un 3
-			pc.setCommand(Command.UNDO);
-			pc.setId(inputAfterCommand);
-		} else if (userInput.contains("-undel")) {
+		}  else if (command.equals("-undel")) {
 			// e.g. undelete 4: -undel 4
 			pc.setCommand(Command.UNDELETE);
 			pc.setId(inputAfterCommand);
-		} else if (userInput.contains("-v")) {
+		} else if (command.equals("-v")) {
 			// e.g. view 2: -v 2
 			pc.setCommand(Command.VIEW);
 			pc.setId(inputAfterCommand);
-		} else if (userInput.contains("-d")) {
+		} else if (command.equals("-d")) {
 			// e.g. delete 1: -d 1
 			pc.setCommand(Command.DELETE);
 			pc.setId(inputAfterCommand);
-		} else if (userInput.equals("-fil")) {
+		} else if (command.equals("-fil")) {
 			// e.g. -fil -g personal stuff OR -fil -p very high OR
 			// -fil -sd yyyy/mm/dd OR -fil -ed yyyy/mm/dd
 			pc.setCommand(Command.FILTER);
-			setFlexibleFilterParameters(new Scanner(inputAfterCommand), pc);
-		} else if (userInput.contains('-up")) {
+			setShortenedFilterParameters(new Scanner(inputAfterCommand), pc);
+		} else if (command.equals("-up")) {
+			// e.g. e.g. -up 2, -t do homework, -sd 2015/10/30, -st 12.34, -ed 2015/11/12, 
+			// -et 13.37, -g personal circle, -l my home, -p very high,  
+			// -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11 
 			pc.setCommand(Command.UPDATE);
 				
 			int idEndIndex;
@@ -330,15 +336,165 @@ public class Parser {
 			if (title != null) {
 				pc.setTitle(title);
 			}
+			
+			String startDate = getAttributeFromInput(inputAfterCommand, "-sd", 3);
+			String startTime = getAttributeFromInput(inputAfterCommand, "-st", 3);
+			if (startDate != null && startTime != null) {
+				Calendar cal = dateAndTimeToCalendar(startDate, startTime);
+				pc.setStartDateTime(cal);
+			} else if (startDate != null) {
+				Calendar cal = dateToCalendar(startDate);
+				pc.setStartDateTime(cal);
+			} else if (startTime != null) {
+				Calendar cal = timeToCalendar(startTime);
+				pc.setStartDateTime(cal);
+			}
+			
+			String endDate = getAttributeFromInput(inputAfterCommand, "-ed", 3);
+			String endTime = getAttributeFromInput(inputAfterCommand, "-et", 3);
+			if (endDate != null && endTime != null) {
+				Calendar cal = dateAndTimeToCalendar(endDate, endTime);
+				pc.setEndDateTime(cal);
+			} else if (endDate != null) {
+				Calendar cal = dateToCalendar(endDate);
+				pc.setEndDateTime(cal);
+			} else if (endTime != null) {
+				Calendar cal = timeToCalendar(endTime);
+				pc.setEndDateTime(cal);
+			}
+			
+			String priority = getAttributeFromInput(inputAfterCommand, "-p", 2);
+			if (priority != null) {
+				setPriority(pc, priority);
+			}
+			
+			String group = getAttributeFromInput(inputAfterCommand, "-g", 2);
+			if (group != null) {
+				pc.setGroup(group);
+			}
+
+			String location = getAttributeFromInput(inputAfterCommand, "-l", 2);
+			if (location != null) {
+				pc.setLocation(location);
+			}
+
+			String notes = getAttributeFromInput(inputAfterCommand, "-n", 2);
+			if (notes != null) {
+				pc.setNotes(notes);
+			}
+
+			String recurring = getAttributeFromInput(inputAfterCommand, "-r", 2);
+			if (recurring != null) {
+				pc.setIsRecurring(recurring.equals("yes"));
+			}
+
+			String reminderDate = getAttributeFromInput(inputAfterCommand, "-rd", 3);
+			String reminderTime = getAttributeFromInput(inputAfterCommand, "-rt", 3);
+			if (reminderDate != null && reminderTime != null) {
+				reminderTime = reminderTime.trim();
+				Calendar cal = dateAndTimeToCalendar(reminderDate, reminderTime);
+				pc.setReminder(cal);
+			} else if (reminderDate != null) {
+				Calendar cal = dateToCalendar(reminderDate);
+				pc.setReminder(cal);
+			} else if (reminderTime != null) {
+				reminderTime = reminderTime.trim();
+				Calendar cal = timeToCalendar(reminderTime);
+				pc.setReminder(cal);
+			}
+			
+		}
 		
-		// e.g. e.g. -up 2, -t do homework, -st 2015/10/30, -ed 2015/11/12, -st 12.34, -et 13.37, 
-		//  -g personal circle, -l my home, -p very high,  
-		/// -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11 
-		 
+		else if (command.contains("-a")) {
+			// e.g. -a eat drink sleep repeat, -sd 2015/10/12, -st 12.34, ed 2015/10/14, 
+			// -et 13.37, -p very high, -g secret group, -l my home, -n must do, 
+			// -r no, -rd 2015/10/13, -rt 13.37
+			
+			pc.setCommand(Command.ADD);
+			int numCurrentTask = ParsedCommand.getNumCurrentTask();
+			pc.setId(String.valueOf(numCurrentTask + 1));
+			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
+			
+			int titleEndIndex;
+			String title;
+			
+			titleEndIndex = inputAfterCommand.indexOf(",");
+			if (titleEndIndex == -1) {
+				title = inputAfterCommand.substring(0);
+			} else {
+				title = inputAfterCommand.substring(0, titleEndIndex);
+			}
+			pc.setTitle(title);
+
+			String startDate = getAttributeFromInput(inputAfterCommand, "-sd", 3);
+			String startTime = getAttributeFromInput(inputAfterCommand, "-st", 3);
+			if (startDate != null && startTime != null) {
+				Calendar cal = dateAndTimeToCalendar(startDate, startTime);
+				pc.setStartDateTime(cal);
+			} else if (startDate != null) {
+				Calendar cal = dateToCalendar(startDate);
+				pc.setStartDateTime(cal);
+			} else if (startTime != null) {
+				Calendar cal = timeToCalendar(startTime);
+				pc.setStartDateTime(cal);
+			}
+
+			String endDate = getAttributeFromInput(inputAfterCommand, "-ed", 3);
+			String endTime = getAttributeFromInput(inputAfterCommand, "-et", 3);
+			if (endDate != null && endTime != null) {
+				Calendar cal = dateAndTimeToCalendar(endDate, endTime);
+				pc.setEndDateTime(cal);
+			} else if (endDate != null) {
+				Calendar cal = dateToCalendar(endDate);
+				pc.setEndDateTime(cal);
+			} else if (endTime != null) {
+				Calendar cal = timeToCalendar(endTime);
+				pc.setEndDateTime(cal);
+			}
+
+			String priority = getAttributeFromInput(inputAfterCommand, "-p", 2);
+			if (priority != null) {
+				setPriority(pc, priority);
+			}
+			
+			String group = getAttributeFromInput(inputAfterCommand, "-g", 2);
+			if (group != null) {
+				pc.setGroup(group);
+			}
+
+			String location = getAttributeFromInput(inputAfterCommand, "-l", 2);
+			if (location != null) {
+				pc.setLocation(location);
+			}
+
+			String notes = getAttributeFromInput(inputAfterCommand, "-n", 2);
+			if (notes != null) {
+				pc.setNotes(notes);
+			}
+
+			String recurring = getAttributeFromInput(inputAfterCommand, "-r", 2);
+			if (recurring != null) {
+				pc.setIsRecurring(recurring.equals("yes"));
+			}
+
+			String reminderDate = getAttributeFromInput(inputAfterCommand, "-rd", 3);
+			String reminderTime = getAttributeFromInput(inputAfterCommand, "-rt", 3);
+			if (reminderDate != null && reminderTime != null) {
+				Calendar cal = dateAndTimeToCalendar(reminderDate, reminderTime);
+				pc.setReminder(cal);
+			} else if (reminderDate != null) {
+				Calendar cal = dateToCalendar(reminderDate);
+				pc.setReminder(cal);
+			} else if (reminderTime != null) {
+				Calendar cal = timeToCalendar(reminderTime);
+				pc.setReminder(cal);
+			}
+		}
 		return pc;
 	}
 	
-	public void setFlexibleFilterParameters(Scanner inputAfterCommand, ParsedCommand pc) {
+	
+	public void setShortenedFilterParameters(Scanner inputAfterCommand, ParsedCommand pc) {
 		String filterParameter = inputAfterCommand.next();
 		String filterValue = inputAfterCommand.nextLine().trim();
 
@@ -357,7 +513,7 @@ public class Parser {
 		}
 	}
 	
-	*/
+	
 
 	public void setFilterParameters(Scanner inputAfterCommand, ParsedCommand pc) {
 		String filterParameter = inputAfterCommand.next();
@@ -448,7 +604,7 @@ public class Parser {
 		} else {
 			return null;
 		}
-		//System.out.println(attr + ": " + result);
+		// System.out.println(attr + ": " + result);
 		return result;
 	}
 
