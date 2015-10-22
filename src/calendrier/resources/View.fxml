@@ -4,13 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<!-- <fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="500.0"
-	maxWidth="500.0" maxHeight="500.0"> -->
-	<fx:root type="FlowPane" fx:id="flowPaneAllEvents" xmlns="http://javafx.com/javafx/8.0.40"
-		xmlns:fx="http://javafx.com/fxml/1" prefWidth="550.0" prefHeight="500.0"
-		maxWidth="550.0" maxHeight="500.0">
-		<children>
-		</children>
-	
+<fx:root type="FlowPane" fx:id="flowPaneAllEvents" xmlns="http://javafx.com/javafx/8.0.40"
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="550.0" prefHeight="500.0"
+	maxWidth="550.0" maxHeight="500.0">
+	<children>
+	</children>
+
 </fx:root>

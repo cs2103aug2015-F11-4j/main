@@ -7,7 +7,6 @@ import java.util.Set;
 
 import utils.Event;
 import calendrier.MainLogic;
-import calendrier.ReminderManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,29 +28,35 @@ public class UserInterface extends Application {
 	private static final String MESSAGE_FAIL_UPDATE = "Fail to update event";
 	private static final String MESSAGE_FAIL_DELETE = "Fail to delete event";
 	private static final String MESSAGE_FAIL_UNDO = "Fail to undo event";
+	private static final String MESSAGE_FAIL_VIEW_DETAIL = "Invalid Event ID";
 	private static final String MESSAGE_WELCOME = "Welcome!";
 	private static final String MESSAGE_EMPTY = "";
 
 	private static final int VALUE_START_SCREEN_MIN = 1;
 	private static final int VALUE_START_SCREEN_MAX = 3;
-	
+
 	private static final int VALUE_TO_ADD_OR_MINUS = 1;
 	private static final int VALUE_ADD_TO_ARRAY = 8;
 
 	private static final int VALUE_START_SCREEN = 1;
 	private static final int VALUE_VIEW_SCREEN = 2;
-	
+
 	private static final int VALUE_GET_ALL_EVENTS = 1;
 	private static final int VALUE_GET_FILTERED_EVENTS = 2;
-	
+
 	private static final int VALUE_NO_EVENT = 0;
-	
+
 	private static final String PARAM_NAVIGATION_NEXT = "next";
 	private static final String PARAM_NAVIGATION_PREVIOUS = "previous";
+
+	private static final boolean PARAM_SET_STORAGE_TRUE = true;
+	private static final boolean PARAM_SET_STORAGE_FALSE = false;
 
 	private int startScreenPage = VALUE_START_SCREEN_MIN;
 	private int currentScreenState = VALUE_START_SCREEN;
 	private int currentEventState = VALUE_GET_ALL_EVENTS;
+
+	private boolean setStorage = PARAM_SET_STORAGE_FALSE;
 
 	private String setMessage = "";
 
@@ -63,7 +68,6 @@ public class UserInterface extends Application {
 	private BorderPane rootLayout;
 
 	private MainLogic mainLogic = null;
-	private ReminderManager reminderMgr = null;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -75,7 +79,6 @@ public class UserInterface extends Application {
 		initPrimaryStage(primaryStage);
 
 		initLogic();
-		initReminder();
 
 		// Adding commandbar to RootLayout
 		addCommandBar(this);
@@ -105,16 +108,17 @@ public class UserInterface extends Application {
 		eventSize = mainLogic.getAllEvents().size();
 		events = mainLogic.getAllEvents();
 	}
-	
-	private void initReminder() {
-		reminderMgr = new ReminderManager();
-	}
 
 	private void addCommandBar(UserInterface userInterface) {
 		rootLayout.setBottom(new CommandBarController(userInterface));
 	}
 
 	private void addStartScreen(UserInterface userInterface) {
+
+		// trying out notification (for reminder)
+		// Notifications.create() .title("Task Reminder") .text("Hello")
+		// .showWarning();
+
 		rootLayout.setCenter(new StartScreenController(userInterface,
 				VALUE_START_SCREEN_MIN));
 	}
@@ -130,15 +134,17 @@ public class UserInterface extends Application {
 		if (mainLogic.getAllEvents().size() == VALUE_NO_EVENT) {
 			rootLayout.setCenter(new NoEventController(userInterface));
 		} else {
-			//rootLayout.setCenter(new EventAllController(mainLogic.getAllEvents()));
+			// rootLayout.setCenter(new
+			// EventAllController(mainLogic.getAllEvents()));
 			List<Event> listEvents = null;
-			if(currentEventState == VALUE_GET_ALL_EVENTS) {
+			if (currentEventState == VALUE_GET_ALL_EVENTS) {
 				listEvents = mainLogic.getAllEvents();
 			} else if (currentEventState == VALUE_GET_FILTERED_EVENTS) {
 				listEvents = mainLogic.getFilteredEvents();
 			}
-			
-			rootLayout.setCenter(new ViewController(SortedEvents.sortEvents(listEvents), arrStartIndex));
+
+			rootLayout.setCenter(new ViewController(SortedEvents
+					.sortEvents(listEvents), arrStartIndex));
 		}
 	}
 
@@ -157,7 +163,8 @@ public class UserInterface extends Application {
 						startScreenPage));
 			}
 		} else {
-			if((arrStartIndex + VALUE_ADD_TO_ARRAY) <= (mainLogic.getAllEvents().size() - VALUE_TO_ADD_OR_MINUS)) {
+			if ((arrStartIndex + VALUE_ADD_TO_ARRAY) <= (mainLogic
+					.getAllEvents().size() - VALUE_TO_ADD_OR_MINUS)) {
 				arrStartIndex += VALUE_ADD_TO_ARRAY;
 				addView(userInterface);
 			}
@@ -171,7 +178,7 @@ public class UserInterface extends Application {
 						startScreenPage));
 			}
 		} else {
-			if((arrStartIndex - VALUE_ADD_TO_ARRAY) >= 0) {
+			if ((arrStartIndex - VALUE_ADD_TO_ARRAY) >= 0) {
 				arrStartIndex -= VALUE_ADD_TO_ARRAY;
 			} else if ((arrStartIndex - VALUE_ADD_TO_ARRAY) < 0) {
 				arrStartIndex = 0;
@@ -207,47 +214,63 @@ public class UserInterface extends Application {
 		switch (mainLogic.execute(userInput)) {
 		case STORAGE_LOCATION:
 			setMessage = MESSAGE_WELCOME;
+			setStorage = PARAM_SET_STORAGE_TRUE;
 			addView(this);
 			break;
 		case ADD:
-			setMessage = checkAdding();
-			currentEventState = VALUE_GET_ALL_EVENTS;
-			addView(this);
-			break;
+			if (setStorage) {
+				setMessage = checkAdding();
+				currentEventState = VALUE_GET_ALL_EVENTS;
+				addView(this);
+				break;
+			}
 		case VIEW_ALL:
-			setMessage = MESSAGE_EMPTY;
-			currentEventState = VALUE_GET_ALL_EVENTS;
-			addView(this);
-			break;
+			if (setStorage) {
+				setMessage = MESSAGE_EMPTY;
+				currentEventState = VALUE_GET_ALL_EVENTS;
+				addView(this);
+				break;
+			}
 		case VIEW:
-			setMessage = MESSAGE_EMPTY;
-			currentEventState = VALUE_GET_ALL_EVENTS;
-			addEventView(this);
-			break;
+			if (setStorage) {
+				setMessage = checkEventExist();
+				currentEventState = VALUE_GET_ALL_EVENTS;
+				break;
+			}
+
 		case FILTER:
-			currentEventState = VALUE_GET_FILTERED_EVENTS;
-			// addFilterView(this);
-			break;
+			if (setStorage) {
+				setMessage = MESSAGE_EMPTY;
+				currentEventState = VALUE_GET_FILTERED_EVENTS;
+				addView(this);
+				break;
+			}
 		case SEARCH:
-			// addView(this); 
+			// addView(this);
 			// either 1 search view or use back view all view
 			// addSearchView(this);
 			break;
 		case UPDATE:
-			setMessage = checkUpdate();
-			currentEventState = VALUE_GET_ALL_EVENTS;
-			addView(this);
-			break;
+			if (setStorage) {
+				setMessage = checkUpdate();
+				currentEventState = VALUE_GET_ALL_EVENTS;
+				addView(this);
+				break;
+			}
 		case DELETE:
-			setMessage = checkDeleting();
-			currentEventState = VALUE_GET_ALL_EVENTS;
-			addView(this);
-			break;
+			if (setStorage) {
+				setMessage = checkDeleting();
+				currentEventState = VALUE_GET_ALL_EVENTS;
+				addView(this);
+				break;
+			}
 		case UNDO:
-			setMessage = checkUndo();
-			currentEventState = VALUE_GET_ALL_EVENTS;
-			addView(this);
-			break;
+			if (setStorage) {
+				setMessage = checkUndo();
+				currentEventState = VALUE_GET_ALL_EVENTS;
+				addView(this);
+				break;
+			}
 		case EXIT:
 			System.exit(0);
 		case PREVIOUS:
@@ -259,10 +282,10 @@ public class UserInterface extends Application {
 			getNextPage(this);
 			break;
 		case HELP:
-			setMessage = MESSAGE_EMPTY;
-			currentEventState = VALUE_GET_ALL_EVENTS;
-			getHelp(this);
-			break;
+				setMessage = MESSAGE_EMPTY;
+				currentEventState = VALUE_GET_ALL_EVENTS;
+				getHelp(this);
+				break;
 		default:
 			commandBarController.setMessage(MESSAGE_INVALID_COMMAND);
 		}
@@ -324,5 +347,14 @@ public class UserInterface extends Application {
 		} else {
 			return MESSAGE_FAIL_ADD;
 		}
+	}
+
+	private String checkEventExist() {
+		if (mainLogic.getEvent().getId() == null) {
+			addView(this);
+			return MESSAGE_FAIL_VIEW_DETAIL;
+		}
+		addEventView(this);
+		return MESSAGE_EMPTY;
 	}
 }
