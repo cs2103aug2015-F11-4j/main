@@ -15,6 +15,7 @@ import utils.Priority;
 
 public class EventGeneratorTest {
 	ParsedCommand pc;
+	ParsedCommand commandNoID;
 	Event testEvent;
 
 	// Information in parsedCommand/Event
@@ -46,6 +47,10 @@ public class EventGeneratorTest {
 		pc.setLocation(location);
 		pc.setNotes(notes);
 		pc.setGroup(group);
+		
+		// no ID command
+		commandNoID = new ParsedCommand();
+		commandNoID.setTitle(title);
 
 		// create event to test against
 		testEvent = new Event();
@@ -72,5 +77,19 @@ public class EventGeneratorTest {
 		assertEquals(generatedEvent.getLocation(), testEvent.getLocation());
 		assertEquals(generatedEvent.getNotes(), testEvent.getNotes());
 		assertEquals(generatedEvent.getGroups(), testEvent.getGroups());
+	}
+	
+	@Test
+	public void testGenerateEventNoGivenID() {
+		EventGenerator gen = new EventGenerator();
+		Event generatedEvent = gen.createEvent(commandNoID);
+		assertEquals(generatedEvent.getId(), 0 + "");
+	}
+	
+	@Test
+	public void testSetID() {
+		EventGenerator gen = new EventGenerator();
+		gen.setCurrentID(2);
+		assertEquals(gen.getCurrentIDAsString(), 2 + "");
 	}
 }

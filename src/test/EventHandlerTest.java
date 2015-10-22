@@ -91,7 +91,7 @@ public class EventHandlerTest {
 	}
 
 	@Test
-	public void testAddEvent() {
+	public void testAddEvent() throws Exception {
 
 		// Create EventHandler()
 		EventHandler handle = new EventHandler();
@@ -112,7 +112,7 @@ public class EventHandlerTest {
 	}
 
 	@Test
-	public void testRemoveEvent() {
+	public void testRemoveEvent() throws Exception {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 
@@ -124,7 +124,7 @@ public class EventHandlerTest {
 	}
 	
 	@Test
-	public void testViewEvent() {
+	public void testViewEvent() throws Exception {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 
@@ -140,7 +140,7 @@ public class EventHandlerTest {
 	}
 	
 	@Test 
-	public void testSearchEvent() {
+	public void testSearchEvent() throws Exception {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 
@@ -151,7 +151,7 @@ public class EventHandlerTest {
 	}
 
 	@Test
-	public void testUpdateEvent() {
+	public void testUpdateEvent() throws Exception {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 		handle.add(testEvent);
@@ -219,5 +219,21 @@ public class EventHandlerTest {
 		}
 		assertEquals(pc.getNotes(), handle.getAllEvents().get(0).getNotes());
 	}
+	
+	/**
+	 * boundary test case (0)
+	 */
+//	@Test
+//	public void getLargestIDEmptyEventList() {
+//		EventHandler handle = new EventHandler();
+//		assertEquals(0, handle.getLargestID());
+//	}
+//	
+//	@Test
+//	public void getLargestID() {
+//		EventHandler handle = new EventHandler();
+//		handle.add(testEvent);
+//		assertEquals(0, handle.getLargestID());
+//	}
 
 }

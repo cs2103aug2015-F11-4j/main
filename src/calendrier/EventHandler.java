@@ -97,7 +97,6 @@ public class EventHandler {
 
 		ArrayList<String> eventsFromStorage = (ArrayList<String>)manage.load();
 		events = generator.createMultipleEvents(eventsFromStorage);
-		generator.setCurrentID(getLargestID());
 	}
 
 	public ArrayList<Event> search(ParsedCommand pc) {
@@ -144,6 +143,8 @@ public class EventHandler {
 			}
 			newHistory.pop();
 			events.clear();
+			assert(events.isEmpty());
+			
 			// run through every command so far and redo
 			for (ParsedCommand c : newHistory) {
 				try {
@@ -161,20 +162,16 @@ public class EventHandler {
 	 * @param event
 	 * @return
 	 */
-	public Event add(Event event) {
+	public Event add(Event event) throws Exception {
 		previousEvent = event;
 		
-		// check no conflicts are occuring
-//		for (Event e : events) {
-//			e.getStartDateTime()
-//		}
+		if (checkTimeConflict(event)) {
+			throw new Exception("ERROR - TIME CONFLICT");
+		} else {
+			events.add(event);
+			manage.save(events);
+		}
 		
-		// if no conflicts, add
-		events.add(event);
-		// save to manager
-		manage.save(events);
-		
-		// else throw an exception
 		return event;
 	}
 
@@ -250,15 +247,38 @@ public class EventHandler {
 		return newEvent;
 	}
 	
-	private int getLargestID() {
-		int largestID = 0;
-		for (Event e: events) {
-			if (Integer.parseInt(e.getId()) > largestID) {
-				largestID = Integer.parseInt(e.getId());
+	public boolean checkTimeConflict(Event newEvent) {
+		boolean conflict = false;
+		for (Event e : events) {
+			if (e.getStartDateTime() != null && e.getEndDateTime() != null 
+					&& newEvent.getStartDateTime() != null && newEvent.getEndDateTime() != null) {
+				if (newEvent.getStartDateTime().before(e.getStartDateTime()) && newEvent.getEndDateTime().after(e.getEndDateTime())) {
+					conflict = true;
+				} else if (newEvent.getStartDateTime().before(e.getStartDateTime()) && newEvent.getEndDateTime().after(e.getStartDateTime())) {
+					conflict = true;
+				} else if (newEvent.getStartDateTime().before(e.getEndDateTime()) && newEvent.getEndDateTime().after(e.getEndDateTime())) {
+					conflict = true;
+				} else if (newEvent.getStartDateTime().after(e.getStartDateTime()) && newEvent.getEndDateTime().before(e.getEndDateTime())) {
+					conflict = true;
+				}
 			}
 		}
-		return largestID;
+		return conflict;
 	}
+	
+	/**
+	 * searches the current list of events and obtains the largest ID
+	 * @return
+	 */
+//	public int getLargestID() {
+//		int largestID = 0;
+//		for (Event e: events) {
+//			if (!e.getId().equals(null) && Integer.parseInt(e.getId()) > largestID) {
+//				largestID = Integer.parseInt(e.getId());
+//			}
+//		}
+//		return largestID;
+//	}
 
 
 	/**

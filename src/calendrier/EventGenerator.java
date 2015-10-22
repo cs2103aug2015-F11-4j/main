@@ -1,16 +1,28 @@
 package calendrier;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import utils.Event;
 
 import utils.ParsedCommand;
 
 public class EventGenerator {
-	String currentId;
+	final int RANDOM_LIMIT = 500;
+	Random rand;
+	int currentId;
+	
+	public EventGenerator() {
+		currentId = 0;
+	}
 	
 	public void setCurrentID(int id) {
-		currentId = id + "";
+		currentId = id;
+		rand = new Random();
+	}
+	
+	public String getCurrentIDAsString() {
+		return currentId + "";
 	}
 	
 	/**
@@ -22,8 +34,9 @@ public class EventGenerator {
 	public Event createEvent(ParsedCommand pc) {
 		Event e = new Event();
 		
-		if (pc.getId().equals(null)) {
-			e.setId(currentId);
+		if (pc.getId() == null) {
+			currentId = rand.nextInt(RANDOM_LIMIT);
+			e.setId(getCurrentIDAsString());
 		} else {
 			e.setId((pc.getId()));
 		}
