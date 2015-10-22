@@ -85,7 +85,7 @@ public class ReminderManagerTest {
 	
 
 	@Test
-	/* More than a minute */
+	/* Boundary Test: More than a minute */
 	public void testCompareTimeMoreThan(){
 		ReminderManager reminderManager = new ReminderManager();
 		
@@ -100,7 +100,7 @@ public class ReminderManagerTest {
 	}
 	
 	@Test
-	/* More than a minute */
+	/* Boundary Test: More than a minute */
 	public void testCompareTimeReversedMoreThan(){
 		ReminderManager reminderManager = new ReminderManager();
 		
@@ -115,7 +115,7 @@ public class ReminderManagerTest {
 	}
 	
 	@Test
-	/* Just More than a minute */
+	/* Boundary Test: Just More than a minute */
 	public void testCompareTimeJustMoreThan(){
 		ReminderManager reminderManager = new ReminderManager();
 		
@@ -130,7 +130,7 @@ public class ReminderManagerTest {
 	}
 	
 	@Test
-	/* Just More than a minute */
+	/* Boundary Test: Just More than a minute */
 	public void testCompareTimeReversedJustMoreThan(){
 		ReminderManager reminderManager = new ReminderManager();
 		
@@ -145,7 +145,7 @@ public class ReminderManagerTest {
 	}
 	
 	@Test
-	/* Just a little more than a minute */
+	/* Boundary Test: Just a little more than a minute */
 	public void testCompareTimeExactly(){
 		ReminderManager reminderManager = new ReminderManager();
 		
@@ -160,7 +160,7 @@ public class ReminderManagerTest {
 	}
 	
 	@Test
-	/* Just a little more than a minute */
+	/* Boundary Test: Just a little more than a minute */
 	public void testCompareTimeReversedExactly(){
 		ReminderManager reminderManager = new ReminderManager();
 		
@@ -175,7 +175,7 @@ public class ReminderManagerTest {
 	}
 	
 	@Test
-	/* Just a little less than a minute */
+	/* Boundary Test: Just a little less than a minute */
 	public void testCompareTimeJustLessThan(){
 		ReminderManager reminderManager = new ReminderManager();
 		
@@ -190,7 +190,7 @@ public class ReminderManagerTest {
 	}
 	
 	@Test
-	/* Reversed Just a little less than a minute */
+	/* Boundary Test: Reversed Just a little less than a minute */
 	public void testCompareTimeReversedJustLessThan(){
 		ReminderManager reminderManager = new ReminderManager();
 		
@@ -205,7 +205,7 @@ public class ReminderManagerTest {
 	}
 	
 	@Test
-	/* Within minute */
+	/* Boundary Test: Within minute */
 	public void testCompareTimeWithin(){
 		ReminderManager reminderManager = new ReminderManager();
 		
