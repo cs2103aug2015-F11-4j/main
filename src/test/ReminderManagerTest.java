@@ -83,6 +83,142 @@ public class ReminderManagerTest {
 		reminderManager.checkEvents();
 	}
 	
+
+	@Test
+	/* Boundary Test: More than a minute */
+	public void testCompareTimeMoreThan(){
+		ReminderManager reminderManager = new ReminderManager();
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+		Calendar now = Calendar.getInstance();
+		
+		time1.setTimeInMillis(now.getTimeInMillis());
+		time2.setTimeInMillis(now.getTimeInMillis() - 61000);
+		
+		assertFalse(reminderManager.compareTime(time1, time2));
+	}
+	
+	@Test
+	/* Boundary Test: More than a minute */
+	public void testCompareTimeReversedMoreThan(){
+		ReminderManager reminderManager = new ReminderManager();
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+		Calendar now = Calendar.getInstance();
+		
+		time1.setTimeInMillis(now.getTimeInMillis());
+		time2.setTimeInMillis(now.getTimeInMillis() + 61000);
+		
+		assertFalse(reminderManager.compareTime(time1, time2));
+	}
+	
+	@Test
+	/* Boundary Test: Just More than a minute */
+	public void testCompareTimeJustMoreThan(){
+		ReminderManager reminderManager = new ReminderManager();
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+		Calendar now = Calendar.getInstance();
+		
+		time1.setTimeInMillis(now.getTimeInMillis());
+		time2.setTimeInMillis(now.getTimeInMillis() - 60001);
+		
+		assertFalse(reminderManager.compareTime(time1, time2));
+	}
+	
+	@Test
+	/* Boundary Test: Just More than a minute */
+	public void testCompareTimeReversedJustMoreThan(){
+		ReminderManager reminderManager = new ReminderManager();
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+		Calendar now = Calendar.getInstance();
+		
+		time1.setTimeInMillis(now.getTimeInMillis());
+		time2.setTimeInMillis(now.getTimeInMillis() + 60001);
+		
+		assertFalse(reminderManager.compareTime(time1, time2));
+	}
+	
+	@Test
+	/* Boundary Test: Just a little more than a minute */
+	public void testCompareTimeExactly(){
+		ReminderManager reminderManager = new ReminderManager();
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+		Calendar now = Calendar.getInstance();
+		
+		time1.setTimeInMillis(now.getTimeInMillis());
+		time2.setTimeInMillis(now.getTimeInMillis() - 60000);
+		
+		assertFalse(reminderManager.compareTime(time1, time2));
+	}
+	
+	@Test
+	/* Boundary Test: Just a little more than a minute */
+	public void testCompareTimeReversedExactly(){
+		ReminderManager reminderManager = new ReminderManager();
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+		Calendar now = Calendar.getInstance();
+		
+		time1.setTimeInMillis(now.getTimeInMillis());
+		time2.setTimeInMillis(now.getTimeInMillis() + 60000);
+		
+		assertFalse(reminderManager.compareTime(time1, time2));
+	}
+	
+	@Test
+	/* Boundary Test: Just a little less than a minute */
+	public void testCompareTimeJustLessThan(){
+		ReminderManager reminderManager = new ReminderManager();
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+		Calendar now = Calendar.getInstance();
+		
+		time1.setTimeInMillis(now.getTimeInMillis());
+		time2.setTimeInMillis(now.getTimeInMillis() - 59999);
+		
+		assertTrue(reminderManager.compareTime(time1, time2));
+	}
+	
+	@Test
+	/* Boundary Test: Reversed Just a little less than a minute */
+	public void testCompareTimeReversedJustLessThan(){
+		ReminderManager reminderManager = new ReminderManager();
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+		Calendar now = Calendar.getInstance();
+		
+		time1.setTimeInMillis(now.getTimeInMillis());
+		time2.setTimeInMillis(now.getTimeInMillis() + 59999);
+		
+		assertTrue(reminderManager.compareTime(time1, time2));
+	}
+	
+	@Test
+	/* Boundary Test: Within minute */
+	public void testCompareTimeWithin(){
+		ReminderManager reminderManager = new ReminderManager();
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+		Calendar now = Calendar.getInstance();
+		
+		time1.setTimeInMillis(now.getTimeInMillis());
+		time2.setTimeInMillis(now.getTimeInMillis() + 30000);
+		
+		assertTrue(reminderManager.compareTime(time1, time2));
+	}
+	
 	private Event generateEvent(int offset){
 		Event event = new Event();
 		
