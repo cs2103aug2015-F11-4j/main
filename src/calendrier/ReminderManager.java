@@ -31,8 +31,10 @@ public class ReminderManager implements Runnable {
 		while (true) {
 			try {
 				checkEvents();
-
-				Thread.sleep(60000);
+				
+				long sleepTime = 60000 - Calendar.getInstance().getTimeInMillis() % 60000;
+				
+				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
