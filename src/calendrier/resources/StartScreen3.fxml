@@ -6,8 +6,8 @@
 <?import javafx.scene.control.ListView?>
 
 <fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="500.0"
-	maxWidth="500.0" maxHeight="500.0" >
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="550.0"
+	maxWidth="500.0" maxHeight="550.0" >
 	<children>
 		<GridPane styleClass="gridPaneHelpScreen" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
 			prefWidth="480.0" prefHeight="500.0"
@@ -57,5 +57,6 @@
 
 			</children>
 		</GridPane>
+		<Label styleClass="storageMessage" text="* Create storage file first: 'save in &#60;FOLDER_NAME&#62;'" StackPane.alignment="BOTTOM_CENTER" />
 	</children>
 </fx:root>

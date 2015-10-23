@@ -7,9 +7,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1">
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="550.0"
+	maxWidth="500.0" maxHeight="550.0" >
 	<children>
 		<GridPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" hgap="10" vgap="10" >
 			<children>
@@ -20,9 +22,10 @@
 						<Image url="/calendrier/resources/logo.png" />
 					</image>
 				</ImageView>
-				<Text text="Type the following command to view TUTORIAL" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-				<Text styleClass="commandText" text="next" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+				<Label styleClass="displayText" text="Type the following command to view TUTORIAL" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.halignment="RIGHT" />
+				<Label styleClass="lblCommand" text="next" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.halignment="RIGHT" />
 			</children>
 		</GridPane>
+		<Label styleClass="storageMessage" text="* Create storage file first: 'save in &#60;FOLDER_NAME&#62;'" StackPane.alignment="BOTTOM_CENTER" />
 	</children>
 </fx:root>
