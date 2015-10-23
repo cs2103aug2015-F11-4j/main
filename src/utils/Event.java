@@ -269,6 +269,6 @@ public class Event {
 		case "LOW":
 			return Priority.LOW;
 		}
-		return Priority.MEDIUM;
+		return null;
 	}
 }
