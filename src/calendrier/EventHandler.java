@@ -50,7 +50,7 @@ public class EventHandler {
 	public ArrayList<Event> execute(ParsedCommand pc) throws Exception {
 		ArrayList<Event> eventsReturned = new ArrayList<>();
 
-		assert(pc != null);
+		assert (pc != null);
 
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
@@ -95,7 +95,7 @@ public class EventHandler {
 	private void setStorageAndLoadEvents(ParsedCommand pc) {
 		manage.setStorageLocation(pc.getStorageLocation());
 
-		ArrayList<String> eventsFromStorage = (ArrayList<String>)manage.load();
+		ArrayList<String> eventsFromStorage = (ArrayList<String>) manage.load();
 		events = generator.createMultipleEvents(eventsFromStorage);
 	}
 
@@ -110,7 +110,7 @@ public class EventHandler {
 		}
 		return searchedEvents;
 	}
-	
+
 	/**
 	 * Views an event identified by the ParsedCommand pc
 	 * 
@@ -135,7 +135,7 @@ public class EventHandler {
 		Event undone = new Event();
 		if (history.isEmpty()) {
 			// nothing to do!
-			
+
 		} else {
 			Stack<ParsedCommand> newHistory = new Stack<>();
 			for (ParsedCommand c : history) {
@@ -143,9 +143,8 @@ public class EventHandler {
 			}
 			newHistory.pop();
 			events.clear();
-			assert(events.isEmpty());
-			
-			// run through every command so far and redo
+			assert (events.isEmpty());
+
 			for (ParsedCommand c : newHistory) {
 				try {
 					execute(c);
@@ -164,14 +163,14 @@ public class EventHandler {
 	 */
 	public Event add(Event event) throws Exception {
 		previousEvent = event;
-		
+
 		if (checkTimeConflict(event)) {
 			throw new Exception("ERROR - TIME CONFLICT");
 		} else {
 			events.add(event);
 			manage.save(events);
 		}
-		
+
 		return event;
 	}
 
@@ -212,8 +211,7 @@ public class EventHandler {
 				break;
 			}
 		}
-		// check that date does not conflict some other date
-
+		
 		// ensure updatedEvent contains all relevant info from oldEvent
 		if (newEvent.getTitle() == null) {
 			newEvent.setTitle(oldEvent.getTitle());
@@ -246,44 +244,36 @@ public class EventHandler {
 		manage.save(events);
 		return newEvent;
 	}
-	
+
 	/**
-	 * used to check if a time conflict exists between any event in storage and the new event
+	 * used to check if a time conflict exists between any event in storage and
+	 * the new event
+	 * 
 	 * @param newEvent
 	 * @return
 	 */
 	public boolean checkTimeConflict(Event newEvent) {
 		boolean conflict = false;
 		for (Event e : events) {
-			if (e.getStartDateTime() != null && e.getEndDateTime() != null 
-					&& newEvent.getStartDateTime() != null && newEvent.getEndDateTime() != null) {
-				if (newEvent.getStartDateTime().before(e.getStartDateTime()) && newEvent.getEndDateTime().after(e.getEndDateTime())) {
+			if (e.getStartDateTime() != null && e.getEndDateTime() != null && newEvent.getStartDateTime() != null
+					&& newEvent.getEndDateTime() != null) {
+				if (newEvent.getStartDateTime().before(e.getStartDateTime())
+						&& newEvent.getEndDateTime().after(e.getEndDateTime())) {
 					conflict = true;
-				} else if (newEvent.getStartDateTime().before(e.getStartDateTime()) && newEvent.getEndDateTime().after(e.getStartDateTime())) {
+				} else if (newEvent.getStartDateTime().before(e.getStartDateTime())
+						&& newEvent.getEndDateTime().after(e.getStartDateTime())) {
 					conflict = true;
-				} else if (newEvent.getStartDateTime().before(e.getEndDateTime()) && newEvent.getEndDateTime().after(e.getEndDateTime())) {
+				} else if (newEvent.getStartDateTime().before(e.getEndDateTime())
+						&& newEvent.getEndDateTime().after(e.getEndDateTime())) {
 					conflict = true;
-				} else if (newEvent.getStartDateTime().after(e.getStartDateTime()) && newEvent.getEndDateTime().before(e.getEndDateTime())) {
+				} else if (newEvent.getStartDateTime().after(e.getStartDateTime())
+						&& newEvent.getEndDateTime().before(e.getEndDateTime())) {
 					conflict = true;
 				}
 			}
 		}
 		return conflict;
 	}
-	
-	/**
-	 * searches the current list of events and obtains the largest ID
-	 * @return
-	 */
-//	public int getLargestID() {
-//		int largestID = 0;
-//		for (Event e: events) {
-//			if (!e.getId().equals(null) && Integer.parseInt(e.getId()) > largestID) {
-//				largestID = Integer.parseInt(e.getId());
-//			}
-//		}
-//		return largestID;
-//	}
 
 
 	/**
@@ -293,24 +283,5 @@ public class EventHandler {
 	 */
 	public List<Event> getAllEvents() {
 		return events;
-	}
-
-	/**
-	 * NOT YET IMPLEMENTED
-	 * 
-	 * @return
-	 */
-	public List<Event> getOutstandingEvents() {
-		List<Event> events = new ArrayList<>();
-		return events;
-	}
-
-	/**
-	 * NOT YET IMPLEMENTED
-	 * 
-	 * @return
-	 */
-	public List<Event> getFilteredEvents(Event event) {
-		return null;
 	}
 }
