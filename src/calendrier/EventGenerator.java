@@ -14,11 +14,11 @@ public class EventGenerator {
 	
 	public EventGenerator() {
 		currentId = 0;
+		rand = new Random();
 	}
 	
 	public void setCurrentID(int id) {
 		currentId = id;
-		rand = new Random();
 	}
 	
 	public String getCurrentIDAsString() {

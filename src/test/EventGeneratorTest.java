@@ -1,6 +1,6 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -83,7 +83,7 @@ public class EventGeneratorTest {
 	public void testGenerateEventNoGivenID() {
 		EventGenerator gen = new EventGenerator();
 		Event generatedEvent = gen.createEvent(commandNoID);
-		assertEquals(generatedEvent.getId(), 0 + "");
+		assertNotNull(generatedEvent.getId());
 	}
 	
 	@Test

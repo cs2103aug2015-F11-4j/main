@@ -247,6 +247,11 @@ public class EventHandler {
 		return newEvent;
 	}
 	
+	/**
+	 * used to check if a time conflict exists between any event in storage and the new event
+	 * @param newEvent
+	 * @return
+	 */
 	public boolean checkTimeConflict(Event newEvent) {
 		boolean conflict = false;
 		for (Event e : events) {
