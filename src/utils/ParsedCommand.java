@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ParsedCommand {
@@ -14,7 +15,7 @@ public class ParsedCommand {
 	private String location = null;	// any string
 	private String notes = null;		// any string
 	private boolean isRecurring = false;	// not V0.1, revisit in future.....
-	private Calendar reminder = null;
+	private ArrayList<Calendar> reminder = null;
 	
 	private String group = null;	// for filter
 	
@@ -50,8 +51,8 @@ public class ParsedCommand {
 	public boolean getIsRecurring() { return isRecurring; }
 	public void setIsRecurring(boolean isRecurring) { this.isRecurring = isRecurring; }
 	
-	public Calendar getReminder() { return reminder; }
-	public void setReminder(Calendar reminder) { this.reminder = reminder; }
+	public ArrayList<Calendar> getReminder() { return reminder; }
+	public void setReminder(ArrayList<Calendar> reminder) { this.reminder = reminder; }
 	
 	public String getGroup() { return group; }
 	public void setGroup(String group) { this.group = group; }

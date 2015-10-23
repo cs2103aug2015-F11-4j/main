@@ -1,5 +1,6 @@
 package calendrier;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
@@ -16,7 +17,10 @@ public class Parser {
 
 	public ParsedCommand parse(String userInput) {
 		ParsedCommand pc = new ParsedCommand();
-
+		
+		if (userInput.equals("") || userInput == null)
+			return pc;
+		
 		// Commands without additional arguments
 		if (userInput.equals("view all")) {
 			pc.setCommand(Command.VIEW_ALL);
@@ -57,8 +61,10 @@ public class Parser {
 			}
 		}
 		lineTokens.close();
+		String inputAfterCommand = null;
 		
-		String inputAfterCommand = userInput.substring(userInput.indexOf(" ") + 1);
+		if (userInput.indexOf(" ") != -1)
+			inputAfterCommand = userInput.substring(userInput.indexOf(" ") + 1);
 
 		if (command.equals("view")) {
 			// e.g. view 2
@@ -150,20 +156,7 @@ public class Parser {
 				pc.setIsRecurring(recurring.equals("yes"));
 			}
 
-			String reminderDate = getAttributeFromInput(inputAfterCommand, "reminderdate", 12);
-			String reminderTime = getAttributeFromInput(inputAfterCommand, "remindertime", 12);
-			if (reminderDate != null && reminderTime != null) {
-				reminderTime = reminderTime.trim();
-				Calendar cal = dateAndTimeToCalendar(reminderDate, reminderTime);
-				pc.setReminder(cal);
-			} else if (reminderDate != null) {
-				Calendar cal = dateToCalendar(reminderDate);
-				pc.setReminder(cal);
-			} else if (reminderTime != null) {
-				reminderTime = reminderTime.trim();
-				Calendar cal = timeToCalendar(reminderTime);
-				pc.setReminder(cal);
-			}
+			setReminder(pc, inputAfterCommand, "reminderdate", "remindertime", 12);
 
 		} else if (command.equals("add")) {
 			pc.setCommand(Command.ADD);
@@ -172,10 +165,11 @@ public class Parser {
 			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
 
 			/*
-			 * Case 1: not a deadline No. of parameters: 11 e.g. add eat
+			 * Case 1: not a deadline No. of parameters: 12 e.g. add eat
 			 * sleep drink repeat, startdate 2015/12/29, starttime 13.37,
 			 * enddate 2015/12/30, endtime 14.44, priority very low, group my personal group, 
-			 * location my home, notes must do, recurring no, reminderdate 2015/12/30,
+			 * location my home, notes must do, recurring no, reminderdate 2015/12/29 2015/12/29, 
+			 * remindertime 12.34 23.45
 			 */
 			
 			int titleEndIndex;
@@ -240,19 +234,9 @@ public class Parser {
 			if (recurring != null) {
 				pc.setIsRecurring(recurring.equals("yes"));
 			}
-
-			String reminderDate = getAttributeFromInput(inputAfterCommand, "reminderdate", 12);
-			String reminderTime = getAttributeFromInput(inputAfterCommand, "remindertime", 12);
-			if (reminderDate != null && reminderTime != null) {
-				Calendar cal = dateAndTimeToCalendar(reminderDate, reminderTime);
-				pc.setReminder(cal);
-			} else if (reminderDate != null) {
-				Calendar cal = dateToCalendar(reminderDate);
-				pc.setReminder(cal);
-			} else if (reminderTime != null) {
-				Calendar cal = timeToCalendar(reminderTime);
-				pc.setReminder(cal);
-			}
+			
+			setReminder(pc, inputAfterCommand, "reminderdate", "remindertime", 12);
+			
 		}
 		if (pc.getCommand() == null) {
 			parseShortenedCommand(pc, userInput);
@@ -261,39 +245,43 @@ public class Parser {
 	}
 	
 	public ParsedCommand parseShortenedCommand(ParsedCommand pc, String userInput) {
-		if (userInput.equals("-all")) {
+		String inputAfterCommand = "";
+		String command = "";
+		
+		// input has more than 1 word
+		if (userInput.indexOf(" ") != -1) {
+			inputAfterCommand = userInput.substring(userInput.indexOf(" ")+1);
+			command = userInput.substring(0, userInput.indexOf(" "));
+		} else {
+			command = userInput;
+		}
+		
+		if (command.equals("-all")) {
 			// e.g. view all: -all
 			pc.setCommand(Command.VIEW_ALL);
 			return pc;
-		} else if (userInput.equals("-h")) {
+		} else if (command.equals("-h")) {
 			// e.g help: -h
 			pc.setCommand(Command.HELP);
 			return pc;
-		} else if (userInput.equals("-e")) {
+		} else if (command.equals("-e")) {
 			// e.g. exit: -e
 			pc.setCommand(Command.EXIT);
 			return pc;
-		} else if (userInput.equals("-prev")) {
+		} else if (command.equals("-prev")) {
 			// e.g. previous: -prev
 			pc.setCommand(Command.PREVIOUS);
 			return pc;
-		} else if (userInput.equals("-nxt")) {
+		} else if (command.equals("-nxt")) {
 			// e.g. next: -nxt
 			pc.setCommand(Command.NEXT);
 			return pc;
-		} else if (userInput.equals("-u")) {
+		} else if (command.equals("-u")) {
 			// e.g. undo: -u
 			pc.setCommand(Command.UNDO);
 			return pc;
 		}
 		
-		String inputAfterCommand = "";
-		String command = "";
-		
-		if (userInput != null && userInput.length() != 0) {
-			inputAfterCommand = userInput.substring(userInput.indexOf(" ")+1);
-			command = userInput.substring(0, userInput.indexOf(" "));
-		}
 		if (command.equals("-s")) {
 			// e.g. save in desktop: -s desktop			
 			pc.setCommand(Command.STORAGE_LOCATION);
@@ -310,9 +298,9 @@ public class Parser {
 			// e.g. delete 1: -d 1
 			pc.setCommand(Command.DELETE);
 			pc.setId(inputAfterCommand);
-		} else if (command.equals("-fil")) {
-			// e.g. -fil -g personal stuff OR -fil -p very high OR
-			// -fil -sd yyyy/mm/dd OR -fil -ed yyyy/mm/dd
+		} else if (command.equals("-f")) {
+			// e.g. -f -g personal stuff OR -f -p very high OR
+			// -f -sd yyyy/mm/dd OR -f -ed yyyy/mm/dd
 			pc.setCommand(Command.FILTER);
 			setShortenedFilterParameters(new Scanner(inputAfterCommand), pc);
 		} else if (command.equals("-up")) {
@@ -388,21 +376,7 @@ public class Parser {
 				pc.setIsRecurring(recurring.equals("yes"));
 			}
 
-			String reminderDate = getAttributeFromInput(inputAfterCommand, "-rd", 3);
-			String reminderTime = getAttributeFromInput(inputAfterCommand, "-rt", 3);
-			if (reminderDate != null && reminderTime != null) {
-				reminderTime = reminderTime.trim();
-				Calendar cal = dateAndTimeToCalendar(reminderDate, reminderTime);
-				pc.setReminder(cal);
-			} else if (reminderDate != null) {
-				Calendar cal = dateToCalendar(reminderDate);
-				pc.setReminder(cal);
-			} else if (reminderTime != null) {
-				reminderTime = reminderTime.trim();
-				Calendar cal = timeToCalendar(reminderTime);
-				pc.setReminder(cal);
-			}
-			
+			setReminder(pc, inputAfterCommand, "-rd", "-rt", 3);	
 		}
 		
 		else if (command.contains("-a")) {
@@ -477,22 +451,38 @@ public class Parser {
 				pc.setIsRecurring(recurring.equals("yes"));
 			}
 
-			String reminderDate = getAttributeFromInput(inputAfterCommand, "-rd", 3);
-			String reminderTime = getAttributeFromInput(inputAfterCommand, "-rt", 3);
-			if (reminderDate != null && reminderTime != null) {
-				Calendar cal = dateAndTimeToCalendar(reminderDate, reminderTime);
-				pc.setReminder(cal);
-			} else if (reminderDate != null) {
-				Calendar cal = dateToCalendar(reminderDate);
-				pc.setReminder(cal);
-			} else if (reminderTime != null) {
-				Calendar cal = timeToCalendar(reminderTime);
-				pc.setReminder(cal);
-			}
+			setReminder(pc, inputAfterCommand, "-rd", "-rt", 3);
 		}
 		return pc;
 	}
 	
+	
+	
+	
+	
+	public void setReminder(ParsedCommand pc, String inputAfterCommand, String rd, String rt, 
+			int attrLength) {
+		ArrayList<String> reminderDate = getReminderFromInput(inputAfterCommand, rd, attrLength);
+		ArrayList<String> reminderTime = getReminderFromInput(inputAfterCommand, rt, attrLength);
+		ArrayList<Calendar> calList = new ArrayList<Calendar>();
+		
+		if (reminderDate != null && reminderTime != null) {
+			for (int i = 0; i < reminderDate.size(); i++) {
+				calList.add(dateAndTimeToCalendar(reminderDate.get(i), reminderTime.get(i)));
+			}
+			pc.setReminder(calList);
+		} else if (reminderDate != null) {
+			for (int i = 0; i < reminderDate.size(); i++) {
+				calList.add(dateToCalendar(reminderDate.get(i)));
+			}
+			pc.setReminder(calList);
+		} else if (reminderTime != null) {
+			for (int i = 0; i < reminderTime.size(); i++) {
+				calList.add(timeToCalendar(reminderTime.get(i)));
+			}
+			pc.setReminder(calList);
+		}
+	}
 	
 	public void setShortenedFilterParameters(Scanner inputAfterCommand, ParsedCommand pc) {
 		String filterParameter = inputAfterCommand.next();
@@ -549,6 +539,7 @@ public class Parser {
 		return cal;
 	}
 
+	// date in yyyy/mm/dd
 	public static Calendar dateToCalendar(String date) {
 		Calendar cal = Calendar.getInstance();
 		String[] dateParam = date.split("/");
@@ -560,6 +551,7 @@ public class Parser {
 		return cal;
 	}
 
+	// time in hh.mm
 	public static Calendar timeToCalendar(String time) {
 		Calendar cal = Calendar.getInstance();
 		String[] timeParam = time.split("\\.");
@@ -587,6 +579,7 @@ public class Parser {
 
 	public static String getAttributeFromInput(String inputAfterCommand, String attr, int attrLength) {
 		String result;
+		
 		if (inputAfterCommand.contains(attr)) {
 			int index = inputAfterCommand.indexOf(attr) + attrLength + 1;
 			int endIndex = inputAfterCommand.indexOf(",", index);
@@ -606,6 +599,53 @@ public class Parser {
 		}
 		// System.out.println(attr + ": " + result);
 		return result;
+	}
+	
+	public static ArrayList<String> getReminderFromInput(String inputAfterCommand, String attr, int attrLength) {
+		ArrayList<String> result = new ArrayList<String>();
+		String reminder = "";
+		String[] reminderSplit = null;
+		int reminderSplitLength = 0;
+		
+		if (inputAfterCommand.contains(attr)) {
+			int index = inputAfterCommand.indexOf(attr) + attrLength + 1;
+			int endIndex = inputAfterCommand.indexOf(",", index);
+	
+			// String userInput2 = "add eat sleep, reminderdate 2015/11/12 2015/11/13, "
+			//	+ "remindertime 12.34 23.45";
+			
+			// Last list of user input
+			if (endIndex == -1) {
+				reminder = inputAfterCommand.substring(index);
+			} else {
+				reminder = inputAfterCommand.substring(index, endIndex);
+			}
+			
+			// There are more than 1 parameter in the list
+			if (inputAfterCommand.indexOf(" ", index) != -1) {
+				reminderSplit = reminder.split(" ");
+				reminderSplitLength = reminderSplit.length;
+			}
+			
+			if (reminderSplitLength > 0) {
+				for (int i = 0; i < reminderSplitLength; i++) {
+					reminder = reminderSplit[i];
+					// println(reminder);
+					result.add(reminder);
+				}
+			} else {
+				// println(reminder);
+				result.add(reminder);
+			}
+		} else {
+			return null;
+		}
+		
+		return result;
+	}
+	
+	public void println(String line) {
+		System.out.println(line);
 	}
 
 }
