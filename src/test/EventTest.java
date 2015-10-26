@@ -275,6 +275,42 @@ public class EventTest {
 
 	@Test
 	public void ggtest2(){
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: null, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445398440000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(null);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
 		
 		assertTrue(true);
 	}
