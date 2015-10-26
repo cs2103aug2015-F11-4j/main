@@ -24,10 +24,12 @@ public class UserInterface extends Application {
 	private static final String MESSAGE_SUCCESSFUL_UPDATE = "Event has been updated.";
 	private static final String MESSAGE_SUCCESSFUL_DELETE = "Event has been deleted.";
 	private static final String MESSAGE_SUCCESSFUL_UNDO = "Successful undo operation.";
+	private static final String MESSAGE_SUCCESSFUL_UNDELETE = "Successful undelete operation";
 	private static final String MESSAGE_FAIL_ADD = "Fail to add event ";
 	private static final String MESSAGE_FAIL_UPDATE = "Fail to update event";
 	private static final String MESSAGE_FAIL_DELETE = "Fail to delete event";
 	private static final String MESSAGE_FAIL_UNDO = "Fail to undo event";
+	private static final String MESSAGE_FAIL_UNDELETE = "Fail to undelete event";
 	private static final String MESSAGE_FAIL_VIEW_DETAIL = "Invalid Event ID";
 	private static final String MESSAGE_WELCOME = "Welcome!";
 	private static final String MESSAGE_EMPTY = "";
@@ -271,6 +273,13 @@ public class UserInterface extends Application {
 				addView(this);
 				break;
 			}
+		case UNDELETE:
+			if(setStorage) {
+				setMessage = checkUndelete();
+				currentEventState = VALUE_GET_ALL_EVENTS;
+				addView(this);
+				break;
+			}
 		case EXIT:
 			System.exit(0);
 		case PREVIOUS:
@@ -291,6 +300,17 @@ public class UserInterface extends Application {
 		}
 		commandBarController.setMessage(setMessage);
 		commandBarController.clear();
+	}
+	
+	private String checkUndelete() {
+		int currentEventsSize = mainLogic.getAllEvents().size();
+		if(currentEventsSize != eventSize) {
+			eventSize = currentEventsSize;
+			events = mainLogic.getAllEvents();
+			return MESSAGE_SUCCESSFUL_UNDELETE;
+		} else {
+			return MESSAGE_FAIL_UNDELETE;
+		}
 	}
 
 	private String checkUndo() {

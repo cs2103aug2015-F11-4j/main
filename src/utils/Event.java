@@ -535,8 +535,8 @@ public class Event {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String id = matcher.group(1);
-			if(id != null && id.length() > 0){
-				if(id.equals(NULL)){
+			if (id != null && id.length() > 0) {
+				if (id.equals(NULL)) {
 					id = null;
 				}
 				this.setId(id);

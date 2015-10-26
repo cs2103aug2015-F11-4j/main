@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import utils.Event;
 import utils.Priority;
+import utils.Recurrence;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -36,6 +37,8 @@ public class EventDetailController extends StackPane {
 	private Label lblPriority;
 	@FXML 
 	private Label lblGroup;
+	@FXML
+	private Label lblRecurrence;
 	
 	private static final String EVENT_DETAIL_LAYOUT_FXML = "/calendrier/resources/ViewEventDetail.fxml";
 	
@@ -71,6 +74,7 @@ public class EventDetailController extends StackPane {
 		lblReminder.setText(checkExistDate(event.getReminder()));
 		lblNotes.setText(checkExistValue(event.getNotes()));
 		lblPriority.setText(checkExistPriority(event.getPriority()));
+		lblRecurrence.setText(checkExistRecurrence(event.getRecurrence()));
 		
 		if(!lblPriority.getText().equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			changeBorderColor(event.getPriority());
@@ -106,6 +110,14 @@ public class EventDetailController extends StackPane {
 		} else if (startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			return endDate;
 		} else {
+			return VALUE_SHOW_EMPTY_DATA;
+		}
+	}
+	
+	private static String checkExistRecurrence(Recurrence recurrence) {
+		try {
+			return recurrence.toString();
+		} catch (NullPointerException e) {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 	}
