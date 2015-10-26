@@ -274,7 +274,7 @@ public class EventTest {
 	}
 
 	@Test
-	public void ggtest2(){
+	public void testToString(){
 		String s = "id: testId, "
 				+ "title: testTitle, "
 				+ "startDateTime: 2015/10/20-10:33, "
@@ -316,7 +316,7 @@ public class EventTest {
 	}
 	
 	@Test
-	public void ggtest(){
+	public void testFromString(){
 		String c = "id: testId, "
 				+ "title: testTitle, "
 				+ "startDateTime: 2015/10/20-10:33, "
