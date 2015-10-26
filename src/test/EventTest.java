@@ -3,13 +3,17 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.Test;
 
 import utils.Event;
 import utils.Priority;
+import utils.Recurrence;
 
 public class EventTest {
 
@@ -267,5 +271,43 @@ public class EventTest {
 						+ "location: test location, " + "notes: test note, " + "reminder: [], " + "groups: [], "
 						+ "recurrence: null, " + "subtasks: [], ", 
 				event.toString());
+	}
+
+	@Test
+	public void ggtest2(){
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void ggtest(){
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromStorageString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
 	}
 }
