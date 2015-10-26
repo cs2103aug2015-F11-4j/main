@@ -64,12 +64,6 @@
 				<Label fx:id="lblGroup" GridPane.columnIndex="4"
 					GridPane.rowIndex="1" wrapText="true" />
 
-				<!-- <ImageView fitHeight="50" fitWidth="50" pickOnBounds="true" preserveRatio="true" 
-					visible="true" GridPane.columnIndex="0" GridPane.rowIndex="2"> <image> <Image 
-					url="/calendrier/resources/date.png" /> </image> </ImageView> <Label fx:id="lblStartDateTime" 
-					GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="2" wrapText="true" 
-					/> -->
-
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="0"
 					GridPane.rowIndex="2">
@@ -84,10 +78,10 @@
 					preserveRatio="true" visible="true" GridPane.columnIndex="3"
 					GridPane.rowIndex="2">
 					<image>
-						<Image url="/calendrier/resources/notes.png" />
+						<Image url="/calendrier/resources/recurrence.png" />
 					</image>
 				</ImageView>
-				<Label fx:id="lblNotes" GridPane.columnIndex="4"
+				<Label fx:id="lblRecurrence" GridPane.columnIndex="4"
 					GridPane.rowIndex="2" wrapText="true" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
@@ -99,6 +93,16 @@
 				</ImageView>
 				<Label fx:id="lblLocation" GridPane.columnIndex="1"
 					GridPane.rowIndex="3" GridPane.columnSpan="2" wrapText="true" />
+
+				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
+					preserveRatio="true" visible="true" GridPane.columnIndex="3"
+					GridPane.rowIndex="3">
+					<image>
+						<Image url="/calendrier/resources/notes.png" />
+					</image>
+				</ImageView>
+				<Label fx:id="lblNotes" GridPane.columnIndex="4"
+					GridPane.rowIndex="3" wrapText="true" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="0"

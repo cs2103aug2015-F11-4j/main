@@ -125,6 +125,14 @@ public class Event {
 		this.groups.add(group);
 	}
 	
+	public Recurrence getRecurrence() {
+		return recurrence;
+	}
+	
+	public void setRecurrence(Recurrence recurrence) {
+		this.recurrence = recurrence;
+	}
+	
 	public void removeGroup(String group){
 		int position = -1;
 		
