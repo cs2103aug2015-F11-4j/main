@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Event {
 	private static final String NULL = "null";
@@ -16,7 +18,7 @@ public class Event {
 	private Priority priority;
 	private String location;
 	private String notes;
-	private Calendar reminder;
+	private List<Calendar> reminder;
 	private List<String> groups;
 	private Recurrence recurrence;
 	private List<String> subtasks; // List of Subtask ID
@@ -29,7 +31,7 @@ public class Event {
 		this.priority = null;
 		this.location = null;
 		this.notes = null;
-		this.reminder = null;
+		this.reminder = new ArrayList<>();
 		this.groups = new ArrayList<String>();
 		this.recurrence = null;
 		this.subtasks = new ArrayList<String>();
@@ -45,7 +47,14 @@ public class Event {
 		eventString += String.format("priority: %s, ", (this.priority != null) ? this.priority.name() : NULL);
 		eventString += String.format("location: %s, ", (this.location != null) ? this.location : NULL);
 		eventString += String.format("notes: %s, ", (this.notes != null) ? this.notes : NULL);
-		eventString += String.format("reminder: %s, ", (this.reminder != null) ? this.reminder.getTime() : NULL);
+		
+		eventString += "reminder: [";
+		for(int i = 0; i < this.reminder.size(); i++){
+			eventString += String.format("%s, ", this.reminder.get(i).getTime());	
+		}
+		eventString += "], ";
+		
+//		eventString += String.format("reminder: %s, ", (this.reminder != null) ? this.reminder.getTime() : NULL);
 		eventString += String.format("groups: %s, ", Arrays.toString(this.groups.toArray()));
 		eventString += String.format("recurrence: %s, ", (this.recurrence != null) ? this.recurrence.name() : NULL);
 		eventString += String.format("subtasks: %s, ", Arrays.toString(this.subtasks.toArray()));
@@ -109,12 +118,24 @@ public class Event {
 		this.notes = notes;
 	}
 
-	public Calendar getReminder() {
+	public List<Calendar> getReminder() {
 		return reminder;
 	}
 
 	public void setReminder(Calendar reminder) {
-		this.reminder = reminder;
+		this.reminder.add(reminder);
+	}
+	
+	public void setReminder(List<Calendar> reminders){
+		this.reminder.addAll(reminders);
+	}
+	
+	public void removeReminder(Calendar reminder) {
+		this.reminder.remove(reminder);
+	}
+	
+	public void removeReminder(int position){
+		this.reminder.remove(position);
 	}
 
 	public List<String> getGroups() {
@@ -276,5 +297,77 @@ public class Event {
 			return Priority.LOW;
 		}
 		return null;
+	}
+	
+	public String toTimestamp(Calendar calendar){
+		String timestamp = "";
+		
+		int year = calendar.get(calendar.YEAR);
+		int month = calendar.get(calendar.MONTH) + 1;
+		int date = calendar.get(calendar.DATE);
+		int hour = calendar.get(calendar.HOUR_OF_DAY);
+		int minute = calendar.get(calendar.MINUTE);
+		
+		timestamp = String.format("%d/%d/%d-%d:%d", year, month, date, hour, minute);
+		
+		return timestamp;
+	}
+	
+	public Calendar fromTimestamp(String timestamp){
+		Calendar calendar = null;
+		
+		
+		String regex = "\\d+";
+		String fullRegex = "(\\d+)/(\\d+)/(\\d+)-(\\d+):(\\d+)";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(timestamp);
+
+		// Check if matches
+		if(timestamp.matches(fullRegex)){
+			
+			calendar = Calendar.getInstance();
+			int year = 1970;
+			int month = 0;
+			int date = 0;
+			int hour = 0;
+			int minute = 0;
+
+			// Reset to Epoch Time
+			calendar.setTimeInMillis(0);
+			
+			// Year
+			if(matcher.find()){
+				String group = matcher.group();
+				year = Integer.valueOf(group);
+			}
+			
+			// Month
+			if(matcher.find()){
+				String group = matcher.group();
+				month = Integer.valueOf(group) - 1;
+			}
+			
+			// Date
+			if(matcher.find()){
+				String group = matcher.group();
+				date = Integer.valueOf(group);
+			}
+			
+			// Hour
+			if(matcher.find()){
+				String group = matcher.group();
+				hour = Integer.valueOf(group);
+			}
+			
+			// Minute
+			if(matcher.find()){
+				String group = matcher.group();
+				minute = Integer.valueOf(group);
+			}
+			
+
+			calendar.set(year, month, date, hour, minute);
+		}
+		return calendar;
 	}
 }

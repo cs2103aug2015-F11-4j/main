@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -31,7 +32,8 @@ public class EventTest {
 
 		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [], ", event.toString());
+				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], ", event.toString());
 	}
 
 	@Test
@@ -55,8 +57,8 @@ public class EventTest {
 
 		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [group 1], ",
-				event.toString());
+				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [group 1], "
+				+ "recurrence: null, " + "subtasks: [], ", event.toString());
 	}
 
 	@Test
@@ -81,8 +83,8 @@ public class EventTest {
 
 		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [group 1, group 2], ",
-				event.toString());
+				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [group 1, group 2], "
+				+ "recurrence: null, " + "subtasks: [], ", event.toString());
 	}
 
 	@Test
@@ -103,7 +105,8 @@ public class EventTest {
 
 		assertEquals("id: null, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [], ", event.toString());
+				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], ", event.toString());
 	}
 
 	@Test
@@ -124,7 +127,8 @@ public class EventTest {
 
 		assertEquals("id: testId, " + "title: null, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [], ", event.toString());
+				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], ",  event.toString());
 	}
 
 	@Test
@@ -145,7 +149,8 @@ public class EventTest {
 
 		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: null, "
 				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [], ", event.toString());
+				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], ",  event.toString());
 	}
 
 	@Test
@@ -167,7 +172,8 @@ public class EventTest {
 		assertEquals(
 				"id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 						+ "endDateTime: null, " + "priority: MEDIUM, " + "location: test location, "
-						+ "notes: test note, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [], ",
+						+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
+						+ "recurrence: null, " + "subtasks: [], ", 
 				event.toString());
 	}
 
@@ -189,7 +195,8 @@ public class EventTest {
 
 		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: null, " + "location: test location, "
-				+ "notes: test note, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [], ", event.toString());
+				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], ",  event.toString());
 	}
 
 	@Test
@@ -211,7 +218,8 @@ public class EventTest {
 		assertEquals(
 				"id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 						+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: null, "
-						+ "notes: test note, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [], ",
+						+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
+						+ "recurrence: null, " + "subtasks: [], ", 
 				event.toString());
 	}
 
@@ -233,7 +241,8 @@ public class EventTest {
 
 		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: null, " + "reminder: Tue Oct 20 10:33:25 SGT 2015, " + "groups: [], ", event.toString());
+				+ "notes: null, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], ",  event.toString());
 	}
 
 	@Test
@@ -255,8 +264,8 @@ public class EventTest {
 		assertEquals(
 				"id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
 						+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, "
-						+ "location: test location, " + "notes: test note, " + "reminder: null, " + "groups: [], ",
+						+ "location: test location, " + "notes: test note, " + "reminder: [], " + "groups: [], "
+						+ "recurrence: null, " + "subtasks: [], ", 
 				event.toString());
 	}
-
 }
