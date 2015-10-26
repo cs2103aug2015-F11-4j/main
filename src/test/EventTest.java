@@ -294,7 +294,7 @@ public class EventTest {
 				+ "subtasks: [abcd, defg], ";
 		
 		Event e = new Event();
-		e.fromStorageString(c);
+		e.fromString(c);
 		
 		assertEquals("testId", e.getId());
 		assertEquals("testTitle", e.getTitle());
