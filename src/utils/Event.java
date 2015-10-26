@@ -18,6 +18,8 @@ public class Event {
 	private String notes;
 	private Calendar reminder;
 	private List<String> groups;
+	private Recurrence recurrence;
+	private List<String> subtasks; // List of Subtask ID
 
 	public Event() {
 		this.id = null;
@@ -29,6 +31,8 @@ public class Event {
 		this.notes = null;
 		this.reminder = null;
 		this.groups = new ArrayList<String>();
+		this.recurrence = null;
+		this.subtasks = new ArrayList<String>();
 	}
 
 	public String toString() {
@@ -43,7 +47,9 @@ public class Event {
 		eventString += String.format("notes: %s, ", (this.notes != null) ? this.notes : NULL);
 		eventString += String.format("reminder: %s, ", (this.reminder != null) ? this.reminder.getTime() : NULL);
 		eventString += String.format("groups: %s, ", Arrays.toString(this.groups.toArray()));
-
+		eventString += String.format("recurrence: %s, ", (this.recurrence != null) ? this.recurrence.name() : NULL);
+		eventString += String.format("subtasks: %s, ", Arrays.toString(this.subtasks.toArray()));
+		
 		return eventString;
 	}
 
