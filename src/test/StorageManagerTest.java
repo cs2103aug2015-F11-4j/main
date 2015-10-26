@@ -19,9 +19,13 @@ public class StorageManagerTest {
 	public void loadFromFile(){
 		StorageManager rm= new StorageManager();
 		rm.setStorageLocation("storageFile.txt") ;
-		assertEquals("id: testId, title: testTitle, startDateTime: Fri Oct 23 10:55:00 SGT 2015, endDateTime: Fri Oct 23 10:56:00 SGT 2015, priority: MEDIUM, location: test location, notes: test note, reminder: Mon Oct 19 10:33:00 SGT 2015, groups: [], \n"
-				+ "id: abc, title: 123, startDateTime: null, endDateTime: null, priority: null, location: null, notes: test 123, reminder: null, groups: [], \n",
-				rm.listToString());
+		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
+				+ "notes: test note, " + "reminder: [2015/10/20-10:33], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], \nid: test123, " + "title: 123Title, " + "startDateTime: null, "
+				+ "endDateTime: null, " + "priority: HIGH, " + "location: test123123, "
+				+ "notes: test note123213, " + "reminder: [], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], \n", rm.listToString());
 	}
 	
 	@Test
@@ -30,14 +34,13 @@ public class StorageManagerTest {
 		StorageManager rm= new StorageManager();
 		List<Event> data= new ArrayList<Event>();
 		
-		//rm.setStorageLocation("src/calendrier/storageFile.txt") ;
+		rm.setStorageLocation("storageFile.txt") ;
+
 		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 23, 10, 55, 00);
+		calendarStart.set(2015, 9, 20, 10, 33, 25);
 		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 23, 10, 56, 00);
-		Calendar calendarRemind = Calendar.getInstance();
-		calendarRemind.set(2015, 9, 19, 10, 33, 00);
-		
+		calendarEnd.set(2015, 9, 21, 11, 34, 26);
+
 		Event event = new Event();
 		event.setId("testId");
 		event.setTitle("testTitle");
@@ -46,24 +49,25 @@ public class StorageManagerTest {
 		event.setPriority(Priority.MEDIUM);
 		event.setLocation("test location");
 		event.setNotes("test note");
-		event.setReminder(calendarRemind);
+		event.setReminder(calendarStart);
 		data.add(event);
 		
 		Event event1 = new Event();
-		event1.setTitle("123");
-		event1.setNotes("test 123");
-		event1.setId("abc");
-		event1.setStartDateTime(null);
-		event1.setEndDateTime(null);
-		event1.setPriority(null);
-		event1.setLocation(null);
-		event1.setReminder(null);
+		event1.setId("test123");
+		event1.setTitle("123Title");
+		event1.setPriority(Priority.HIGH);
+		event1.setLocation("test123123");
+		event1.setNotes("test note123213");
 		data.add(event1);
 		
 		rm.save(data);
-		assertEquals("id: testId, title: testTitle, startDateTime: Fri Oct 23 10:55:00 SGT 2015, endDateTime: Fri Oct 23 10:56:00 SGT 2015, priority: MEDIUM, location: test location, notes: test note, reminder: Mon Oct 19 10:33:00 SGT 2015, groups: [], \n"
-				+ "id: abc, title: 123, startDateTime: null, endDateTime: null, priority: null, location: null, notes: test 123, reminder: null, groups: [], \n",
-				rm.listToString());
+		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
+				+ "notes: test note, " + "reminder: [2015/10/20-10:33], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], \nid: test123, " + "title: 123Title, " + "startDateTime: null, "
+				+ "endDateTime: null, " + "priority: HIGH, " + "location: test123123, "
+				+ "notes: test note123213, " + "reminder: [], " + "groups: [], "
+				+ "recurrence: null, " + "subtasks: [], \n", rm.listToString());
 		
 	}
 }
