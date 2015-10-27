@@ -19,7 +19,7 @@ import utils.ParsedCommand;
 public class EventHandler {
 
 	StorageManager manage;
-	Stack<ParsedCommand> history;
+	Stack<ArrayList<Event>> history;
 	ArrayList<Event> events = new ArrayList<>();
 	EventGenerator generator;
 	Event previousEvent;
@@ -56,15 +56,15 @@ public class EventHandler {
 			Event newEvent = generator.createEvent(pc);
 			assert (newEvent != null);
 			add(newEvent);
-			history.push(pc);
+//			history.push(pc);
 			eventsReturned.add(newEvent);
 		} else if (pc.getCommand() == Command.DELETE) {
 			Event removedEvent = remove(pc);
-			history.push(pc);
+//			history.push(pc);
 			eventsReturned.add(removedEvent);
 		} else if (pc.getCommand() == Command.UPDATE) {
 			Event updatedEvent = update(pc);
-			history.push(pc);
+//			history.push(pc);
 			eventsReturned.add(updatedEvent);
 		} else if (pc.getCommand() == Command.VIEW) {
 			Event viewedEvent = view(pc);
@@ -76,7 +76,7 @@ public class EventHandler {
 			eventsReturned.add(undoneEvent);
 		} else if (pc.getCommand() == Command.UNDELETE) {
 			Event undeletedEvent = undo();
-			history.push(pc);
+//			history.push(pc);
 			eventsReturned.add(undeletedEvent);
 		}
 
@@ -134,24 +134,15 @@ public class EventHandler {
 	public Event undo() {
 		Event undone = new Event();
 		if (history.isEmpty()) {
-			// nothing to do!
-
-		} else {
-			Stack<ParsedCommand> newHistory = new Stack<>();
-			for (ParsedCommand c : history) {
-				newHistory.push(c);
-			}
-			newHistory.pop();
 			events.clear();
-			assert (events.isEmpty());
-
-			for (ParsedCommand c : newHistory) {
-				try {
-					execute(c);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+		} else if (history.size() == 1) {
+			// empty history after undo
+			history.pop();
+			events.clear();
+		} else {
+			// regular undo of history
+			history.pop();
+			events = history.peek();
 		}
 		return undone;
 	}
@@ -169,9 +160,14 @@ public class EventHandler {
 		} else {
 			events.add(event);
 			manage.save(events);
+			saveHistory();
 		}
-
 		return event;
+	}
+
+	private void saveHistory() {
+		ArrayList<Event> tempEvents = events;
+		history.add(tempEvents);
 	}
 
 	/**
@@ -189,6 +185,7 @@ public class EventHandler {
 			}
 		}
 		events.remove(eventToBeRemoved);
+		saveHistory();
 		manage.save(events);
 		return eventToBeRemoved;
 	}
@@ -241,6 +238,7 @@ public class EventHandler {
 		}
 		beforeUpdate = oldEvent;
 		events.add(newEvent);
+		saveHistory();
 		manage.save(events);
 		return newEvent;
 	}
