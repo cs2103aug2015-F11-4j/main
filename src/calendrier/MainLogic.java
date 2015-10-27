@@ -154,7 +154,7 @@ public class MainLogic {
 		filterToMonth(year, month, monthEvents);
 		sortByStartDateTime(monthEvents);
 
-		return events;
+		return monthEvents;
 	}
 
 	private void sortByStartDateTime(List<Event> monthEvents) {
