@@ -18,259 +18,1212 @@ import utils.Recurrence;
 public class EventTest {
 
 	@Test
-	public void testGeneric() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
-
-		Event event = new Event();
-		event.setId("testId");
-		event.setTitle("testTitle");
-		event.setStartDateTime(calendarStart);
-		event.setEndDateTime(calendarEnd);
-		event.setPriority(Priority.MEDIUM);
-		event.setLocation("test location");
-		event.setNotes("test note");
-		event.setReminder(calendarStart);
-
-		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], ", event.toString());
+	public void testToStringWithGroups1Item() {
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
 	}
 
 	@Test
-	public void testWithGroups1Item() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
-
-		Event event = new Event();
-		event.setId("testId");
-		event.setTitle("testTitle");
-		event.setStartDateTime(calendarStart);
-		event.setEndDateTime(calendarEnd);
-		event.setPriority(Priority.MEDIUM);
-		event.setLocation("test location");
-		event.setNotes("test note");
-		event.setReminder(calendarStart);
-
-		event.addGroup("group 1");
-
-		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [group 1], "
-				+ "recurrence: null, " + "subtasks: [], ", event.toString());
+	public void testToStringWithGroups2Items() {
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
 	}
 
 	@Test
-	public void testWithGroups2Items() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
-
-		Event event = new Event();
-		event.setId("testId");
-		event.setTitle("testTitle");
-		event.setStartDateTime(calendarStart);
-		event.setEndDateTime(calendarEnd);
-		event.setPriority(Priority.MEDIUM);
-		event.setLocation("test location");
-		event.setNotes("test note");
-		event.setReminder(calendarStart);
-
-		event.addGroup("group 1");
-		event.addGroup("group 2");
-
-		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [group 1, group 2], "
-				+ "recurrence: null, " + "subtasks: [], ", event.toString());
+	public void testToStringNoId() {
+		String s = "id: null, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId(null);
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
 	}
 
 	@Test
-	public void testNoId() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
-
-		Event event = new Event();
-		event.setTitle("testTitle");
-		event.setStartDateTime(calendarStart);
-		event.setEndDateTime(calendarEnd);
-		event.setPriority(Priority.MEDIUM);
-		event.setLocation("test location");
-		event.setNotes("test note");
-		event.setReminder(calendarStart);
-
-		assertEquals("id: null, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], ", event.toString());
+	public void testToStringNoTitle() {
+		String s = "id: testId, "
+				+ "title: null, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle(null);
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
 	}
 
 	@Test
-	public void testNoTitle() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
-
-		Event event = new Event();
-		event.setId("testId");
-		event.setStartDateTime(calendarStart);
-		event.setEndDateTime(calendarEnd);
-		event.setPriority(Priority.MEDIUM);
-		event.setLocation("test location");
-		event.setNotes("test note");
-		event.setReminder(calendarStart);
-
-		assertEquals("id: testId, " + "title: null, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], ",  event.toString());
+	public void testToStringNoStartDateTime() {
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: null, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(null);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
 	}
 
 	@Test
-	public void testNoStartDateTime() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
-
-		Event event = new Event();
-		event.setId("testId");
-		event.setTitle("testTitle");
-		event.setEndDateTime(calendarEnd);
-		event.setPriority(Priority.MEDIUM);
-		event.setLocation("test location");
-		event.setNotes("test note");
-		event.setReminder(calendarStart);
-
-		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: null, "
-				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], ",  event.toString());
+	public void testToStringNoEndDateTime() {
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: null, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(null);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
 	}
 
 	@Test
-	public void testNoEndDateTime() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
-
-		Event event = new Event();
-		event.setId("testId");
-		event.setTitle("testTitle");
-		event.setStartDateTime(calendarStart);
-		event.setPriority(Priority.MEDIUM);
-		event.setLocation("test location");
-		event.setNotes("test note");
-		event.setReminder(calendarStart);
-
-		assertEquals(
-				"id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-						+ "endDateTime: null, " + "priority: MEDIUM, " + "location: test location, "
-						+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
-						+ "recurrence: null, " + "subtasks: [], ", 
-				event.toString());
+	public void testToStringNoPriority() {
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: null, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(null);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
 	}
 
 	@Test
-	public void testNoPriority() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
-
-		Event event = new Event();
-		event.setId("testId");
-		event.setTitle("testTitle");
-		event.setStartDateTime(calendarStart);
-		event.setEndDateTime(calendarEnd);
-		event.setLocation("test location");
-		event.setNotes("test note");
-		event.setReminder(calendarStart);
-
-		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: null, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], ",  event.toString());
+	public void testToStringNoLocation() {
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: null, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation(null);
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
 	}
 
 	@Test
-	public void testNoLocation() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
-
-		Event event = new Event();
-		event.setId("testId");
-		event.setTitle("testTitle");
-		event.setStartDateTime(calendarStart);
-		event.setEndDateTime(calendarEnd);
-		event.setPriority(Priority.MEDIUM);
-		event.setNotes("test note");
-		event.setReminder(calendarStart);
-
-		assertEquals(
-				"id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-						+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: null, "
-						+ "notes: test note, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
-						+ "recurrence: null, " + "subtasks: [], ", 
-				event.toString());
+	public void testToStringNoNotes() {
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: null, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes(null);
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
 	}
 
 	@Test
-	public void testNoNotes() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
+	public void testToStringNoReminder() {
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testToString1Reminder(){
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testToString2Reminder(){
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testToStringNoSubtask(){
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testToString1Subtask(){
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testToString2Subtask(){
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(Recurrence.WEEKLY);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testToStringNoRecurrence(){
+		String s = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/20-10:33, "
+				+ "priority: HIGH, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Calendar startDateTime = Calendar.getInstance();
+		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar endDateTime = Calendar.getInstance();
+		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
+		Calendar reminder = Calendar.getInstance();
+		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
+		
+		Event e = new Event();
+		e.setTitle("testTitle");
+		e.setId("testId");
+		e.setStartDateTime(startDateTime);
+		e.setEndDateTime(endDateTime);
+		e.setPriority(Priority.HIGH);
+		e.setLocation("test location");
+		e.setNotes("test note");
+		e.addGroup("abc");
+		e.addGroup("def");
+		e.setRecurrence(null);
+		e.addReminder(reminder);
+		e.addReminder(reminder);
+		e.addSubtask("abcd");
+		e.addSubtask("defg");
+		
+		assertEquals(e.toString(), s);
+		
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFromStringWithNoGroupsItem(){
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
-		Event event = new Event();
-		event.setId("testId");
-		event.setTitle("testTitle");
-		event.setStartDateTime(calendarStart);
-		event.setEndDateTime(calendarEnd);
-		event.setPriority(Priority.MEDIUM);
-		event.setLocation("test location");
-		event.setReminder(calendarStart);
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFromStringWithGroups1Item() {
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
-		assertEquals("id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-				+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: null, " + "reminder: [Tue Oct 20 10:33:25 SGT 2015, ], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], ",  event.toString());
+		assertTrue(true);
 	}
 
 	@Test
-	public void testNoReminder() {
-		Calendar calendarStart = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-		calendarStart.set(2015, 9, 20, 10, 33, 25);
-		Calendar calendarEnd = Calendar.getInstance();
-		calendarEnd.set(2015, 9, 21, 11, 34, 26);
+	public void testFromStringWithGroups2Items() {
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
-		Event event = new Event();
-		event.setId("testId");
-		event.setTitle("testTitle");
-		event.setStartDateTime(calendarStart);
-		event.setEndDateTime(calendarEnd);
-		event.setPriority(Priority.MEDIUM);
-		event.setLocation("test location");
-		event.setNotes("test note");
+		assertTrue(true);
+	}
 
-		assertEquals(
-				"id: testId, " + "title: testTitle, " + "startDateTime: Tue Oct 20 10:33:25 SGT 2015, "
-						+ "endDateTime: Wed Oct 21 11:34:26 SGT 2015, " + "priority: MEDIUM, "
-						+ "location: test location, " + "notes: test note, " + "reminder: [], " + "groups: [], "
-						+ "recurrence: null, " + "subtasks: [], ", 
-				event.toString());
+	@Test
+	public void testFromStringNoId() {
+		String c = "id: null, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals(null, e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+
+	@Test
+	public void testFromStringNoTitle() {
+		String c = "id: testId, "
+				+ "title: null, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals(null, e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+
+	@Test
+	public void testFromStringNoStartDateTime() {
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: null, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals(null, e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+
+	@Test
+	public void testFromStringNoEndDateTime() {
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: null, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals(null, e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+
+	@Test
+	public void testFromStringNoPriority() {
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: null, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals(null, e.getPriority());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+
+	@Test
+	public void testFromStringNoLocation() {
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: null, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals(null, e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+
+	@Test
+	public void testFromStringNoNotes() {
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: null, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals(null, e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+
+	@Test
+	public void testFromStringNoReminder() {
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFromString1Reminder(){
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFromString2Reminder(){
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: MONTHLY, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(Recurrence.MONTHLY, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFromStringNoSubtask(){
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFromString1Subtask(){
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFromString2Subtask(){
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFromStringNoRecurrence(){
+		String c = "id: testId, "
+				+ "title: testTitle, "
+				+ "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, "
+				+ "priority: MEDIUM, "
+				+ "location: test location, "
+				+ "notes: test note, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], "
+				+ "groups: [abc, def], "
+				+ "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
+		
+		Event e = new Event();
+		e.fromString(c);
+		
+		assertEquals("testId", e.getId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
 	}
 
 	@Test

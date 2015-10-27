@@ -32,10 +32,10 @@ public class Event {
 	private static final String PRIORITY_REGEX = "priority: (.+?),";
 	private static final String LOCATION_REGEX = "location: (.+?),";
 	private static final String NOTES_REGEX = "notes: (.+?),";
-	private static final String REMINDER_REGEX = "reminder: \\[(.+?)\\],";
-	private static final String GROUPS_REGEX = "groups: \\[(.+?)\\],";
+	private static final String REMINDER_REGEX = "reminder: \\[(.*?)\\],";
+	private static final String GROUPS_REGEX = "groups: \\[(.*?)\\],";
 	private static final String RECURRENCE_REGEX = "recurrence: (.+?),";
-	private static final String SUBTASKS_REGEX = "subtasks: \\[(.+?)\\],";
+	private static final String SUBTASKS_REGEX = "subtasks: \\[(.*?)\\],";
 
 	private String id;
 	private String title;
@@ -96,16 +96,18 @@ public class Event {
 	}
 
 	public String toTimestamp(Calendar calendar) {
-		String timestamp = "";
+		String timestamp = null;
 
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH) + 1;
-		int date = calendar.get(Calendar.DATE);
-		int hour = calendar.get(Calendar.HOUR_OF_DAY);
-		int minute = calendar.get(Calendar.MINUTE);
-
-		timestamp = String.format(DATETIME_FORMAT, year, month, date, hour, minute);
-
+		if(calendar != null){
+			timestamp = "";
+			int year = calendar.get(Calendar.YEAR);
+			int month = calendar.get(Calendar.MONTH) + 1;
+			int date = calendar.get(Calendar.DATE);
+			int hour = calendar.get(Calendar.HOUR_OF_DAY);
+			int minute = calendar.get(Calendar.MINUTE);
+	
+			timestamp = String.format(DATETIME_FORMAT, year, month, date, hour, minute);
+		}
 		return timestamp;
 	}
 
