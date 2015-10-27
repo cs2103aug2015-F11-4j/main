@@ -241,16 +241,14 @@ public class EventHandlerTest {
 	}
 
 	@Test
-	public void testUndoUpdate() {
+	public void testUndoUpdate() throws Exception {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
-		try {
-			handle.execute(pc);
-			handle.execute(updateCommand);
-			handle.execute(undoCommand);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		
+		handle.add(testEvent);
+		handle.update(updateCommand);
+		
 		assertEquals(pc.getNotes(), handle.getAllEvents().get(0).getNotes());
 	}
 

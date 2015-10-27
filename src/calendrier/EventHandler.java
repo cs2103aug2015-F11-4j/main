@@ -21,6 +21,7 @@ public class EventHandler {
 	StorageManager manage;
 	Stack<ArrayList<Event>> history;
 	ArrayList<Event> events = new ArrayList<>();
+	ArrayList<Event> initialEvents = new ArrayList<>();
 	EventGenerator generator;
 	Event previousEvent;
 	Event beforeUpdate;
@@ -62,7 +63,6 @@ public class EventHandler {
 			eventsReturned.add(removedEvent);
 		} else if (pc.getCommand() == Command.UPDATE) {
 			Event updatedEvent = update(pc);
-//			history.push(pc);
 			eventsReturned.add(updatedEvent);
 		} else if (pc.getCommand() == Command.VIEW) {
 			Event viewedEvent = view(pc);
@@ -70,12 +70,11 @@ public class EventHandler {
 		} else if (pc.getCommand() == Command.VIEW_ALL) {
 			eventsReturned = events;
 		} else if (pc.getCommand() == Command.UNDO) {
-			Event undoneEvent = undo();
-			eventsReturned.add(undoneEvent);
+			undo();
+			eventsReturned.addAll(events);
 		} else if (pc.getCommand() == Command.UNDELETE) {
-			Event undeletedEvent = undo();
-//			history.push(pc);
-			eventsReturned.add(undeletedEvent);
+			undo();
+			eventsReturned.addAll(events);
 		}
 
 		else if (pc.getCommand() == Command.SEARCH) {
@@ -95,6 +94,7 @@ public class EventHandler {
 
 		ArrayList<String> eventsFromStorage = (ArrayList<String>) manage.load();
 		events = generator.createMultipleEvents(eventsFromStorage);
+		initialEvents = generator.createMultipleEvents(eventsFromStorage);
 	}
 
 	public ArrayList<Event> search(ParsedCommand pc) {
@@ -129,20 +129,25 @@ public class EventHandler {
 	 * 
 	 * @returns the undone event
 	 */
-	public Event undo() {
-		Event undone = new Event();
+	public void undo() throws Exception {
 		if (history.isEmpty()) {
-			events.clear();
+			// do nothing!
+			throw new Exception("ERROR - CANNOT UNDO");
+
 		} else if (history.size() == 1) {
 			// empty history after undo
 			history.pop();
 			events.clear();
+			// populate with initial events on load
+			for (Event e : initialEvents) {
+				events.add(e);
+			}
+			
 		} else {
 			// regular undo of history
 			history.pop();
 			events = history.peek();
 		}
-		return undone;
 	}
 
 	/**
