@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import utils.Command;
 import utils.Event;
+import utils.OnRemindListener;
 import utils.ParsedCommand;
 
 /**
@@ -23,13 +24,16 @@ public class EventHandler {
 	ArrayList<Event> events = new ArrayList<>();
 	ArrayList<Event> initialEvents = new ArrayList<>();
 	EventGenerator generator;
+	ReminderManager reminders;
 	Event previousEvent;
 	Event beforeUpdate;
 	Logger log;
+	
 
 	public EventHandler() {
 		manage = new StorageManager();
 		generator = new EventGenerator();
+		reminders = new ReminderManager();
 		previousEvent = new Event();
 		beforeUpdate = new Event();
 		log = Logger.getLogger(EventHandler.class.getName());
@@ -38,6 +42,10 @@ public class EventHandler {
 
 	public void injectStorageManager(StorageManager manager) {
 		this.manage = manager;
+	}
+	
+	public void setOnRemindListener(OnRemindListener listen) {
+		reminders.setOnRemindListener(listen);
 	}
 
 	/**
@@ -162,6 +170,7 @@ public class EventHandler {
 			throw new Exception("ERROR - TIME CONFLICT");
 		} else {
 			events.add(event);
+			reminders.addReminder(event);
 			manage.save(events);
 			saveHistory();
 		}
@@ -191,6 +200,7 @@ public class EventHandler {
 			}
 		}
 		events.remove(eventToBeRemoved);
+		reminders.removeReminder(eventToBeRemoved);
 		saveHistory();
 		manage.save(events);
 		return eventToBeRemoved;
@@ -248,6 +258,7 @@ public class EventHandler {
 			}
 			beforeUpdate = oldEvent;
 			events.add(newEvent);
+			reminders.updateReminder(newEvent);
 			saveHistory();
 			manage.save(events);
 			return newEvent;
