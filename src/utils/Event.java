@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Event {
+public class Event implements Comparable {
 	private static final String NULL = "null";
 	private static final String NUMBER_REGEX = "\\d+";
 	private static final String FULL_TIMESTAMP_REGEX = "(\\d+)/(\\d+)/(\\d+)-(\\d+):(\\d+)";
@@ -564,5 +564,24 @@ public class Event {
 				this.setId(id);
 			}
 		}
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		Event compare = (Event)arg0;
+		Priority priorityToCompare = compare.getPriority();
+		
+		int result;
+		switch (priority){
+			case VERY_LOW:
+				if (priorityToCompare == VERY_LOW) {
+					
+				}
+		}
+			
+			
+			
+		// TODO Auto-generated method stub
+		return result;
 	}
 }

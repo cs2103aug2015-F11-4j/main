@@ -2,7 +2,6 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -23,13 +22,14 @@ public class EventHandlerTest {
 	ParsedCommand undoCommand = new ParsedCommand();
 	ParsedCommand updateCommand = new ParsedCommand();
 	ParsedCommand setStorage = new ParsedCommand();
+	
 	Event testEvent = new Event();
+	
 
 	// simulating inputs from a parsed command
 	String ID = "TEST";
 	String title = "testing the first time";
 	String newNotes = "Ps - email boss";
-
 	Priority priority = utils.Priority.LOW;
 	String location = "Orchard Road";
 	String notes = "Run at least 5 km";
@@ -312,6 +312,11 @@ public class EventHandlerTest {
 		assertEquals(updatedEvent.getNotes(), newNotes);
 	}
 
+	/**
+	 * TESTS FOR UNDO
+	 */
+	
+	
 	@Test
 	public void testUndoAddEvent() throws Exception {
 		EventHandler handle = new EventHandler();
@@ -357,9 +362,61 @@ public class EventHandlerTest {
 		assertTrue(handle.getAllEvents().size() == 1);
 	}
 	
+	
+	/**
+	 * TESTS FOR SORT
+	 */
 	@Test
 	public void testSortEvents() throws Exception {
-		fail();
+		EventHandler handle = new EventHandler();
+		
+		// create a bunch of events with different priorities and dates
+		Event earlyVeryLowPriorityEvent = new Event();
+		Event lateVeryLowPriorityEvent = new Event();
+		
+		earlyVeryLowPriorityEvent.setPriority(utils.Priority.VERY_LOW);
+		lateVeryLowPriorityEvent.setPriority(utils.Priority.VERY_LOW);
+		
+		Event earlyLowPriorityEvent = new Event();
+		Event lateLowPriorityEvent = new Event();
+		earlyLowPriorityEvent.setPriority(utils.Priority.LOW);
+		lateLowPriorityEvent.setPriority(utils.Priority.LOW);
+
+		Event earlyMediumPriorityEvent = new Event();
+		Event lateMediumPriorityEvent = new Event();
+		earlyMediumPriorityEvent.setPriority(utils.Priority.MEDIUM);
+		lateMediumPriorityEvent.setPriority(utils.Priority.MEDIUM);
+		
+		Event earlyHighPriorityEvent = new Event();
+		Event lateHighPriorityEvent = new Event();
+		earlyHighPriorityEvent.setPriority(utils.Priority.HIGH);
+		lateHighPriorityEvent.setPriority(utils.Priority.HIGH);
+		
+		Event earlyVeryHighPriorityEvent = new Event();
+		Event lateVeryHighPriorityEvent = new Event();
+		earlyVeryHighPriorityEvent.setPriority(utils.Priority.VERY_HIGH);
+		lateVeryHighPriorityEvent.setPriority(utils.Priority.VERY_HIGH);
+
+		handle.add(earlyVeryLowPriorityEvent);
+		handle.add(lateVeryLowPriorityEvent);
+		
+		handle.add(earlyLowPriorityEvent);
+		handle.add(lateLowPriorityEvent);
+		
+		handle.add(earlyMediumPriorityEvent);
+		handle.add(lateMediumPriorityEvent);
+		
+		handle.add(earlyHighPriorityEvent);
+		handle.add(lateHighPriorityEvent);
+		
+		handle.add(earlyVeryHighPriorityEvent);
+		handle.add(lateVeryHighPriorityEvent);
+		
+		// create
+		handle.sortEvents();
+		
+		// check that first one is a high priority
+		assertEquals(utils.Priority.VERY_HIGH, handle.getAllEvents().get(0).getPriority());
 	}
 
 	
