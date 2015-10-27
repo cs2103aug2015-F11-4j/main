@@ -58,11 +58,15 @@ public class ReminderManager implements Runnable {
 	 *            event to be checked
 	 */
 	private void checkReminder(Event event) {
-		Calendar reminderTime = event.getReminder();
-		Calendar now = Calendar.getInstance();
-		if (reminderTime != null) {
-			if (compareTime(reminderTime, now)) {
-				sendReminder(event);
+		List<Calendar> reminders = event.getReminder();
+//		Calendar reminderTime = event.getReminder();
+		for(int i = 0; i < reminders.size(); i++){
+			Calendar reminderTime = reminders.get(i);
+			Calendar now = Calendar.getInstance();
+			if (reminderTime != null) {
+				if (compareTime(reminderTime, now)) {
+					sendReminder(event);
+				}
 			}
 		}
 	}
