@@ -197,8 +197,8 @@ public class MainLogic {
 		nextMonth.setTimeInMillis(0);
 
 		// Set to start of month
-		thisMonth.set(year, month - 1, 0);
-		nextMonth.set(year, month - 1, 0);
+		thisMonth.set(year, (month + 11) % 12, 0);
+		nextMonth.set(year, month % 12, 0);
 
 		// Check Start Date
 		if (isWithinMonth(event.getStartDateTime(), thisMonth, nextMonth)) {
