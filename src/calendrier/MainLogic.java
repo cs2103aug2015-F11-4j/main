@@ -231,7 +231,11 @@ public class MainLogic {
 	}
 
 	private boolean isWithinMonth(Calendar eventDateTime, Calendar thisMonth, Calendar nextMonth) {
-		return eventDateTime.after(thisMonth) && eventDateTime.before(nextMonth);
+		boolean isWithin = false;
+		if(eventDateTime != null){
+			isWithin =  eventDateTime.after(thisMonth) && eventDateTime.before(nextMonth);
+		}
+		return isWithin;
 	}
 
 	/**
