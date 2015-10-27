@@ -248,8 +248,10 @@ public class EventHandlerTest {
 		
 		handle.add(testEvent);
 		handle.update(updateCommand);
+		handle.undo();
 		
 		assertEquals(pc.getNotes(), handle.getAllEvents().get(0).getNotes());
+		assertTrue(handle.getAllEvents().size() == 1);
 	}
 
 	/**
