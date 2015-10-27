@@ -10,6 +10,7 @@ import org.junit.Test;
 import calendrier.MainLogic;
 import utils.Command;
 import utils.Event;
+import utils.IdMapper;
 import utils.Priority;
 
 public class MainLogicFullTest {
@@ -67,6 +68,8 @@ public class MainLogicFullTest {
 
 		String id = addDummyEvents(mainLogic);
 
+		IdMapper.getInstance().set(id, id);
+
 		assertTrue("should not be null", mainLogic.getAllEvents() != null);
 		boolean found = false;
 		for (int i = 0; i < mainLogic.getAllEvents().size(); i++) {
@@ -96,6 +99,7 @@ public class MainLogicFullTest {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
+		IdMapper.getInstance().set(id, id);
 
 		List<Event> currentList = mainLogic.getAllEvents();
 		for (int i = 0; i < currentList.size(); i++) {
@@ -130,6 +134,7 @@ public class MainLogicFullTest {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
+		IdMapper.getInstance().set(id, id);
 
 		String command = "view " + id;
 		Command cmd = mainLogic.execute(command);
@@ -178,6 +183,7 @@ public class MainLogicFullTest {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
+		IdMapper.getInstance().set(id, id);
 
 		assertTrue("should not be null", mainLogic.getAllEvents() != null);
 		boolean found = false;
@@ -248,6 +254,7 @@ public class MainLogicFullTest {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
+		IdMapper.getInstance().set(id, id);
 
 		assertTrue("should not be null", mainLogic.getAllEvents() != null);
 		boolean found = false;
@@ -293,6 +300,7 @@ public class MainLogicFullTest {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
+		IdMapper.getInstance().set(id, id);
 
 		List<Event> currentList = mainLogic.getAllEvents();
 		for (int i = 0; i < currentList.size(); i++) {
