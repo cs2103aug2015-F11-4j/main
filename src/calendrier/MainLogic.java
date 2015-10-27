@@ -1,6 +1,9 @@
 package calendrier;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import utils.Command;
@@ -133,6 +136,71 @@ public class MainLogic {
 	
 	public List<Event> getFilteredEvents(){
 		return filteredEvents;
+	}
+	
+	public List<Event> getMonthEvents(int year, int month){
+		events = eventHandler.getAllEvents();
+		List<Event> monthEvents = new ArrayList<>();
+		
+		filterToMonth(year, month, monthEvents);
+		Collections.sort(monthEvents, new Comparator<Event>(){
+
+			@Override
+			public int compare(Event e1, Event e2) {
+				int compareResult = 0;
+				long e1start = e1.getStartDateTime().getTimeInMillis();
+				long e2start = e2.getStartDateTime().getTimeInMillis();
+				
+				if(e1start != e2start){
+					compareResult = e1start - e2start > 0 ? 1 : -1;
+					
+				}
+				return compareResult;
+			}
+			
+		});
+		
+		return events;
+	}
+
+	private void filterToMonth(int year, int month, List<Event> monthEvents) {
+		// Filter into month
+		for(int i = 0; i < events.size(); i++){
+			Event event = events.get(i);
+			
+			if(isInMonth(event,  year,  month)){
+				monthEvents.add(event);
+			}
+		}
+	}
+	
+	private boolean isInMonth(Event event, int year, int month){
+		boolean isInThisMonth = false;
+		Calendar thisMonth = Calendar.getInstance();
+		Calendar nextMonth = Calendar.getInstance();
+		
+		// Reset
+		thisMonth.setTimeInMillis(0);
+		nextMonth.setTimeInMillis(0);
+		
+		// Set to start of month
+		thisMonth.set(year, month - 1, 0);
+		nextMonth.set(year, month - 1, 0);
+		
+		// Check Start Date
+		if(isWithinMonth(event.getStartDateTime(), thisMonth, nextMonth)){
+			isInThisMonth = true;
+		}
+		// Check End Date
+		else if(isWithinMonth(event.getEndDateTime(), thisMonth, nextMonth)){
+			isInThisMonth = true;
+		}
+		
+		return isInThisMonth;
+	}
+
+	private boolean isWithinMonth(Calendar eventDateTime, Calendar thisMonth, Calendar nextMonth) {
+		return eventDateTime.after(thisMonth) && eventDateTime.before(nextMonth);
 	}
 	
 	/**
