@@ -13,6 +13,7 @@ import calendrier.EventHandler;
 import stub.StorageManagerStub;
 import utils.Command;
 import utils.Event;
+import utils.IdMapper;
 import utils.ParsedCommand;
 import utils.Priority;
 
@@ -241,6 +242,7 @@ public class EventHandlerTest {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 
+		IdMapper.getInstance().set(pc.getId(), pc.getId());
 		handle.add(testEvent);
 
 		handle.remove(pc);
@@ -269,6 +271,8 @@ public class EventHandlerTest {
 		handle.injectStorageManager(new StorageManagerStub());
 
 		handle.add(testEvent);
+
+		IdMapper.getInstance().set(pc.getId(), pc.getId());
 		Event viewedEvent = handle.view(pc);
 		assertEquals(viewedEvent.getId(), testEvent.getId());
 		assertEquals(viewedEvent.getTitle(), testEvent.getTitle());
