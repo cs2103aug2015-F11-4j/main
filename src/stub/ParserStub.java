@@ -1,6 +1,8 @@
 package stub;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import calendrier.Parser;
@@ -72,6 +74,9 @@ public class ParserStub extends Parser {
 		endDateTime.set(2015, 9, 23, 10, 56, 00);
 		Calendar reminder = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
 		reminder.set(2015, 9, 19, 10, 33, 00);
+		
+		ArrayList<Calendar> reminders = new ArrayList<>();
+		reminders.add(reminder);
 
 		parsedCommand.setCommand(Command.ADD);
 		parsedCommand.setTitle("addTitle");
@@ -82,7 +87,7 @@ public class ParserStub extends Parser {
 		parsedCommand.setLocation("addLocation");
 		parsedCommand.setNotes("addNotes");
 		parsedCommand.setIsRecurring(true);
-		parsedCommand.setReminder(reminder);
+		parsedCommand.setReminder(reminders);
 
 		return parsedCommand;
 	}
