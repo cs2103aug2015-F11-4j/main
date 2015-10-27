@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collection;
 
 import utils.Event;
+import utils.IdMapper;
 import utils.Priority;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +41,7 @@ public class EventBoxController extends StackPane {
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 
-	public EventBoxController(Event event) {
+	public EventBoxController(Event event, int position) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(
 				SINGLE_EVENT_LAYOUT_FXML));
 		loader.setController(this);
@@ -51,11 +52,14 @@ public class EventBoxController extends StackPane {
 			e.printStackTrace();
 		}
 
-		initEventValue(event);
+		initEventValue(event, position);
 	}
 
-	public void initEventValue(Event event) {
-		lblEventID.setText(checkExistValue(event.getId()));
+	public void initEventValue(Event event, int position) {
+		IdMapper idMapper = IdMapper.getInstance();
+		idMapper.set(Integer.toString(position), checkExistValue(event.getId()));
+		lblEventID.setText(Integer.toString(position));
+//		lblEventID.setText(checkExistValue(event.getId()));
 		lblEventTitle.setText(checkExistValue(event.getTitle()));
 		lblEventDate.setText(constructEventDate(event.getStartDateTime(),
 				event.getEndDateTime()));
