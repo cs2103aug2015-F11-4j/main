@@ -246,5 +246,6 @@ public class MainLogic {
 	 */
 	public void setOnRemindListener(OnRemindListener listener) {
 		// Set in event handler
+		eventHandler.setOnRemindListener(listener);
 	}
 }
