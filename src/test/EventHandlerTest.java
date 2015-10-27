@@ -1,8 +1,6 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -357,6 +355,11 @@ public class EventHandlerTest {
 		
 		assertEquals(pc.getNotes(), handle.getAllEvents().get(0).getNotes());
 		assertTrue(handle.getAllEvents().size() == 1);
+	}
+	
+	@Test
+	public void testSortEvents() throws Exception {
+		fail();
 	}
 
 	

@@ -303,4 +303,8 @@ public class EventHandler {
 	public List<Event> getAllEvents() {
 		return events;
 	}
+	
+	public List<Event> sortEvents() {
+		return events;
+	}
 }
