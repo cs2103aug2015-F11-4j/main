@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import utils.Command;
 import utils.Event;
+import utils.IdMapper;
 import utils.OnRemindListener;
 import utils.ParsedCommand;
 
@@ -84,7 +85,6 @@ public class EventHandler {
 			undo();
 			eventsReturned.addAll(events);
 		}
-
 		else if (pc.getCommand() == Command.SEARCH) {
 			eventsReturned = search(pc);
 
@@ -126,7 +126,7 @@ public class EventHandler {
 	public Event view(ParsedCommand pc) {
 		Event eventToBeViewed = new Event();
 		for (Event e : events) {
-			if (e.getId().equals(pc.getId())) {
+			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
 				eventToBeViewed = e;
 			}
 		}
@@ -193,8 +193,9 @@ public class EventHandler {
 	 */
 	public Event remove(ParsedCommand pc) {
 		Event eventToBeRemoved = new Event();
+		
 		for (Event e : events) {
-			if (e.getId().equals(pc.getId())) {
+			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
 				eventToBeRemoved = e;
 				break;
 			}
@@ -214,12 +215,14 @@ public class EventHandler {
 	 * @throws Exception
 	 */
 	public Event update(ParsedCommand pc) throws Exception {
+		String Id  = IdMapper.getInstance().getActualId(pc.getId());
 		Event newEvent = generator.createEvent(pc);
+		newEvent.setId(Id);
 		Event oldEvent = null;
 
 		// find event to be updated
 		for (Event e : events) {
-			if (e.getId().equals(pc.getId())) {
+			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
 				oldEvent = e;
 				events.remove(e);
 				break;
@@ -305,6 +308,7 @@ public class EventHandler {
 	}
 	
 	public List<Event> sortEvents() {
+		
 		return events;
 	}
 }
