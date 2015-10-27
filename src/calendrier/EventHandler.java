@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import utils.Command;
 import utils.Event;
+import utils.OnRemindListener;
 import utils.ParsedCommand;
 
 /**
@@ -23,13 +24,16 @@ public class EventHandler {
 	ArrayList<Event> events = new ArrayList<>();
 	ArrayList<Event> initialEvents = new ArrayList<>();
 	EventGenerator generator;
+	ReminderManager reminders;
 	Event previousEvent;
 	Event beforeUpdate;
 	Logger log;
+	
 
 	public EventHandler() {
 		manage = new StorageManager();
 		generator = new EventGenerator();
+		reminders = new ReminderManager();
 		previousEvent = new Event();
 		beforeUpdate = new Event();
 		log = Logger.getLogger(EventHandler.class.getName());
@@ -38,6 +42,10 @@ public class EventHandler {
 
 	public void injectStorageManager(StorageManager manager) {
 		this.manage = manager;
+	}
+	
+	public void setOnRemindListener(OnRemindListener listen) {
+		reminders.setOnRemindListener(listen);
 	}
 
 	/**
@@ -142,7 +150,7 @@ public class EventHandler {
 			for (Event e : initialEvents) {
 				events.add(e);
 			}
-			
+
 		} else {
 			// regular undo of history
 			history.pop();
@@ -162,6 +170,7 @@ public class EventHandler {
 			throw new Exception("ERROR - TIME CONFLICT");
 		} else {
 			events.add(event);
+			reminders.addReminder(event);
 			manage.save(events);
 			saveHistory();
 		}
@@ -191,6 +200,7 @@ public class EventHandler {
 			}
 		}
 		events.remove(eventToBeRemoved);
+		reminders.removeReminder(eventToBeRemoved);
 		saveHistory();
 		manage.save(events);
 		return eventToBeRemoved;
@@ -201,10 +211,11 @@ public class EventHandler {
 	 * 
 	 * @param pc
 	 * @return eventToBeUpdated
+	 * @throws Exception
 	 */
-	public Event update(ParsedCommand pc) {
+	public Event update(ParsedCommand pc) throws Exception {
 		Event newEvent = generator.createEvent(pc);
-		Event oldEvent = new Event();
+		Event oldEvent = null;
 
 		// find event to be updated
 		for (Event e : events) {
@@ -214,39 +225,44 @@ public class EventHandler {
 				break;
 			}
 		}
-		
-		// ensure updatedEvent contains all relevant info from oldEvent
-		if (newEvent.getTitle() == null) {
-			newEvent.setTitle(oldEvent.getTitle());
-		}
-		if (newEvent.getStartDateTime() == null) {
-			newEvent.setStartDateTime(oldEvent.getStartDateTime());
-		}
-		if (newEvent.getEndDateTime() == null) {
-			newEvent.setEndDateTime(oldEvent.getEndDateTime());
-		}
-		if (newEvent.getPriority() == null) {
-			newEvent.setPriority(oldEvent.getPriority());
-		}
-		if (newEvent.getLocation() == null) {
-			newEvent.setLocation(oldEvent.getLocation());
-		}
-		if (newEvent.getNotes() == null) {
-			newEvent.setNotes(oldEvent.getNotes());
-		}
-		if (newEvent.getReminder() == null) {
-			newEvent.setReminder(oldEvent.getReminder());
-		}
-		if (newEvent.getGroups().isEmpty()) {
-			for (String s : newEvent.getGroups()) {
-				newEvent.addGroup(s);
+		if (oldEvent == null) {
+			throw new Exception("ERROR - That event does not exist!");
+
+		} else {
+			// ensure updatedEvent contains all relevant info from oldEvent
+			if (newEvent.getTitle() == null) {
+				newEvent.setTitle(oldEvent.getTitle());
 			}
+			if (newEvent.getStartDateTime() == null) {
+				newEvent.setStartDateTime(oldEvent.getStartDateTime());
+			}
+			if (newEvent.getEndDateTime() == null) {
+				newEvent.setEndDateTime(oldEvent.getEndDateTime());
+			}
+			if (newEvent.getPriority() == null) {
+				newEvent.setPriority(oldEvent.getPriority());
+			}
+			if (newEvent.getLocation() == null) {
+				newEvent.setLocation(oldEvent.getLocation());
+			}
+			if (newEvent.getNotes() == null) {
+				newEvent.setNotes(oldEvent.getNotes());
+			}
+			if (newEvent.getReminder() == null) {
+				newEvent.setReminder(oldEvent.getReminder());
+			}
+			if (newEvent.getGroups().isEmpty()) {
+				for (String s : newEvent.getGroups()) {
+					newEvent.addGroup(s);
+				}
+			}
+			beforeUpdate = oldEvent;
+			events.add(newEvent);
+			reminders.updateReminder(newEvent);
+			saveHistory();
+			manage.save(events);
+			return newEvent;
 		}
-		beforeUpdate = oldEvent;
-		events.add(newEvent);
-		saveHistory();
-		manage.save(events);
-		return newEvent;
 	}
 
 	/**
@@ -278,7 +294,6 @@ public class EventHandler {
 		}
 		return conflict;
 	}
-
 
 	/**
 	 * Returns the list of all events
