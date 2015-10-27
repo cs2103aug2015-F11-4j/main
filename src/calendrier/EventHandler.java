@@ -56,11 +56,9 @@ public class EventHandler {
 			Event newEvent = generator.createEvent(pc);
 			assert (newEvent != null);
 			add(newEvent);
-//			history.push(pc);
 			eventsReturned.add(newEvent);
 		} else if (pc.getCommand() == Command.DELETE) {
 			Event removedEvent = remove(pc);
-//			history.push(pc);
 			eventsReturned.add(removedEvent);
 		} else if (pc.getCommand() == Command.UPDATE) {
 			Event updatedEvent = update(pc);
@@ -166,7 +164,10 @@ public class EventHandler {
 	}
 
 	private void saveHistory() {
-		ArrayList<Event> tempEvents = events;
+		ArrayList<Event> tempEvents = new ArrayList<>();
+		for (Event e : events) {
+			tempEvents.add(e);
+		}
 		history.add(tempEvents);
 	}
 
