@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,7 +12,7 @@ public class Event {
 	private static final String NUMBER_REGEX = "\\d+";
 	private static final String FULL_TIMESTAMP_REGEX = "(\\d+)/(\\d+)/(\\d+)-(\\d+):(\\d+)";
 	private static final String DATETIME_FORMAT = "%d/%d/%d-%d:%d";
-	
+
 	private static final String ID_STRING = "id: %s, ";
 	private static final String TITLE_STRING = "title: %s, ";
 	private static final String STARTDATETIME_STRING = "startDateTime: %s, ";
@@ -25,7 +24,7 @@ public class Event {
 	private static final String GROUPS_STRING = "groups: %s, ";
 	private static final String RECURRENCE_STRING = "recurrence: %s, ";
 	private static final String SUBTASKS_STRING = "subtasks: %s, ";
-	
+
 	private static final String ID_REGEX = "id: (.+?),";
 	private static final String TITLE_REGEX = "title: (.+?),";
 	private static final String STARTDATETIME_REGEX = "startDateTime: (.+?),";
@@ -227,19 +226,27 @@ public class Event {
 	}
 
 	public void setReminder(Calendar reminder) {
-		this.reminder.add(reminder);
+		if (reminder != null) {
+			this.reminder.add(reminder);
+		}
 	}
 
 	public void addReminder(Calendar reminder) {
-		this.reminder.add(reminder);
+		if (reminder != null) {
+			this.reminder.add(reminder);
+		}
 	}
 
 	public void setReminder(List<Calendar> reminders) {
-		this.reminder.addAll(reminders);
+		if (reminders != null) {
+			this.reminder.addAll(reminders);
+		}
 	}
 
 	public void removeReminder(Calendar reminder) {
-		this.reminder.remove(reminder);
+		if (reminder != null) {
+			this.reminder.remove(reminder);
+		}
 	}
 
 	public void removeReminder(int position) {
