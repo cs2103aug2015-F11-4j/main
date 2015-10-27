@@ -6,15 +6,19 @@ import java.util.List;
 import java.util.Set;
 
 import utils.Event;
+import utils.Notification;
+import utils.OnRemindListener;
 import calendrier.MainLogic;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class UserInterface extends Application {
+public class UserInterface extends Application implements OnRemindListener{
 
 	private static final String ROOT_LAYOUT_FXML = "/calendrier/resources/RootLayout.fxml";
 	private static final String WINDOW_TITLE = "Calendrier";
@@ -33,6 +37,7 @@ public class UserInterface extends Application {
 	private static final String MESSAGE_FAIL_VIEW_DETAIL = "Invalid Event ID";
 	private static final String MESSAGE_WELCOME = "Welcome!";
 	private static final String MESSAGE_EMPTY = "";
+	private static final String MESSAGE_REMINDER = "Reminder";
 
 	private static final int VALUE_START_SCREEN_MIN = 1;
 	private static final int VALUE_START_SCREEN_MAX = 3;
@@ -70,6 +75,7 @@ public class UserInterface extends Application {
 	private BorderPane rootLayout;
 
 	private MainLogic mainLogic = null;
+	private Notification.Notifier notifier;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -85,6 +91,7 @@ public class UserInterface extends Application {
 		// Adding commandbar to RootLayout
 		addCommandBar(this);
 		addStartScreen(this);
+		
 	}
 
 	private void initRootLayout() {
@@ -106,6 +113,7 @@ public class UserInterface extends Application {
 
 	private void initLogic() {
 		mainLogic = new MainLogic();
+		mainLogic.setOnRemindListener(this);
 
 		eventSize = mainLogic.getAllEvents().size();
 		events = mainLogic.getAllEvents();
@@ -116,11 +124,6 @@ public class UserInterface extends Application {
 	}
 
 	private void addStartScreen(UserInterface userInterface) {
-
-		// trying out notification (for reminder)
-		// Notifications.create() .title("Task Reminder") .text("Hello")
-		// .showWarning();
-
 		rootLayout.setCenter(new StartScreenController(userInterface,
 				VALUE_START_SCREEN_MIN));
 	}
@@ -136,8 +139,6 @@ public class UserInterface extends Application {
 		if (mainLogic.getAllEvents().size() == VALUE_NO_EVENT) {
 			rootLayout.setCenter(new NoEventController(userInterface));
 		} else {
-			// rootLayout.setCenter(new
-			// EventAllController(mainLogic.getAllEvents()));
 			List<Event> listEvents = null;
 			if (currentEventState == VALUE_GET_ALL_EVENTS) {
 				listEvents = mainLogic.getAllEvents();
@@ -376,5 +377,23 @@ public class UserInterface extends Application {
 		}
 		addEventView(this);
 		return MESSAGE_EMPTY;
+	}
+
+	@Override
+	public void onRemind(Event event) {
+		new JFXPanel();
+		notify(event);
+	}
+	
+	private void notify(Event event) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Notification noti = new Notification(MESSAGE_REMINDER, event.getTitle(), Notification.INFO_ICON);
+				notifier = Notification.Notifier.INSTANCE;
+				notifier.notify(noti);
+			}	
+		});
 	}
 }
