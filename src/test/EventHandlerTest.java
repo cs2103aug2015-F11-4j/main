@@ -418,6 +418,5 @@ public class EventHandlerTest {
 		// check that first one is a high priority
 		assertEquals(utils.Priority.VERY_HIGH, handle.getAllEvents().get(0).getPriority());
 	}
-
 	
 }

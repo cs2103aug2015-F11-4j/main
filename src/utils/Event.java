@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Event {
+public class Event implements Comparable {
 	private static final String NULL = "null";
 	private static final String NUMBER_REGEX = "\\d+";
 	private static final String FULL_TIMESTAMP_REGEX = "(\\d+)/(\\d+)/(\\d+)-(\\d+):(\\d+)";
@@ -566,22 +566,52 @@ public class Event {
 		}
 	}
 
-//	@Override
-//	public int compareTo(Object arg0) {
-//		Event compare = (Event)arg0;
-//		Priority priorityToCompare = compare.getPriority();
-//		
-//		int result;
-//		switch (priority){
-//			case VERY_LOW:
-////				if (priorityToCompare == VERY_LOW) {
-////					
-////				}
-//		}
-//			
-//			
-//			
-//		// TODO Auto-generated method stub
-////		return result;
-//	}
+	@Override
+	public int compareTo(Object arg0) {
+		Event compare = (Event)arg0;
+		Priority priorityToCompare = compare.getPriority();
+		
+		int result = -99;
+		switch (priority){
+			case VERY_LOW:
+				if (priorityToCompare == utils.Priority.VERY_LOW) {
+					result = 0;
+				} else {
+					result = 1;
+				}
+				break;
+			case LOW:
+				if (priorityToCompare == utils.Priority.LOW) {
+					result = 0;
+				} else if (priorityToCompare == utils.Priority.VERY_LOW) {
+					result = -1;
+				} else {
+					result = 1;
+				}
+				break;
+			case MEDIUM:
+				if (priorityToCompare == utils.Priority.MEDIUM) {
+					result = 0;
+				} else if (priorityToCompare == utils.Priority.VERY_LOW || priorityToCompare == utils.Priority.LOW) {
+					result = -1;
+				} else {
+					result = 1;
+				}
+			case HIGH:
+				if (priorityToCompare == utils.Priority.HIGH) {
+					result = 0;
+				} else if (priorityToCompare == utils.Priority.VERY_HIGH) {
+					result = 1;
+				} else {
+					result = -1;
+				}
+			case VERY_HIGH:
+				if (priorityToCompare == utils.Priority.VERY_HIGH) {
+					result = 0;
+				} else {
+					result = -1;
+				}
+		}
+		return result;
+	}
 }

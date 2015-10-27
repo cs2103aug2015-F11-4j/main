@@ -1,6 +1,7 @@
 package calendrier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
@@ -308,7 +309,7 @@ public class EventHandler {
 	}
 	
 	public List<Event> sortEvents() {
-		
+		Collections.sort(events);
 		return events;
 	}
 }
