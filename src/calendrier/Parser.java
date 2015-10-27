@@ -3,6 +3,7 @@ package calendrier;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import utils.Command;
 import utils.ParsedCommand;
@@ -86,6 +87,11 @@ public class Parser {
 			 * enddate 2015/12/30, endtime 14.44, group my personal group priority very low, 
 			 * location my home, notes must do, recurring no, reminderdate 2015/12/30,
 			 * remindertime 15.30
+			 * 
+			 * Case 2: a deadline
+			 * e.g. add eat sleep drink repeat, deadlinedate 2015/12/30, deadlinetime 14.44, 
+			 * priority very low, group my personal group, location my home, notes must do, 
+			 * recurring no, reminderdate 2015/12/29 2015/12/29, remindertime 12.34 23.45
 			 */
 			pc.setCommand(Command.UPDATE);
 			
@@ -105,31 +111,7 @@ public class Parser {
 				pc.setTitle(title);
 			}
 
-			String startDate = getAttributeFromInput(inputAfterCommand, "startdate", 9);
-			String startTime = getAttributeFromInput(inputAfterCommand, "starttime", 9);
-			if (startDate != null && startTime != null) {
-				Calendar cal = dateAndTimeToCalendar(startDate, startTime);
-				pc.setStartDateTime(cal);
-			} else if (startDate != null) {
-				Calendar cal = dateToCalendar(startDate);
-				pc.setStartDateTime(cal);
-			} else if (startTime != null) {
-				Calendar cal = timeToCalendar(startTime);
-				pc.setStartDateTime(cal);
-			}
-
-			String endDate = getAttributeFromInput(inputAfterCommand, "enddate", 7);
-			String endTime = getAttributeFromInput(inputAfterCommand, "endtime", 7);
-			if (endDate != null && endTime != null) {
-				Calendar cal = dateAndTimeToCalendar(endDate, endTime);
-				pc.setEndDateTime(cal);
-			} else if (endDate != null) {
-				Calendar cal = dateToCalendar(endDate);
-				pc.setEndDateTime(cal);
-			} else if (endTime != null) {
-				Calendar cal = timeToCalendar(endTime);
-				pc.setEndDateTime(cal);
-			}
+			determineDeadlineAndSettle(pc, inputAfterCommand);
 
 			String priority = getAttributeFromInput(inputAfterCommand, "priority", 8);
 			if (priority != null) {
@@ -170,45 +152,43 @@ public class Parser {
 			 * enddate 2015/12/30, endtime 14.44, priority very low, group my personal group, 
 			 * location my home, notes must do, recurring no, reminderdate 2015/12/29 2015/12/29, 
 			 * remindertime 12.34 23.45
+			 * 
+			 * Case 2: a deadline
+			 * e.g. add eat sleep drink repeat, deadlinedate 2015/12/30, deadlinetime 14.44, 
+			 * priority very low, group my personal group, location my home, notes must do, 
+			 * recurring no, reminderdate 2015/12/29 2015/12/29, remindertime 12.34 23.45
+			 * 
+			 * Case 3: subtask
+			 * e.g. add subtask sleep drink repeat to 1, .......
 			 */
 			
-			int titleEndIndex;
+			int titleEndIndex, titleIndex;
 			String title;
 			
-			titleEndIndex = inputAfterCommand.indexOf(",");
-			if (titleEndIndex == -1) {
-				title = inputAfterCommand.substring(0);
+			StringTokenizer st = new StringTokenizer(inputAfterCommand);
+			String wordAfterCommand = st.nextToken();
+			if (wordAfterCommand.equals("subtask")) {
+				int wordAfterCommandIndex = inputAfterCommand.indexOf(wordAfterCommand);
+				titleIndex = inputAfterCommand.indexOf(" ", wordAfterCommandIndex) + 1;
+				titleEndIndex = inputAfterCommand.indexOf("to")-1;
+				title = inputAfterCommand.substring(titleIndex, titleEndIndex);
+				
+				int toIndex = inputAfterCommand.indexOf("to");
+				int idIndex = inputAfterCommand.indexOf(" ", toIndex) + 1;
+				int idEndIndex = inputAfterCommand.indexOf(",", idIndex);
+				String id = inputAfterCommand.substring(idIndex, idEndIndex);
+				pc.setId(id);
 			} else {
-				title = inputAfterCommand.substring(0, titleEndIndex);
+				titleEndIndex = inputAfterCommand.indexOf(",");
+				if (titleEndIndex == -1) {
+					title = inputAfterCommand.substring(0);
+				} else {
+					title = inputAfterCommand.substring(0, titleEndIndex);
+				}
 			}
-			
 			pc.setTitle(title);
-
-			String startDate = getAttributeFromInput(inputAfterCommand, "startdate", 9);
-			String startTime = getAttributeFromInput(inputAfterCommand, "starttime", 9);
-			if (startDate != null && startTime != null) {
-				Calendar cal = dateAndTimeToCalendar(startDate, startTime);
-				pc.setStartDateTime(cal);
-			} else if (startDate != null) {
-				Calendar cal = dateToCalendar(startDate);
-				pc.setStartDateTime(cal);
-			} else if (startTime != null) {
-				Calendar cal = timeToCalendar(startTime);
-				pc.setStartDateTime(cal);
-			}
-
-			String endDate = getAttributeFromInput(inputAfterCommand, "enddate", 7);
-			String endTime = getAttributeFromInput(inputAfterCommand, "endtime", 7);
-			if (endDate != null && endTime != null) {
-				Calendar cal = dateAndTimeToCalendar(endDate, endTime);
-				pc.setEndDateTime(cal);
-			} else if (endDate != null) {
-				Calendar cal = dateToCalendar(endDate);
-				pc.setEndDateTime(cal);
-			} else if (endTime != null) {
-				Calendar cal = timeToCalendar(endTime);
-				pc.setEndDateTime(cal);
-			}
+			
+			determineDeadlineAndSettle(pc, inputAfterCommand);
 
 			String priority = getAttributeFromInput(inputAfterCommand, "priority", 8);
 			if (priority != null) {
@@ -243,6 +223,7 @@ public class Parser {
 		} 
 		return pc;
 	}
+	
 	
 	public ParsedCommand parseShortenedCommand(ParsedCommand pc, String userInput) {
 		String inputAfterCommand = "";
@@ -304,9 +285,16 @@ public class Parser {
 			pc.setCommand(Command.FILTER);
 			setShortenedFilterParameters(new Scanner(inputAfterCommand), pc);
 		} else if (command.equals("-up")) {
-			// e.g. e.g. -up 2, -t do homework, -sd 2015/10/30, -st 12.34, -ed 2015/11/12, 
+			// Case 1: Not deadline
+			// e.g. -up 2, -t do homework, -sd 2015/10/30, -st 12.34, -ed 2015/11/12, 
 			// -et 13.37, -g personal circle, -l my home, -p very high,  
 			// -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11 
+			
+			// Case 2: Deadline
+			// e.g. -up 2, -t do homework, -dd 2015/11/12, 
+			// -dt 13.37, -g personal circle, -l my home, -p very high,  
+			// -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11
+			
 			pc.setCommand(Command.UPDATE);
 				
 			int idEndIndex;
@@ -325,31 +313,7 @@ public class Parser {
 				pc.setTitle(title);
 			}
 			
-			String startDate = getAttributeFromInput(inputAfterCommand, "-sd", 3);
-			String startTime = getAttributeFromInput(inputAfterCommand, "-st", 3);
-			if (startDate != null && startTime != null) {
-				Calendar cal = dateAndTimeToCalendar(startDate, startTime);
-				pc.setStartDateTime(cal);
-			} else if (startDate != null) {
-				Calendar cal = dateToCalendar(startDate);
-				pc.setStartDateTime(cal);
-			} else if (startTime != null) {
-				Calendar cal = timeToCalendar(startTime);
-				pc.setStartDateTime(cal);
-			}
-			
-			String endDate = getAttributeFromInput(inputAfterCommand, "-ed", 3);
-			String endTime = getAttributeFromInput(inputAfterCommand, "-et", 3);
-			if (endDate != null && endTime != null) {
-				Calendar cal = dateAndTimeToCalendar(endDate, endTime);
-				pc.setEndDateTime(cal);
-			} else if (endDate != null) {
-				Calendar cal = dateToCalendar(endDate);
-				pc.setEndDateTime(cal);
-			} else if (endTime != null) {
-				Calendar cal = timeToCalendar(endTime);
-				pc.setEndDateTime(cal);
-			}
+			determineDeadlineAndSettle(pc, inputAfterCommand);
 			
 			String priority = getAttributeFromInput(inputAfterCommand, "-p", 2);
 			if (priority != null) {
@@ -380,51 +344,51 @@ public class Parser {
 		}
 		
 		else if (command.contains("-a")) {
+			// Case 1: Not deadline
 			// e.g. -a eat drink sleep repeat, -sd 2015/10/12, -st 12.34, ed 2015/10/14, 
 			// -et 13.37, -p very high, -g secret group, -l my home, -n must do, 
-			// -r no, -rd 2015/10/13, -rt 13.37
+			// -r no, -rd 2015/10/13 2015/10/14, -rt 13.37 11.11
+			
+			// Case 2: Deadline
+			// e.g. -a eat drink sleep repeat, -dd 2015/10/14, -dt 13.37, -p very high, 
+			// -g secret group, -l my home, -n must do, -r no, -rd 2015/10/13 2015/10/14, 
+			// -rt 13.37 11.11
+			
+			// Case 3: Subtask
+			// e.g. -a subtask drink repeat to 1, .......
 			
 			pc.setCommand(Command.ADD);
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
 			pc.setId(String.valueOf(numCurrentTask + 1));
 			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
 			
-			int titleEndIndex;
+			int titleEndIndex, titleIndex;
 			String title;
 			
-			titleEndIndex = inputAfterCommand.indexOf(",");
-			if (titleEndIndex == -1) {
-				title = inputAfterCommand.substring(0);
+			StringTokenizer st = new StringTokenizer(inputAfterCommand);
+			String wordAfterCommand = st.nextToken();
+			if (wordAfterCommand.equals("subtask")) {
+				int wordAfterCommandIndex = inputAfterCommand.indexOf(wordAfterCommand);
+				titleIndex = inputAfterCommand.indexOf(" ", wordAfterCommandIndex) + 1;
+				titleEndIndex = inputAfterCommand.indexOf("to")-1;
+				title = inputAfterCommand.substring(titleIndex, titleEndIndex);
+				
+				int toIndex = inputAfterCommand.indexOf("to");
+				int idIndex = inputAfterCommand.indexOf(" ", toIndex) + 1;
+				int idEndIndex = inputAfterCommand.indexOf(",", idIndex);
+				String id = inputAfterCommand.substring(idIndex, idEndIndex);
+				pc.setId(id);
 			} else {
-				title = inputAfterCommand.substring(0, titleEndIndex);
+				titleEndIndex = inputAfterCommand.indexOf(",");
+				if (titleEndIndex == -1) {
+					title = inputAfterCommand.substring(0);
+				} else {
+					title = inputAfterCommand.substring(0, titleEndIndex);
+				}
 			}
 			pc.setTitle(title);
 
-			String startDate = getAttributeFromInput(inputAfterCommand, "-sd", 3);
-			String startTime = getAttributeFromInput(inputAfterCommand, "-st", 3);
-			if (startDate != null && startTime != null) {
-				Calendar cal = dateAndTimeToCalendar(startDate, startTime);
-				pc.setStartDateTime(cal);
-			} else if (startDate != null) {
-				Calendar cal = dateToCalendar(startDate);
-				pc.setStartDateTime(cal);
-			} else if (startTime != null) {
-				Calendar cal = timeToCalendar(startTime);
-				pc.setStartDateTime(cal);
-			}
-
-			String endDate = getAttributeFromInput(inputAfterCommand, "-ed", 3);
-			String endTime = getAttributeFromInput(inputAfterCommand, "-et", 3);
-			if (endDate != null && endTime != null) {
-				Calendar cal = dateAndTimeToCalendar(endDate, endTime);
-				pc.setEndDateTime(cal);
-			} else if (endDate != null) {
-				Calendar cal = dateToCalendar(endDate);
-				pc.setEndDateTime(cal);
-			} else if (endTime != null) {
-				Calendar cal = timeToCalendar(endTime);
-				pc.setEndDateTime(cal);
-			}
+			determineDeadlineAndSettle(pc, inputAfterCommand);
 
 			String priority = getAttributeFromInput(inputAfterCommand, "-p", 2);
 			if (priority != null) {
@@ -453,12 +417,211 @@ public class Parser {
 
 			setReminder(pc, inputAfterCommand, "-rd", "-rt", 3);
 		}
+		if (pc.getCommand() == null) {
+			//parseFlexibleCommand(pc, userInput);
+		} 
 		return pc;
 	}
 	
+	/* Tell user format of flexible command, e.g <command> <title> <location> <priority>
+	 *  ... <reminderdate> <remindertime>
+	 *  
+	 *  Assumption: Title must come first
+	 *  
+	 *  FOR NOW NO PRIORITY, GROUP, NOTES, RECURRING, REMINDER
+	 *  
+	 * e.g.
+	 * 1. meeting with colleagues on 2015/11/12 from 12pm to 2pm at my house
+	 * 2. part time job from 2015/11/12 to 2015/11/15 from 9am to 6pm at orchard road
+	 */
+	public static void parseFlexibleCommand(ParsedCommand pc, String userinput) {
+		ArrayList<String> dayKeyword = new ArrayList<>();
+		ArrayList<String> keywords = new ArrayList<>();
+		StringTokenizer tokens;
+		String userInput = "part time job from 2015/11/12 to 2015/11/15 from 9am to 6pm at orchard road";
+		
+		String title = null;
+		
+		keywords.add("on");
+		keywords.add("at");
+		keywords.add("by");
+		keywords.add("from");
+		
+		dayKeyword.add("monday");
+		dayKeyword.add("tuesday");
+		dayKeyword.add("wednesday");
+		dayKeyword.add("thursday");
+		dayKeyword.add("friday");
+		dayKeyword.add("saturday");
+		dayKeyword.add("sunday");
+		
+		int titleEndIndex = getFirstKeywordIndex(userInput, keywords)-1;
+		title = userInput.substring(0, titleEndIndex);
+		
+		
+		String inputAfterTitle = userInput.substring(titleEndIndex+1);
+		tokens = new StringTokenizer(inputAfterTitle);
+		
+		String keyword = tokens.nextToken();
+		String next;
+		String resultingString = inputAfterTitle;
+		String startTime = null, endTime = null, startDate = null, endDate = null;
+		String location = null;
+		int attributeEndIndex = 0;
+		
+		while(!resultingString.equals("")) {
+			if (keyword.equals("from")) {
+				next = tokens.nextToken();
+				// token is time
+				if (next.contains("am") || next.contains("pm")) {
+					startTime = next;
+					next = tokens.nextToken();
+					if (next.equals("to")) {
+						next = tokens.nextToken();
+						endTime = next;
+						int endTimeIndex = resultingString.indexOf(endTime);
+						attributeEndIndex = resultingString.indexOf(" ", endTimeIndex)+1;
+					}
+				} else {
+					startDate = next;
+					next = tokens.nextToken();
+					if (next.equals("to")) {
+						next = tokens.nextToken();
+						endDate = next;
+						int endDateIndex = resultingString.indexOf(endDate);
+						attributeEndIndex = resultingString.indexOf(" ", endDateIndex)+1;
+					}
+				}
+				resultingString = resultingString.substring(attributeEndIndex);
+				tokens = new StringTokenizer(resultingString);
+				keyword = resultingString.substring(0, resultingString.indexOf(" "));
+			} else if (keyword.equals("at")) {
+				int afterKeywordIndex = resultingString.indexOf(" ")+1;
+				String afterKeyword = resultingString.substring(afterKeywordIndex);
+				int nextKeywordIndex = getFirstKeywordIndex(afterKeyword, keywords);
+				location = resultingString.substring(afterKeywordIndex, nextKeywordIndex-1);
+			}
+		}
+		
+		// check for time keyword e.g. at 2pm / from 2pm to 4pm / by 2pm
+		int timeIndex = userInput.indexOf("at"); 
+				
+		// check for location keyword e.g. at my house /
+		
+		// check for date e.g. on 2015/11/12
+		
+	}
 	
+	/*
+	 * FUNCTIONS FOR FLEXIBLE COMMANDS
+	 * 
+	 */
+	public static int getFirstKeywordIndex(String input, ArrayList<String> keywords) {
+		int result = 100;
+		int current = 0;
+		for (int i = 0; i < keywords.size(); i++) {
+			current = input.indexOf(keywords.get(i));
+			if (current < result && current != -1) {
+				result = current;
+			}
+		}
+		return result;
+
+	}
 	
+	public void determineDeadlineAndSettle(ParsedCommand pc, String inputAfterCommand) {
+		// Check if it is deadline
+		if (!inputAfterCommand.contains("deadlinedate") && !inputAfterCommand.contains("-dd")) {
+			if (inputAfterCommand.contains("startdate")) {
+				noDeadlineNormal(pc, inputAfterCommand);
+			} else if (inputAfterCommand.contains("-sd")) {
+				noDeadlineShortened(pc, inputAfterCommand);
+			}
+			
+		} else {
+			if (inputAfterCommand.contains("deadlinedate")) {
+				deadlineAndSettleNormal(pc, inputAfterCommand);
+			} else if (inputAfterCommand.contains("-dd")) {
+				deadlineAndSettleShortened(pc, inputAfterCommand);
+			}
+		}
+	}
 	
+	public void noDeadlineNormal(ParsedCommand pc, String inputAfterCommand) {
+		String startDate = getAttributeFromInput(inputAfterCommand, "startdate", 9);
+		String startTime = getAttributeFromInput(inputAfterCommand, "starttime", 9);
+		if (startDate != null && startTime != null) {
+			Calendar cal = dateAndTimeToCalendar(startDate, startTime);
+			pc.setStartDateTime(cal);
+		} else if (startDate != null) {
+			Calendar cal = dateToCalendar(startDate);
+			pc.setStartDateTime(cal);
+		} else if (startTime != null) {
+			Calendar cal = timeToCalendar(startTime);
+			pc.setStartDateTime(cal);
+		}
+
+		String endDate = getAttributeFromInput(inputAfterCommand, "enddate", 7);
+		String endTime = getAttributeFromInput(inputAfterCommand, "endtime", 7);
+		if (endDate != null && endTime != null) {
+			Calendar cal = dateAndTimeToCalendar(endDate, endTime);
+			pc.setEndDateTime(cal);
+		} else if (endDate != null) {
+			Calendar cal = dateToCalendar(endDate);
+			pc.setEndDateTime(cal);
+		} else if (endTime != null) {
+			Calendar cal = timeToCalendar(endTime);
+			pc.setEndDateTime(cal);
+		}
+	}
+	
+	public void noDeadlineShortened(ParsedCommand pc, String inputAfterCommand) {
+		String startDate = getAttributeFromInput(inputAfterCommand, "-sd", 3);
+		String startTime = getAttributeFromInput(inputAfterCommand, "-st", 3);
+		if (startDate != null && startTime != null) {
+			Calendar cal = dateAndTimeToCalendar(startDate, startTime);
+			pc.setStartDateTime(cal);
+		} else if (startDate != null) {
+			Calendar cal = dateToCalendar(startDate);
+			pc.setStartDateTime(cal);
+		} else if (startTime != null) {
+			Calendar cal = timeToCalendar(startTime);
+			pc.setStartDateTime(cal);
+		}
+
+		String endDate = getAttributeFromInput(inputAfterCommand, "-ed", 3);
+		String endTime = getAttributeFromInput(inputAfterCommand, "-et", 3);
+		if (endDate != null && endTime != null) {
+			Calendar cal = dateAndTimeToCalendar(endDate, endTime);
+			pc.setEndDateTime(cal);
+		} else if (endDate != null) {
+			Calendar cal = dateToCalendar(endDate);
+			pc.setEndDateTime(cal);
+		} else if (endTime != null) {
+			Calendar cal = timeToCalendar(endTime);
+			pc.setEndDateTime(cal);
+		}
+	}
+	
+	public void deadlineAndSettleNormal(ParsedCommand pc, String inputAfterCommand) {
+		String deadlineDate = getAttributeFromInput(inputAfterCommand, "deadlinedate", 12);
+		String deadlineTime = getAttributeFromInput(inputAfterCommand, "deadlinetime", 12);
+		if (deadlineDate != null && deadlineTime != null) {
+			Calendar cal = dateAndTimeToCalendar(deadlineDate, deadlineTime);
+			pc.setStartDateTime(cal);
+			pc.setEndDateTime(cal);
+		} 
+	}
+	
+	public void deadlineAndSettleShortened(ParsedCommand pc, String inputAfterCommand) {
+		String deadlineDate = getAttributeFromInput(inputAfterCommand, "-dd", 3);
+		String deadlineTime = getAttributeFromInput(inputAfterCommand, "-dt", 3);
+		if (deadlineDate != null && deadlineTime != null) {
+			Calendar cal = dateAndTimeToCalendar(deadlineDate, deadlineTime);
+			pc.setStartDateTime(cal);
+			pc.setEndDateTime(cal);
+		}
+	}
 	
 	public void setReminder(ParsedCommand pc, String inputAfterCommand, String rd, String rt, 
 			int attrLength) {
@@ -484,6 +647,50 @@ public class Parser {
 		}
 	}
 	
+	public static ArrayList<String> getReminderFromInput(String inputAfterCommand, String attr, int attrLength) {
+		ArrayList<String> result = new ArrayList<String>();
+		String reminder = "";
+		String[] reminderSplit = null;
+		int reminderSplitLength = 0;
+		
+		if (inputAfterCommand.contains(attr)) {
+			int index = inputAfterCommand.indexOf(attr) + attrLength + 1;
+			int endIndex = inputAfterCommand.indexOf(",", index);
+	
+			// String userInput2 = "add eat sleep, reminderdate 2015/11/12 2015/11/13, "
+			//	+ "remindertime 12.34 23.45";
+			
+			// Last list of user input
+			if (endIndex == -1) {
+				reminder = inputAfterCommand.substring(index);
+			} else {
+				reminder = inputAfterCommand.substring(index, endIndex);
+			}
+			
+			// There are more than 1 parameter in the list
+			if (inputAfterCommand.indexOf(" ", index) != -1) {
+				reminderSplit = reminder.split(" ");
+				reminderSplitLength = reminderSplit.length;
+			}
+			
+			if (reminderSplitLength > 0) {
+				for (int i = 0; i < reminderSplitLength; i++) {
+					reminder = reminderSplit[i];
+					// println(reminder);
+					result.add(reminder);
+				}
+			} else {
+				// println(reminder);
+				result.add(reminder);
+			}
+		} else {
+			return null;
+		}
+		
+		return result;
+	}
+	
+	
 	public void setShortenedFilterParameters(Scanner inputAfterCommand, ParsedCommand pc) {
 		String filterParameter = inputAfterCommand.next();
 		String filterValue = inputAfterCommand.nextLine().trim();
@@ -504,7 +711,6 @@ public class Parser {
 	}
 	
 	
-
 	public void setFilterParameters(Scanner inputAfterCommand, ParsedCommand pc) {
 		String filterParameter = inputAfterCommand.next();
 		String filterValue = inputAfterCommand.nextLine().trim();
@@ -598,49 +804,6 @@ public class Parser {
 			return null;
 		}
 		// System.out.println(attr + ": " + result);
-		return result;
-	}
-	
-	public static ArrayList<String> getReminderFromInput(String inputAfterCommand, String attr, int attrLength) {
-		ArrayList<String> result = new ArrayList<String>();
-		String reminder = "";
-		String[] reminderSplit = null;
-		int reminderSplitLength = 0;
-		
-		if (inputAfterCommand.contains(attr)) {
-			int index = inputAfterCommand.indexOf(attr) + attrLength + 1;
-			int endIndex = inputAfterCommand.indexOf(",", index);
-	
-			// String userInput2 = "add eat sleep, reminderdate 2015/11/12 2015/11/13, "
-			//	+ "remindertime 12.34 23.45";
-			
-			// Last list of user input
-			if (endIndex == -1) {
-				reminder = inputAfterCommand.substring(index);
-			} else {
-				reminder = inputAfterCommand.substring(index, endIndex);
-			}
-			
-			// There are more than 1 parameter in the list
-			if (inputAfterCommand.indexOf(" ", index) != -1) {
-				reminderSplit = reminder.split(" ");
-				reminderSplitLength = reminderSplit.length;
-			}
-			
-			if (reminderSplitLength > 0) {
-				for (int i = 0; i < reminderSplitLength; i++) {
-					reminder = reminderSplit[i];
-					// println(reminder);
-					result.add(reminder);
-				}
-			} else {
-				// println(reminder);
-				result.add(reminder);
-			}
-		} else {
-			return null;
-		}
-		
 		return result;
 	}
 	
