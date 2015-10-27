@@ -134,6 +134,11 @@ public class MainLogic {
 		return events;
 	}
 
+	/**
+	 * Gets a list of filtered events
+	 * 
+	 * @return list of filtered events
+	 */
 	public List<Event> getFilteredEvents() {
 		return filteredEvents;
 	}
@@ -192,13 +197,8 @@ public class MainLogic {
 		Calendar thisMonth = Calendar.getInstance();
 		Calendar nextMonth = Calendar.getInstance();
 
-		// Reset
-		thisMonth.setTimeInMillis(0);
-		nextMonth.setTimeInMillis(0);
-
 		// Set to start of month
-		thisMonth.set(year, (month + 11) % 12, 0);
-		nextMonth.set(year, month % 12, 0);
+		setMonthAnchor(year, month, thisMonth, nextMonth);
 
 		// Check Start Date
 		if (isWithinMonth(event.getStartDateTime(), thisMonth, nextMonth)) {
@@ -210,6 +210,24 @@ public class MainLogic {
 		}
 
 		return isInThisMonth;
+	}
+
+	private void setMonthAnchor(int year, int month, Calendar thisMonth, Calendar nextMonth) {
+		// Reset
+		thisMonth.setTimeInMillis(0);
+		nextMonth.setTimeInMillis(0);
+
+		// Set to start of month
+		thisMonth.set(year, getCurrentMonth(month), 0);
+		nextMonth.set(year, getNextMonth(month), 0);
+	}
+
+	private int getNextMonth(int month) {
+		return month % 12;
+	}
+
+	private int getCurrentMonth(int month) {
+		return (month + 11) % 12;
 	}
 
 	private boolean isWithinMonth(Calendar eventDateTime, Calendar thisMonth, Calendar nextMonth) {
