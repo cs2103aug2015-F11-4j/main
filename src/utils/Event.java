@@ -9,10 +9,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Event {
+	private static final String NULL = "null";
 	private static final String NUMBER_REGEX = "\\d+";
 	private static final String FULL_TIMESTAMP_REGEX = "(\\d+)/(\\d+)/(\\d+)-(\\d+):(\\d+)";
 	private static final String DATETIME_FORMAT = "%d/%d/%d-%d:%d";
-	private static final String NULL = "null";
+	
+	private static final String ID_STRING = "id: %s, ";
+	private static final String TITLE_STRING = "title: %s, ";
+	private static final String STARTDATETIME_STRING = "startDateTime: %s, ";
+	private static final String ENDDATETIME_STRING = "endDateTime: %s, ";
+	private static final String PRIORITY_STRING = "priority: %s, ";
+	private static final String LOCATION_STRING = "location: %s, ";
+	private static final String NOTES_STRING = "notes: %s, ";
+	private static final String REMINDER_STRING = "reminder: %s, ";
+	private static final String GROUPS_STRING = "groups: %s, ";
+	private static final String RECURRENCE_STRING = "recurrence: %s, ";
+	private static final String SUBTASKS_STRING = "subtasks: %s, ";
+	
 	private static final String ID_REGEX = "id: (.+?),";
 	private static final String TITLE_REGEX = "title: (.+?),";
 	private static final String STARTDATETIME_REGEX = "startDateTime: (.+?),";
@@ -283,7 +296,7 @@ public class Event {
 	}
 
 	private String serializeSubtasks(String eventString) {
-		eventString += String.format("subtasks: %s, ", Arrays.toString(this.subtasks.toArray()));
+		eventString += String.format(SUBTASKS_STRING, Arrays.toString(this.subtasks.toArray()));
 		return eventString;
 	}
 
@@ -310,7 +323,7 @@ public class Event {
 	}
 
 	private String serializeRecurrence(String eventString) {
-		eventString += String.format("recurrence: %s, ", (this.recurrence != null) ? this.recurrence.name() : NULL);
+		eventString += String.format(RECURRENCE_STRING, (this.recurrence != null) ? this.recurrence.name() : NULL);
 		return eventString;
 	}
 
@@ -334,7 +347,7 @@ public class Event {
 	}
 
 	private String serializeGroups(String eventString) {
-		eventString += String.format("groups: %s, ", Arrays.toString(this.groups.toArray()));
+		eventString += String.format(GROUPS_STRING, Arrays.toString(this.groups.toArray()));
 		return eventString;
 	}
 
@@ -364,7 +377,7 @@ public class Event {
 		for (int i = 0; i < this.reminder.size(); i++) {
 			reminders.add(toTimestamp(this.reminder.get(i)));
 		}
-		eventString += String.format("reminder: %s, ", Arrays.toString(reminders.toArray()));
+		eventString += String.format(REMINDER_STRING, Arrays.toString(reminders.toArray()));
 		return eventString;
 	}
 
@@ -391,7 +404,7 @@ public class Event {
 	}
 
 	private String serializeNotes(String eventString) {
-		eventString += String.format("notes: %s, ", (this.notes != null) ? this.notes : NULL);
+		eventString += String.format(NOTES_STRING, (this.notes != null) ? this.notes : NULL);
 		return eventString;
 	}
 
@@ -413,7 +426,7 @@ public class Event {
 	}
 
 	private String serializeLocation(String eventString) {
-		eventString += String.format("location: %s, ", (this.location != null) ? this.location : NULL);
+		eventString += String.format(LOCATION_STRING, (this.location != null) ? this.location : NULL);
 		return eventString;
 	}
 
@@ -435,7 +448,7 @@ public class Event {
 	}
 
 	private String serializePriority(String eventString) {
-		eventString += String.format("priority: %s, ", (this.priority != null) ? this.priority.name() : NULL);
+		eventString += String.format(PRIORITY_STRING, (this.priority != null) ? this.priority.name() : NULL);
 		return eventString;
 	}
 
@@ -459,7 +472,7 @@ public class Event {
 	}
 
 	private String serializeEndDateTime(String eventString) {
-		eventString += String.format("endDateTime: %s, ",
+		eventString += String.format(ENDDATETIME_STRING,
 				(this.endDateTime != null) ? toTimestamp(this.endDateTime) : NULL);
 		return eventString;
 	}
@@ -480,7 +493,7 @@ public class Event {
 	}
 
 	private String serializeStartDateTime(String eventString) {
-		eventString += String.format("startDateTime: %s, ",
+		eventString += String.format(STARTDATETIME_STRING,
 				(this.startDateTime != null) ? toTimestamp(this.startDateTime) : NULL);
 		return eventString;
 	}
@@ -501,7 +514,7 @@ public class Event {
 	}
 
 	private String serializeTitle(String eventString) {
-		eventString += String.format("title: %s, ", (this.title != null) ? this.title : NULL);
+		eventString += String.format(TITLE_STRING, (this.title != null) ? this.title : NULL);
 		return eventString;
 	}
 
@@ -523,7 +536,7 @@ public class Event {
 	}
 
 	private String serializeId(String eventString) {
-		eventString += String.format("id: %s, ", (this.id != null) ? this.id : NULL);
+		eventString += String.format(ID_STRING, (this.id != null) ? this.id : NULL);
 		return eventString;
 	}
 
