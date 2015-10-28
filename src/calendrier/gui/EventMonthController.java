@@ -80,8 +80,8 @@ public class EventMonthController extends StackPane {
 			eventGridPaneMonth.setStyle("-fx-border-color: red;-fx-border-width: 2.0px;");
 		}
 		if(cal.getTime().getDate() > date && cal.getTime().getMonth()>=month && (cal.getTime().getYear()+1900)>=year){
-			changeTextColor(null, lblEvent1);
-			changeTextColor(null, lblEvent2);
+			lblEvent1.setStyle("-fx-text-fill: gray;");
+			lblEvent2.setStyle("-fx-text-fill: gray;");
 		}
 	}
 	
