@@ -2,25 +2,31 @@ package calendrier.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+//import java.text.DateFormat;
+//import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
 import utils.Event;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 
 public class ViewController extends FlowPane {
 
 	private static final String VIEW_SCREEN_LAYOUT_FXML = "/calendrier/resources/View.fxml";
+	private static final String VIEWMONTH_SCREEN_LAYOUT_FXML = "/calendrier/resources/ViewMonth.fxml";
 	private static final int VALUE_ADD_TO_ARRAY = 8;
+	@FXML
+	private Label lblmonth;
+	@FXML
+	private Label lblyear;
 
-	public ViewController(List<Event> events) {
-		int i, end, month;
-
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(
-				VIEW_SCREEN_LAYOUT_FXML));
+	public ViewController(List<Event> events, int date, int month, int year) {
+		int i, end;
+	
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWMONTH_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
 		try {
@@ -28,11 +34,12 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		Calendar cal = Calendar.getInstance();
-		cal.set(2015, 10, 18, 10, 55, 00);
+		cal.set(year, month, date);
 
 		@SuppressWarnings("deprecation")
-		int date = cal.getTime().getDate(), day = cal.getTime().getDay();
+		int day = cal.getTime().getDay();
 
 		date = date % 7 - 1;
 		day = day - date;
@@ -43,38 +50,93 @@ public class ViewController extends FlowPane {
 		if (day != 7) {
 			date = 0;
 			while (date < day) {
-				getChildren().add(new EventMonthController(0, null));
+				getChildren().add(new EventMonthController(0, month, year, null));
 				date++;
 			}
 		}
-		month = cal.getTime().getMonth();
-		if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7
-				|| month == 9 || month == 11) {
-			end = 31;
-		} else {
-			end = 30;
-		}
+
+		end = detectLengthofMonth(month, year);
+
+		lblmonth.setText(detectMonth(month));
+		lblyear.setText(String.format("%d", year));
+
 		for (i = 0; i < end; i++) {
-			getChildren().add(
-					new EventMonthController(i + 1, detectDate(events, i + 1)));
+			getChildren().add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1)));
 		}
 	}
 
+	private int detectLengthofMonth(int month, int year) {
+		int end;
+		if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
+			end = 31;
+		} else if (month == 1) {
+			end = detectLeapYear(year);
+		} else {
+			end = 30;
+		}
+		return end;
+	}
+
+	private String detectMonth(int month) {
+		switch (month) {
+		case 0:
+			return "JANUARY";
+		case 1:
+			return "FEBUARY";
+		case 2:
+			return "MARCH";
+		case 3:
+			return "APRIL";
+		case 4:
+			return "MAY";
+		case 5:
+			return "JUNE";
+		case 6:
+			return "JULY";
+		case 7:
+			return "AUGUST";
+		case 8:
+			return "SEPTEMBER";
+		case 9:
+			return "OCTOBER";
+		case 10:
+			return "NOVEMBER";
+		case 11:
+			return "DECEMBER";
+		}
+		return null;
+	}
+
+	private int detectLeapYear(int year) {
+		if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+			return 29;
+		}
+		return 28;
+	}
+
+	@SuppressWarnings("deprecation")
 	public List<Event> detectDate(List<Event> events, int date) {
-		int i;
+		int i, flag=0;
 		List<Event> results = new ArrayList<Event>();
 
 		for (i = 0; i < events.size(); i++) {
-			if (events.get(i).getStartDateTime().getTime().getDate() == date) {
+			if (events.get(i).getStartDateTime() != null && events.get(i).getEndDateTime() != null) {
+				if (events.get(i).getEndDateTime().getTime().getDate() >= date
+								&& events.get(i).getStartDateTime().getTime().getDate() <= date) {
+					results.add(events.get(i));
+					flag++;
+				}
+			}
+			if(events.get(i).getStartDateTime().getTime().getDate() == date && flag==0){
 				results.add(events.get(i));
 			}
+			flag=0;
 		}
 		return results;
 	}
 
 	public ViewController(List<Event> events, int startIndex) {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(
-				VIEW_SCREEN_LAYOUT_FXML));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
 		try {
