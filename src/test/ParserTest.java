@@ -482,7 +482,7 @@ public class ParserTest {
 		ParsedCommand pc = parser.parse(userInput);
 		
 		assertEquals("subtask: ", "my first subtask!", pc.getTitle());
-		assertEquals("id: ", "1", pc.getId());
+		assertEquals("main id: ", "1", pc.getMainId());
 		
 		Calendar cal = pc.getStartDateTime();
 		int year = cal.get(Calendar.YEAR);
@@ -552,7 +552,7 @@ public class ParserTest {
 		ParsedCommand pc = parser.parse(userInput);
 		
 		assertEquals("subtask: ", "my first subtask!", pc.getTitle());
-		assertEquals("id: ", "1", pc.getId());
+		assertEquals("main id: ", "1", pc.getMainId());
 		
 		Calendar cal = pc.getStartDateTime();
 		int year = cal.get(Calendar.YEAR);
@@ -1004,7 +1004,7 @@ public class ParserTest {
 		
 		assertEquals("command: ", "ADD", pc.getCommand().toString());
 		assertEquals("title: ", "drink repeat", pc.getTitle());
-		assertEquals("id: ", "2", pc.getId());
+		assertEquals("main id: ", "2", pc.getMainId());
 		
 		Calendar cal = pc.getStartDateTime();
 		int year = cal.get(Calendar.YEAR);
@@ -1166,7 +1166,7 @@ public class ParserTest {
 		ParsedCommand pc = parser.parse(userInput);
 		
 		assertEquals("subtask: ", "drink repeat", pc.getTitle());
-		assertEquals("id: ", "2", pc.getId());
+		assertEquals("main id: ", "2", pc.getMainId());
 		
 		Calendar cal = pc.getStartDateTime();
 		int year = cal.get(Calendar.YEAR);
