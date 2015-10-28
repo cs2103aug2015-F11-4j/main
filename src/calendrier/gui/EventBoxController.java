@@ -42,8 +42,7 @@ public class EventBoxController extends StackPane {
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 
 	public EventBoxController(Event event, int position) {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(
-				SINGLE_EVENT_LAYOUT_FXML));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
 		try {
@@ -56,22 +55,27 @@ public class EventBoxController extends StackPane {
 	}
 
 	public void initEventValue(Event event, int position) {
+		Calendar cal = Calendar.getInstance();
 		IdMapper idMapper = IdMapper.getInstance();
 		idMapper.set(Integer.toString(position), checkExistValue(event.getId()));
 		lblEventID.setText(Integer.toString(position));
 //		lblEventID.setText(checkExistValue(event.getId()));
 		lblEventTitle.setText(checkExistValue(event.getTitle()));
-		lblEventDate.setText(constructEventDate(event.getStartDateTime(),
-				event.getEndDateTime()));
+		lblEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 
 		String strPriority = checkExistPriority(event.getPriority());
 		if (!strPriority.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
-			changeBorderColor(event.getPriority());
+			if ((cal.compareTo(event.getStartDateTime())<0)
+					|| (cal.compareTo(event.getEndDateTime())<0)) {
+				changeBorderColor(event.getPriority());
+			}
+			else{
+				eventGridPane.setStyle("-fx-border-color: gray;");
+			}
 		}
 
 		Image img;
-		if (checkExistValue(event.getGroups().toString()).equalsIgnoreCase(
-				VALUE_SHOW_EMPTY_DATA)) {
+		if (checkExistValue(event.getGroups().toString()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			img = new Image(DEFAULT_EVENT_TYPE_IMAGE);
 		} else {
 			String strGroup = convertGroupToString(event.getGroups());
@@ -91,20 +95,18 @@ public class EventBoxController extends StackPane {
 		}
 	}
 
-	private static String constructEventDate(Calendar startDateTime,
-			Calendar endDateTime) {
+	private static String constructEventDate(Calendar startDateTime, Calendar endDateTime) {
 
 		String startDate = checkExistDate(startDateTime);
 		String endDate = checkExistDate(endDateTime);
 
-		if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
-				&& !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			if (startDate.equalsIgnoreCase(endDate)) {
 				return startDate;
 			}
 			return startDate + " - " + endDate;
-		} else if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
-				&& endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		} else
+			if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			return startDate;
 		} else if (startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
 				&& !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
