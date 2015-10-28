@@ -15,7 +15,7 @@
 			<children>
 				<ImageView fitHeight="500" fitWidth="500" pickOnBounds="true"
 					preserveRatio="true" visible="true"
-					GridPane.columnIndex="0" GridPane.rowIndex="0">
+					GridPane.columnIndex="30" GridPane.rowIndex="0">
 					<image>
 						<Image url="/calendrier/resources/noEvent.png" />
 					</image>
