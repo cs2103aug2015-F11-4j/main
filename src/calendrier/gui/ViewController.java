@@ -26,8 +26,8 @@ public class ViewController extends FlowPane {
 
 	public ViewController(List<Event> events, int date, int month, int year) {
 		int i, end;
-		List<String> idList=new ArrayList<String>();
-		
+		List<String> idList = new ArrayList<String>();
+
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWMONTH_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -36,7 +36,7 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		Calendar cal = Calendar.getInstance();
 		cal.set(year, month, date);
 
@@ -61,16 +61,18 @@ public class ViewController extends FlowPane {
 
 		lblmonth.setText(detectMonth(month));
 		lblyear.setText(String.format("%d", year));
-		idList=setIdMapper(events);
+		idList = setIdMapper(events);
 		for (i = 0; i < end; i++) {
-			getChildren().add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month), idList));
+			getChildren()
+					.add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month, year), idList));
 		}
 	}
 
 	private List<String> setIdMapper(List<Event> events) {
 		IdMapper idMapper = IdMapper.getInstance();
 		List<String> idList = new ArrayList<String>();
-		for(int i=0;i<events.size();i++){
+		for (int i = 0; i < events.size(); i++) {
+			//System.out.println(events.get(i).toString());
 			idMapper.set(Integer.toString(i), events.get(i).getId());
 			idList.add(events.get(i).getId());
 		}
@@ -127,34 +129,70 @@ public class ViewController extends FlowPane {
 	}
 
 	@SuppressWarnings("deprecation")
-	public List<Event> detectDate(List<Event> events, int date, int month) {
-		int i, flag=0;
+	public List<Event> detectDate(List<Event> events, int date, int month, int year) {
+		int i;
 		List<Event> results = new ArrayList<Event>();
-		
+
 		for (i = 0; i < events.size(); i++) {
 			if (events.get(i).getStartDateTime() != null && events.get(i).getEndDateTime() != null) {
-				if (events.get(i).getEndDateTime().getTime().getDate() >= date
-								&& events.get(i).getStartDateTime().getTime().getDate() <= date) {
-					results.add(events.get(i));
-					flag++;
-				}else if(events.get(i).getEndDateTime().getTime().getDate() >= date &&
-						checkMonth(events.get(i).getStartDateTime().getTime().getMonth()+1)==month){
-					results.add(events.get(i));
-					flag++;
+				//Start and end in same year
+				if (events.get(i).getEndDateTime().getTime().getYear() + 1900 == year
+						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 == year) {
+					if ((events.get(i).getEndDateTime().getTime().getDate() >= date
+							&& events.get(i).getEndDateTime().getTime().getMonth() == month)
+							&& (events.get(i).getStartDateTime().getTime().getDate() <= date
+									&& events.get(i).getStartDateTime().getTime().getMonth() == month)) {
+						results.add(events.get(i));
+					} else if (events.get(i).getStartDateTime().getTime().getMonth() == month
+							&& events.get(i).getEndDateTime().getTime().getMonth() > month) {
+						if (events.get(i).getStartDateTime().getTime().getDate() <= date) {
+							results.add(events.get(i));
+						}
+					} else if (events.get(i).getStartDateTime().getTime().getMonth() < month
+							&& events.get(i).getEndDateTime().getTime().getMonth() == month) {
+						if (events.get(i).getEndDateTime().getTime().getDate() >= date) {
+							results.add(events.get(i));
+						}
+					}
+				} 
+				//Start year < end year, set for start year
+				else if (events.get(i).getEndDateTime().getTime().getYear() + 1900 > year
+						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 == year) {
+					if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
+						if (events.get(i).getStartDateTime().getTime().getDate() <= date) {
+							results.add(events.get(i));
+						}
+					} else if (events.get(i).getStartDateTime().getTime().getMonth() <= month) {
+						results.add(events.get(i));
+					}
+				}
+				//Start year < end year, set for end year
+				else if (events.get(i).getEndDateTime().getTime().getYear() + 1900 == year
+						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 < year) {
+					if (events.get(i).getEndDateTime().getTime().getMonth() == month) {
+						if (events.get(i).getEndDateTime().getTime().getDate() >= date) {
+							results.add(events.get(i));
+						}
+					} else if (events.get(i).getEndDateTime().getTime().getMonth() <= month) {
+						results.add(events.get(i));
+					}
+				}
+			} 
+			//for task without enddate
+			else {
+				if (events.get(i).getStartDateTime().getTime().getDate() == date) {
+					if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
+						results.add(events.get(i));
+					}
 				}
 			}
-			if(events.get(i).getStartDateTime().getTime().getDate() == date && flag==0){
-				if(events.get(i).getStartDateTime().getTime().getMonth()==month){
-					results.add(events.get(i));
-				}
-			}
-			flag=0;
 		}
 		return results;
 	}
-	public int checkMonth(int month){
-		if(month>11){
-			return 0;
+
+	public int checkMonth(int month) {
+		if (month > 11) {
+			return 12;
 		}
 		return month;
 	}
