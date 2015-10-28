@@ -212,14 +212,14 @@ public class MainLogic {
 		return isInThisMonth;
 	}
 
-	private void setMonthAnchor(int year, int month, Calendar thisMonth, Calendar nextMonth) {
+	public void setMonthAnchor(int year, int month, Calendar thisMonth, Calendar nextMonth) {
 		// Reset
 		thisMonth.setTimeInMillis(0);
 		nextMonth.setTimeInMillis(0);
 
 		// Set to start of month
-		thisMonth.set(year, getCurrentMonth(month), 0);
-		nextMonth.set(year, getNextMonth(month), 0);
+		thisMonth.set(year, getCurrentMonth(month), 1, 0, 0, 0);
+		nextMonth.set(getNextYear(year, month), getNextMonth(month), 1, 0, 0, 0);
 	}
 
 	private int getNextMonth(int month) {
@@ -228,6 +228,15 @@ public class MainLogic {
 
 	private int getCurrentMonth(int month) {
 		return (month + 11) % 12;
+	}
+	
+	private int getNextYear(int year, int month){
+		if(month == 12){
+			return year + 1;
+		}
+		else {
+			return year;
+		}
 	}
 
 	private boolean isWithinMonth(Calendar eventDateTime, Calendar thisMonth, Calendar nextMonth) {

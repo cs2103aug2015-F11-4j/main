@@ -14,7 +14,7 @@ import utils.IdMapper;
 import utils.Priority;
 
 public class MainLogicFullTest {
-
+	
 	@Test
 	public void executeShouldNotReturnNull() {
 		MainLogic mainLogic = new MainLogic();
