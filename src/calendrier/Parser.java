@@ -45,7 +45,12 @@ public class Parser {
 		} else if (userInput.equals("undelete")) {
 			// e.g. undelete
 			pc.setCommand(Command.UNDELETE);
-		} 
+			return pc;
+		} else if (userInput.equals("view month")) {
+			// e.g. view month
+			pc.setCommand(Command.VIEW_MONTH);
+			return pc;
+		}
 
 		Scanner lineTokens = new Scanner(userInput);
 		String command = lineTokens.next();
@@ -142,9 +147,11 @@ public class Parser {
 
 		} else if (command.equals("add")) {
 			pc.setCommand(Command.ADD);
+			
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
 			pc.setId(String.valueOf(numCurrentTask + 1));
 			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
+			
 
 			/*
 			 * Case 1: not a deadline No. of parameters: 12 e.g. add eat
@@ -176,8 +183,8 @@ public class Parser {
 				int toIndex = inputAfterCommand.indexOf("to");
 				int idIndex = inputAfterCommand.indexOf(" ", toIndex) + 1;
 				int idEndIndex = inputAfterCommand.indexOf(",", idIndex);
-				String id = inputAfterCommand.substring(idIndex, idEndIndex);
-				pc.setId(id);
+				String mainId = inputAfterCommand.substring(idIndex, idEndIndex);
+				pc.setMainId(mainId);
 			} else {
 				titleEndIndex = inputAfterCommand.indexOf(",");
 				if (titleEndIndex == -1) {
@@ -358,9 +365,7 @@ public class Parser {
 			// e.g. -a subtask drink repeat to 1, .......
 			
 			pc.setCommand(Command.ADD);
-			int numCurrentTask = ParsedCommand.getNumCurrentTask();
-			pc.setId(String.valueOf(numCurrentTask + 1));
-			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
+			
 			
 			int titleEndIndex, titleIndex;
 			String title;
@@ -376,9 +381,13 @@ public class Parser {
 				int toIndex = inputAfterCommand.indexOf("to");
 				int idIndex = inputAfterCommand.indexOf(" ", toIndex) + 1;
 				int idEndIndex = inputAfterCommand.indexOf(",", idIndex);
-				String id = inputAfterCommand.substring(idIndex, idEndIndex);
-				pc.setId(id);
+				String mainId = inputAfterCommand.substring(idIndex, idEndIndex);
+				pc.setMainId(mainId);
 			} else {
+				int numCurrentTask = ParsedCommand.getNumCurrentTask();
+				pc.setId(String.valueOf(numCurrentTask + 1));
+				ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
+				
 				titleEndIndex = inputAfterCommand.indexOf(",");
 				if (titleEndIndex == -1) {
 					title = inputAfterCommand.substring(0);
