@@ -1,6 +1,8 @@
 package calendrier.gui;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 
@@ -40,7 +42,8 @@ public class EventBoxController extends StackPane {
 	private static final int VALUE_GET_INDEX = 0;
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
-
+	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
+	
 	public EventBoxController(Event event, int position) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_EVENT_LAYOUT_FXML));
 		loader.setController(this);
@@ -96,7 +99,7 @@ public class EventBoxController extends StackPane {
 	}
 
 	private static String constructEventDate(Calendar startDateTime, Calendar endDateTime) {
-
+		
 		String startDate = checkExistDate(startDateTime);
 		String endDate = checkExistDate(endDateTime);
 
@@ -118,7 +121,7 @@ public class EventBoxController extends StackPane {
 
 	private static String checkExistDate(Calendar calendar) {
 		try {
-			return calendar.getTime().toString();
+			return dateFormat.format(calendar.getTime());
 		} catch (NullPointerException e) {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
