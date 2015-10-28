@@ -18,12 +18,16 @@
 			<children>
 				<Label fx:id="lblEventID" GridPane.rowIndex="0"
 					GridPane.columnIndex="0" wrapText="true" />
+				<Label fx:id="lblEventID1" GridPane.rowIndex="1"
+					GridPane.columnIndex="1" wrapText="true" />
 				<Label fx:id="lblEvent1" GridPane.rowIndex="1"
+					GridPane.columnIndex="2" wrapText="true" />
+				<Label fx:id="lblEventID2" GridPane.rowIndex="2"
 					GridPane.columnIndex="1" wrapText="true" />
 				<Label fx:id="lblEvent2" GridPane.rowIndex="2"
-					GridPane.columnIndex="1" wrapText="true" />
+					GridPane.columnIndex="2" wrapText="true" />
 				<Label fx:id="lblEvent3" GridPane.rowIndex="3"
-					GridPane.columnIndex="1" wrapText="true" />
+					GridPane.columnIndex="2" wrapText="true" />
 			</children>
 		</GridPane>
 	</children>

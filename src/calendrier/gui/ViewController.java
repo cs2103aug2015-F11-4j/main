@@ -59,7 +59,7 @@ public class ViewController extends FlowPane {
 
 		lblmonth.setText(detectMonth(month));
 		lblyear.setText(String.format("%d", year));
-
+		
 		for (i = 0; i < end; i++) {
 			getChildren().add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1)));
 		}

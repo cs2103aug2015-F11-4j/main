@@ -19,6 +19,10 @@ public class EventMonthController extends StackPane {
 	@FXML
 	private Label lblEventID;
 	@FXML
+	private Label lblEventID1;
+	@FXML
+	private Label lblEventID2;
+	@FXML
 	private Label lblEvent1;
 	@FXML
 	private Label lblEvent2;
@@ -45,7 +49,7 @@ public class EventMonthController extends StackPane {
 	public void initEventValue(int date, int month, int year, List<Event> events) {
 		
 		Calendar cal = Calendar.getInstance();
-		
+
 		lblEventID.setText(checkDate(date));
 		
 		if (events != null && events.size() > 0) {
