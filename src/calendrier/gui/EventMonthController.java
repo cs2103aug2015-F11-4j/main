@@ -33,7 +33,7 @@ public class EventMonthController extends StackPane {
 
 	private static final String VALUE_SHOW_EMPTY_DATA = " ";
 
-	public EventMonthController(int date, int month, int year, List<Event> events) {
+	public EventMonthController(int date, int month, int year, List<Event> events, List<String> idList) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -42,11 +42,11 @@ public class EventMonthController extends StackPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		initEventValue(date, month, year, events);
+		initEventValue(date, month, year, events, idList);
 	}
 
 	@SuppressWarnings("deprecation")
-	public void initEventValue(int date, int month, int year, List<Event> events) {
+	public void initEventValue(int date, int month, int year, List<Event> events, List<String> idList) {
 		
 		Calendar cal = Calendar.getInstance();
 
@@ -55,9 +55,11 @@ public class EventMonthController extends StackPane {
 		if (events != null && events.size() > 0) {
 			if (events.get(0).getTitle() != null) {
 				lblEvent1.setText(events.get(0).getTitle());
+				lblEventID1.setText(Integer.toString(computeFakeId(idList,events.get(0).getId())));
 				changeTextColor(events.get(0).getPriority(), lblEvent1);
 				if (events.size() > 1) {
 					lblEvent2.setText(events.get(1).getTitle());
+					lblEventID2.setText(Integer.toString(computeFakeId(idList,events.get(1).getId())));
 					changeTextColor(events.get(1).getPriority(), lblEvent2);
 					if (events.size() > 2) {
 						lblEvent3.setText("...");
@@ -84,7 +86,14 @@ public class EventMonthController extends StackPane {
 			lblEvent2.setStyle("-fx-text-fill: gray;");
 		}
 	}
-	
+	private int computeFakeId(List<String> idList, String id){
+		for(int i=0;i<idList.size();i++){
+			if(idList.get(i).equals(id)){
+				return i;
+			}
+		}
+		return -1;
+	}
 	private String checkDate(int date){
 		if(date!=0){
 			return String.format("%d", date);

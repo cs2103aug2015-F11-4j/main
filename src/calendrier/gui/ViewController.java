@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import utils.Event;
+import utils.IdMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -25,6 +26,7 @@ public class ViewController extends FlowPane {
 
 	public ViewController(List<Event> events, int date, int month, int year) {
 		int i, end;
+		List<String> idList=new ArrayList<String>();
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWMONTH_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
@@ -50,7 +52,7 @@ public class ViewController extends FlowPane {
 		if (day != 7) {
 			date = 0;
 			while (date < day) {
-				getChildren().add(new EventMonthController(0, month, year, null));
+				getChildren().add(new EventMonthController(0, month, year, null, null));
 				date++;
 			}
 		}
@@ -59,10 +61,20 @@ public class ViewController extends FlowPane {
 
 		lblmonth.setText(detectMonth(month));
 		lblyear.setText(String.format("%d", year));
-		
+		idList=setIdMapper(events);
 		for (i = 0; i < end; i++) {
-			getChildren().add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month)));
+			getChildren().add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month), idList));
 		}
+	}
+
+	private List<String> setIdMapper(List<Event> events) {
+		IdMapper idMapper = IdMapper.getInstance();
+		List<String> idList = new ArrayList<String>();
+		for(int i=0;i<events.size();i++){
+			idMapper.set(Integer.toString(i), events.get(i).getId());
+			idList.add(events.get(i).getId());
+		}
+		return idList;
 	}
 
 	private int detectLengthofMonth(int month, int year) {
