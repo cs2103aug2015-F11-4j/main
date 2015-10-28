@@ -369,16 +369,24 @@ public class UserInterface extends Application implements OnRemindListener {
 			if (setStorage) {
 				setMessage = checkUpdate();
 				currentEventState = VALUE_GET_ALL_EVENTS;
-				addView(this);
+				if(currentScreenState != VALUE_VIEWMONTH_SCREEN){
+					addView(this);
+				}else{
+					viewMonth(this, currentMonth, currentYear);
+				}
 				break;
 			}
 		case DELETE:
 			if (setStorage) {
 				setMessage = checkDeleting();
 				currentEventState = VALUE_GET_ALL_EVENTS;
-				addView(this);
-				if (eventSize <= 8) {
-					getPreviousPage(this);
+				if(currentScreenState != VALUE_VIEWMONTH_SCREEN){
+					addView(this);
+					if (eventSize <= 8) {
+						getPreviousPage(this);
+					}
+				}else{
+					viewMonth(this, currentMonth, currentYear);
 				}
 				break;
 			}
@@ -386,14 +394,22 @@ public class UserInterface extends Application implements OnRemindListener {
 			if (setStorage) {
 				setMessage = checkUndo();
 				currentEventState = VALUE_GET_ALL_EVENTS;
-				addView(this);
+				if(currentScreenState != VALUE_VIEWMONTH_SCREEN){
+					addView(this);
+				}else{
+					viewMonth(this, currentMonth, currentYear);
+				}
 				break;
 			}
 		case UNDELETE:
 			if (setStorage) {
 				setMessage = checkUndelete();
 				currentEventState = VALUE_GET_ALL_EVENTS;
-				addView(this);
+				if(currentScreenState != VALUE_VIEWMONTH_SCREEN){
+					addView(this);
+				}else{
+					viewMonth(this, currentMonth, currentYear);
+				}
 				break;
 			}
 		case EXIT:
@@ -492,7 +508,11 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private String checkEventExist() {
 		if (mainLogic.getEvent().getId() == null) {
-			addView(this);
+			if(currentScreenState != VALUE_VIEWMONTH_SCREEN){
+				addView(this);
+			} else {
+				viewMonth(this, currentMonth, currentYear);
+			}
 			return MESSAGE_FAIL_VIEW_DETAIL;
 		}
 		addEventView(this);
