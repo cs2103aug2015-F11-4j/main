@@ -98,7 +98,7 @@ public class EventMonthController extends StackPane {
 		} else if (priority == Priority.HIGH) {
 			lblEvent.setStyle("-fx-text-fill: #FFA07A;");
 		} else if (priority == Priority.MEDIUM) {
-			lblEvent.setStyle("-fx-text-fill: #FFFF00;");
+			lblEvent.setStyle("-fx-text-fill: gold;");
 		} else if (priority == Priority.LOW) {
 			lblEvent.setStyle("-fx-text-fill: #00FF7F;");
 		} else if (priority == Priority.VERY_LOW) {
