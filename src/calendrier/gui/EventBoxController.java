@@ -67,15 +67,7 @@ public class EventBoxController extends StackPane {
 		lblEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 
 		String strPriority = checkExistPriority(event.getPriority());
-		if (!strPriority.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
-			if ((cal.compareTo(event.getStartDateTime())<0)
-					|| (cal.compareTo(event.getEndDateTime())<0)) {
-				changeBorderColor(event.getPriority());
-			}
-			else{
-				eventGridPane.setStyle("-fx-border-color: gray;");
-			}
-		}
+		changeBoarderColour(event, cal, strPriority);
 
 		Image img;
 		if (checkExistValue(event.getGroups().toString()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
@@ -88,6 +80,26 @@ public class EventBoxController extends StackPane {
 		}
 		imgType.setImage(img);
 
+	}
+
+	private void changeBoarderColour(Event event, Calendar cal, String strPriority) {
+		if (!strPriority.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+			if ((event.getStartDateTime()!=null && (cal.compareTo(event.getStartDateTime())<0))
+					|| (event.getEndDateTime()!=null && (cal.compareTo(event.getEndDateTime())<0))) {
+				changeBorderColor(event.getPriority());
+			} else if (event.getStartDateTime()==null && event.getEndDateTime()==null) {
+				changeBorderColor(event.getPriority());
+			}
+			else{
+				eventGridPane.setStyle("-fx-border-color: gray;");
+			}
+		}
+		else{
+			if ((event.getStartDateTime()!=null && (cal.compareTo(event.getStartDateTime())>0))
+					||(event.getEndDateTime()!=null && (cal.compareTo(event.getEndDateTime())>0))) {
+				eventGridPane.setStyle("-fx-border-color: gray;");
+			}
+		}
 	}
 
 	public String checkExistValue(String parseInValue) {
