@@ -25,7 +25,7 @@ public class ViewController extends FlowPane {
 
 	public ViewController(List<Event> events, int date, int month, int year) {
 		int i, end;
-	
+		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWMONTH_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -61,7 +61,7 @@ public class ViewController extends FlowPane {
 		lblyear.setText(String.format("%d", year));
 		
 		for (i = 0; i < end; i++) {
-			getChildren().add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1)));
+			getChildren().add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month)));
 		}
 	}
 
@@ -115,24 +115,36 @@ public class ViewController extends FlowPane {
 	}
 
 	@SuppressWarnings("deprecation")
-	public List<Event> detectDate(List<Event> events, int date) {
+	public List<Event> detectDate(List<Event> events, int date, int month) {
 		int i, flag=0;
 		List<Event> results = new ArrayList<Event>();
-
+		
 		for (i = 0; i < events.size(); i++) {
 			if (events.get(i).getStartDateTime() != null && events.get(i).getEndDateTime() != null) {
 				if (events.get(i).getEndDateTime().getTime().getDate() >= date
 								&& events.get(i).getStartDateTime().getTime().getDate() <= date) {
 					results.add(events.get(i));
 					flag++;
+				}else if(events.get(i).getEndDateTime().getTime().getDate() >= date &&
+						checkMonth(events.get(i).getStartDateTime().getTime().getMonth()+1)==month){
+					results.add(events.get(i));
+					flag++;
 				}
 			}
 			if(events.get(i).getStartDateTime().getTime().getDate() == date && flag==0){
-				results.add(events.get(i));
+				if(events.get(i).getStartDateTime().getTime().getMonth()==month){
+					results.add(events.get(i));
+				}
 			}
 			flag=0;
 		}
 		return results;
+	}
+	public int checkMonth(int month){
+		if(month>11){
+			return 0;
+		}
+		return month;
 	}
 
 	public ViewController(List<Event> events, int startIndex) {
