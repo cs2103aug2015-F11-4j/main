@@ -77,6 +77,7 @@ public class ReminderManager implements Runnable {
 	 *            event which to be reminded
 	 */
 	private void sendReminder(Event event) {
+//		System.out.println(event.getTitle());
 		if (this.onRemindListener != null) {
 			this.onRemindListener.onRemind(event);
 		}

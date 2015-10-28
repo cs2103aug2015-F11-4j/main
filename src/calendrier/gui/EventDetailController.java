@@ -52,6 +52,8 @@ public class EventDetailController extends StackPane {
 	private static final int VALUE_GET_INDEX = 0;
 	
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
+	private static final String VALUE_SHOW_NULL = "null, ";
+	private static final String VALUE_ADD_COMMA = ", ";
 	
 	public EventDetailController(Event event) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(EVENT_DETAIL_LAYOUT_FXML));
@@ -71,7 +73,7 @@ public class EventDetailController extends StackPane {
 		lblTitle.setText(checkExistValue(event.getTitle()));
 		lblDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 		lblLocation.setText(checkExistValue(event.getLocation()));
-		lblReminder.setText(checkExistDate(event.getReminder()));
+		lblReminder.setText(checkExistReminder(event.getReminder()));
 		lblNotes.setText(checkExistValue(event.getNotes()));
 		lblPriority.setText(checkExistPriority(event.getPriority()));
 		lblRecurrence.setText(checkExistRecurrence(event.getRecurrence()));
@@ -94,9 +96,23 @@ public class EventDetailController extends StackPane {
 		imgType.setImage(img);
 	}
 	
+	private static String checkExistReminder(Collection<Calendar> reminders) {
+//		String strReminder = "";
+//		if(reminders.size() != VALUE_EMPTY_SIZE) {
+//			for (String str : reminders) {
+//				strGrp += str + VALUE_ADD_COMMA;	
+//			}
+//		}
+//		
+//		if(strGrp.equalsIgnoreCase(VALUE_SHOW_NULL)) {
+//			return VALUE_SHOW_EMPTY_DATA;
+//		}
+//		
+//		return strGrp;
+		return "";
+	}
+	
 	private static String constructEventDate(Calendar startDateTime, Calendar endDateTime) {
-		
-		
 		String startDate = checkExistDate(startDateTime);
 		String endDate = checkExistDate(endDateTime);
 		
@@ -166,11 +182,11 @@ public class EventDetailController extends StackPane {
 		String strGrp = "";
 		if(groups.size() != VALUE_EMPTY_SIZE) {
 			for (String str : groups) {
-				strGrp += str + ", ";	
+				strGrp += str + VALUE_ADD_COMMA;	
 			}
 		}
 		
-		if(strGrp.equalsIgnoreCase("null, ")) {
+		if(strGrp.equalsIgnoreCase(VALUE_SHOW_NULL)) {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 		

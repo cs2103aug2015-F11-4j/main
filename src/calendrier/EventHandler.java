@@ -1,12 +1,15 @@
 package calendrier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
 
 import utils.Command;
 import utils.Event;
+import utils.IdMapper;
+import utils.OnRemindListener;
 import utils.ParsedCommand;
 
 /**
@@ -23,13 +26,16 @@ public class EventHandler {
 	ArrayList<Event> events = new ArrayList<>();
 	ArrayList<Event> initialEvents = new ArrayList<>();
 	EventGenerator generator;
+	ReminderManager reminders;
 	Event previousEvent;
 	Event beforeUpdate;
 	Logger log;
+	
 
 	public EventHandler() {
 		manage = new StorageManager();
 		generator = new EventGenerator();
+		reminders = new ReminderManager();
 		previousEvent = new Event();
 		beforeUpdate = new Event();
 		log = Logger.getLogger(EventHandler.class.getName());
@@ -38,6 +44,10 @@ public class EventHandler {
 
 	public void injectStorageManager(StorageManager manager) {
 		this.manage = manager;
+	}
+	
+	public void setOnRemindListener(OnRemindListener listen) {
+		reminders.setOnRemindListener(listen);
 	}
 
 	/**
@@ -76,7 +86,6 @@ public class EventHandler {
 			undo();
 			eventsReturned.addAll(events);
 		}
-
 		else if (pc.getCommand() == Command.SEARCH) {
 			eventsReturned = search(pc);
 
@@ -118,7 +127,7 @@ public class EventHandler {
 	public Event view(ParsedCommand pc) {
 		Event eventToBeViewed = new Event();
 		for (Event e : events) {
-			if (e.getId().equals(pc.getId())) {
+			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
 				eventToBeViewed = e;
 			}
 		}
@@ -142,7 +151,7 @@ public class EventHandler {
 			for (Event e : initialEvents) {
 				events.add(e);
 			}
-			
+
 		} else {
 			// regular undo of history
 			history.pop();
@@ -162,6 +171,7 @@ public class EventHandler {
 			throw new Exception("ERROR - TIME CONFLICT");
 		} else {
 			events.add(event);
+			reminders.addReminder(event);
 			manage.save(events);
 			saveHistory();
 		}
@@ -184,13 +194,15 @@ public class EventHandler {
 	 */
 	public Event remove(ParsedCommand pc) {
 		Event eventToBeRemoved = new Event();
+		
 		for (Event e : events) {
-			if (e.getId().equals(pc.getId())) {
+			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
 				eventToBeRemoved = e;
 				break;
 			}
 		}
 		events.remove(eventToBeRemoved);
+		reminders.removeReminder(eventToBeRemoved);
 		saveHistory();
 		manage.save(events);
 		return eventToBeRemoved;
@@ -201,52 +213,60 @@ public class EventHandler {
 	 * 
 	 * @param pc
 	 * @return eventToBeUpdated
+	 * @throws Exception
 	 */
-	public Event update(ParsedCommand pc) {
+	public Event update(ParsedCommand pc) throws Exception {
+		String Id  = IdMapper.getInstance().getActualId(pc.getId());
 		Event newEvent = generator.createEvent(pc);
-		Event oldEvent = new Event();
+		newEvent.setId(Id);
+		Event oldEvent = null;
 
 		// find event to be updated
 		for (Event e : events) {
-			if (e.getId().equals(pc.getId())) {
+			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
 				oldEvent = e;
 				events.remove(e);
 				break;
 			}
 		}
-		
-		// ensure updatedEvent contains all relevant info from oldEvent
-		if (newEvent.getTitle() == null) {
-			newEvent.setTitle(oldEvent.getTitle());
-		}
-		if (newEvent.getStartDateTime() == null) {
-			newEvent.setStartDateTime(oldEvent.getStartDateTime());
-		}
-		if (newEvent.getEndDateTime() == null) {
-			newEvent.setEndDateTime(oldEvent.getEndDateTime());
-		}
-		if (newEvent.getPriority() == null) {
-			newEvent.setPriority(oldEvent.getPriority());
-		}
-		if (newEvent.getLocation() == null) {
-			newEvent.setLocation(oldEvent.getLocation());
-		}
-		if (newEvent.getNotes() == null) {
-			newEvent.setNotes(oldEvent.getNotes());
-		}
-		if (newEvent.getReminder() == null) {
-			newEvent.setReminder(oldEvent.getReminder());
-		}
-		if (newEvent.getGroups().isEmpty()) {
-			for (String s : newEvent.getGroups()) {
-				newEvent.addGroup(s);
+		if (oldEvent == null) {
+			throw new Exception("ERROR - That event does not exist!");
+
+		} else {
+			// ensure updatedEvent contains all relevant info from oldEvent
+			if (newEvent.getTitle() == null) {
+				newEvent.setTitle(oldEvent.getTitle());
 			}
+			if (newEvent.getStartDateTime() == null) {
+				newEvent.setStartDateTime(oldEvent.getStartDateTime());
+			}
+			if (newEvent.getEndDateTime() == null) {
+				newEvent.setEndDateTime(oldEvent.getEndDateTime());
+			}
+			if (newEvent.getPriority() == null) {
+				newEvent.setPriority(oldEvent.getPriority());
+			}
+			if (newEvent.getLocation() == null) {
+				newEvent.setLocation(oldEvent.getLocation());
+			}
+			if (newEvent.getNotes() == null) {
+				newEvent.setNotes(oldEvent.getNotes());
+			}
+			if (newEvent.getReminder() == null) {
+				newEvent.setReminder(oldEvent.getReminder());
+			}
+			if (newEvent.getGroups().isEmpty()) {
+				for (String s : newEvent.getGroups()) {
+					newEvent.addGroup(s);
+				}
+			}
+			beforeUpdate = oldEvent;
+			events.add(newEvent);
+			reminders.updateReminder(newEvent);
+			saveHistory();
+			manage.save(events);
+			return newEvent;
 		}
-		beforeUpdate = oldEvent;
-		events.add(newEvent);
-		saveHistory();
-		manage.save(events);
-		return newEvent;
 	}
 
 	/**
@@ -279,13 +299,17 @@ public class EventHandler {
 		return conflict;
 	}
 
-
 	/**
 	 * Returns the list of all events
 	 * 
 	 * @return events
 	 */
 	public List<Event> getAllEvents() {
+		return events;
+	}
+	
+	public List<Event> sortEvents() {
+		Collections.sort(events);
 		return events;
 	}
 }

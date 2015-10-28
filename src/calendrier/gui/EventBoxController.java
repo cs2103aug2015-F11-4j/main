@@ -1,10 +1,13 @@
 package calendrier.gui;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 
 import utils.Event;
+import utils.IdMapper;
 import utils.Priority;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,10 +42,10 @@ public class EventBoxController extends StackPane {
 	private static final int VALUE_GET_INDEX = 0;
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
-
-	public EventBoxController(Event event) {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(
-				SINGLE_EVENT_LAYOUT_FXML));
+	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
+	
+	public EventBoxController(Event event, int position) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
 		try {
@@ -51,23 +54,23 @@ public class EventBoxController extends StackPane {
 			e.printStackTrace();
 		}
 
-		initEventValue(event);
+		initEventValue(event, position);
 	}
 
-	public void initEventValue(Event event) {
-		lblEventID.setText(checkExistValue(event.getId()));
+	public void initEventValue(Event event, int position) {
+		Calendar cal = Calendar.getInstance();
+		IdMapper idMapper = IdMapper.getInstance();
+		idMapper.set(Integer.toString(position), checkExistValue(event.getId()));
+		lblEventID.setText(Integer.toString(position));
+//		lblEventID.setText(checkExistValue(event.getId()));
 		lblEventTitle.setText(checkExistValue(event.getTitle()));
-		lblEventDate.setText(constructEventDate(event.getStartDateTime(),
-				event.getEndDateTime()));
+		lblEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 
 		String strPriority = checkExistPriority(event.getPriority());
-		if (!strPriority.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
-			changeBorderColor(event.getPriority());
-		}
+		changeBoarderColour(event, cal, strPriority);
 
 		Image img;
-		if (checkExistValue(event.getGroups().toString()).equalsIgnoreCase(
-				VALUE_SHOW_EMPTY_DATA)) {
+		if (checkExistValue(event.getGroups().toString()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			img = new Image(DEFAULT_EVENT_TYPE_IMAGE);
 		} else {
 			String strGroup = convertGroupToString(event.getGroups());
@@ -79,6 +82,26 @@ public class EventBoxController extends StackPane {
 
 	}
 
+	private void changeBoarderColour(Event event, Calendar cal, String strPriority) {
+		if (!strPriority.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+			if ((event.getStartDateTime()!=null && (cal.compareTo(event.getStartDateTime())<0))
+					|| (event.getEndDateTime()!=null && (cal.compareTo(event.getEndDateTime())<0))) {
+				changeBorderColor(event.getPriority());
+			} else if (event.getStartDateTime()==null && event.getEndDateTime()==null) {
+				changeBorderColor(event.getPriority());
+			}
+			else{
+				eventGridPane.setStyle("-fx-border-color: gray;");
+			}
+		}
+		else{
+			if ((event.getStartDateTime()!=null && (cal.compareTo(event.getStartDateTime())>0))
+					||(event.getEndDateTime()!=null && (cal.compareTo(event.getEndDateTime())>0))) {
+				eventGridPane.setStyle("-fx-border-color: gray;");
+			}
+		}
+	}
+
 	public String checkExistValue(String parseInValue) {
 		try {
 			return parseInValue;
@@ -87,20 +110,18 @@ public class EventBoxController extends StackPane {
 		}
 	}
 
-	private static String constructEventDate(Calendar startDateTime,
-			Calendar endDateTime) {
-
+	private static String constructEventDate(Calendar startDateTime, Calendar endDateTime) {
+		
 		String startDate = checkExistDate(startDateTime);
 		String endDate = checkExistDate(endDateTime);
 
-		if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
-				&& !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			if (startDate.equalsIgnoreCase(endDate)) {
 				return startDate;
 			}
 			return startDate + " - " + endDate;
-		} else if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
-				&& endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		} else
+			if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			return startDate;
 		} else if (startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
 				&& !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
@@ -112,7 +133,7 @@ public class EventBoxController extends StackPane {
 
 	private static String checkExistDate(Calendar calendar) {
 		try {
-			return calendar.getTime().toString();
+			return dateFormat.format(calendar.getTime());
 		} catch (NullPointerException e) {
 			return VALUE_SHOW_EMPTY_DATA;
 		}

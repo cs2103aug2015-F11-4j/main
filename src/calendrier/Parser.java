@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 import utils.Command;
 import utils.ParsedCommand;
@@ -149,7 +150,8 @@ public class Parser {
 			pc.setCommand(Command.ADD);
 			
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
-			pc.setId(String.valueOf(numCurrentTask + 1));
+//			pc.setId(String.valueOf(numCurrentTask + 1));
+			pc.setId(UUID.randomUUID().toString());
 			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
 			
 
