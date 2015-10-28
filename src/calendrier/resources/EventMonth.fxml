@@ -17,7 +17,7 @@
 			prefHeight="100.0" maxWidth="160.0" maxHeight="100.0">
 			<children>
 				<Label fx:id="lblEventID" GridPane.rowIndex="0"
-					GridPane.columnIndex="0" wrapText="true" />
+					GridPane.columnIndex="0" GridPane.columnSpan="3" wrapText="true"/>
 				<Label fx:id="lblEventID1" GridPane.rowIndex="1"
 					GridPane.columnIndex="1" wrapText="true" />
 				<Label fx:id="lblEvent1" GridPane.rowIndex="1"
