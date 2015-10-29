@@ -208,8 +208,26 @@ public class MainLogic {
 		else if (isWithinMonth(event.getEndDateTime(), thisMonth, nextMonth)) {
 			isInThisMonth = true;
 		}
+		// Event spans through entire month
+		else if (coversMonth(event, thisMonth, nextMonth)){
+			isInThisMonth = true;
+		}
+		
 
 		return isInThisMonth;
+	}
+
+	private boolean coversMonth(Event event, Calendar thisMonth, Calendar nextMonth) {
+		boolean coveringMonth = false;
+		Calendar start = event.getStartDateTime();
+		Calendar end = event.getEndDateTime();
+		
+		if(start != null && end != null){
+			boolean startBefore = start.before(thisMonth);
+			boolean endAfter = end.after(nextMonth);
+			coveringMonth = startBefore && endAfter;
+		}
+		return coveringMonth;
 	}
 
 	public void setMonthAnchor(int year, int month, Calendar thisMonth, Calendar nextMonth) {

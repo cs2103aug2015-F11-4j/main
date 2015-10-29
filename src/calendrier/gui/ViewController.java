@@ -138,6 +138,7 @@ public class ViewController extends FlowPane {
 				//Start and end in same year
 				if (events.get(i).getEndDateTime().getTime().getYear() + 1900 == year
 						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 == year) {
+					
 					if ((events.get(i).getEndDateTime().getTime().getDate() >= date
 							&& events.get(i).getEndDateTime().getTime().getMonth() == month)
 							&& (events.get(i).getStartDateTime().getTime().getDate() <= date
@@ -153,6 +154,9 @@ public class ViewController extends FlowPane {
 						if (events.get(i).getEndDateTime().getTime().getDate() >= date) {
 							results.add(events.get(i));
 						}
+					} else if (events.get(i).getStartDateTime().getTime().getMonth() < month
+							&& events.get(i).getEndDateTime().getTime().getMonth() > month) {
+						results.add(events.get(i));
 					}
 				} 
 				//Start year < end year, set for start year
@@ -162,9 +166,9 @@ public class ViewController extends FlowPane {
 						if (events.get(i).getStartDateTime().getTime().getDate() <= date) {
 							results.add(events.get(i));
 						}
-					} else if (events.get(i).getStartDateTime().getTime().getMonth() <= month) {
+					} else if (events.get(i).getStartDateTime().getTime().getMonth() < month) {
 						results.add(events.get(i));
-					}
+					} 
 				}
 				//Start year < end year, set for end year
 				else if (events.get(i).getEndDateTime().getTime().getYear() + 1900 == year
@@ -173,7 +177,7 @@ public class ViewController extends FlowPane {
 						if (events.get(i).getEndDateTime().getTime().getDate() >= date) {
 							results.add(events.get(i));
 						}
-					} else if (events.get(i).getEndDateTime().getTime().getMonth() <= month) {
+					} else if (events.get(i).getEndDateTime().getTime().getMonth() > month) {
 						results.add(events.get(i));
 					}
 				}
