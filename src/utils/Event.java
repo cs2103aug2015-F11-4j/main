@@ -14,6 +14,7 @@ public class Event implements Comparable {
 	private static final String DATETIME_FORMAT = "%d/%d/%d-%d:%d";
 
 	private static final String ID_STRING = "id: %s, ";
+	private static final String MAIN_ID_STRING = "mainId: %s, ";
 	private static final String TITLE_STRING = "title: %s, ";
 	private static final String STARTDATETIME_STRING = "startDateTime: %s, ";
 	private static final String ENDDATETIME_STRING = "endDateTime: %s, ";
@@ -26,6 +27,7 @@ public class Event implements Comparable {
 	private static final String SUBTASKS_STRING = "subtasks: %s, ";
 
 	private static final String ID_REGEX = "id: (.+?),";
+	private static final String MAIN_ID_REGEX = "mainId: (.+?),";
 	private static final String TITLE_REGEX = "title: (.+?),";
 	private static final String STARTDATETIME_REGEX = "startDateTime: (.+?),";
 	private static final String ENDDATETIME_REGEX = "endDateTime: (.+?),";
@@ -44,6 +46,7 @@ public class Event implements Comparable {
 	private Priority priority;
 	private String location;
 	private String notes;
+	private String mainId;
 	private List<Calendar> reminder;
 	private List<String> groups;
 	private Recurrence recurrence;
@@ -57,6 +60,7 @@ public class Event implements Comparable {
 		this.priority = null;
 		this.location = null;
 		this.notes = null;
+		this.mainId = null;
 		this.reminder = new ArrayList<>();
 		this.groups = new ArrayList<String>();
 		this.recurrence = null;
@@ -65,6 +69,7 @@ public class Event implements Comparable {
 
 	public void fromString(String eventString) {
 		parseId(eventString);
+		parseMainId(eventString);
 		parseTitle(eventString);
 		parseStartDateTime(eventString);
 		parseEndDateTime(eventString);
@@ -81,6 +86,7 @@ public class Event implements Comparable {
 		String eventString = "";
 
 		eventString = serializeId(eventString);
+		eventString = serializeMainId(eventString);
 		eventString = serializeTitle(eventString);
 		eventString = serializeStartDateTime(eventString);
 		eventString = serializeEndDateTime(eventString);
@@ -98,14 +104,14 @@ public class Event implements Comparable {
 	public String toTimestamp(Calendar calendar) {
 		String timestamp = null;
 
-		if(calendar != null){
+		if (calendar != null) {
 			timestamp = "";
 			int year = calendar.get(Calendar.YEAR);
 			int month = calendar.get(Calendar.MONTH) + 1;
 			int date = calendar.get(Calendar.DATE);
 			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			int minute = calendar.get(Calendar.MINUTE);
-	
+
 			timestamp = String.format(DATETIME_FORMAT, year, month, date, hour, minute);
 		}
 		return timestamp;
@@ -173,6 +179,14 @@ public class Event implements Comparable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getMainId() {
+		return mainId;
+	}
+
+	public void setMainId(String id) {
+		this.mainId = id;
 	}
 
 	public String getTitle() {
@@ -255,6 +269,10 @@ public class Event implements Comparable {
 		this.reminder.remove(position);
 	}
 
+	public void removeAllReminders() {
+		this.reminder.clear();
+	}
+
 	public List<String> getReminderList() {
 		List<String> reminderList = new ArrayList<>();
 		for (int i = 0; i < this.reminder.size(); i++) {
@@ -288,12 +306,39 @@ public class Event implements Comparable {
 		}
 	}
 
+	public void removeAllGroups() {
+		this.groups.clear();
+	}
+
 	public List<String> getSubtasks() {
 		return subtasks;
 	}
 
-	public void addSubtask(String subtask) {
-		this.subtasks.add(subtask);
+	public void addSubtask(Event event) {
+		this.subtasks.add(event.getId());
+		event.setMainId(this.getId());
+	}
+
+	public void addSubtask(String id) {
+		this.subtasks.add(id);
+	}
+
+	public void removeSubtask(String id) {
+		int removeIndex = -1;
+		for (int i = 0; i < this.subtasks.size(); i++) {
+			if (this.subtasks.get(i).equals(id)) {
+				removeIndex = i;
+				break;
+			}
+		}
+
+		if (removeIndex != -1) {
+			this.subtasks.remove(removeIndex);
+		}
+	}
+
+	public void removeAllSubtasks() {
+		this.subtasks.clear();
 	}
 
 	public Recurrence getRecurrence() {
@@ -566,51 +611,73 @@ public class Event implements Comparable {
 		}
 	}
 
+	private String serializeMainId(String eventString) {
+		eventString += String.format(MAIN_ID_STRING, (this.mainId != null) ? this.mainId : NULL);
+		return eventString;
+	}
+
+	private void parseMainId(String eventString) {
+		Pattern pattern;
+		Matcher matcher;
+		// Main ID
+		pattern = Pattern.compile(MAIN_ID_REGEX);
+		matcher = pattern.matcher(eventString);
+		if (matcher.find()) {
+			String id = matcher.group(1);
+			if (id != null && id.length() > 0) {
+				if (id.equals(NULL)) {
+					id = null;
+				}
+				this.setMainId(id);
+			}
+		}
+	}
+
 	@Override
 	public int compareTo(Object arg0) {
-		Event compare = (Event)arg0;
+		Event compare = (Event) arg0;
 		Priority priorityToCompare = compare.getPriority();
-		
+
 		int result = -99;
-		switch (priority){
-			case VERY_LOW:
-				if (priorityToCompare == utils.Priority.VERY_LOW) {
-					result = 0;
-				} else {
-					result = 1;
-				}
-				break;
-			case LOW:
-				if (priorityToCompare == utils.Priority.LOW) {
-					result = 0;
-				} else if (priorityToCompare == utils.Priority.VERY_LOW) {
-					result = -1;
-				} else {
-					result = 1;
-				}
-				break;
-			case MEDIUM:
-				if (priorityToCompare == utils.Priority.MEDIUM) {
-					result = 0;
-				} else if (priorityToCompare == utils.Priority.VERY_LOW || priorityToCompare == utils.Priority.LOW) {
-					result = -1;
-				} else {
-					result = 1;
-				}
-			case HIGH:
-				if (priorityToCompare == utils.Priority.HIGH) {
-					result = 0;
-				} else if (priorityToCompare == utils.Priority.VERY_HIGH) {
-					result = 1;
-				} else {
-					result = -1;
-				}
-			case VERY_HIGH:
-				if (priorityToCompare == utils.Priority.VERY_HIGH) {
-					result = 0;
-				} else {
-					result = -1;
-				}
+		switch (priority) {
+		case VERY_LOW:
+			if (priorityToCompare == utils.Priority.VERY_LOW) {
+				result = 0;
+			} else {
+				result = 1;
+			}
+			break;
+		case LOW:
+			if (priorityToCompare == utils.Priority.LOW) {
+				result = 0;
+			} else if (priorityToCompare == utils.Priority.VERY_LOW) {
+				result = -1;
+			} else {
+				result = 1;
+			}
+			break;
+		case MEDIUM:
+			if (priorityToCompare == utils.Priority.MEDIUM) {
+				result = 0;
+			} else if (priorityToCompare == utils.Priority.VERY_LOW || priorityToCompare == utils.Priority.LOW) {
+				result = -1;
+			} else {
+				result = 1;
+			}
+		case HIGH:
+			if (priorityToCompare == utils.Priority.HIGH) {
+				result = 0;
+			} else if (priorityToCompare == utils.Priority.VERY_HIGH) {
+				result = 1;
+			} else {
+				result = -1;
+			}
+		case VERY_HIGH:
+			if (priorityToCompare == utils.Priority.VERY_HIGH) {
+				result = 0;
+			} else {
+				result = -1;
+			}
 		}
 		return result;
 	}
