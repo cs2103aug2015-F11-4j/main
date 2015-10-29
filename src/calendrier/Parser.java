@@ -547,16 +547,19 @@ public class Parser {
 	public void determineDeadlineAndSettle(ParsedCommand pc, String inputAfterCommand) {
 		// Check if it is deadline
 		if (!inputAfterCommand.contains("deadlinedate") && !inputAfterCommand.contains("-dd")) {
-			if (inputAfterCommand.contains("startdate")) {
+			if (inputAfterCommand.contains("startdate") || inputAfterCommand.contains("enddate")) {
 				noDeadlineNormal(pc, inputAfterCommand);
-			} else if (inputAfterCommand.contains("-sd")) {
+			} else if (inputAfterCommand.contains("-sd") ||
+					inputAfterCommand.contains("-st")) {
 				noDeadlineShortened(pc, inputAfterCommand);
 			}
 			
 		} else {
-			if (inputAfterCommand.contains("deadlinedate")) {
+			if (inputAfterCommand.contains("deadlinedate") ||
+					inputAfterCommand.contains("deadlinetime")) {
 				deadlineAndSettleNormal(pc, inputAfterCommand);
-			} else if (inputAfterCommand.contains("-dd")) {
+			} else if (inputAfterCommand.contains("-dd") ||
+					inputAfterCommand.contains("-dt")) {
 				deadlineAndSettleShortened(pc, inputAfterCommand);
 			}
 		}
