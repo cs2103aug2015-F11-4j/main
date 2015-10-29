@@ -30,7 +30,6 @@ public class EventHandler {
 	Event previousEvent;
 	Event beforeUpdate;
 	Logger log;
-	
 
 	public EventHandler() {
 		manage = new StorageManager();
@@ -45,7 +44,7 @@ public class EventHandler {
 	public void injectStorageManager(StorageManager manager) {
 		this.manage = manager;
 	}
-	
+
 	public void setOnRemindListener(OnRemindListener listen) {
 		reminders.setOnRemindListener(listen);
 	}
@@ -85,8 +84,7 @@ public class EventHandler {
 		} else if (pc.getCommand() == Command.UNDELETE) {
 			undo();
 			eventsReturned.addAll(events);
-		}
-		else if (pc.getCommand() == Command.SEARCH) {
+		} else if (pc.getCommand() == Command.SEARCH) {
 			eventsReturned = search(pc);
 
 		} else if (pc.getCommand() == Command.STORAGE_LOCATION) {
@@ -160,6 +158,7 @@ public class EventHandler {
 	}
 
 	/**
+	 * adds an event object to the current set of events
 	 * 
 	 * @param event
 	 * @return
@@ -173,8 +172,18 @@ public class EventHandler {
 			events.add(event);
 			reminders.addReminder(event);
 			manage.save(events);
-			saveHistory();
 		}
+
+		// check if newly added event is a subtask
+		if (event.getMainId() != null) {
+			for (Event e : events) {
+				if (e.getId().equals(event.getMainId())) {
+					e.addSubtask(event);
+					break;
+				}
+			}
+		}
+		saveHistory();
 		return event;
 	}
 
@@ -194,7 +203,7 @@ public class EventHandler {
 	 */
 	public Event remove(ParsedCommand pc) {
 		Event eventToBeRemoved = new Event();
-		
+
 		for (Event e : events) {
 			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
 				eventToBeRemoved = e;
@@ -216,7 +225,7 @@ public class EventHandler {
 	 * @throws Exception
 	 */
 	public Event update(ParsedCommand pc) throws Exception {
-		String Id  = IdMapper.getInstance().getActualId(pc.getId());
+		String Id = IdMapper.getInstance().getActualId(pc.getId());
 		Event newEvent = generator.createEvent(pc);
 		newEvent.setId(Id);
 		Event oldEvent = null;
@@ -234,32 +243,7 @@ public class EventHandler {
 
 		} else {
 			// ensure updatedEvent contains all relevant info from oldEvent
-			if (newEvent.getTitle() == null) {
-				newEvent.setTitle(oldEvent.getTitle());
-			}
-			if (newEvent.getStartDateTime() == null) {
-				newEvent.setStartDateTime(oldEvent.getStartDateTime());
-			}
-			if (newEvent.getEndDateTime() == null) {
-				newEvent.setEndDateTime(oldEvent.getEndDateTime());
-			}
-			if (newEvent.getPriority() == null) {
-				newEvent.setPriority(oldEvent.getPriority());
-			}
-			if (newEvent.getLocation() == null) {
-				newEvent.setLocation(oldEvent.getLocation());
-			}
-			if (newEvent.getNotes() == null) {
-				newEvent.setNotes(oldEvent.getNotes());
-			}
-			if (newEvent.getReminder() == null) {
-				newEvent.setReminder(oldEvent.getReminder());
-			}
-			if (newEvent.getGroups().isEmpty()) {
-				for (String s : newEvent.getGroups()) {
-					newEvent.addGroup(s);
-				}
-			}
+			copyEventInfo(newEvent, oldEvent);
 			beforeUpdate = oldEvent;
 			events.add(newEvent);
 			reminders.updateReminder(newEvent);
@@ -270,13 +254,76 @@ public class EventHandler {
 	}
 
 	/**
+	 * Returns the list of all events
+	 * 
+	 * @return events
+	 */
+	public List<Event> getAllEvents() {
+		return events;
+	}
+
+	public List<Event> sortEvents() {
+		Collections.sort(events);
+		return events;
+	}
+
+	
+	
+	/*
+	 * ============== Private Methods ==============
+	 */	
+	
+	/**
+	 * Used to copy information from the old event over to the new event
+	 * 
+	 * @param newEvent
+	 * @param oldEvent
+	 */
+	private void copyEventInfo(Event newEvent, Event oldEvent) {
+		if (newEvent.getTitle() == null) {
+			newEvent.setTitle(oldEvent.getTitle());
+		}
+		if (newEvent.getMainId() == null) {
+			newEvent.setMainId(oldEvent.getMainId());
+		}
+		if (newEvent.getStartDateTime() == null) {
+			newEvent.setStartDateTime(oldEvent.getStartDateTime());
+		}
+		if (newEvent.getEndDateTime() == null) {
+			newEvent.setEndDateTime(oldEvent.getEndDateTime());
+		}
+		if (newEvent.getPriority() == null) {
+			newEvent.setPriority(oldEvent.getPriority());
+		}
+		if (newEvent.getLocation() == null) {
+			newEvent.setLocation(oldEvent.getLocation());
+		}
+		if (newEvent.getNotes() == null) {
+			newEvent.setNotes(oldEvent.getNotes());
+		}
+		if (newEvent.getReminder() == null) {
+			newEvent.setReminder(oldEvent.getReminder());
+		}
+		if (newEvent.getGroups() != oldEvent.getGroups()) {
+			for (String s : oldEvent.getGroups()) {
+				newEvent.addGroup(s);
+			}
+		}
+		if (newEvent.getSubtasks() != oldEvent.getSubtasks()) {
+			for (String s : oldEvent.getSubtasks()) {
+				newEvent.addSubtask(s);
+			}
+		}
+	}
+
+	/**
 	 * used to check if a time conflict exists between any event in storage and
 	 * the new event
 	 * 
 	 * @param newEvent
 	 * @return
 	 */
-	public boolean checkTimeConflict(Event newEvent) {
+	private boolean checkTimeConflict(Event newEvent) {
 		boolean conflict = false;
 		for (Event e : events) {
 			if (e.getStartDateTime() != null && e.getEndDateTime() != null && newEvent.getStartDateTime() != null
@@ -297,19 +344,5 @@ public class EventHandler {
 			}
 		}
 		return conflict;
-	}
-
-	/**
-	 * Returns the list of all events
-	 * 
-	 * @return events
-	 */
-	public List<Event> getAllEvents() {
-		return events;
-	}
-	
-	public List<Event> sortEvents() {
-		Collections.sort(events);
-		return events;
 	}
 }

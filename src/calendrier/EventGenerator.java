@@ -8,7 +8,7 @@ import utils.Event;
 import utils.ParsedCommand;
 
 public class EventGenerator {
-	final int RANDOM_LIMIT = 500;
+	final int RANDOM_LIMIT = 5000;
 	Random rand;
 	int currentId;
 	
@@ -48,6 +48,8 @@ public class EventGenerator {
 		e.setNotes(pc.getNotes());
 		e.setReminder(pc.getReminder());
 		e.addGroup(pc.getGroup());
+		e.setMainId(pc.getMainId());
+
 		return e;
 	}
 	

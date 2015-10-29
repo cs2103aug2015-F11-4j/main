@@ -62,6 +62,8 @@ public class EventGeneratorTest {
 		testEvent.setLocation(location);
 		testEvent.setNotes(notes);
 		testEvent.addGroup(group);
+		testEvent.addSubtask("SUBTASK1");
+		testEvent.addSubtask("SUBTASK2");
 	}
 
 	@Test
@@ -77,6 +79,7 @@ public class EventGeneratorTest {
 		assertEquals(generatedEvent.getLocation(), testEvent.getLocation());
 		assertEquals(generatedEvent.getNotes(), testEvent.getNotes());
 		assertEquals(generatedEvent.getGroups(), testEvent.getGroups());
+		assertEquals("SUBTASK2", testEvent.getSubtasks().get(1));
 	}
 	
 	@Test
