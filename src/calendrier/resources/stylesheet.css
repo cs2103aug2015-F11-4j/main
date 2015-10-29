@@ -79,6 +79,12 @@
 .displayText {
 	-fx-font-size:12.0pt;
 }
+#lblDate {
+	-fx-font-size:10.0pt;
+	-fx-text-fill: slategray;
+	-fx-font-weight: bold;
+	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
+}
 #lblmonth {
 	-fx-font-size:18.0pt;
 	-fx-font-weight: bold;

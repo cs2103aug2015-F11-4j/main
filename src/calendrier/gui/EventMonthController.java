@@ -17,7 +17,7 @@ public class EventMonthController extends StackPane {
 	@FXML
 	private GridPane eventGridPaneMonth;
 	@FXML
-	private Label lblEventID;
+	private Label lblDate;
 	@FXML
 	private Label lblEventID1;
 	@FXML
@@ -50,7 +50,7 @@ public class EventMonthController extends StackPane {
 		
 		Calendar cal = Calendar.getInstance();
 
-		lblEventID.setText(checkDate(date));
+		lblDate.setText(checkDate(date));
 		
 		if (events != null && events.size() > 0) {
 			if (events.get(0).getTitle() != null) {
@@ -82,8 +82,9 @@ public class EventMonthController extends StackPane {
 			eventGridPaneMonth.setStyle("-fx-border-color: red;-fx-border-width: 2.0px;");
 		}
 		if(cal.getTime().getDate() > date && cal.getTime().getMonth()>=month && (cal.getTime().getYear()+1900)>=year){
-			lblEvent1.setStyle("-fx-text-fill: gray;");
-			lblEvent2.setStyle("-fx-text-fill: gray;");
+			lblEvent1.setStyle("-fx-text-fill: darkgray;");
+			lblEvent2.setStyle("-fx-text-fill: darkgray;");
+			lblEvent3.setStyle("-fx-text-fill: darkgray;");
 		}
 	}
 	private int computeFakeId(List<String> idList, String id){

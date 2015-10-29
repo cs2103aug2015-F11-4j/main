@@ -16,7 +16,7 @@
 			xmlns:fx="http://javafx.com/fxml" hgap="20" vgap="20" prefWidth="160.0"
 			prefHeight="100.0" maxWidth="160.0" maxHeight="100.0">
 			<children>
-				<Label fx:id="lblEventID" GridPane.rowIndex="0"
+				<Label fx:id="lblDate" GridPane.rowIndex="0"
 					GridPane.columnIndex="0" GridPane.columnSpan="3" wrapText="true"/>
 				<Label fx:id="lblEventID1" GridPane.rowIndex="1"
 					GridPane.columnIndex="1" wrapText="true" />
