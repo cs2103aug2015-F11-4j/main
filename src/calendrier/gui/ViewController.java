@@ -18,7 +18,7 @@ public class ViewController extends FlowPane {
 
 	private static final String VIEW_SCREEN_LAYOUT_FXML = "/calendrier/resources/View.fxml";
 	private static final String VIEWMONTH_SCREEN_LAYOUT_FXML = "/calendrier/resources/ViewMonth.fxml";
-	private static final int VALUE_ADD_TO_ARRAY = 8;
+	private static final int VALUE_ADD_TO_ARRAY = 15;
 	@FXML
 	private Label lblmonth;
 	@FXML

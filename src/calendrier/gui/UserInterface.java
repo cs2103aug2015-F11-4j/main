@@ -45,7 +45,7 @@ public class UserInterface extends Application implements OnRemindListener {
 	private static final int VALUE_START_SCREEN_MAX = 3;
 
 	private static final int VALUE_TO_ADD_OR_MINUS = 1;
-	private static final int VALUE_ADD_TO_ARRAY = 8;
+	private static final int VALUE_ADD_TO_ARRAY = 15;
 
 	private static final int VALUE_START_SCREEN = 1;
 	private static final int VALUE_VIEW_SCREEN = 2;
@@ -330,7 +330,7 @@ public class UserInterface extends Application implements OnRemindListener {
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				if(currentScreenState != VALUE_VIEWMONTH_SCREEN){
 					addView(this);
-					if (eventSize > 8) {
+					if (eventSize > VALUE_ADD_TO_ARRAY) {
 						getNextPage(this);
 					}
 				}else{
@@ -382,7 +382,7 @@ public class UserInterface extends Application implements OnRemindListener {
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				if(currentScreenState != VALUE_VIEWMONTH_SCREEN){
 					addView(this);
-					if (eventSize <= 8) {
+					if (eventSize <= VALUE_ADD_TO_ARRAY) {
 						getPreviousPage(this);
 					}
 				}else{

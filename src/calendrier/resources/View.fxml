@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.*?>
 
 <fx:root type="FlowPane" fx:id="flowPaneAllEvents" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="550.0" prefHeight="500.0"
-	maxWidth="550.0" maxHeight="500.0">
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" prefHeight="500.0"
+	maxWidth="850.0" maxHeight="500.0">
 	<children>
 	</children>
 
