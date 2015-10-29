@@ -91,13 +91,13 @@ public class EventBoxController extends StackPane {
 				changeBorderColor(event.getPriority());
 			}
 			else{
-				eventGridPane.setStyle("-fx-border-color: gray;");
+				eventGridPane.setStyle("-fx-border-color: lightgray;");
 			}
 		}
 		else{
 			if ((event.getStartDateTime()!=null && (cal.compareTo(event.getStartDateTime())>0))
 					||(event.getEndDateTime()!=null && (cal.compareTo(event.getEndDateTime())>0))) {
-				eventGridPane.setStyle("-fx-border-color: gray;");
+				eventGridPane.setStyle("-fx-border-color: lightgray;");
 			}
 		}
 	}

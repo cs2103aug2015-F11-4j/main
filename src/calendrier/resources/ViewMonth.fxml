@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="FlowPane" fx:id="flowPaneMonthEvents" xmlns="http://javafx.com/javafx/8.0.40"
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="550.0" prefHeight="500.0"
+	maxWidth="1200.0" maxHeight="1200.0">
+	<GridPane fx:id="monthGridPane" xmlns="http://javafx.com/javafx/8.0.40"
+		xmlns:fx="http://javafx.com/fxml" hgap="4" vgap="4" prefWidth="1200.0"
+		prefHeight="15.0" maxWidth="1200.0" maxHeight="15.0">
+		<children>
+			<Label fx:id="lblmonth" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+			<Label fx:id="lblyear" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+		</children>
+	</GridPane>
+	<GridPane fx:id="monthGridPane" xmlns="http://javafx.com/javafx/8.0.40"
+		xmlns:fx="http://javafx.com/fxml" hgap="5" vgap="5" prefWidth="1200.0"
+		prefHeight="20.0" maxWidth="1200.0" maxHeight="20.0">
+		<children>
+			<Label styleClass="displayText" text="Sunday"
+				GridPane.columnIndex="11" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+			<Label styleClass="displayText" text="Monday"
+				GridPane.columnIndex="32" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+			<Label styleClass="displayText" text="Tuesday"
+				GridPane.columnIndex="52" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+			<Label styleClass="displayText" text="Wednesday"
+				GridPane.columnIndex="70" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+			<Label styleClass="displayText" text="Thursday"
+				GridPane.columnIndex="87" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+			<Label styleClass="displayText" text="Friday"
+				GridPane.columnIndex="107" GridPane.rowIndex="2"
+				GridPane.columnSpan="2" />
+			<Label styleClass="displayText" text="Saturday"
+				GridPane.columnIndex="129" GridPane.rowIndex="2"
+				GridPane.columnSpan="2" />
+
+		</children>
+	</GridPane>
+	<children>
+	</children>
+
+</fx:root>

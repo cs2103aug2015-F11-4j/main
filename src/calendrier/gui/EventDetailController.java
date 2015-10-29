@@ -69,7 +69,7 @@ public class EventDetailController extends StackPane {
 	}
 	
 	public void initEventValue(Event event){
-		lblID.setText(checkExistValue(event.getId()));
+		//lblID.setText(checkExistValue(event.getId()));
 		lblTitle.setText(checkExistValue(event.getTitle()));
 		lblDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 		lblLocation.setText(checkExistValue(event.getLocation()));

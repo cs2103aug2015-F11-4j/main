@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
+	xmlns:fx="http://javafx.com/fxml">
+	<children>
+		<GridPane fx:id="eventGridPaneMonth" xmlns="http://javafx.com/javafx/8.0.40"
+			xmlns:fx="http://javafx.com/fxml" hgap="20" vgap="20" prefWidth="160.0"
+			prefHeight="100.0" maxWidth="160.0" maxHeight="100.0">
+			<children>
+				<Label fx:id="lblDate" GridPane.rowIndex="0"
+					GridPane.columnIndex="0" GridPane.columnSpan="3" wrapText="true"/>
+				<Label fx:id="lblEventID1" GridPane.rowIndex="1"
+					GridPane.columnIndex="1" wrapText="true" />
+				<Label fx:id="lblEvent1" GridPane.rowIndex="1"
+					GridPane.columnIndex="2" wrapText="true" />
+				<Label fx:id="lblEventID2" GridPane.rowIndex="2"
+					GridPane.columnIndex="1" wrapText="true" />
+				<Label fx:id="lblEvent2" GridPane.rowIndex="2"
+					GridPane.columnIndex="2" wrapText="true" />
+				<Label fx:id="lblEvent3" GridPane.rowIndex="3"
+					GridPane.columnIndex="2" wrapText="true" />
+			</children>
+		</GridPane>
+	</children>
+</fx:root>
+

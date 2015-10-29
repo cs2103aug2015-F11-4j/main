@@ -53,9 +53,23 @@
 	-fx-background-color: white;
 }
 
+#eventGridPaneMonth {
+	-fx-border-color: grey;
+	-fx-border-style: solid;
+	-fx-border-width: 1.0px;
+	-fx-padding: 10.0 10.0 10.0 10.0;
+	-fx-hgap: 5.0;
+	-fx-vgap: 5.0;
+	-fx-background-color: white;
+}
 #flowPaneAllEvents {
 	-fx-hgap: 15.0;
 	-fx-vgap: 15.0;
+}
+
+#flowPaneMonthEvents {
+	-fx-hgap: 0.0;
+	-fx-vgap: 0.0;
 }
 
 .storageMessage {
@@ -65,7 +79,22 @@
 .displayText {
 	-fx-font-size:12.0pt;
 }
-
+#lblDate {
+	-fx-font-size:10.0pt;
+	-fx-text-fill: slategray;
+	-fx-font-weight: bold;
+	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
+}
+#lblmonth {
+	-fx-font-size:18.0pt;
+	-fx-font-weight: bold;
+	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
+}
+#lblyear {
+	-fx-font-size:18.0pt;
+	-fx-font-weight: bold;
+	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
+}
 .lblCommand {
 	-fx-font-size:20.0pt;
 	-fx-font-family: 'herculanum', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
@@ -109,4 +138,7 @@
     -fx-content-display : left;
     -fx-graphic-text-gap: 10;
     -fx-text-fill       : -foreground-color;
+}
+
+#lblEvent1{
 }

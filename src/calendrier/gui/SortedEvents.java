@@ -1,7 +1,6 @@
 package calendrier.gui;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import utils.Event;
