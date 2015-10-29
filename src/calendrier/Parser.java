@@ -270,6 +270,10 @@ public class Parser {
 			// e.g. undo: -u
 			pc.setCommand(Command.UNDO);
 			return pc;
+		} else if (command.equals("-vm")) {
+			// e.g. view month: -vm
+			pc.setCommand(Command.VIEW_MONTH);
+			return pc;
 		}
 		
 		if (command.equals("-s")) {
