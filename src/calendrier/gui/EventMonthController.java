@@ -85,6 +85,10 @@ public class EventMonthController extends StackPane {
 			lblEvent1.setStyle("-fx-text-fill: darkgray;");
 			lblEvent2.setStyle("-fx-text-fill: darkgray;");
 			lblEvent3.setStyle("-fx-text-fill: darkgray;");
+		}else if(cal.getTime().getMonth()>month && (cal.getTime().getYear()+1900)>=year){
+			lblEvent1.setStyle("-fx-text-fill: darkgray;");
+			lblEvent2.setStyle("-fx-text-fill: darkgray;");
+			lblEvent3.setStyle("-fx-text-fill: darkgray;");
 		}
 	}
 	private int computeFakeId(List<String> idList, String id){
