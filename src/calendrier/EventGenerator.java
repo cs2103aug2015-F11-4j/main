@@ -40,6 +40,8 @@ public class EventGenerator {
 		} else {
 			e.setId((pc.getId()));
 		}
+		// if date is not specified, use todays date
+		// if time is not specified, use midnight
 		e.setTitle(pc.getTitle());
 		e.setStartDateTime(pc.getStartDateTime());
 		e.setEndDateTime(pc.getEndDateTime());
@@ -49,6 +51,9 @@ public class EventGenerator {
 		e.setReminder(pc.getReminder());
 		e.addGroup(pc.getGroup());
 		e.setMainId(pc.getMainId());
+		
+		// save recurrnce
+//		e.setRecucrence(pc.getIsRecurring());
 
 		return e;
 	}

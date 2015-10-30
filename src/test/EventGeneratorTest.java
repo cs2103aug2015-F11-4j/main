@@ -95,4 +95,14 @@ public class EventGeneratorTest {
 		gen.setCurrentID(2);
 		assertEquals(gen.getCurrentIDAsString(), 2 + "");
 	}
+	
+	@Test
+	public void testGenerateEventFromString() {
+		fail();
+	}
+	
+	@Test
+	public void testGenerateMultipleEventsFromStrings() {
+		fail();
+	}
 }
