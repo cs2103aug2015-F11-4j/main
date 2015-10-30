@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import utils.Event;
-
+import utils.IdMapper;
 import utils.ParsedCommand;
 
 public class EventGenerator {
@@ -48,7 +48,7 @@ public class EventGenerator {
 		e.setNotes(pc.getNotes());
 		e.setReminder(pc.getReminder());
 		e.addGroup(pc.getGroup());
-		e.setMainId(pc.getMainId());
+		e.setMainId(IdMapper.getInstance().getActualId(pc.getMainId()));
 
 		return e;
 	}

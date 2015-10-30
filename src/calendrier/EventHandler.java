@@ -179,6 +179,7 @@ public class EventHandler {
 			for (Event e : events) {
 				if (e.getId().equals(event.getMainId())) {
 					e.addSubtask(event);
+					manage.save(events);
 					break;
 				}
 			}
