@@ -51,6 +51,10 @@ public class Parser {
 			// e.g. view month
 			pc.setCommand(Command.VIEW_MONTH);
 			return pc;
+		} else if (userInput.equals("view home")) {
+			// e.g. view home
+			pc.setCommand(Command.VIEW_HOME);
+			return pc;
 		}
 
 		Scanner lineTokens = new Scanner(userInput);
@@ -150,7 +154,7 @@ public class Parser {
 			pc.setCommand(Command.ADD);
 			
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
-//			pc.setId(String.valueOf(numCurrentTask + 1));
+			//pc.setId(String.valueOf(numCurrentTask + 1));
 			pc.setId(UUID.randomUUID().toString());
 			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
 			
@@ -441,7 +445,7 @@ public class Parser {
 	/* Tell user format of flexible command, e.g <command> <title> <location> <priority>
 	 *  ... <reminderdate> <remindertime>
 	 *  
-	 *  Assumption: Title must come first
+	 *  Assumption: Title must come first!!!
 	 *  
 	 *  FOR NOW NO PRIORITY, GROUP, NOTES, RECURRING, REMINDER
 	 *  
@@ -497,7 +501,7 @@ public class Parser {
 						int endTimeIndex = resultingString.indexOf(endTime);
 						attributeEndIndex = resultingString.indexOf(" ", endTimeIndex)+1;
 					}
-				} else {
+				} else if (next.contains("/")) {
 					startDate = next;
 					next = tokens.nextToken();
 					if (next.equals("to")) {
@@ -507,7 +511,9 @@ public class Parser {
 						attributeEndIndex = resultingString.indexOf(" ", endDateIndex)+1;
 					}
 				}
-				resultingString = resultingString.substring(attributeEndIndex);
+				int keywordIndex = resultingString.indexOf(keyword);
+				resultingString = resultingString.substring(0, keywordIndex) +  
+						resultingString.substring(attributeEndIndex);
 				tokens = new StringTokenizer(resultingString);
 				keyword = resultingString.substring(0, resultingString.indexOf(" "));
 			} else if (keyword.equals("at")) {
