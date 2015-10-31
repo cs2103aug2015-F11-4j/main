@@ -223,18 +223,6 @@ public class ViewController extends FlowPane {
 
 		int end = endingIndex - startIndex;
 
-		// Calendar cal = Calendar.getInstance();
-		// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		// System.out.println(dateFormat.format(cal.getTime())); //2014/08/06
-		// 16:00:22
-
-		// for (int i = startIndex; i < endingIndex; i++) {
-		// //if(cal.compareTo(events.get(i).getStartDateTime())<0){
-		// addEvent(events.get(i));
-		// //System.out.println(events.get(i).getId());
-		// //}
-		// }
-
 		for (int i = 0; i < end; i++) {
 			addEvent(events.get(startIndex + i), i);
 		}

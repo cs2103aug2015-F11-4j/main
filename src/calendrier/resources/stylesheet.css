@@ -100,6 +100,20 @@
 	-fx-font-family: 'herculanum', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
 
+#lblPageDate {
+	-fx-font-size:20.0pt;
+	-fx-font-family: 'herculanum', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
+}
+
+#datedEventGridPane {
+	-fx-border-style: solid;
+	-fx-border-width: 3.0px;
+	-fx-padding: 10.0 10.0 10.0 10.0;
+	-fx-hgap: 5.0;
+	-fx-vgap: 5.0;
+	-fx-background-color: white;
+}
+
 /*
  * Copyright (c) 2013 by Gerrit Grunwald
  *

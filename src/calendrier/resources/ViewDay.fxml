@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="GridPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+	prefWidth="900.0" prefHeight="700.0" maxWidth="900.0" maxHeight="700.0" >
+	<children>
+		<Label fx:id="lblPageDate" GridPane.rowIndex="0"
+					GridPane.columnIndex="0" />
+		<FlowPane fx:id="flowPaneDayEvents" xmlns="http://javafx.com/javafx/8.0.40"
+			xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" prefHeight="500.0"
+			maxWidth="850.0" maxHeight="500.0" GridPane.rowIndex="1"
+					GridPane.columnIndex="0">
+			<children>
+			</children>
+		</FlowPane>
+	</children>
+</fx:root>
