@@ -209,10 +209,9 @@ public class MainLogic {
 			isInThisMonth = true;
 		}
 		// Event spans through entire month
-		else if (coversMonth(event, thisMonth, nextMonth)){
+		else if (coversMonth(event, thisMonth, nextMonth)) {
 			isInThisMonth = true;
 		}
-		
 
 		return isInThisMonth;
 	}
@@ -221,8 +220,8 @@ public class MainLogic {
 		boolean coveringMonth = false;
 		Calendar start = event.getStartDateTime();
 		Calendar end = event.getEndDateTime();
-		
-		if(start != null && end != null){
+
+		if (start != null && end != null) {
 			boolean startBefore = start.before(thisMonth);
 			boolean endAfter = end.after(nextMonth);
 			coveringMonth = startBefore && endAfter;
@@ -247,20 +246,19 @@ public class MainLogic {
 	private int getCurrentMonth(int month) {
 		return (month + 11) % 12;
 	}
-	
-	private int getNextYear(int year, int month){
-		if(month == 12){
+
+	private int getNextYear(int year, int month) {
+		if (month == 12) {
 			return year + 1;
-		}
-		else {
+		} else {
 			return year;
 		}
 	}
 
 	private boolean isWithinMonth(Calendar eventDateTime, Calendar thisMonth, Calendar nextMonth) {
 		boolean isWithin = false;
-		if(eventDateTime != null){
-			isWithin =  eventDateTime.after(thisMonth) && eventDateTime.before(nextMonth);
+		if (eventDateTime != null) {
+			isWithin = eventDateTime.after(thisMonth) && eventDateTime.before(nextMonth);
 		}
 		return isWithin;
 	}
@@ -274,5 +272,28 @@ public class MainLogic {
 	public void setOnRemindListener(OnRemindListener listener) {
 		// Set in event handler
 		eventHandler.setOnRemindListener(listener);
+	}
+
+	/**
+	 * Gets number of milliseconds until the next event
+	 * 
+	 * @return number of milliseconds until next event. If no next event, -1 will be returned.
+	 */
+	public long getTimeToNextEvent() {
+		long time = -1;
+
+		List<Event> events = getAllEvents();
+		sortByStartDateTime(events);
+
+		for (int i = 0; i < events.size(); i++) {
+			Calendar startTime = events.get(i).getStartDateTime();
+			Calendar now = Calendar.getInstance();
+			if (startTime != null && startTime.after(now)) {
+				time = startTime.getTimeInMillis() - now.getTimeInMillis();
+				break;
+			}
+		}
+
+		return time;
 	}
 }
