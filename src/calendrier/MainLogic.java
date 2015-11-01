@@ -107,15 +107,6 @@ public class MainLogic {
 	}
 
 	/**
-	 * Notifies user about event starting soon (Not Implemented Yet)
-	 * 
-	 * @param event
-	 *            event that is starting soon
-	 */
-	public void notifyUser(Event event) {
-	}
-
-	/**
 	 * Gets the event of the last action performed
 	 * 
 	 * @return event which the last action has performed on
@@ -361,6 +352,7 @@ public class MainLogic {
 		if (start != null && end != null) {
 			boolean startBefore = start.before(thisMonth);
 			boolean endAfter = end.after(nextMonth);
+
 			coveringMonth = startBefore && endAfter;
 		}
 		return coveringMonth;
@@ -376,8 +368,6 @@ public class MainLogic {
 		nextDay.set(year, (month + 11) % 12, day, 0, 0, 0);
 		nextDay.add(Calendar.DATE, 1);
 
-		System.out.println("this: " + thisDay.getTime());
-		System.out.println("next: " + nextDay.getTime());
 	}
 
 	private void setMonthAnchor(int year, int month, Calendar thisMonth, Calendar nextMonth) {
@@ -418,7 +408,9 @@ public class MainLogic {
 	 */
 	public void setOnRemindListener(OnRemindListener listener) {
 		// Set in event handler
-		eventHandler.setOnRemindListener(listener);
+		if (listener != null) {
+			eventHandler.setOnRemindListener(listener);
+		}
 	}
 
 	/**
@@ -436,6 +428,7 @@ public class MainLogic {
 		for (int i = 0; i < events.size(); i++) {
 			Calendar startTime = events.get(i).getStartDateTime();
 			Calendar now = Calendar.getInstance();
+
 			if (startTime != null && startTime.after(now)) {
 				time = startTime.getTimeInMillis() - now.getTimeInMillis();
 				break;

@@ -1,8 +1,10 @@
 package test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
@@ -12,10 +14,11 @@ import calendrier.MainLogic;
 import utils.Command;
 import utils.Event;
 import utils.IdMapper;
+import utils.OnRemindListener;
 import utils.Priority;
 
 public class MainLogicFullTest {
-	
+
 	@Test
 	public void executeShouldNotReturnNull() {
 		MainLogic mainLogic = new MainLogic();
@@ -336,11 +339,11 @@ public class MainLogicFullTest {
 
 		currentList = mainLogic.getAllEvents();
 		assertTrue("should be at least 1", currentList.size() > 0);
-		
+
 		command = "view " + id;
 		cmd = mainLogic.execute(command);
 		assertTrue("is view command", cmd == Command.VIEW);
-		
+
 		foundId = false;
 		for (int i = 0; i < currentList.size(); i++) {
 			if (currentList.get(i).getId().equals(id)) {
