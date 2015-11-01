@@ -100,12 +100,12 @@
 	-fx-font-family: 'herculanum', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
 
-#lblPageDate {
+#lblPageDate, #lblOpenEvent {
 	-fx-font-size:20.0pt;
 	-fx-font-family: 'herculanum', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
 
-#datedEventGridPane {
+#datedEventGridPane, #openEventGridPane {
 	-fx-border-style: solid;
 	-fx-border-width: 3.0px;
 	-fx-padding: 10.0 10.0 10.0 10.0;

@@ -25,7 +25,7 @@ public class DatedEventBoxController extends StackPane {
 	@FXML
 	private Label lblDatedEventDate;
 
-	private static final String SINGLE_DATED_EVENT_LAYOUT_FXML = "/calendrier/resources/DatedEvent.fxml";
+	private static final String SINGLE_DATED_EVENT_LAYOUT_FXML = "/calendrier/resources/DatedEventBox.fxml";
 	
 	private static final String VALUE_VERY_HIGH_PRIORITY = "very_high";
 	private static final String VALUE_HIGH_PRIORITY = "high";
