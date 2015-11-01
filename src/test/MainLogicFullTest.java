@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,6 +15,14 @@ import utils.IdMapper;
 import utils.Priority;
 
 public class MainLogicFullTest {
+	
+	@Test
+	public void test(){
+		MainLogic mainLogic = new MainLogic();
+		Calendar a = Calendar.getInstance();
+		Calendar b = Calendar.getInstance();
+		mainLogic.setDayAnchor(2016, 2, 29, a, b);
+	}
 	
 	@Test
 	public void executeShouldNotReturnNull() {

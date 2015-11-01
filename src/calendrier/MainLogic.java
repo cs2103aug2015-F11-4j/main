@@ -161,6 +161,16 @@ public class MainLogic {
 
 		return monthEvents;
 	}
+	
+	public List<Event> getDayEvents(int year, int month, int day) {
+		events = eventHandler.getAllEvents();
+		List<Event> dayEvents = new ArrayList<>();
+		
+		filterToDay(year, month, day, dayEvents);
+		sortByStartDateTime(dayEvents);
+		
+		return dayEvents;
+	}
 
 	private void sortByStartDateTime(List<Event> monthEvents) {
 		Collections.sort(monthEvents, new Comparator<Event>() {
@@ -180,6 +190,17 @@ public class MainLogic {
 
 		});
 	}
+	
+	private void filterToDay(int year, int month, int day, List<Event> dayEvents) {
+		// Filter into day
+		for(int i = 0; i < events.size(); i++){
+			Event event = events.get(i);
+			
+			if(isInDay(event, year, month, day)){
+				dayEvents.add(event);
+			}
+		}
+	}
 
 	private void filterToMonth(int year, int month, List<Event> monthEvents) {
 		// Filter into month
@@ -190,6 +211,31 @@ public class MainLogic {
 				monthEvents.add(event);
 			}
 		}
+	}
+	
+	private boolean isInDay(Event event, int year, int month, int day){
+		boolean isInThisDay = false;
+		
+		Calendar thisDay = Calendar.getInstance();
+		Calendar nextDay = Calendar.getInstance();
+		
+		// Set to start of day
+		setDayAnchor(year, month, day, thisDay, nextDay);
+		
+		// Check Start Date
+		if(isWithinDay(event.getStartDateTime(), thisDay, nextDay)){
+			isInThisDay = true;
+		}
+		// Check End Date
+		else if(isWithinDay(event.getEndDateTime(), thisDay, nextDay)){
+			isInThisDay = true;
+		}
+		// Event spans through entire day
+		else if(coversDay(event, thisDay, nextDay)){
+			isInThisDay = true;
+		}
+		
+		return isInThisDay;
 	}
 
 	private boolean isInMonth(Event event, int year, int month) {
@@ -215,6 +261,20 @@ public class MainLogic {
 
 		return isInThisMonth;
 	}
+	
+	private boolean coversDay(Event event, Calendar thisDay, Calendar nextDay){
+		boolean coveringDay = false;
+		Calendar start = event.getStartDateTime();
+		Calendar end = event.getEndDateTime();
+		
+		if(start != null && end != null){
+			boolean startBefore = start.before(thisDay);
+			boolean endAfter = end.after(nextDay);
+			coveringDay = startBefore && endAfter;
+		}
+		
+		return coveringDay;
+	}
 
 	private boolean coversMonth(Event event, Calendar thisMonth, Calendar nextMonth) {
 		boolean coveringMonth = false;
@@ -229,30 +289,40 @@ public class MainLogic {
 		return coveringMonth;
 	}
 
+	public void setDayAnchor(int year, int month, int day, Calendar thisDay, Calendar nextDay){
+		// Reset
+		thisDay.setTimeInMillis(0);
+		nextDay.setTimeInMillis(0);
+		
+		// Set to start of day
+		thisDay.set(year, (month + 11) % 12, day, 0, 0, 0);
+		nextDay.set(year, (month + 11) % 12, day, 0, 0, 0);
+		nextDay.add(Calendar.DATE, 1);
+
+		System.out.println("this: " + thisDay.getTime());
+		System.out.println("next: " + nextDay.getTime());
+	}
+	
 	public void setMonthAnchor(int year, int month, Calendar thisMonth, Calendar nextMonth) {
 		// Reset
 		thisMonth.setTimeInMillis(0);
 		nextMonth.setTimeInMillis(0);
 
 		// Set to start of month
-		thisMonth.set(year, getCurrentMonth(month), 1, 0, 0, 0);
-		nextMonth.set(getNextYear(year, month), getNextMonth(month), 1, 0, 0, 0);
+		thisMonth.set(year, (month + 11) % 12, 1, 0, 0, 0);
+		nextMonth.set(year, (month + 11) % 12, 1, 0, 0, 0);
+		nextMonth.add(Calendar.MONTH, 1);
+		
 	}
-
-	private int getNextMonth(int month) {
-		return month % 12;
-	}
-
-	private int getCurrentMonth(int month) {
-		return (month + 11) % 12;
-	}
-
-	private int getNextYear(int year, int month) {
-		if (month == 12) {
-			return year + 1;
-		} else {
-			return year;
+	
+	private boolean isWithinDay(Calendar eventDateTime, Calendar thisDay, Calendar nextDay) {
+		boolean isWithin = false;
+		
+		if(eventDateTime != null){
+			isWithin = eventDateTime.after(thisDay) && eventDateTime.before(nextDay);
 		}
+		
+		return isWithin;
 	}
 
 	private boolean isWithinMonth(Calendar eventDateTime, Calendar thisMonth, Calendar nextMonth) {
