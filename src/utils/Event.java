@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Event implements Comparable {
+public class Event implements Comparable<Event> {
 	private static final String NULL = "null";
 	private static final String NUMBER_REGEX = "\\d+";
 	private static final String FULL_TIMESTAMP_REGEX = "(\\d+)/(\\d+)/(\\d+)-(\\d+):(\\d+)";
@@ -26,17 +26,17 @@ public class Event implements Comparable {
 	private static final String RECURRENCE_STRING = "recurrence: %s, ";
 	private static final String SUBTASKS_STRING = "subtasks: %s, ";
 
-	private static final String ID_REGEX = "id: (.+?),";
-	private static final String MAIN_ID_REGEX = "mainId: (.+?),";
-	private static final String TITLE_REGEX = "title: (.+?),";
-	private static final String STARTDATETIME_REGEX = "startDateTime: (.+?),";
-	private static final String ENDDATETIME_REGEX = "endDateTime: (.+?),";
-	private static final String PRIORITY_REGEX = "priority: (.+?),";
-	private static final String LOCATION_REGEX = "location: (.+?),";
-	private static final String NOTES_REGEX = "notes: (.+?),";
+	private static final String ID_REGEX = "id: (.*?),";
+	private static final String MAIN_ID_REGEX = "mainId: (.*?),";
+	private static final String TITLE_REGEX = "title: (.*?),";
+	private static final String STARTDATETIME_REGEX = "startDateTime: (.*?),";
+	private static final String ENDDATETIME_REGEX = "endDateTime: (.*?),";
+	private static final String PRIORITY_REGEX = "priority: (.*?),";
+	private static final String LOCATION_REGEX = "location: (.*?),";
+	private static final String NOTES_REGEX = "notes: (.*?),";
 	private static final String REMINDER_REGEX = "reminder: \\[(.*?)\\],";
 	private static final String GROUPS_REGEX = "groups: \\[(.*?)\\],";
-	private static final String RECURRENCE_REGEX = "recurrence: (.+?),";
+	private static final String RECURRENCE_REGEX = "recurrence: (.*?),";
 	private static final String SUBTASKS_REGEX = "subtasks: \\[(.*?)\\],";
 
 	private String id;
@@ -139,34 +139,29 @@ public class Event implements Comparable {
 			calendar.setTimeInMillis(0);
 
 			// Year
-			if (matcher.find()) {
-				String group = matcher.group();
-				year = Integer.valueOf(group);
-			}
+			matcher.find();
+			String group = matcher.group();
+			year = Integer.valueOf(group);
 
 			// Month
-			if (matcher.find()) {
-				String group = matcher.group();
-				month = Integer.valueOf(group) - 1;
-			}
+			matcher.find();
+			group = matcher.group();
+			month = Integer.valueOf(group) - 1;
 
 			// Date
-			if (matcher.find()) {
-				String group = matcher.group();
-				date = Integer.valueOf(group);
-			}
+			matcher.find();
+			group = matcher.group();
+			date = Integer.valueOf(group);
 
 			// Hour
-			if (matcher.find()) {
-				String group = matcher.group();
-				hour = Integer.valueOf(group);
-			}
+			matcher.find();
+			group = matcher.group();
+			hour = Integer.valueOf(group);
 
 			// Minute
-			if (matcher.find()) {
-				String group = matcher.group();
-				minute = Integer.valueOf(group);
-			}
+			matcher.find();
+			group = matcher.group();
+			minute = Integer.valueOf(group);
 
 			calendar.set(year, month, date, hour, minute);
 		}
@@ -315,18 +310,23 @@ public class Event implements Comparable {
 	}
 
 	public void addSubtask(Event event) {
-		this.subtasks.add(event.getId());
-		event.setMainId(this.getId());
+		if (event != null && event.getId() != null) {
+			this.subtasks.add(event.getId());
+			event.setMainId(this.getId());
+		}
 	}
 
 	public void addSubtask(String id) {
-		this.subtasks.add(id);
+		if (id != null) {
+			this.subtasks.add(id);
+		}
 	}
 
 	public void removeSubtask(String id) {
 		int removeIndex = -1;
 		for (int i = 0; i < this.subtasks.size(); i++) {
-			if (this.subtasks.get(i).equals(id)) {
+			String subtask = this.subtasks.get(i);
+			if (subtask.equals(id)) {
 				removeIndex = i;
 				break;
 			}
@@ -368,7 +368,7 @@ public class Event implements Comparable {
 			String[] subtasks = subtasksString.split(",");
 
 			for (int i = 0; i < subtasks.length; i++) {
-				if (subtasks[i] != null && subtasks[i].length() > 0) {
+				if (subtasks[i].length() > 0) {
 					this.addSubtask(subtasks[i]);
 				}
 			}
@@ -389,7 +389,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String recurrenceString = matcher.group(1);
-			if (recurrenceString != null && recurrenceString.length() > 0) {
+			if (recurrenceString.length() > 0) {
 				if (recurrenceString.equals(NULL)) {
 					this.setRecurrence(null);
 				} else {
@@ -419,7 +419,7 @@ public class Event implements Comparable {
 			String[] groups = groupString.split(",");
 
 			for (int i = 0; i < groups.length; i++) {
-				if (groups[i] != null && groups[i].length() > 0) {
+				if (groups[i].length() > 0) {
 					this.addGroup(groups[i]);
 				}
 			}
@@ -449,7 +449,7 @@ public class Event implements Comparable {
 			String[] reminders = reminderString.split(",");
 
 			for (int i = 0; i < reminders.length; i++) {
-				if (reminders[i] != null && reminders[i].length() > 0) {
+				if (reminders[i].length() > 0) {
 					Calendar calendar = this.fromTimestamp(reminders[i]);
 					this.addReminder(calendar);
 				}
@@ -470,7 +470,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String notes = matcher.group(1);
-			if (notes != null && notes.length() > 0) {
+			if (notes.length() > 0) {
 				if (notes.equals(NULL)) {
 					notes = null;
 				}
@@ -492,7 +492,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String location = matcher.group(1);
-			if (location != null && location.length() > 0) {
+			if (location.length() > 0) {
 				if (location.equals(NULL)) {
 					location = null;
 				}
@@ -514,7 +514,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String priorityString = matcher.group(1);
-			if (priorityString != null && priorityString.length() > 0) {
+			if (priorityString.length() > 0) {
 				if (priorityString.equals(NULL)) {
 					this.setPriority(null);
 				} else {
@@ -539,7 +539,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String timestamp = matcher.group(1);
-			if (timestamp != null && timestamp.length() > 0) {
+			if (timestamp.length() > 0) {
 				Calendar endDateTime = fromTimestamp(timestamp);
 				this.setEndDateTime(endDateTime);
 			}
@@ -560,7 +560,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String timestamp = matcher.group(1);
-			if (timestamp != null && timestamp.length() > 0) {
+			if (timestamp.length() > 0) {
 				Calendar startDateTime = fromTimestamp(timestamp);
 				this.setStartDateTime(startDateTime);
 			}
@@ -580,7 +580,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String title = matcher.group(1);
-			if (title != null && title.length() > 0) {
+			if (title.length() > 0) {
 				if (title.equals(NULL)) {
 					title = null;
 				}
@@ -602,7 +602,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String id = matcher.group(1);
-			if (id != null && id.length() > 0) {
+			if (id.length() > 0) {
 				if (id.equals(NULL)) {
 					id = null;
 				}
@@ -624,7 +624,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String id = matcher.group(1);
-			if (id != null && id.length() > 0) {
+			if (id.length() > 0) {
 				if (id.equals(NULL)) {
 					id = null;
 				}
@@ -634,51 +634,27 @@ public class Event implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object arg0) {
-		Event compare = (Event) arg0;
-		Priority priorityToCompare = compare.getPriority();
+	public int compareTo(Event arg0) {
+		int result = 0;
+		Event that = arg0;
 
-		int result = -99;
-		switch (priority) {
-		case VERY_LOW:
-			if (priorityToCompare == utils.Priority.VERY_LOW) {
-				result = 0;
-			} else {
-				result = 1;
-			}
-			break;
-		case LOW:
-			if (priorityToCompare == utils.Priority.LOW) {
-				result = 0;
-			} else if (priorityToCompare == utils.Priority.VERY_LOW) {
-				result = -1;
-			} else {
-				result = 1;
-			}
-			break;
-		case MEDIUM:
-			if (priorityToCompare == utils.Priority.MEDIUM) {
-				result = 0;
-			} else if (priorityToCompare == utils.Priority.VERY_LOW || priorityToCompare == utils.Priority.LOW) {
-				result = -1;
-			} else {
-				result = 1;
-			}
-		case HIGH:
-			if (priorityToCompare == utils.Priority.HIGH) {
-				result = 0;
-			} else if (priorityToCompare == utils.Priority.VERY_HIGH) {
-				result = 1;
-			} else {
-				result = -1;
-			}
-		case VERY_HIGH:
-			if (priorityToCompare == utils.Priority.VERY_HIGH) {
-				result = 0;
-			} else {
-				result = -1;
-			}
+		int thisValue = -1;
+		int thatValue = -1;
+
+		if (this.getPriority() != null) {
+			thisValue = this.getPriority().ordinal();
 		}
+		if (that.getPriority() != null) {
+			thatValue = that.getPriority().ordinal();
+		}
+
+		// Compare
+		if (thisValue > thatValue) {
+			result = -1;
+		} else if (thisValue < thatValue) {
+			result = 1;
+		}
+
 		return result;
 	}
 }
