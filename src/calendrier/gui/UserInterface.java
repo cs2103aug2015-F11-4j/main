@@ -364,6 +364,12 @@ public class UserInterface extends Application implements OnRemindListener {
 		if (key == KeyCode.ENTER) {
 			handleEnterPress(commandBarController, userInput);
 		}
+		if(key==KeyCode.LEFT){
+			getPreviousPage(this);
+		}
+		if(key==KeyCode.RIGHT){
+			getNextPage(this);
+		}
 	}
 
 	private void handleEnterPress(CommandBarController commandBarController, String userInput) {
