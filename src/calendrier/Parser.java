@@ -51,7 +51,7 @@ public class Parser {
 			// e.g. view month
 			pc.setCommand(Command.VIEW_MONTH);
 			return pc;
-		} else if (userInput.equals("view home")) {
+		} else if (userInput.equals("view home") || userInput.equals("view day")) {
 			// e.g. view home
 			pc.setCommand(Command.VIEW_HOME);
 			return pc;
