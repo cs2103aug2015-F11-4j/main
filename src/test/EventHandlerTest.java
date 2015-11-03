@@ -140,6 +140,7 @@ public class EventHandlerTest {
 		searchCommand2.setPriority(utils.Priority.LOW);
 	}
 	
+	
 	/**
 	 * TESTS FOR ADD
 	 * 
@@ -296,6 +297,11 @@ public class EventHandlerTest {
 	public void testViewEmptyEvents() throws Exception {
 //		fail();
 	}
+	
+	
+	/**
+	 * TESTS FOR SEARCH
+	 */
 
 	@Test
 	public void testSearchEventById() throws Exception {
@@ -331,7 +337,7 @@ public class EventHandlerTest {
 	
 	
 //	@Test
-//	public void testSearchMultipleEvents() throws Exception {
+//	public void testSearchMultipleEventsByTitle() throws Exception {
 //		EventHandler handle = new EventHandler();
 //		handle.injectStorageManager(new StorageManagerStub());
 //		
@@ -343,6 +349,12 @@ public class EventHandlerTest {
 //		
 //	}
 
+	
+	/**
+	 * TESTS FOR UPDATE
+	 */
+	
+	
 	@Test
 	public void testUpdateEvent() throws Exception {
 		EventHandler handle = new EventHandler();
