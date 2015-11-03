@@ -30,66 +30,9 @@ public class EventTest {
 		Event event = new Event();
 
 		event.addGroup("group 1");
-		assertTrue(event.getGroups().contains("group 1"));
 
-		event.addGroup("group 2");
-		assertTrue(event.getGroups().contains("group 1"));
-		assertTrue(event.getGroups().contains("group 2"));
-
-		event.removeGroup("group 1");
-		assertFalse(event.getGroups().contains("group 1"));
-		assertTrue(event.getGroups().contains("group 2"));
-
-	}
-	
-	@Test
-	public void testRemoveGroupLoopAll() {
-		Event event = new Event();
-
-		event.addGroup("group 1");
-		assertTrue(event.getGroups().contains("group 1"));
-
-		event.addGroup("group 2");
-		assertTrue(event.getGroups().contains("group 1"));
-		assertTrue(event.getGroups().contains("group 2"));
-
-		event.removeGroup("group 2");
-		assertTrue(event.getGroups().contains("group 1"));
-		assertFalse(event.getGroups().contains("group 2"));
-
-	}
-	
-	@Test
-	public void testRemoveGroupNotExist() {
-		Event event = new Event();
-
-		event.addGroup("group 1");
-		assertTrue(event.getGroups().contains("group 1"));
-
-		event.addGroup("group 2");
-		assertTrue(event.getGroups().contains("group 1"));
-		assertTrue(event.getGroups().contains("group 2"));
-
-		event.removeGroup("group 3");
-		assertTrue(event.getGroups().contains("group 1"));
-		assertTrue(event.getGroups().contains("group 2"));
-
-	}
-	
-	@Test
-	public void testRemoveAllGroup() {
-		Event event = new Event();
-
-		event.addGroup("group 1");
-		assertTrue(event.getGroups().contains("group 1"));
-
-		event.addGroup("group 2");
-		assertTrue(event.getGroups().contains("group 1"));
-		assertTrue(event.getGroups().contains("group 2"));
-
-		event.removeAllGroups();
-		assertFalse(event.getGroups().contains("group 1"));
-		assertFalse(event.getGroups().contains("group 2"));
+		event.removeGroup();
+		assertEquals(null, event.getGroup());
 
 	}
 	
@@ -342,7 +285,7 @@ public class EventTest {
 	public void testFromTimeStampEmptyYear() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: /10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -354,7 +297,7 @@ public class EventTest {
 	public void testFromTimeStampEmptyMonth() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015//20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -366,7 +309,7 @@ public class EventTest {
 	public void testFromTimeStampEmptyDate() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -378,7 +321,7 @@ public class EventTest {
 	public void testFromTimeStampEmptyHour() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -390,7 +333,7 @@ public class EventTest {
 	public void testFromTimeStampEmptyMinute() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -402,7 +345,7 @@ public class EventTest {
 	public void testFromTimeStampInvalidYear() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: a/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -414,7 +357,7 @@ public class EventTest {
 	public void testFromTimeStampInvalidMonth() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/a/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -426,7 +369,7 @@ public class EventTest {
 	public void testFromTimeStampInvalidDate() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/a-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -438,7 +381,7 @@ public class EventTest {
 	public void testFromTimeStampInvalidHour() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-a:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -450,7 +393,7 @@ public class EventTest {
 	public void testFromTimeStampInvalidMinute() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:a, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -462,7 +405,7 @@ public class EventTest {
 	public void testNoIdParse() {
 		String s = "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -474,7 +417,7 @@ public class EventTest {
 	public void testEmptyIdParse() {
 		String s = "id: ," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -486,7 +429,7 @@ public class EventTest {
 	public void testNoTitleParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -498,7 +441,7 @@ public class EventTest {
 	public void testEmptyTitleParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: , " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -510,7 +453,7 @@ public class EventTest {
 	public void testNoMainIdParse() {
 		String s = "id: testId," + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -522,7 +465,7 @@ public class EventTest {
 	public void testEmptyMainIdParse() {
 		String s = "id: testId," + "mainId: , " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -534,7 +477,7 @@ public class EventTest {
 	public void testNoStartDateTimeParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "endDateTime: 2015/10/20-10:33, "
 				+ "priority: HIGH, " + "location: test location, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -546,7 +489,7 @@ public class EventTest {
 	public void testEmptyStartDateTimeParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: , "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -558,7 +501,7 @@ public class EventTest {
 	public void testNoEndDateTimeParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "priority: HIGH, " + "location: test location, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -570,7 +513,7 @@ public class EventTest {
 	public void testEmptyEndDateTimeParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: , " + "priority: HIGH, " + "location: test location, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -582,7 +525,7 @@ public class EventTest {
 	public void testNoPriorityParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "location: test location, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -594,7 +537,7 @@ public class EventTest {
 	public void testEmptyPriorityParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: , " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -606,7 +549,7 @@ public class EventTest {
 	public void testNoLocationParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -618,7 +561,7 @@ public class EventTest {
 	public void testEmptyLocationParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: , " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -630,7 +573,7 @@ public class EventTest {
 	public void testNoNotesParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -642,7 +585,7 @@ public class EventTest {
 	public void testEmptyNotesParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, " + "notes: , "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -654,7 +597,7 @@ public class EventTest {
 	public void testNoReminderParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "groups: [abc, def], " + "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
+				+ "notes: test note, " + "groups: abc, " + "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
 
@@ -665,7 +608,7 @@ public class EventTest {
 	public void testEmptyReminderParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: , " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "notes: test note, " + "reminder: , " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -682,7 +625,7 @@ public class EventTest {
 		Event event = new Event();
 		event.fromString(s);
 
-		assertEquals(event.getGroups().size(), 0);
+		assertEquals(null, event.getGroup());
 	}
 
 	@Test
@@ -694,14 +637,14 @@ public class EventTest {
 		Event event = new Event();
 		event.fromString(s);
 
-		assertEquals(event.getGroups().size(), 0);
+		assertEquals(null, event.getGroup());
 	}
 
 	@Test
 	public void testNoRecurrenceParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -713,7 +656,7 @@ public class EventTest {
 	public void testEmptyRecurrenceParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: , " + "subtasks: [abcd, defg], ";
 		Event event = new Event();
 		event.fromString(s);
@@ -725,7 +668,7 @@ public class EventTest {
 	public void testNoSubtaskParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, ";
 		Event event = new Event();
 		event.fromString(s);
@@ -737,7 +680,7 @@ public class EventTest {
 	public void testEmptySubtasksParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: , ";
 		Event event = new Event();
 		event.fromString(s);
@@ -840,43 +783,7 @@ public class EventTest {
 		e.setPriority(Priority.HIGH);
 		e.setLocation("test location");
 		e.setNotes("test note");
-		e.addGroup("abc");
-		e.setRecurrence(Recurrence.WEEKLY);
-		e.addReminder(reminder);
-		e.addReminder(reminder);
-		e.addSubtask("abcd");
-		e.addSubtask("defg");
-
-		assertEquals(e.toString(), s);
-
-		assertTrue(true);
-	}
-
-	@Test
-	public void testToStringWithGroups2Items() {
-		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
-				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
-				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
-
-		Calendar startDateTime = Calendar.getInstance();
-		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
-		Calendar endDateTime = Calendar.getInstance();
-		endDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
-		Calendar reminder = Calendar.getInstance();
-		reminder.setTimeInMillis(Long.valueOf("1445398440000"));
-
-		Event e = new Event();
-		e.setTitle("testTitle");
-		e.setMainId("testMainId");
-		e.setId("testId");
-		e.setStartDateTime(startDateTime);
-		e.setEndDateTime(endDateTime);
-		e.setPriority(Priority.HIGH);
-		e.setLocation("test location");
-		e.setNotes("test note");
-		e.addGroup("abc");
-		e.addGroup("def");
+		e.addGroup("[abc]");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -892,7 +799,7 @@ public class EventTest {
 	public void testToStringNoId() {
 		String s = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -912,7 +819,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -928,7 +834,7 @@ public class EventTest {
 	public void testToStringNoMainId() {
 		String s = "id: testId, " + "mainId: null, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -948,7 +854,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -964,7 +869,7 @@ public class EventTest {
 	public void testToStringNoTitle() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: null, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -984,7 +889,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1000,7 +904,7 @@ public class EventTest {
 	public void testToStringNoStartDateTime() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: null, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1020,7 +924,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1036,7 +939,7 @@ public class EventTest {
 	public void testToStringNoEndDateTime() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: null, " + "priority: HIGH, " + "location: test location, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1056,7 +959,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1072,7 +974,7 @@ public class EventTest {
 	public void testToStringNoPriority() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: null, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1092,7 +994,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1108,7 +1009,7 @@ public class EventTest {
 	public void testToStringNoLocation() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: null, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1128,7 +1029,6 @@ public class EventTest {
 		e.setLocation(null);
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1144,7 +1044,7 @@ public class EventTest {
 	public void testToStringNoNotes() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, " + "notes: null, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1164,7 +1064,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes(null);
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1180,7 +1079,7 @@ public class EventTest {
 	public void testToStringNoReminder() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "notes: test note, " + "reminder: [], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1200,7 +1099,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addSubtask("abcd");
 		e.addSubtask("defg");
@@ -1214,7 +1112,7 @@ public class EventTest {
 	public void testToString1Reminder() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1234,7 +1132,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addSubtask("abcd");
@@ -1249,7 +1146,7 @@ public class EventTest {
 	public void testToString2Reminder() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1269,7 +1166,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1285,7 +1181,7 @@ public class EventTest {
 	public void testToStringNoSubtask() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1305,7 +1201,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1319,7 +1214,7 @@ public class EventTest {
 	public void testToString1Subtask() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1339,7 +1234,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1354,7 +1248,7 @@ public class EventTest {
 	public void testToString2Subtask() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1374,7 +1268,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1390,7 +1283,7 @@ public class EventTest {
 	public void testToStringNoRecurrence() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1410,7 +1303,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(null);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1426,7 +1318,7 @@ public class EventTest {
 	public void testFromStringWithNoGroupsItem() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: , "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1442,7 +1334,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals(null, e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1468,33 +1360,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc]", Arrays.toString(e.getGroups().toArray()));
-		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
-
-		assertTrue(true);
-	}
-
-	@Test
-	public void testFromStringWithGroups2Items() {
-		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
-				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
-				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
-
-		Event e = new Event();
-		e.fromString(c);
-
-		assertEquals("testId", e.getId());
-		assertEquals("testMainId", e.getMainId());
-		assertEquals("testTitle", e.getTitle());
-		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
-		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
-		assertEquals("MEDIUM", e.getPriority().name());
-		assertEquals("test location", e.getLocation());
-		assertEquals("test note", e.getNotes());
-		assertEquals(null, e.getRecurrence());
-		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("[abc]", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1504,7 +1370,7 @@ public class EventTest {
 	public void testFromStringNoId() {
 		String c = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1520,7 +1386,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1530,7 +1396,7 @@ public class EventTest {
 	public void testFromStringNoMainId() {
 		String c = "id: testId, " + "mainId: null, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1546,7 +1412,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1556,7 +1422,7 @@ public class EventTest {
 	public void testFromStringNoTitle() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: null, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1572,7 +1438,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1582,7 +1448,7 @@ public class EventTest {
 	public void testFromStringNoStartDateTime() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: null, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1598,7 +1464,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1608,7 +1474,7 @@ public class EventTest {
 	public void testFromStringNoEndDateTime() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: null, " + "priority: MEDIUM, " + "location: test location, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: null, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: null, "
 				+ "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1624,7 +1490,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1634,7 +1500,7 @@ public class EventTest {
 	public void testFromStringNoPriority() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: null, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1650,7 +1516,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1660,7 +1526,7 @@ public class EventTest {
 	public void testFromStringNoLocation() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: null, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: null, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: null, "
 				+ "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1676,7 +1542,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1686,7 +1552,7 @@ public class EventTest {
 	public void testFromStringNoNotes() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: null, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: null, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1702,7 +1568,7 @@ public class EventTest {
 		assertEquals(null, e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1712,7 +1578,7 @@ public class EventTest {
 	public void testFromStringNoReminder() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [], " + "groups: [abc, def], " + "recurrence: null, "
+				+ "notes: test note, " + "reminder: [], " + "groups: abc, " + "recurrence: null, "
 				+ "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1728,7 +1594,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1738,7 +1604,7 @@ public class EventTest {
 	public void testFromString1Reminder() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1754,7 +1620,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1764,7 +1630,7 @@ public class EventTest {
 	public void testFromString2Reminder() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: MONTHLY, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1780,7 +1646,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(Recurrence.MONTHLY, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1790,7 +1656,7 @@ public class EventTest {
 	public void testFromStringNoSubtask() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [], ";
 
 		Event e = new Event();
@@ -1806,7 +1672,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1816,7 +1682,7 @@ public class EventTest {
 	public void testFromString1Subtask() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd], ";
 
 		Event e = new Event();
@@ -1832,7 +1698,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1842,7 +1708,7 @@ public class EventTest {
 	public void testFromString2Subtask() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1858,7 +1724,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1868,7 +1734,7 @@ public class EventTest {
 	public void testFromStringNoRecurrence() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1884,7 +1750,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);
@@ -1894,7 +1760,7 @@ public class EventTest {
 	public void testToString() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: null, " + "priority: HIGH, " + "location: test location, " + "notes: test note, "
-				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], " + "recurrence: WEEKLY, "
+				+ "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
 				+ "subtasks: [abcd, defg], ";
 
 		Calendar startDateTime = Calendar.getInstance();
@@ -1914,7 +1780,6 @@ public class EventTest {
 		e.setLocation("test location");
 		e.setNotes("test note");
 		e.addGroup("abc");
-		e.addGroup("def");
 		e.setRecurrence(Recurrence.WEEKLY);
 		e.addReminder(reminder);
 		e.addReminder(reminder);
@@ -1930,7 +1795,7 @@ public class EventTest {
 	public void testFromString() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: [abc, def], "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
 				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
@@ -1946,7 +1811,7 @@ public class EventTest {
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
-		assertEquals("[abc, def]", Arrays.toString(e.getGroups().toArray()));
+		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
 
 		assertTrue(true);

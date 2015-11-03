@@ -35,7 +35,7 @@ public class Event implements Comparable<Event> {
 	private static final String LOCATION_REGEX = "location: (.*?),";
 	private static final String NOTES_REGEX = "notes: (.*?),";
 	private static final String REMINDER_REGEX = "reminder: \\[(.*?)\\],";
-	private static final String GROUPS_REGEX = "groups: \\[(.*?)\\],";
+	private static final String GROUPS_REGEX = "groups: (.*?),";
 	private static final String RECURRENCE_REGEX = "recurrence: (.*?),";
 	private static final String SUBTASKS_REGEX = "subtasks: \\[(.*?)\\],";
 
@@ -48,7 +48,7 @@ public class Event implements Comparable<Event> {
 	private String notes;
 	private String mainId;
 	private List<Calendar> reminder;
-	private List<String> groups;
+	private String group;
 	private Recurrence recurrence;
 	private List<String> subtasks; // List of Subtask ID
 
@@ -62,7 +62,7 @@ public class Event implements Comparable<Event> {
 		this.notes = null;
 		this.mainId = null;
 		this.reminder = new ArrayList<>();
-		this.groups = new ArrayList<String>();
+		this.group = null;
 		this.recurrence = null;
 		this.subtasks = new ArrayList<String>();
 	}
@@ -278,31 +278,16 @@ public class Event implements Comparable<Event> {
 		return reminderList;
 	}
 
-	public List<String> getGroups() {
-		return groups;
+	public String getGroup() {
+		return group;
 	}
 
 	public void addGroup(String group) {
-		this.groups.add(group);
+		this.group = group;
 	}
 
-	public void removeGroup(String group) {
-		int position = -1;
-
-		for (int i = 0; i < groups.size(); i++) {
-			if (groups.get(i).equals(group)) {
-				position = i;
-				break;
-			}
-		}
-
-		if (position >= 0) {
-			this.groups.remove(position);
-		}
-	}
-
-	public void removeAllGroups() {
-		this.groups.clear();
+	public void removeGroup() {
+		this.group = null;
 	}
 
 	public List<String> getSubtasks() {
@@ -401,7 +386,7 @@ public class Event implements Comparable<Event> {
 	}
 
 	private String serializeGroups(String eventString) {
-		eventString += String.format(GROUPS_STRING, Arrays.toString(this.groups.toArray()));
+		eventString += String.format(GROUPS_STRING, this.group);
 		return eventString;
 	}
 
@@ -413,15 +398,8 @@ public class Event implements Comparable<Event> {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String groupString = matcher.group(1);
-			groupString = groupString.replace("[", "");
-			groupString = groupString.replace("]", "");
-			groupString = groupString.replace(", ", ",");
-			String[] groups = groupString.split(",");
-
-			for (int i = 0; i < groups.length; i++) {
-				if (groups[i].length() > 0) {
-					this.addGroup(groups[i]);
-				}
+			if (groupString.length() > 0) {
+				this.group = groupString;
 			}
 		}
 	}

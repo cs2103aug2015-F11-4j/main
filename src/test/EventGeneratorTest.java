@@ -78,7 +78,7 @@ public class EventGeneratorTest {
 		assertEquals(generatedEvent.getPriority(), testEvent.getPriority());
 		assertEquals(generatedEvent.getLocation(), testEvent.getLocation());
 		assertEquals(generatedEvent.getNotes(), testEvent.getNotes());
-		assertEquals(generatedEvent.getGroups(), testEvent.getGroups());
+		assertEquals(generatedEvent.getGroup(), testEvent.getGroup());
 		assertEquals("SUBTASK2", testEvent.getSubtasks().get(1));
 	}
 	
