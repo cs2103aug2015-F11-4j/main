@@ -81,7 +81,7 @@ public class Parser {
 			// e.g. delete 2
 			pc.setCommand(Command.DELETE);
 			pc.setId(inputAfterCommand);
-		} else if (command.equals("filter")) {
+		} else if (command.equals("filter") || command.equals("search")) {
 			// e.g. filter group personal OR filter priority very high OR
 			// filter startdate yyyy/mm/dd OR filter enddate yyyy/mm/dd
 			pc.setCommand(Command.FILTER);

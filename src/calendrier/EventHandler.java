@@ -85,7 +85,7 @@ public class EventHandler {
 		} else if (pc.getCommand() == Command.UNDELETE) {
 			undo();
 			eventsReturned.addAll(events);
-		} else if (pc.getCommand() == Command.SEARCH) {
+		} else if (pc.getCommand() == Command.SEARCH || pc.getCommand() == Command.FILTER) {
 			eventsReturned = search(pc);
 
 		} else if (pc.getCommand() == Command.STORAGE_LOCATION) {
@@ -122,7 +122,9 @@ public class EventHandler {
 				searchedEvents.add(e);
 			} else if (e.getPriority().equals(pc.getPriority())) {
 				searchedEvents.add(e);
-			} else if (e.getTitle().equals(pc.getTitle())) {
+			} else if (e.getTitle().contains(pc.getTitle())) {
+				searchedEvents.add(e);
+			} else if (e.getGroups().contains(pc.getGroup())) {
 				searchedEvents.add(e);
 			}
 		}

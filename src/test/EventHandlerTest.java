@@ -23,6 +23,8 @@ public class EventHandlerTest {
 	ParsedCommand undoCommand = new ParsedCommand();
 	ParsedCommand updateCommand = new ParsedCommand();
 	ParsedCommand setStorage = new ParsedCommand();
+	ParsedCommand searchCommand1 =  new ParsedCommand();
+	ParsedCommand searchCommand2 = new ParsedCommand();
 	
 	Event testEvent = new Event();
 	
@@ -42,7 +44,7 @@ public class EventHandlerTest {
 
 	static Calendar start1;
 	static Calendar end1;
-	Event conflictEvent1 = new Event();
+	Event testEvent2 = new Event();
 
 	static Calendar start2;
 	static Calendar end2;
@@ -117,6 +119,7 @@ public class EventHandlerTest {
 		testEvent.setNotes(notes);
 		testEvent.setReminder(reminder);
 		testEvent.addGroup(group);
+		
 
 		deleteCommand.setCommand(Command.DELETE);
 		deleteCommand.setId(ID);
@@ -129,6 +132,12 @@ public class EventHandlerTest {
 
 		setStorage.setCommand(Command.STORAGE_LOCATION);
 		setStorage.setStorageLocation("abc.txt");
+		
+		searchCommand1.setCommand(Command.FILTER);
+		searchCommand1.setTitle(title);
+		
+		searchCommand2.setCommand(Command.FILTER);
+		searchCommand2.setPriority(utils.Priority.LOW);
 	}
 	
 	/**
@@ -289,7 +298,7 @@ public class EventHandlerTest {
 	}
 
 	@Test
-	public void testSearchEvent() throws Exception {
+	public void testSearchEventById() throws Exception {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 
@@ -298,6 +307,41 @@ public class EventHandlerTest {
 		assertEquals(searchedEvent.getId(), testEvent.getId());
 		assertEquals(searchedEvent.getNotes(), testEvent.getNotes());
 	}
+	
+	@Test
+	public void testSearchEventByTitle() throws Exception {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		
+		handle.add(testEvent);
+		Event searchedEvent = handle.search(searchCommand1).get(0);
+		
+		assertEquals(title , searchedEvent.getTitle());
+	}
+	
+	@Test
+	public void testSearchEventByPriority() throws Exception {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		
+		handle.add(testEvent);
+		Event searchedEvent = handle.search(searchCommand2).get(0);
+		assertEquals(utils.Priority.LOW , searchedEvent.getPriority());
+	}
+	
+	
+//	@Test
+//	public void testSearchMultipleEvents() throws Exception {
+//		EventHandler handle = new EventHandler();
+//		handle.injectStorageManager(new StorageManagerStub());
+//		
+//		testEvent2.setTitle(title);
+//
+//
+//		handle.add(testEvent);
+//		handle.add(testEvent2);
+//		
+//	}
 
 	@Test
 	public void testUpdateEvent() throws Exception {
