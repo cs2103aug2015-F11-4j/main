@@ -16,9 +16,9 @@
 			</columnConstraints>
 			<children>
 				<Label fx:id="lblOpenEventID" GridPane.rowIndex="0"
-					GridPane.columnIndex="0" wrapText="true" wrapText="true" />
+					GridPane.columnIndex="0" wrapText="true" />
 				<Label fx:id="lblOpenEventTitle" GridPane.rowIndex="0"
-					GridPane.columnIndex="1" wrapText="true" wrapText="true" />
+					GridPane.columnIndex="1" wrapText="true" />
 			</children>
 		</GridPane>
 	</children>
