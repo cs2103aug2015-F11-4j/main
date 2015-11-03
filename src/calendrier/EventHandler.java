@@ -1,6 +1,7 @@
 package calendrier;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -178,13 +179,9 @@ public class EventHandler {
 	public Event add(Event event) throws Exception {
 		previousEvent = event;
 
-		if (checkTimeConflict(event)) {
-			throw new Exception("ERROR - TIME CONFLICT");
-		} else {
-			events.add(event);
-			reminders.addReminder(event);
-			manage.save(events);
-		}
+		events.add(event);
+		reminders.addReminder(event);
+		manage.save(events);
 
 		// check if newly added event is a subtask
 		if (event.getMainId() != null) {
@@ -222,10 +219,16 @@ public class EventHandler {
 				break;
 			}
 		}
-		// remove event from subtask
 		
-		events.remove(eventToBeRemoved);
+		// remove event from subtask
+		for (Event e : events) {
+			if (e.getId() == eventToBeRemoved.getMainId()) {
+				e.removeSubtask(eventToBeRemoved.getId());
+			}
+		}
+		
 		reminders.removeReminder(eventToBeRemoved);
+		events.remove(eventToBeRemoved);
 		saveHistory();
 		manage.save(events);
 		return eventToBeRemoved;
@@ -259,8 +262,8 @@ public class EventHandler {
 			// ensure updatedEvent contains all relevant info from oldEvent
 			copyEventInfo(newEvent, oldEvent);
 			beforeUpdate = oldEvent;
-			events.add(newEvent);
 			reminders.updateReminder(newEvent);
+			events.add(newEvent);
 			saveHistory();
 			manage.save(events);
 			return newEvent;
@@ -315,8 +318,10 @@ public class EventHandler {
 		if (newEvent.getNotes() == null) {
 			newEvent.setNotes(oldEvent.getNotes());
 		}
-		if (newEvent.getReminder() == null) {
-			newEvent.setReminder(oldEvent.getReminder());
+		if (newEvent.getReminder() != oldEvent.getReminder()) {
+			for (Calendar c : oldEvent.getReminder()) {
+				newEvent.addReminder(c);
+			}
 		}
 		if (newEvent.getGroups() != oldEvent.getGroups()) {
 			for (String s : oldEvent.getGroups()) {
