@@ -25,6 +25,7 @@ public class Event implements Comparable<Event> {
 	private static final String GROUPS_STRING = "groups: %s, ";
 	private static final String RECURRENCE_STRING = "recurrence: %s, ";
 	private static final String SUBTASKS_STRING = "subtasks: %s, ";
+	private static final String DONE_STRING = "done: %s, ";
 
 	private static final String ID_REGEX = "id: (.*?),";
 	private static final String MAIN_ID_REGEX = "mainId: (.*?),";
@@ -38,6 +39,7 @@ public class Event implements Comparable<Event> {
 	private static final String GROUPS_REGEX = "groups: (.*?),";
 	private static final String RECURRENCE_REGEX = "recurrence: (.*?),";
 	private static final String SUBTASKS_REGEX = "subtasks: \\[(.*?)\\],";
+	private static final String DONE_REGEX = "done: (.*?),";
 
 	private String id;
 	private String title;
@@ -51,6 +53,7 @@ public class Event implements Comparable<Event> {
 	private String group;
 	private Recurrence recurrence;
 	private List<String> subtasks; // List of Subtask ID
+	private boolean done;
 
 	public Event() {
 		this.id = null;
@@ -65,6 +68,7 @@ public class Event implements Comparable<Event> {
 		this.group = null;
 		this.recurrence = null;
 		this.subtasks = new ArrayList<String>();
+		this.done = false;
 	}
 
 	public void fromString(String eventString) {
@@ -80,6 +84,7 @@ public class Event implements Comparable<Event> {
 		parseGroups(eventString);
 		parseRecurrence(eventString);
 		parseSubtasks(eventString);
+		parseDone(eventString);
 	}
 
 	public String toString() {
@@ -97,6 +102,7 @@ public class Event implements Comparable<Event> {
 		eventString = serializeGroups(eventString);
 		eventString = serializeRecurrence(eventString);
 		eventString = serializeSubtasks(eventString);
+		eventString = serializeDone(eventString);
 
 		return eventString;
 	}
@@ -332,6 +338,34 @@ public class Event implements Comparable<Event> {
 
 	public void setRecurrence(Recurrence recurrence) {
 		this.recurrence = recurrence;
+	}
+
+	public boolean isDone() {
+		return done;
+	}
+
+	public void setDone(boolean done) {
+		this.done = done;
+	}
+
+	private String serializeDone(String eventString) {
+		eventString += String.format(DONE_STRING, Boolean.toString(done));
+		return eventString;
+	}
+
+	private void parseDone(String eventString) {
+		Pattern pattern;
+		Matcher matcher;
+		// Done
+		pattern = Pattern.compile(DONE_REGEX);
+		matcher = pattern.matcher(eventString);
+		if (matcher.find()) {
+			String doneString = matcher.group(1);
+			if (doneString.length() > 0) {
+				boolean done = Boolean.valueOf(doneString);
+				this.setDone(done);
+			}
+		}
 	}
 
 	private String serializeSubtasks(String eventString) {
