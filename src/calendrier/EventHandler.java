@@ -104,12 +104,24 @@ public class EventHandler {
 		initialEvents = generator.createMultipleEvents(eventsFromStorage);
 	}
 
+	/** 
+	 * Search the list of events for the set of events that 
+	 * 
+	 * Can search events based on the following:
+	 * 			- title
+	 * 			- group
+	 * 			- priority
+	 * @param pc
+	 * @return			searchedEvents: the events that satisfy the search 
+	 */
 	public ArrayList<Event> search(ParsedCommand pc) {
 		ArrayList<Event> searchedEvents = new ArrayList<>();
 		for (Event e : events) {
 			if (e.getGroups().contains(pc.getGroup())) {
 				searchedEvents.add(e);
 			} else if (e.getPriority().equals(pc.getPriority())) {
+				searchedEvents.add(e);
+			} else if (e.getTitle().equals(pc.getTitle())) {
 				searchedEvents.add(e);
 			}
 		}
@@ -210,6 +222,8 @@ public class EventHandler {
 				break;
 			}
 		}
+		// remove event from subtask
+		
 		events.remove(eventToBeRemoved);
 		reminders.removeReminder(eventToBeRemoved);
 		saveHistory();
