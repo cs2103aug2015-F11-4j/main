@@ -47,7 +47,7 @@ public class EventDetailController extends StackPane {
 	private static final String DINNER_EVENT_TYPE_IMAGE = "/calendrier/resources/dinner.png.";
 	private static final String READING_EVENT_TYPE_IMAGE = "/calendrier/resources/reading.png";
 	private static final String MEETING_EVENT_TYPE_IMAGE = "/calendrier/resources/meeting.png";
-	private static final String BIRTHDAY_EVENT_TYPE_IMAGE = "/calendrier/rosources/birthday.png";
+	private static final String BIRTHDAY_EVENT_TYPE_IMAGE = "/calendrier/resources/birthday.png";
 	
 	private static final String VALUE_GROUP_DEADLINE = "deadline";
 	private static final String VALUE_GROUP_MEETING = "meeting";
