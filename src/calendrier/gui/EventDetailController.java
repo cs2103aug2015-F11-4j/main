@@ -2,7 +2,6 @@ package calendrier.gui;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 
 import utils.Event;
@@ -50,7 +49,6 @@ public class EventDetailController extends StackPane {
 	private static final String MEETING_EVENT_TYPE_IMAGE = "/calendrier/resources/meeting.png";
 
 	private static final int VALUE_EMPTY_SIZE = 0;
-	private static final int VALUE_GET_INDEX = 0;
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	private static final String VALUE_SHOW_NULL = "null, ";
@@ -84,15 +82,14 @@ public class EventDetailController extends StackPane {
 		}
 
 		Image img;
-		if (checkExistValue(event.getGroups().toString()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		if (checkExistValue(event.getGroup()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			lblGroup.setText(VALUE_SHOW_EMPTY_DATA);
 			img = new Image(DEFAULT_EVENT_TYPE_IMAGE);
 		} else {
-			String strGroup = convertGroupToString(event.getGroups());
+			String strGroup = event.getGroup();
 			lblGroup.setText(strGroup);
 			String strImage = getGrpImage(strGroup);
 			img = new Image(strImage);
-
 		}
 		imgType.setImage(img);
 	}
@@ -121,8 +118,8 @@ public class EventDetailController extends StackPane {
 				return startDate;
 			}
 			return startDate + " - " + endDate;
-		} else
-			if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		} else if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
+				&& endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			return startDate;
 		} else if (startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
 				&& !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
@@ -180,32 +177,14 @@ public class EventDetailController extends StackPane {
 		}
 	}
 
-	private static String convertGroupToString(Collection<String> groups) {
-		String strGrp = "";
-		if (groups.size() != VALUE_EMPTY_SIZE) {
-			for (String str : groups) {
-				strGrp += str + VALUE_ADD_COMMA;
-			}
-		}
-
-		if (strGrp.equalsIgnoreCase(VALUE_SHOW_NULL)) {
-			return VALUE_SHOW_EMPTY_DATA;
-		}
-
-		return strGrp;
-	}
-
 	private static String getGrpImage(String strGrp) {
-		String[] groups = strGrp.split(",");
-		String mainGrp = groups[VALUE_GET_INDEX];
-
-		if (mainGrp.equalsIgnoreCase("report")) {
+		if (strGrp.equalsIgnoreCase("report")) {
 			return REPORT_EVENT_TYPE_IMAGE;
-		} else if (mainGrp.equalsIgnoreCase("dinner")) {
+		} else if (strGrp.equalsIgnoreCase("dinner")) {
 			return DINNER_EVENT_TYPE_IMAGE;
-		} else if (mainGrp.equalsIgnoreCase("meeting")) {
+		} else if (strGrp.equalsIgnoreCase("meeting")) {
 			return MEETING_EVENT_TYPE_IMAGE;
-		} else if (mainGrp.equalsIgnoreCase("reading")) {
+		} else if (strGrp.equalsIgnoreCase("reading")) {
 			return READING_EVENT_TYPE_IMAGE;
 		} else {
 			return DEFAULT_EVENT_TYPE_IMAGE;

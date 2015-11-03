@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 
 import utils.Event;
 import utils.IdMapper;
@@ -38,9 +37,6 @@ public class EventBoxController extends StackPane {
 	private static final String READING_EVENT_TYPE_IMAGE = "/calendrier/resources/reading.png";
 	private static final String MEETING_EVENT_TYPE_IMAGE = "/calendrier/resources/meeting.png";
 
-	private static final int VALUE_EMPTY_SIZE = 0;
-	private static final int VALUE_GET_INDEX = 0;
-
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
 	
@@ -70,10 +66,10 @@ public class EventBoxController extends StackPane {
 		changeBoarderColour(event, cal, strPriority);
 
 		Image img;
-		if (checkExistValue(event.getGroups().toString()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		if (checkExistValue(event.getGroup()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			img = new Image(DEFAULT_EVENT_TYPE_IMAGE);
 		} else {
-			String strGroup = convertGroupToString(event.getGroups());
+			String strGroup = event.getGroup();
 			String strImage = getGrpImage(strGroup);
 			img = new Image(strImage);
 
@@ -139,32 +135,14 @@ public class EventBoxController extends StackPane {
 		}
 	}
 
-	private static String convertGroupToString(Collection<String> groups) {
-		String strGrp = "";
-		if (groups.size() != VALUE_EMPTY_SIZE) {
-			for (String str : groups) {
-				strGrp += str + ", ";
-			}
-		}
-
-		if (strGrp.equalsIgnoreCase("null, ")) {
-			return VALUE_SHOW_EMPTY_DATA;
-		}
-
-		return strGrp;
-	}
-
 	private static String getGrpImage(String strGrp) {
-		String[] groups = strGrp.split(",");
-		String mainGrp = groups[VALUE_GET_INDEX];
-
-		if (mainGrp.equalsIgnoreCase("report")) {
+		if (strGrp.equalsIgnoreCase("report")) {
 			return REPORT_EVENT_TYPE_IMAGE;
-		} else if (mainGrp.equalsIgnoreCase("dinner")) {
+		} else if (strGrp.equalsIgnoreCase("dinner")) {
 			return DINNER_EVENT_TYPE_IMAGE;
-		} else if (mainGrp.equalsIgnoreCase("meeting")) {
+		} else if (strGrp.equalsIgnoreCase("meeting")) {
 			return MEETING_EVENT_TYPE_IMAGE;
-		} else if (mainGrp.equalsIgnoreCase("reading")) {
+		} else if (strGrp.equalsIgnoreCase("reading")) {
 			return READING_EVENT_TYPE_IMAGE;
 		} else {
 			return DEFAULT_EVENT_TYPE_IMAGE;
