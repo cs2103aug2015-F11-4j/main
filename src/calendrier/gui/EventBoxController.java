@@ -36,7 +36,14 @@ public class EventBoxController extends StackPane {
 	private static final String DINNER_EVENT_TYPE_IMAGE = "/calendrier/resources/dinner.png.";
 	private static final String READING_EVENT_TYPE_IMAGE = "/calendrier/resources/reading.png";
 	private static final String MEETING_EVENT_TYPE_IMAGE = "/calendrier/resources/meeting.png";
-
+	private static final String BIRTHDAY_EVENT_TYPE_IMAGE = "/calendrier/rosources/birthday.png";
+	
+	private static final String VALUE_GROUP_DEADLINE = "deadline";
+	private static final String VALUE_GROUP_MEETING = "meeting";
+	private static final String VALUE_GROUP_MEAL = "meal";
+	private static final String VALUE_GROUP_BIRTHDAY = "birthday";
+	private static final String VALUE_GROUP_READING = "reading";
+	
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
 	
@@ -136,14 +143,16 @@ public class EventBoxController extends StackPane {
 	}
 
 	private static String getGrpImage(String strGrp) {
-		if (strGrp.equalsIgnoreCase("report")) {
+		if (strGrp.equalsIgnoreCase(VALUE_GROUP_DEADLINE)) {
 			return REPORT_EVENT_TYPE_IMAGE;
-		} else if (strGrp.equalsIgnoreCase("dinner")) {
+		} else if (strGrp.equalsIgnoreCase(VALUE_GROUP_MEAL)) {
 			return DINNER_EVENT_TYPE_IMAGE;
-		} else if (strGrp.equalsIgnoreCase("meeting")) {
+		} else if (strGrp.equalsIgnoreCase(VALUE_GROUP_MEETING)) {
 			return MEETING_EVENT_TYPE_IMAGE;
-		} else if (strGrp.equalsIgnoreCase("reading")) {
+		} else if (strGrp.equalsIgnoreCase(VALUE_GROUP_READING)) {
 			return READING_EVENT_TYPE_IMAGE;
+		} else if (strGrp.equalsIgnoreCase(VALUE_GROUP_BIRTHDAY)) {
+			return BIRTHDAY_EVENT_TYPE_IMAGE;
 		} else {
 			return DEFAULT_EVENT_TYPE_IMAGE;
 		}
