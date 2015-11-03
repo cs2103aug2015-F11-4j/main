@@ -55,6 +55,12 @@ public class EventDetailController extends StackPane {
 	private static final String VALUE_GROUP_BIRTHDAY = "birthday";
 	private static final String VALUE_GROUP_READING = "reading";
 	
+	private static final String VALUE_VERY_HIGH_PRIORITY = "very_high";
+	private static final String VALUE_HIGH_PRIORITY = "high";
+	private static final String VALUE_MEDIUM_PRIORITY = "medium";
+	private static final String VALUE_LOW_PRIORITY = "low";
+	private static final String VALUE_VERY_LOW_PRIORITY = "very_low";
+	
 	private static final int VALUE_EMPTY_SIZE = 0;
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
@@ -81,11 +87,15 @@ public class EventDetailController extends StackPane {
 		lblLocation.setText(checkExistValue(event.getLocation()));
 		lblReminder.setText(checkExistReminder(event.getReminder()));
 		lblNotes.setText(checkExistValue(event.getNotes()));
-		lblPriority.setText(checkExistPriority(event.getPriority()));
 		lblRecurrence.setText(checkExistRecurrence(event.getRecurrence()));
+		
+		String strPriority = checkExistPriority(event.getPriority());
+		lblPriority.setText(strPriority);
 
-		if (!lblPriority.getText().equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
-			changeBorderColor(event.getPriority());
+		if (event.isDone()) {
+			changeEventDesign();
+		} else {
+			changeBorderColor(strPriority);
 		}
 
 		Image img;
@@ -152,16 +162,32 @@ public class EventDetailController extends StackPane {
 		}
 	}
 
-	private void changeBorderColor(Priority priority) {
-		if (priority == Priority.VERY_HIGH) {
+//	private void changeBorderColor(Priority priority) {
+//		if (priority == Priority.VERY_HIGH) {
+//			gridPaneDetail.setStyle("-fx-border-color: red;");
+//		} else if (priority == Priority.HIGH) {
+//			gridPaneDetail.setStyle("-fx-border-color: #FFA07A;");
+//		} else if (priority == Priority.MEDIUM) {
+//			gridPaneDetail.setStyle("-fx-border-color: #FFFF00;");
+//		} else if (priority == Priority.LOW) {
+//			gridPaneDetail.setStyle("-fx-border-color: #00FF7F;");
+//		} else if (priority == Priority.VERY_LOW) {
+//			gridPaneDetail.setStyle("-fx-border-color: #2E8B57;");
+//		} else {
+//			gridPaneDetail.setStyle("-fx-border-color: black;");
+//		}
+//	}
+	
+	private void changeBorderColor(String priority) {
+		if (priority.equalsIgnoreCase(VALUE_VERY_HIGH_PRIORITY)) {
 			gridPaneDetail.setStyle("-fx-border-color: red;");
-		} else if (priority == Priority.HIGH) {
+		} else if (priority.equalsIgnoreCase(VALUE_HIGH_PRIORITY)) {
 			gridPaneDetail.setStyle("-fx-border-color: #FFA07A;");
-		} else if (priority == Priority.MEDIUM) {
+		} else if (priority.equalsIgnoreCase(VALUE_MEDIUM_PRIORITY)) {
 			gridPaneDetail.setStyle("-fx-border-color: #FFFF00;");
-		} else if (priority == Priority.LOW) {
+		} else if (priority.equalsIgnoreCase(VALUE_LOW_PRIORITY)) {
 			gridPaneDetail.setStyle("-fx-border-color: #00FF7F;");
-		} else if (priority == Priority.VERY_LOW) {
+		} else if (priority.equalsIgnoreCase(VALUE_VERY_LOW_PRIORITY)) {
 			gridPaneDetail.setStyle("-fx-border-color: #2E8B57;");
 		} else {
 			gridPaneDetail.setStyle("-fx-border-color: black;");
@@ -198,5 +224,10 @@ public class EventDetailController extends StackPane {
 		} else {
 			return DEFAULT_EVENT_TYPE_IMAGE;
 		}
+	}
+	
+	private void changeEventDesign() {
+		gridPaneDetail.setStyle("-fx-border-color: lightgray");
+		// checkbox
 	}
 }
