@@ -280,6 +280,9 @@ public class Parser {
 			// e.g. view month: -vm
 			pc.setCommand(Command.VIEW_MONTH);
 			return pc;
+		} else if (command.equals("-vd") || command.equals("-vh")) {
+			pc.setCommand(Command.VIEW_HOME);
+			return pc;
 		}
 		
 		if (command.equals("-s")) {
