@@ -18,11 +18,31 @@ public class ViewController extends FlowPane {
 
 	private static final String VIEW_SCREEN_LAYOUT_FXML = "/calendrier/resources/View.fxml";
 	private static final String VIEWMONTH_SCREEN_LAYOUT_FXML = "/calendrier/resources/ViewMonth.fxml";
+	private static final String VIEWHOME_SCREEN_LAYOUT_FXML = "/calendrier/resources/Home.fxml";
 	private static final int VALUE_ADD_TO_ARRAY = 15;
 	@FXML
 	private Label lblmonth;
 	@FXML
 	private Label lblyear;
+	@FXML
+	private Label lbltime;
+
+	
+	public ViewController(){}
+	
+	public ViewController(long time){
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWHOME_SCREEN_LAYOUT_FXML));
+		loader.setController(this);
+		loader.setRoot(this);
+		try {
+			loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		lbltime.setText(Long.toString(time));
+		
+	}
 
 	public ViewController(List<Event> events, int date, int month, int year) {
 		int i, end;
@@ -38,17 +58,11 @@ public class ViewController extends FlowPane {
 		}
 
 		Calendar cal = Calendar.getInstance();
-		cal.set(year, month, date);
+		cal.set(year, month, 1);
 
 		@SuppressWarnings("deprecation")
 		int day = cal.getTime().getDay();
-
-		date = date % 7 - 1;
-		day = day - date;
-
-		if (day < 0) {
-			day = Math.abs(day) + 1;
-		}
+		
 		if (day != 7) {
 			date = 0;
 			while (date < day) {
@@ -78,6 +92,9 @@ public class ViewController extends FlowPane {
 		}
 		return idList;
 	}
+//	public List<String> getIdMapper(){
+//		return idList;
+//	}
 
 	private int detectLengthofMonth(int month, int year) {
 		int end;
