@@ -16,6 +16,296 @@ import utils.Priority;
 import utils.Recurrence;
 
 public class EventTest {
+	
+	@Test
+	public void testRecurrenceDaily(){
+		Calendar now = Calendar.getInstance();
+		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
+		
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(0);
+		start.set(2015, previousMonth, 11, 12, 13);
+
+		Calendar end = Calendar.getInstance();
+		end.setTimeInMillis(0);
+		end.set(2015, previousMonth, 11, 13, 14);
+		
+		Event event = new Event();
+		event.setStartDateTime(start);
+		event.setEndDateTime(end);
+		event.setRecurrence(Recurrence.DAILY);
+		
+		Event recurredEvent = event.getRecurredEvent();
+		
+		Calendar recurredStart = recurredEvent.getStartDateTime();
+		Calendar recurredEnd = recurredEvent.getEndDateTime();
+
+		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
+		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
+		
+		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
+		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
+		
+		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
+		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
+
+		assertTrue(recurredStart.after(now));
+		assertTrue(recurredStart.after(start));
+		assertTrue(recurredEnd.after(end));	
+	}
+	
+	@Test
+	public void testRecurrenceWeekly(){
+		Calendar now = Calendar.getInstance();
+		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
+		
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(0);
+		start.set(2015, previousMonth, 11, 12, 13);
+
+		Calendar end = Calendar.getInstance();
+		end.setTimeInMillis(0);
+		end.set(2015, previousMonth, 11, 13, 14);
+		
+		Event event = new Event();
+		event.setStartDateTime(start);
+		event.setEndDateTime(end);
+		event.setRecurrence(Recurrence.WEEKLY);
+		
+		Event recurredEvent = event.getRecurredEvent();
+		
+		Calendar recurredStart = recurredEvent.getStartDateTime();
+		Calendar recurredEnd = recurredEvent.getEndDateTime();
+
+		assertEquals(start.get(Calendar.DAY_OF_WEEK), recurredStart.get(Calendar.DAY_OF_WEEK));
+		assertEquals(end.get(Calendar.DAY_OF_WEEK), recurredEnd.get(Calendar.DAY_OF_WEEK));
+		
+		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
+		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
+		
+		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
+		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
+		
+		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
+		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
+
+		assertTrue(recurredStart.after(now));
+		assertTrue(recurredStart.after(start));
+		assertTrue(recurredEnd.after(end));	
+	}
+
+	@Test
+	public void testRecurrenceMonthly(){
+		Calendar now = Calendar.getInstance();
+		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
+		
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(0);
+		start.set(2015, previousMonth, 11, 12, 13);
+
+		Calendar end = Calendar.getInstance();
+		end.setTimeInMillis(0);
+		end.set(2015, previousMonth, 11, 13, 14);
+		
+		Event event = new Event();
+		event.setStartDateTime(start);
+		event.setEndDateTime(end);
+		event.setRecurrence(Recurrence.MONTHLY);
+		
+		Event recurredEvent = event.getRecurredEvent();
+		
+		Calendar recurredStart = recurredEvent.getStartDateTime();
+		Calendar recurredEnd = recurredEvent.getEndDateTime();
+
+		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
+		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
+		
+		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
+		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
+		
+		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
+		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
+		
+		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
+		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
+
+		assertTrue(recurredStart.after(now));
+		assertTrue(recurredStart.after(start));
+		assertTrue(recurredEnd.after(end));	
+	}
+	
+	@Test
+	public void testRecurrenceYearly(){
+		Calendar now = Calendar.getInstance();
+		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
+		
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(0);
+		start.set(2015, previousMonth, 11, 12, 13);
+
+		Calendar end = Calendar.getInstance();
+		end.setTimeInMillis(0);
+		end.set(2015, previousMonth, 11, 13, 14);
+		
+		Event event = new Event();
+		event.setStartDateTime(start);
+		event.setEndDateTime(end);
+		event.setRecurrence(Recurrence.YEARLY);
+		
+		Event recurredEvent = event.getRecurredEvent();
+		
+		Calendar recurredStart = recurredEvent.getStartDateTime();
+		Calendar recurredEnd = recurredEvent.getEndDateTime();
+
+		assertEquals(start.get(Calendar.MONTH), recurredStart.get(Calendar.MONTH));
+		assertEquals(end.get(Calendar.MONTH), recurredEnd.get(Calendar.MONTH));
+		
+		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
+		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
+		
+		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
+		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
+		
+		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
+		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
+		
+		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
+		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
+
+		assertTrue(recurredStart.after(now));
+		assertTrue(recurredStart.after(start));
+		assertTrue(recurredEnd.after(end));	
+	}
+	
+	@Test
+	public void testRecurrenceNoStart(){
+		Calendar now = Calendar.getInstance();
+		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
+		
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(0);
+		start.set(2015, previousMonth, 11, 12, 13);
+
+		Calendar end = Calendar.getInstance();
+		end.setTimeInMillis(0);
+		end.set(2015, previousMonth, 11, 13, 14);
+		
+		Event event = new Event();
+		event.setStartDateTime(null);
+		event.setEndDateTime(end);
+		event.setRecurrence(Recurrence.YEARLY);
+		
+		Event recurredEvent = event.getRecurredEvent();
+		
+		Calendar recurredStart = recurredEvent.getStartDateTime();
+		Calendar recurredEnd = recurredEvent.getEndDateTime();
+
+//		assertEquals(start.get(Calendar.MONTH), recurredStart.get(Calendar.MONTH));
+		assertEquals(end.get(Calendar.MONTH), recurredEnd.get(Calendar.MONTH));
+		
+//		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
+		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
+		
+//		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
+		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
+		
+//		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
+		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
+		
+//		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
+		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
+
+//		assertTrue(recurredStart.after(now));
+//		assertTrue(recurredStart.after(start));
+		assertFalse(recurredEnd.after(end));	
+	}
+	
+	@Test
+	public void testRecurrenceNoEnd(){
+		Calendar now = Calendar.getInstance();
+		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
+		
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(0);
+		start.set(2015, previousMonth, 11, 12, 13);
+
+		Calendar end = Calendar.getInstance();
+		end.setTimeInMillis(0);
+		end.set(2015, previousMonth, 11, 13, 14);
+		
+		Event event = new Event();
+		event.setStartDateTime(start);
+		event.setEndDateTime(null);
+		event.setRecurrence(Recurrence.YEARLY);
+		
+		Event recurredEvent = event.getRecurredEvent();
+		
+		Calendar recurredStart = recurredEvent.getStartDateTime();
+		Calendar recurredEnd = recurredEvent.getEndDateTime();
+
+		assertEquals(start.get(Calendar.MONTH), recurredStart.get(Calendar.MONTH));
+//		assertEquals(end.get(Calendar.MONTH), recurredEnd.get(Calendar.MONTH));
+		
+		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
+//		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
+		
+		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
+//		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
+		
+		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
+//		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
+		
+		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
+//		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
+
+		assertTrue(recurredStart.after(now));
+		assertTrue(recurredStart.after(start));
+//		assertFalse(recurredEnd.after(end));	
+	}
+	
+	@Test
+	public void testRecurrenceNoRecurrence(){
+		Calendar now = Calendar.getInstance();
+		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
+		
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(0);
+		start.set(2015, previousMonth, 11, 12, 13);
+
+		Calendar end = Calendar.getInstance();
+		end.setTimeInMillis(0);
+		end.set(2015, previousMonth, 11, 13, 14);
+		
+		Event event = new Event();
+		event.setStartDateTime(start);
+		event.setEndDateTime(end);
+		event.setRecurrence(null);
+		
+		Event recurredEvent = event.getRecurredEvent();
+		
+		Calendar recurredStart = recurredEvent.getStartDateTime();
+		Calendar recurredEnd = recurredEvent.getEndDateTime();
+
+		assertEquals(start.get(Calendar.MONTH), recurredStart.get(Calendar.MONTH));
+		assertEquals(end.get(Calendar.MONTH), recurredEnd.get(Calendar.MONTH));
+		
+		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
+		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
+		
+		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
+		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
+		
+		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
+		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
+		
+		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
+		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
+
+		assertFalse(recurredStart.after(now));
+		assertFalse(recurredStart.after(start));
+		assertFalse(recurredEnd.after(end));	
+	}
+	
 
 	@Test
 	public void testPriorityOrdinal() {
@@ -1964,6 +2254,32 @@ public class EventTest {
 		assertEquals("test location", e.getLocation());
 		assertEquals("test note", e.getNotes());
 		assertEquals(null, e.getRecurrence());
+		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
+		assertEquals("abc", e.getGroup());
+		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));
+
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testFromStringWithRecurrence() {
+		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
+				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34, 2015/10/21-11:34], " + "groups: abc, "
+				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], ";
+
+		Event e = new Event();
+		e.fromString(c);
+
+		assertEquals("testId", e.getId());
+		assertEquals("testMainId", e.getMainId());
+		assertEquals("testTitle", e.getTitle());
+		assertEquals("2015/10/20-10:33", e.toTimestamp(e.getStartDateTime()));
+		assertEquals("2015/10/21-11:34", e.toTimestamp(e.getEndDateTime()));
+		assertEquals("MEDIUM", e.getPriority().name());
+		assertEquals("test location", e.getLocation());
+		assertEquals("test note", e.getNotes());
+		assertEquals(Recurrence.WEEKLY, e.getRecurrence());
 		assertEquals("[2015/10/21-11:34, 2015/10/21-11:34]", Arrays.toString(e.getReminderList().toArray()));
 		assertEquals("abc", e.getGroup());
 		assertEquals("[abcd, defg]", Arrays.toString(e.getSubtasks().toArray()));

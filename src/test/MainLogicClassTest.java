@@ -131,6 +131,40 @@ public class MainLogicClassTest {
 	}
 	
 	@Test 
+	public void testValidGetMonth12AM(){
+		MainLogic mainLogic = loadEmptyTestCases();
+		String command = "add test, startdate 2015/10/1, starttime 00.00, enddate 2015/10/10, endtime 13.25";
+		Command cmd = mainLogic.execute(command);
+		assertEquals(Command.ADD, cmd);
+		
+		List<Event> monthEvents = mainLogic.getMonthEvents(2015, 10);
+		for(int i = 0; i < monthEvents.size(); i++){
+			Event event = monthEvents.get(i);
+			boolean startOK = false;
+			boolean endOK = false;
+			boolean cover = false;
+			
+			if(event.getStartDateTime() != null){
+				startOK = event.getStartDateTime().get(Calendar.MONTH) == 9;
+			}
+			if(event.getEndDateTime() != null){
+				endOK = event.getEndDateTime().get(Calendar.MONTH) == 9;
+			}
+			
+			if(event.getStartDateTime() != null && event.getEndDateTime() != null){
+				int startMonth = event.getStartDateTime().get(Calendar.MONTH);
+				int endMonth = event.getEndDateTime().get(Calendar.MONTH);
+				int startDate = event.getStartDateTime().get(Calendar.DATE);
+				int endDate = event.getEndDateTime().get(Calendar.DATE);
+				
+				cover = (startMonth < 9) && (endMonth > 9);
+			}
+			
+			assertTrue(startOK || endOK || cover);
+		}
+	}
+	
+	@Test 
 	public void testValidGetMonthStartBeforeEndIn(){
 		MainLogic mainLogic = loadEmptyTestCases();
 		String command = "add test, startdate 2015/9/20, starttime 12.00, enddate 2015/10/10, endtime 13.25";
@@ -228,6 +262,32 @@ public class MainLogicClassTest {
 	@Test 
 	public void testValidGetDay(){
 		MainLogic mainLogic = loadTestCases();
+		List<Event> monthEvents = mainLogic.getDayEvents(2015, 10, 30);
+		for(int i = 0; i < monthEvents.size(); i++){
+			Event event = monthEvents.get(i);
+			boolean startOK = event.getStartDateTime().get(Calendar.DATE) == 30;
+			boolean endOK = event.getEndDateTime().get(Calendar.DATE) == 30;
+			boolean cover = false;
+			
+			int startMonth = event.getStartDateTime().get(Calendar.MONTH);
+			int endMonth = event.getEndDateTime().get(Calendar.MONTH);
+			int startDate = event.getStartDateTime().get(Calendar.DATE);
+			int endDate = event.getEndDateTime().get(Calendar.DATE);
+			
+			cover = (startMonth < 9 || (startMonth == 9 && startDate < 30)) 
+					&& (endMonth > 9 || (endMonth == 9 && endDate > 30));
+			
+			assertTrue(startOK || endOK || cover);
+		}
+	}
+	
+	@Test 
+	public void testValidGetDayStart12AM(){
+		MainLogic mainLogic = loadEmptyTestCases();
+		String command = "add test, startdate 2015/10/10, starttime 00.00, enddate 2015/10/30, endtime 12.02";
+		Command cmd = mainLogic.execute(command);
+		assertEquals(Command.ADD, cmd);
+		
 		List<Event> monthEvents = mainLogic.getDayEvents(2015, 10, 30);
 		for(int i = 0; i < monthEvents.size(); i++){
 			Event event = monthEvents.get(i);

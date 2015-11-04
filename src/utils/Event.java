@@ -669,4 +669,77 @@ public class Event implements Comparable<Event> {
 
 		return result;
 	}
+
+	/**
+	 * Gets event object with updated date and time with recurrence
+	 * 
+	 * @return new event object with next recurrence data and time
+	 */
+	public Event getRecurredEvent() {
+		Event checkedEvent = null;
+
+		if (this.getRecurrence() == null) {
+			checkedEvent = this;
+		} else {
+			checkedEvent = new Event();
+
+			// Clone
+			String eventString = this.toString();
+			checkedEvent.fromString(eventString);
+
+			Recurrence recurrence = checkedEvent.getRecurrence();
+			Calendar startDateTime = checkedEvent.getStartDateTime();
+			Calendar endDateTime = checkedEvent.getEndDateTime();
+
+			// Update Start and End Date Time
+			updateDateTimeWithRecurrence(startDateTime, endDateTime, recurrence);
+		}
+
+		return checkedEvent;
+	}
+
+	private void updateDateTimeWithRecurrence(Calendar start, Calendar end, Recurrence recurrence) {
+		int field = getRecurrenceField(recurrence);
+		updateCalendar(field, start, end);
+
+	}
+
+	private void updateCalendar(int field, Calendar start, Calendar end) {
+		Calendar now = Calendar.getInstance();
+
+		if (start == null) {
+			return;
+		}
+
+		while (start.before(now)) {
+			start.add(field, 1);
+
+			if (end != null) {
+				end.add(field, 1);
+			}
+		}
+	}
+
+	private int getRecurrenceField(Recurrence recurrence) {
+		int field = -1;
+
+		switch (recurrence) {
+		case DAILY:
+			field = Calendar.DATE;
+			break;
+		case WEEKLY:
+			field = Calendar.WEEK_OF_YEAR;
+			break;
+		case MONTHLY:
+			field = Calendar.MONTH;
+			break;
+		case YEARLY:
+			field = Calendar.YEAR;
+			break;
+		default:
+			break;
+		}
+
+		return field;
+	}
 }
