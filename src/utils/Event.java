@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Event implements Comparable {
+public class Event implements Comparable<Event> {
 	private static final String NULL = "null";
 	private static final String NUMBER_REGEX = "\\d+";
 	private static final String FULL_TIMESTAMP_REGEX = "(\\d+)/(\\d+)/(\\d+)-(\\d+):(\\d+)";
@@ -25,19 +25,21 @@ public class Event implements Comparable {
 	private static final String GROUPS_STRING = "groups: %s, ";
 	private static final String RECURRENCE_STRING = "recurrence: %s, ";
 	private static final String SUBTASKS_STRING = "subtasks: %s, ";
+	private static final String DONE_STRING = "done: %s, ";
 
-	private static final String ID_REGEX = "id: (.+?),";
-	private static final String MAIN_ID_REGEX = "mainId: (.+?),";
-	private static final String TITLE_REGEX = "title: (.+?),";
-	private static final String STARTDATETIME_REGEX = "startDateTime: (.+?),";
-	private static final String ENDDATETIME_REGEX = "endDateTime: (.+?),";
-	private static final String PRIORITY_REGEX = "priority: (.+?),";
-	private static final String LOCATION_REGEX = "location: (.+?),";
-	private static final String NOTES_REGEX = "notes: (.+?),";
+	private static final String ID_REGEX = "id: (.*?),";
+	private static final String MAIN_ID_REGEX = "mainId: (.*?),";
+	private static final String TITLE_REGEX = "title: (.*?),";
+	private static final String STARTDATETIME_REGEX = "startDateTime: (.*?),";
+	private static final String ENDDATETIME_REGEX = "endDateTime: (.*?),";
+	private static final String PRIORITY_REGEX = "priority: (.*?),";
+	private static final String LOCATION_REGEX = "location: (.*?),";
+	private static final String NOTES_REGEX = "notes: (.*?),";
 	private static final String REMINDER_REGEX = "reminder: \\[(.*?)\\],";
-	private static final String GROUPS_REGEX = "groups: \\[(.*?)\\],";
-	private static final String RECURRENCE_REGEX = "recurrence: (.+?),";
+	private static final String GROUPS_REGEX = "groups: (.*?),";
+	private static final String RECURRENCE_REGEX = "recurrence: (.*?),";
 	private static final String SUBTASKS_REGEX = "subtasks: \\[(.*?)\\],";
+	private static final String DONE_REGEX = "done: (.*?),";
 
 	private String id;
 	private String title;
@@ -48,9 +50,10 @@ public class Event implements Comparable {
 	private String notes;
 	private String mainId;
 	private List<Calendar> reminder;
-	private List<String> groups;
+	private String group;
 	private Recurrence recurrence;
 	private List<String> subtasks; // List of Subtask ID
+	private boolean done;
 
 	public Event() {
 		this.id = null;
@@ -62,9 +65,10 @@ public class Event implements Comparable {
 		this.notes = null;
 		this.mainId = null;
 		this.reminder = new ArrayList<>();
-		this.groups = new ArrayList<String>();
+		this.group = null;
 		this.recurrence = null;
 		this.subtasks = new ArrayList<String>();
+		this.done = false;
 	}
 
 	public void fromString(String eventString) {
@@ -80,6 +84,7 @@ public class Event implements Comparable {
 		parseGroups(eventString);
 		parseRecurrence(eventString);
 		parseSubtasks(eventString);
+		parseDone(eventString);
 	}
 
 	public String toString() {
@@ -97,6 +102,7 @@ public class Event implements Comparable {
 		eventString = serializeGroups(eventString);
 		eventString = serializeRecurrence(eventString);
 		eventString = serializeSubtasks(eventString);
+		eventString = serializeDone(eventString);
 
 		return eventString;
 	}
@@ -139,34 +145,29 @@ public class Event implements Comparable {
 			calendar.setTimeInMillis(0);
 
 			// Year
-			if (matcher.find()) {
-				String group = matcher.group();
-				year = Integer.valueOf(group);
-			}
+			matcher.find();
+			String group = matcher.group();
+			year = Integer.valueOf(group);
 
 			// Month
-			if (matcher.find()) {
-				String group = matcher.group();
-				month = Integer.valueOf(group) - 1;
-			}
+			matcher.find();
+			group = matcher.group();
+			month = Integer.valueOf(group) - 1;
 
 			// Date
-			if (matcher.find()) {
-				String group = matcher.group();
-				date = Integer.valueOf(group);
-			}
+			matcher.find();
+			group = matcher.group();
+			date = Integer.valueOf(group);
 
 			// Hour
-			if (matcher.find()) {
-				String group = matcher.group();
-				hour = Integer.valueOf(group);
-			}
+			matcher.find();
+			group = matcher.group();
+			hour = Integer.valueOf(group);
 
 			// Minute
-			if (matcher.find()) {
-				String group = matcher.group();
-				minute = Integer.valueOf(group);
-			}
+			matcher.find();
+			group = matcher.group();
+			minute = Integer.valueOf(group);
 
 			calendar.set(year, month, date, hour, minute);
 		}
@@ -283,31 +284,16 @@ public class Event implements Comparable {
 		return reminderList;
 	}
 
-	public List<String> getGroups() {
-		return groups;
+	public String getGroup() {
+		return group;
 	}
 
 	public void addGroup(String group) {
-		this.groups.add(group);
+		this.group = group;
 	}
 
-	public void removeGroup(String group) {
-		int position = -1;
-
-		for (int i = 0; i < groups.size(); i++) {
-			if (groups.get(i).equals(group)) {
-				position = i;
-				break;
-			}
-		}
-
-		if (position >= 0) {
-			this.groups.remove(position);
-		}
-	}
-
-	public void removeAllGroups() {
-		this.groups.clear();
+	public void removeGroup() {
+		this.group = null;
 	}
 
 	public List<String> getSubtasks() {
@@ -315,18 +301,23 @@ public class Event implements Comparable {
 	}
 
 	public void addSubtask(Event event) {
-		this.subtasks.add(event.getId());
-		event.setMainId(this.getId());
+		if (event != null && event.getId() != null) {
+			this.subtasks.add(event.getId());
+			event.setMainId(this.getId());
+		}
 	}
 
 	public void addSubtask(String id) {
-		this.subtasks.add(id);
+		if (id != null) {
+			this.subtasks.add(id);
+		}
 	}
 
 	public void removeSubtask(String id) {
 		int removeIndex = -1;
 		for (int i = 0; i < this.subtasks.size(); i++) {
-			if (this.subtasks.get(i).equals(id)) {
+			String subtask = this.subtasks.get(i);
+			if (subtask.equals(id)) {
 				removeIndex = i;
 				break;
 			}
@@ -349,6 +340,34 @@ public class Event implements Comparable {
 		this.recurrence = recurrence;
 	}
 
+	public boolean isDone() {
+		return done;
+	}
+
+	public void setDone(boolean done) {
+		this.done = done;
+	}
+
+	private String serializeDone(String eventString) {
+		eventString += String.format(DONE_STRING, Boolean.toString(done));
+		return eventString;
+	}
+
+	private void parseDone(String eventString) {
+		Pattern pattern;
+		Matcher matcher;
+		// Done
+		pattern = Pattern.compile(DONE_REGEX);
+		matcher = pattern.matcher(eventString);
+		if (matcher.find()) {
+			String doneString = matcher.group(1);
+			if (doneString.length() > 0) {
+				boolean done = Boolean.valueOf(doneString);
+				this.setDone(done);
+			}
+		}
+	}
+
 	private String serializeSubtasks(String eventString) {
 		eventString += String.format(SUBTASKS_STRING, Arrays.toString(this.subtasks.toArray()));
 		return eventString;
@@ -368,7 +387,7 @@ public class Event implements Comparable {
 			String[] subtasks = subtasksString.split(",");
 
 			for (int i = 0; i < subtasks.length; i++) {
-				if (subtasks[i] != null && subtasks[i].length() > 0) {
+				if (subtasks[i].length() > 0) {
 					this.addSubtask(subtasks[i]);
 				}
 			}
@@ -389,7 +408,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String recurrenceString = matcher.group(1);
-			if (recurrenceString != null && recurrenceString.length() > 0) {
+			if (recurrenceString.length() > 0) {
 				if (recurrenceString.equals(NULL)) {
 					this.setRecurrence(null);
 				} else {
@@ -401,7 +420,7 @@ public class Event implements Comparable {
 	}
 
 	private String serializeGroups(String eventString) {
-		eventString += String.format(GROUPS_STRING, Arrays.toString(this.groups.toArray()));
+		eventString += String.format(GROUPS_STRING, this.group);
 		return eventString;
 	}
 
@@ -413,15 +432,8 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String groupString = matcher.group(1);
-			groupString = groupString.replace("[", "");
-			groupString = groupString.replace("]", "");
-			groupString = groupString.replace(", ", ",");
-			String[] groups = groupString.split(",");
-
-			for (int i = 0; i < groups.length; i++) {
-				if (groups[i] != null && groups[i].length() > 0) {
-					this.addGroup(groups[i]);
-				}
+			if (groupString.length() > 0) {
+				this.group = groupString;
 			}
 		}
 	}
@@ -449,7 +461,7 @@ public class Event implements Comparable {
 			String[] reminders = reminderString.split(",");
 
 			for (int i = 0; i < reminders.length; i++) {
-				if (reminders[i] != null && reminders[i].length() > 0) {
+				if (reminders[i].length() > 0) {
 					Calendar calendar = this.fromTimestamp(reminders[i]);
 					this.addReminder(calendar);
 				}
@@ -470,7 +482,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String notes = matcher.group(1);
-			if (notes != null && notes.length() > 0) {
+			if (notes.length() > 0) {
 				if (notes.equals(NULL)) {
 					notes = null;
 				}
@@ -492,7 +504,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String location = matcher.group(1);
-			if (location != null && location.length() > 0) {
+			if (location.length() > 0) {
 				if (location.equals(NULL)) {
 					location = null;
 				}
@@ -514,7 +526,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String priorityString = matcher.group(1);
-			if (priorityString != null && priorityString.length() > 0) {
+			if (priorityString.length() > 0) {
 				if (priorityString.equals(NULL)) {
 					this.setPriority(null);
 				} else {
@@ -539,7 +551,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String timestamp = matcher.group(1);
-			if (timestamp != null && timestamp.length() > 0) {
+			if (timestamp.length() > 0) {
 				Calendar endDateTime = fromTimestamp(timestamp);
 				this.setEndDateTime(endDateTime);
 			}
@@ -560,7 +572,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String timestamp = matcher.group(1);
-			if (timestamp != null && timestamp.length() > 0) {
+			if (timestamp.length() > 0) {
 				Calendar startDateTime = fromTimestamp(timestamp);
 				this.setStartDateTime(startDateTime);
 			}
@@ -580,7 +592,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String title = matcher.group(1);
-			if (title != null && title.length() > 0) {
+			if (title.length() > 0) {
 				if (title.equals(NULL)) {
 					title = null;
 				}
@@ -602,7 +614,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String id = matcher.group(1);
-			if (id != null && id.length() > 0) {
+			if (id.length() > 0) {
 				if (id.equals(NULL)) {
 					id = null;
 				}
@@ -624,7 +636,7 @@ public class Event implements Comparable {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String id = matcher.group(1);
-			if (id != null && id.length() > 0) {
+			if (id.length() > 0) {
 				if (id.equals(NULL)) {
 					id = null;
 				}
@@ -634,51 +646,158 @@ public class Event implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object arg0) {
-		Event compare = (Event) arg0;
-		Priority priorityToCompare = compare.getPriority();
+	public int compareTo(Event arg0) {
+		int result = 0;
+		Event that = arg0;
 
-		int result = -99;
-		switch (priority) {
-		case VERY_LOW:
-			if (priorityToCompare == utils.Priority.VERY_LOW) {
-				result = 0;
-			} else {
-				result = 1;
+		int thisValue = -1;
+		int thatValue = -1;
+
+		if (this.getPriority() != null) {
+			thisValue = this.getPriority().ordinal();
+		}
+		if (that.getPriority() != null) {
+			thatValue = that.getPriority().ordinal();
+		}
+
+		// Compare
+		if (thisValue > thatValue) {
+			result = -1;
+		} else if (thisValue < thatValue) {
+			result = 1;
+		}
+
+		return result;
+	}
+
+	/**
+	 * Gets event object with updated date and time with recurrence
+	 * 
+	 * @return new event object with next recurrence data and time
+	 */
+	public Event getRecurredEvent() {
+		Calendar now = Calendar.getInstance();
+		return getRecurredEvent(now);
+	}
+	
+	private Event getRecurredEvent(Calendar now) {
+		Event checkedEvent = null;
+
+		if (this.getRecurrence() == null) {
+			checkedEvent = this;
+		} else {
+			checkedEvent = new Event();
+
+			// Clone
+			String eventString = this.toString();
+			checkedEvent.fromString(eventString);
+
+			Recurrence recurrence = checkedEvent.getRecurrence();
+			Calendar startDateTime = checkedEvent.getStartDateTime();
+			Calendar endDateTime = checkedEvent.getEndDateTime();
+
+			// Update Start and End Date Time
+			updateDateTimeWithRecurrence(startDateTime, endDateTime, now, recurrence);
+		}
+
+		return checkedEvent;
+	}
+	
+	/**
+	 * Gets event object with updated date and time with recurrence
+	 * @param year	year to be limited to
+	 * @param month month to be limited to
+	 * @return	list of events
+	 */
+	public List<Event> getRecurredEvents(int year, int month) {
+		List<Event> checkedEvents = new ArrayList<>();
+		Calendar current = Calendar.getInstance();
+		Calendar end = Calendar.getInstance();
+
+		// Add actual event
+		checkedEvents.add(this);
+		
+		if(this.getStartDateTime() == null){
+			return checkedEvents;
+		}
+		
+		// Set to start of month
+		current.setTimeInMillis(0);
+		end.setTimeInMillis(0);
+		current.set(year, (month + 11) % 12, 1, 0, 0);
+		end.set(year, (month + 11) % 12, 1, 0, 0);
+		
+		// Set to next month
+		end.add(Calendar.MONTH, 1);
+		
+		if(this.getStartDateTime().compareTo(current) > 0){
+			current = (Calendar) this.getStartDateTime().clone();
+			current.set(Calendar.SECOND, 0);
+			current.set(Calendar.MILLISECOND, 0);
+			
+		}
+		
+		while(current.before(end)){
+			Event event = getRecurredEvent(current);
+			Event latestEventInList = checkedEvents.get(checkedEvents.size() - 1);
+			
+			if(event.getStartDateTime().compareTo(end) >= 0){
+				// Not in this month
+				break;
 			}
-			break;
-		case LOW:
-			if (priorityToCompare == utils.Priority.LOW) {
-				result = 0;
-			} else if (priorityToCompare == utils.Priority.VERY_LOW) {
-				result = -1;
-			} else {
-				result = 1;
+			
+			if(event.getStartDateTime().after(latestEventInList.getStartDateTime())){
+				checkedEvents.add(event);
 			}
-			break;
-		case MEDIUM:
-			if (priorityToCompare == utils.Priority.MEDIUM) {
-				result = 0;
-			} else if (priorityToCompare == utils.Priority.VERY_LOW || priorityToCompare == utils.Priority.LOW) {
-				result = -1;
-			} else {
-				result = 1;
-			}
-		case HIGH:
-			if (priorityToCompare == utils.Priority.HIGH) {
-				result = 0;
-			} else if (priorityToCompare == utils.Priority.VERY_HIGH) {
-				result = 1;
-			} else {
-				result = -1;
-			}
-		case VERY_HIGH:
-			if (priorityToCompare == utils.Priority.VERY_HIGH) {
-				result = 0;
-			} else {
-				result = -1;
+			
+			// Increment to next day
+			current.add(Calendar.DATE, 1);
+		}
+		
+		return checkedEvents;
+	}
+
+	private void updateDateTimeWithRecurrence(Calendar start, Calendar end, Calendar now, Recurrence recurrence) {
+		int field = getRecurrenceField(recurrence);
+		updateCalendar(field, start, end, now);
+
+	}
+
+	private void updateCalendar(int field, Calendar start, Calendar end, Calendar now) {
+
+		if (start == null) {
+			return;
+		}
+
+		while (start.before(now)) {
+			start.add(field, 1);
+
+			if (end != null) {
+				end.add(field, 1);
 			}
 		}
-		return result;
+	}
+
+	private int getRecurrenceField(Recurrence recurrence) {
+		int field = -1;
+
+		switch (recurrence) {
+		case DAILY:
+			field = Calendar.DATE;
+			break;
+		case WEEKLY:
+			field = Calendar.WEEK_OF_YEAR;
+			break;
+		case MONTHLY:
+			field = Calendar.MONTH;
+			break;
+		case YEARLY:
+			field = Calendar.YEAR;
+			break;
+		default:
+			break;
+		}
+
+		return field;
 	}
 }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 
 import utils.Event;
 import utils.IdMapper;
@@ -37,13 +36,23 @@ public class EventBoxController extends StackPane {
 	private static final String DINNER_EVENT_TYPE_IMAGE = "/calendrier/resources/dinner.png.";
 	private static final String READING_EVENT_TYPE_IMAGE = "/calendrier/resources/reading.png";
 	private static final String MEETING_EVENT_TYPE_IMAGE = "/calendrier/resources/meeting.png";
+	private static final String BIRTHDAY_EVENT_TYPE_IMAGE = "/calendrier/resources/birthday.png";
 
-	private static final int VALUE_EMPTY_SIZE = 0;
-	private static final int VALUE_GET_INDEX = 0;
+	private static final String VALUE_GROUP_DEADLINE = "deadline";
+	private static final String VALUE_GROUP_MEETING = "meeting";
+	private static final String VALUE_GROUP_MEAL = "meal";
+	private static final String VALUE_GROUP_BIRTHDAY = "birthday";
+	private static final String VALUE_GROUP_READING = "reading";
+
+	private static final String VALUE_VERY_HIGH_PRIORITY = "very_high";
+	private static final String VALUE_HIGH_PRIORITY = "high";
+	private static final String VALUE_MEDIUM_PRIORITY = "medium";
+	private static final String VALUE_LOW_PRIORITY = "low";
+	private static final String VALUE_VERY_LOW_PRIORITY = "very_low";
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
-	
+
 	public EventBoxController(Event event, int position) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_EVENT_LAYOUT_FXML));
 		loader.setController(this);
@@ -58,49 +67,57 @@ public class EventBoxController extends StackPane {
 	}
 
 	public void initEventValue(Event event, int position) {
-		Calendar cal = Calendar.getInstance();
+		// Calendar cal = Calendar.getInstance();
 		IdMapper idMapper = IdMapper.getInstance();
 		idMapper.set(Integer.toString(position), checkExistValue(event.getId()));
 		lblEventID.setText(Integer.toString(position));
-//		lblEventID.setText(checkExistValue(event.getId()));
 		lblEventTitle.setText(checkExistValue(event.getTitle()));
 		lblEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 
-		String strPriority = checkExistPriority(event.getPriority());
-		changeBoarderColour(event, cal, strPriority);
+		if (event.isDone()) {
+			changeEventDesign();
+		} else {
+			String strPriority = checkExistPriority(event.getPriority());
+			// changeBoarderColour(event, cal, strPriority);
+			changeBorderColor(strPriority);
+		}
 
 		Image img;
-		if (checkExistValue(event.getGroups().toString()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		if (checkExistValue(event.getGroup()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			img = new Image(DEFAULT_EVENT_TYPE_IMAGE);
 		} else {
-			String strGroup = convertGroupToString(event.getGroups());
+			String strGroup = event.getGroup();
 			String strImage = getGrpImage(strGroup);
 			img = new Image(strImage);
-
 		}
 		imgType.setImage(img);
-
 	}
 
-	private void changeBoarderColour(Event event, Calendar cal, String strPriority) {
-		if (!strPriority.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
-			if ((event.getStartDateTime()!=null && (cal.compareTo(event.getStartDateTime())<0))
-					|| (event.getEndDateTime()!=null && (cal.compareTo(event.getEndDateTime())<0))) {
-				changeBorderColor(event.getPriority());
-			} else if (event.getStartDateTime()==null && event.getEndDateTime()==null) {
-				changeBorderColor(event.getPriority());
-			}
-			else{
-				eventGridPane.setStyle("-fx-border-color: lightgray;");
-			}
-		}
-		else{
-			if ((event.getStartDateTime()!=null && (cal.compareTo(event.getStartDateTime())>0))
-					||(event.getEndDateTime()!=null && (cal.compareTo(event.getEndDateTime())>0))) {
-				eventGridPane.setStyle("-fx-border-color: lightgray;");
-			}
-		}
-	}
+	// private void changeBoarderColour(Event event, Calendar cal, String
+	// strPriority) {
+	// if (!strPriority.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+	// if ((event.getStartDateTime()!=null &&
+	// (cal.compareTo(event.getStartDateTime())<0))
+	// || (event.getEndDateTime()!=null &&
+	// (cal.compareTo(event.getEndDateTime())<0))) {
+	// changeBorderColor(event.getPriority());
+	// } else if (event.getStartDateTime()==null &&
+	// event.getEndDateTime()==null) {
+	// changeBorderColor(event.getPriority());
+	// }
+	// else{
+	// eventGridPane.setStyle("-fx-border-color: lightgray;");
+	// }
+	// }
+	// else{
+	// if ((event.getStartDateTime()!=null &&
+	// (cal.compareTo(event.getStartDateTime())>0))
+	// ||(event.getEndDateTime()!=null &&
+	// (cal.compareTo(event.getEndDateTime())>0))) {
+	// eventGridPane.setStyle("-fx-border-color: lightgray;");
+	// }
+	// }
+	// }
 
 	public String checkExistValue(String parseInValue) {
 		try {
@@ -111,7 +128,7 @@ public class EventBoxController extends StackPane {
 	}
 
 	private static String constructEventDate(Calendar startDateTime, Calendar endDateTime) {
-		
+
 		String startDate = checkExistDate(startDateTime);
 		String endDate = checkExistDate(endDateTime);
 
@@ -120,8 +137,8 @@ public class EventBoxController extends StackPane {
 				return startDate;
 			}
 			return startDate + " - " + endDate;
-		} else
-			if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		} else if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
+				&& endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			return startDate;
 		} else if (startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
 				&& !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
@@ -139,33 +156,17 @@ public class EventBoxController extends StackPane {
 		}
 	}
 
-	private static String convertGroupToString(Collection<String> groups) {
-		String strGrp = "";
-		if (groups.size() != VALUE_EMPTY_SIZE) {
-			for (String str : groups) {
-				strGrp += str + ", ";
-			}
-		}
-
-		if (strGrp.equalsIgnoreCase("null, ")) {
-			return VALUE_SHOW_EMPTY_DATA;
-		}
-
-		return strGrp;
-	}
-
 	private static String getGrpImage(String strGrp) {
-		String[] groups = strGrp.split(",");
-		String mainGrp = groups[VALUE_GET_INDEX];
-
-		if (mainGrp.equalsIgnoreCase("report")) {
+		if (strGrp.equalsIgnoreCase(VALUE_GROUP_DEADLINE)) {
 			return REPORT_EVENT_TYPE_IMAGE;
-		} else if (mainGrp.equalsIgnoreCase("dinner")) {
+		} else if (strGrp.equalsIgnoreCase(VALUE_GROUP_MEAL)) {
 			return DINNER_EVENT_TYPE_IMAGE;
-		} else if (mainGrp.equalsIgnoreCase("meeting")) {
+		} else if (strGrp.equalsIgnoreCase(VALUE_GROUP_MEETING)) {
 			return MEETING_EVENT_TYPE_IMAGE;
-		} else if (mainGrp.equalsIgnoreCase("reading")) {
+		} else if (strGrp.equalsIgnoreCase(VALUE_GROUP_READING)) {
 			return READING_EVENT_TYPE_IMAGE;
+		} else if (strGrp.equalsIgnoreCase(VALUE_GROUP_BIRTHDAY)) {
+			return BIRTHDAY_EVENT_TYPE_IMAGE;
 		} else {
 			return DEFAULT_EVENT_TYPE_IMAGE;
 		}
@@ -179,19 +180,42 @@ public class EventBoxController extends StackPane {
 		}
 	}
 
-	private void changeBorderColor(Priority priority) {
-		if (priority == Priority.VERY_HIGH) {
+	// private void changeBorderColor(Priority priority) {
+	// if (priority == Priority.VERY_HIGH) {
+	// eventGridPane.setStyle("-fx-border-color: red;");
+	// } else if (priority == Priority.HIGH) {
+	// eventGridPane.setStyle("-fx-border-color: #FFA07A;");
+	// } else if (priority == Priority.MEDIUM) {
+	// eventGridPane.setStyle("-fx-border-color: #FFFF00;");
+	// } else if (priority == Priority.LOW) {
+	// eventGridPane.setStyle("-fx-border-color: #00FF7F;");
+	// } else if (priority == Priority.VERY_LOW) {
+	// eventGridPane.setStyle("-fx-border-color: #2E8B57;");
+	// } else {
+	// eventGridPane.setStyle("-fx-border-color: black;");
+	// }
+	// }
+
+	private void changeBorderColor(String priority) {
+		if (priority.equalsIgnoreCase(VALUE_VERY_HIGH_PRIORITY)) {
 			eventGridPane.setStyle("-fx-border-color: red;");
-		} else if (priority == Priority.HIGH) {
+		} else if (priority.equalsIgnoreCase(VALUE_HIGH_PRIORITY)) {
 			eventGridPane.setStyle("-fx-border-color: #FFA07A;");
-		} else if (priority == Priority.MEDIUM) {
+		} else if (priority.equalsIgnoreCase(VALUE_MEDIUM_PRIORITY)) {
 			eventGridPane.setStyle("-fx-border-color: #FFFF00;");
-		} else if (priority == Priority.LOW) {
+		} else if (priority.equalsIgnoreCase(VALUE_LOW_PRIORITY)) {
 			eventGridPane.setStyle("-fx-border-color: #00FF7F;");
-		} else if (priority == Priority.VERY_LOW) {
+		} else if (priority.equalsIgnoreCase(VALUE_VERY_LOW_PRIORITY)) {
 			eventGridPane.setStyle("-fx-border-color: #2E8B57;");
 		} else {
 			eventGridPane.setStyle("-fx-border-color: black;");
 		}
+	}
+
+	private void changeEventDesign() {
+		eventGridPane.setStyle("-fx-border-color: lightgray");
+		lblEventID.setStyle("-fx-text-decoration: line-through");
+		lblEventTitle.setStyle("-fx-text-decoration: line-through");
+		lblEventDate.setStyle("-fx-text-decoration: line-through");
 	}
 }

@@ -118,7 +118,7 @@ public class EventHandler {
 	public ArrayList<Event> search(ParsedCommand pc) {
 		ArrayList<Event> searchedEvents = new ArrayList<>();
 		for (Event e : events) {
-			if (e.getGroups().contains(pc.getGroup())) {
+			if (e.getGroup().equals(pc.getGroup())) {
 				searchedEvents.add(e);
 			} else if (e.getPriority().equals(pc.getPriority())) {
 				searchedEvents.add(e);
@@ -190,6 +190,7 @@ public class EventHandler {
 			for (Event e : events) {
 				if (e.getId().equals(event.getMainId())) {
 					e.addSubtask(event);
+					manage.save(events);
 					break;
 				}
 			}
@@ -325,10 +326,8 @@ public class EventHandler {
 				newEvent.addReminder(c);
 			}
 		}
-		if (newEvent.getGroups() != oldEvent.getGroups()) {
-			for (String s : oldEvent.getGroups()) {
-				newEvent.addGroup(s);
-			}
+		if (newEvent.getGroup() == null) {
+			newEvent.addGroup(oldEvent.getGroup());
 		}
 		if (newEvent.getSubtasks() != oldEvent.getSubtasks()) {
 			for (String s : oldEvent.getSubtasks()) {

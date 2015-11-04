@@ -31,9 +31,9 @@ public class ReminderManager implements Runnable {
 		while (true) {
 			try {
 				checkEvents();
-				
+
 				long sleepTime = 60000 - Calendar.getInstance().getTimeInMillis() % 60000;
-				
+
 				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -59,7 +59,7 @@ public class ReminderManager implements Runnable {
 	 */
 	private void checkReminder(Event event) {
 		List<Calendar> reminders = event.getReminder();
-		for(int i = 0; i < reminders.size(); i++){
+		for (int i = 0; i < reminders.size(); i++) {
 			Calendar reminderTime = reminders.get(i);
 			Calendar now = Calendar.getInstance();
 			if (reminderTime != null) {
@@ -77,7 +77,7 @@ public class ReminderManager implements Runnable {
 	 *            event which to be reminded
 	 */
 	private void sendReminder(Event event) {
-//		System.out.println(event.getTitle());
+		// System.out.println(event.getTitle());
 		if (this.onRemindListener != null) {
 			this.onRemindListener.onRemind(event);
 		}
@@ -93,7 +93,8 @@ public class ReminderManager implements Runnable {
 	 * @return true if the two times are the same, false if otherwise
 	 */
 	public boolean compareTime(Calendar time1, Calendar time2) {
-		return Math.abs(time1.getTimeInMillis() - time2.getTimeInMillis()) < 60000;
+		long timeDifference = time1.getTimeInMillis() - time2.getTimeInMillis();
+		return timeDifference < 60000 && timeDifference >= 0;
 	}
 
 	/**
@@ -146,7 +147,8 @@ public class ReminderManager implements Runnable {
 	 *            onRemind listener to be used
 	 */
 	public void setOnRemindListener(OnRemindListener listener) {
-		assert(listener != null);
-		this.onRemindListener = listener;
+		if (listener != null) {
+			this.onRemindListener = listener;
+		}
 	}
 }

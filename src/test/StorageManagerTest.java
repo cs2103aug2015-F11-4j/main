@@ -19,13 +19,13 @@ public class StorageManagerTest {
 	public void loadFromFile(){
 		StorageManager rm= new StorageManager();
 		rm.setStorageLocation("storageFile.txt") ;
-		assertEquals("id: testId, " + "mainId: null, "+ "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
+		assertEquals("id: testId, " + "mainId: null, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/20-10:33], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], \nid: test123, " + "mainId: null, " + "title: 123Title, " + "startDateTime: null, "
+				+ "notes: test note, " + "reminder: [2015/10/20-10:33], " + "groups: null, "
+				+ "recurrence: null, " + "subtasks: [], done: false, \nid: test123, " + "mainId: null, " + "title: 123Title, " + "startDateTime: null, "
 				+ "endDateTime: null, " + "priority: HIGH, " + "location: test123123, "
-				+ "notes: test note123213, " + "reminder: [], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], \n", rm.listToString());
+				+ "notes: test note123213, " + "reminder: [], " + "groups: null, "
+				+ "recurrence: null, " + "subtasks: [], done: false, \n", rm.listToString());
 	}
 	
 	@Test
@@ -63,11 +63,11 @@ public class StorageManagerTest {
 		rm.save(data);
 		assertEquals("id: testId, " + "mainId: null, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/20-10:33], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], \nid: test123, " + "mainId: null, " + "title: 123Title, " + "startDateTime: null, "
+				+ "notes: test note, " + "reminder: [2015/10/20-10:33], " + "groups: null, "
+				+ "recurrence: null, " + "subtasks: [], done: false, \nid: test123, " + "mainId: null, " + "title: 123Title, " + "startDateTime: null, "
 				+ "endDateTime: null, " + "priority: HIGH, " + "location: test123123, "
-				+ "notes: test note123213, " + "reminder: [], " + "groups: [], "
-				+ "recurrence: null, " + "subtasks: [], \n", rm.listToString());
+				+ "notes: test note123213, " + "reminder: [], " + "groups: null, "
+				+ "recurrence: null, " + "subtasks: [], done: false, \n", rm.listToString());
 		
 	}
 }

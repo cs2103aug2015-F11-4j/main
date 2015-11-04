@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="GridPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+	prefWidth="1000.0" prefHeight="700.0" maxWidth="1000.0" maxHeight="700.0" vgap="10" hgap="10" >
+	<columnConstraints>
+		<ColumnConstraints percentWidth="30" />
+		<ColumnConstraints percentWidth="30" />
+		<ColumnConstraints percentWidth="40" />
+	</columnConstraints>
+	<children>
+		<Label fx:id="lblPageDate" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+		<Label fx:id="lblDayOfWeek" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+		<Label fx:id="lblToday" GridPane.rowIndex="0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+		
+		<FlowPane fx:id="flowPaneDayEvents" xmlns="http://javafx.com/javafx/8.0.40"
+			xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" vgap="5"
+			maxWidth="850.0" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="3" >
+			<children>
+			</children>
+		</FlowPane>
+		
+		<Label fx:id="lblOpenEvent" text="Open Task" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="3"  />
+		<FlowPane fx:id="flowPaneOpenEvents" xmlns="http://javafx.com/javafx/8.0.40"
+			xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" vgap="5"
+			maxWidth="850.0" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="3" >
+			<children>
+			</children>
+		</FlowPane>
+	</children>
+</fx:root>

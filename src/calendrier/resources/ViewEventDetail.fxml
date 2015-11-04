@@ -10,8 +10,8 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 
 <fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="500.0"
-	maxWidth="500.0" maxHeight="500.0">
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="600.0"
+	maxWidth="500.0" maxHeight="600.0">
 	<children>
 		<GridPane fx:id="gridPaneDetail" xmlns="http://javafx.com/javafx/8.0.40"
 			xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="500.0"
@@ -112,6 +112,9 @@
 				</ImageView>
 				<Label fx:id="lblReminder" GridPane.columnIndex="1"
 					GridPane.rowIndex="4" GridPane.columnSpan="2" wrapText="true" />
+
+				<!-- <CheckBox fx:id="checkBoxDone" text="Done" GridPane.rowIndex="4" 
+					GridPane.columnIndex="3" /> -->
 			</children>
 		</GridPane>
 	</children>
