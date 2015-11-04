@@ -142,7 +142,6 @@ public class MainLogic {
 
 		// Clear Events
 		this.events.clear();
-		System.out.println(savedEvents.size());
 
 		// Perform recurrence check
 		for (int i = 0; i < savedEvents.size(); i++) {
@@ -190,18 +189,8 @@ public class MainLogic {
 		events = getAllMonthEvents(year, month);
 		List<Event> monthEvents = new ArrayList<>();
 
-		for(int i = 0; i < events.size(); i++){
-			System.out.println("ev :: " + events.get(i));
-		}
-		
 		filterToMonth(year, month, monthEvents, floating);
 		sortByStartDateTime(monthEvents);
-
-
-		
-		for(int i = 0; i < monthEvents.size(); i++){
-			System.out.println("bb :: " + monthEvents.get(i));
-		}
 		
 		return monthEvents;
 	}

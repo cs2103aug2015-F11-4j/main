@@ -741,7 +741,6 @@ public class Event implements Comparable<Event> {
 			}
 			
 			if(event.getStartDateTime().after(latestEventInList.getStartDateTime())){
-				System.out.println(event.getStartDateTime().getTime() + " : " + event.getTitle());
 				checkedEvents.add(event);
 			}
 			
