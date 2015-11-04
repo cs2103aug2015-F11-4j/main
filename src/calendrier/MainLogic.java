@@ -10,6 +10,7 @@ import utils.Command;
 import utils.Event;
 import utils.OnRemindListener;
 import utils.ParsedCommand;
+import utils.Recurrence;
 
 /**
  * For handling the main logic
@@ -30,6 +31,7 @@ public class MainLogic {
 	public MainLogic() {
 		parser = new Parser();
 		eventHandler = new EventHandler();
+		this.events = new ArrayList<>();
 	}
 
 	/**
@@ -121,8 +123,33 @@ public class MainLogic {
 	 * @return all events
 	 */
 	public List<Event> getAllEvents() {
-		events = eventHandler.getAllEvents();
-		return events;
+		List<Event> savedEvents = eventHandler.getAllEvents();
+
+		// Clear Events
+		this.events.clear();
+
+		// Perform recurrence check
+		for (int i = 0; i < savedEvents.size(); i++) {
+			Event event = savedEvents.get(i);
+			this.events.add(event.getRecurredEvent());
+		}
+
+		return this.events;
+	}
+
+	private List<Event> getAllMonthEvents(int year, int month) {
+		List<Event> savedEvents = eventHandler.getAllEvents();
+
+		// Clear Events
+		this.events.clear();
+
+		// Perform recurrence check
+		for (int i = 0; i < savedEvents.size(); i++) {
+			Event event = savedEvents.get(i);
+			this.events.addAll(event.getRecurredEvents(year, month));
+		}
+
+		return this.events;
 	}
 
 	/**
@@ -159,12 +186,12 @@ public class MainLogic {
 	 * @return list of events in the month
 	 */
 	public List<Event> getMonthEvents(int year, int month, boolean floating) {
-		events = eventHandler.getAllEvents();
+		events = getAllMonthEvents(year, month);
 		List<Event> monthEvents = new ArrayList<>();
 
 		filterToMonth(year, month, monthEvents, floating);
 		sortByStartDateTime(monthEvents);
-
+		
 		return monthEvents;
 	}
 
@@ -197,7 +224,7 @@ public class MainLogic {
 	 * @return list of events in the day
 	 */
 	public List<Event> getDayEvents(int year, int month, int day, boolean floating) {
-		events = eventHandler.getAllEvents();
+		events = getAllMonthEvents(year, month);
 		List<Event> dayEvents = new ArrayList<>();
 
 		filterToDay(year, month, day, dayEvents, floating);
@@ -386,7 +413,7 @@ public class MainLogic {
 		boolean isWithin = false;
 
 		if (eventDateTime != null) {
-			isWithin = eventDateTime.after(thisDay) && eventDateTime.before(nextDay);
+			isWithin = eventDateTime.compareTo(thisDay) >= 0 && eventDateTime.before(nextDay);
 		}
 
 		return isWithin;
@@ -395,7 +422,7 @@ public class MainLogic {
 	private boolean isWithinMonth(Calendar eventDateTime, Calendar thisMonth, Calendar nextMonth) {
 		boolean isWithin = false;
 		if (eventDateTime != null) {
-			isWithin = eventDateTime.after(thisMonth) && eventDateTime.before(nextMonth);
+			isWithin = eventDateTime.compareTo(thisMonth) >= 0 && eventDateTime.before(nextMonth);
 		}
 		return isWithin;
 	}

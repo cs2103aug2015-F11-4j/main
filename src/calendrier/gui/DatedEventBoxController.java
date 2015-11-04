@@ -26,7 +26,7 @@ public class DatedEventBoxController extends StackPane {
 	private Label lblDatedEventDate;
 
 	private static final String SINGLE_DATED_EVENT_LAYOUT_FXML = "/calendrier/resources/DatedEventBox.fxml";
-	
+
 	private static final String VALUE_VERY_HIGH_PRIORITY = "very_high";
 	private static final String VALUE_HIGH_PRIORITY = "high";
 	private static final String VALUE_MEDIUM_PRIORITY = "medium";
@@ -50,15 +50,18 @@ public class DatedEventBoxController extends StackPane {
 	}
 
 	private void initEventValue(Event event, int position) {
-		//Calendar cal = Calendar.getInstance();
 		IdMapper idMapper = IdMapper.getInstance();
 		idMapper.set(Integer.toString(position), checkExistValue(event.getId()));
 		lblDatedEventID.setText(Integer.toString(position));
 		lblDatedEventTitle.setText(checkExistValue(event.getTitle()));
 		lblDatedEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 
-		String strPriority = checkExistPriority(event.getPriority());
-		changeBorderColor(strPriority);
+		if (event.isDone()) {
+			changeEventDesign();
+		} else {
+			String strPriority = checkExistPriority(event.getPriority());
+			changeBorderColor(strPriority);
+		}
 	}
 
 	private String checkExistValue(String parseInValue) {
@@ -105,7 +108,7 @@ public class DatedEventBoxController extends StackPane {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 	}
-	
+
 	private void changeBorderColor(String priority) {
 		if (priority.equalsIgnoreCase(VALUE_VERY_HIGH_PRIORITY)) {
 			datedEventGridPane.setStyle("-fx-border-color: red;");
@@ -120,5 +123,10 @@ public class DatedEventBoxController extends StackPane {
 		} else {
 			datedEventGridPane.setStyle("-fx-border-color: black;");
 		}
+	}
+	
+	private void changeEventDesign() {
+		datedEventGridPane.setStyle("-fx-text-decoration: line-through");
+		datedEventGridPane.setStyle("-fx-border-color: lightgray");
 	}
 }

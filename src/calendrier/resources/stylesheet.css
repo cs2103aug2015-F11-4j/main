@@ -122,6 +122,11 @@
 	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
 
+/* #checkBoxDone {
+	-fx-opacity: 1;
+}
+*/
+
 /*
  * Copyright (c) 2013 by Gerrit Grunwald
  *

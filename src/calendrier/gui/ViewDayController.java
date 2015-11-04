@@ -15,6 +15,7 @@ public class ViewDayController extends GridPane {
 	private static final String VIEWDAY_SCREEN_LAYOUT_FXML = "/calendrier/resources/ViewDay.fxml";
 	private static final String VALUE_EMPTY_SPACE = " ";
 	private static final String VALUE_TODAY = "( Today )";
+	private static final String VALUE_FOR_DAY = "( %1$s )";
 	private static final int VALUE_TO_ADD = 1;
 	private static final int VALUE_TO_MULTIPLY = 2;
 	private static final int VALUE_EMPTY_LIST = 0;
@@ -47,7 +48,8 @@ public class ViewDayController extends GridPane {
 
 		String currentDate = viewDate + VALUE_EMPTY_SPACE + detectMonth(viewMonth) + VALUE_EMPTY_SPACE + viewYear;
 		lblPageDate.setText(currentDate);
-		lblDayOfWeek.setText(getDay(day));
+		
+		lblDayOfWeek.setText(String.format(VALUE_FOR_DAY, getDay(day)));
 		
 		if(isToday) {
 			lblToday.setText(VALUE_TODAY);

@@ -25,6 +25,7 @@ public class Event implements Comparable<Event> {
 	private static final String GROUPS_STRING = "groups: %s, ";
 	private static final String RECURRENCE_STRING = "recurrence: %s, ";
 	private static final String SUBTASKS_STRING = "subtasks: %s, ";
+	private static final String DONE_STRING = "done: %s, ";
 
 	private static final String ID_REGEX = "id: (.*?),";
 	private static final String MAIN_ID_REGEX = "mainId: (.*?),";
@@ -38,6 +39,7 @@ public class Event implements Comparable<Event> {
 	private static final String GROUPS_REGEX = "groups: (.*?),";
 	private static final String RECURRENCE_REGEX = "recurrence: (.*?),";
 	private static final String SUBTASKS_REGEX = "subtasks: \\[(.*?)\\],";
+	private static final String DONE_REGEX = "done: (.*?),";
 
 	private String id;
 	private String title;
@@ -51,6 +53,7 @@ public class Event implements Comparable<Event> {
 	private String group;
 	private Recurrence recurrence;
 	private List<String> subtasks; // List of Subtask ID
+	private boolean done;
 
 	public Event() {
 		this.id = null;
@@ -65,6 +68,7 @@ public class Event implements Comparable<Event> {
 		this.group = null;
 		this.recurrence = null;
 		this.subtasks = new ArrayList<String>();
+		this.done = false;
 	}
 
 	public void fromString(String eventString) {
@@ -80,6 +84,7 @@ public class Event implements Comparable<Event> {
 		parseGroups(eventString);
 		parseRecurrence(eventString);
 		parseSubtasks(eventString);
+		parseDone(eventString);
 	}
 
 	public String toString() {
@@ -97,6 +102,7 @@ public class Event implements Comparable<Event> {
 		eventString = serializeGroups(eventString);
 		eventString = serializeRecurrence(eventString);
 		eventString = serializeSubtasks(eventString);
+		eventString = serializeDone(eventString);
 
 		return eventString;
 	}
@@ -332,6 +338,34 @@ public class Event implements Comparable<Event> {
 
 	public void setRecurrence(Recurrence recurrence) {
 		this.recurrence = recurrence;
+	}
+
+	public boolean isDone() {
+		return done;
+	}
+
+	public void setDone(boolean done) {
+		this.done = done;
+	}
+
+	private String serializeDone(String eventString) {
+		eventString += String.format(DONE_STRING, Boolean.toString(done));
+		return eventString;
+	}
+
+	private void parseDone(String eventString) {
+		Pattern pattern;
+		Matcher matcher;
+		// Done
+		pattern = Pattern.compile(DONE_REGEX);
+		matcher = pattern.matcher(eventString);
+		if (matcher.find()) {
+			String doneString = matcher.group(1);
+			if (doneString.length() > 0) {
+				boolean done = Boolean.valueOf(doneString);
+				this.setDone(done);
+			}
+		}
 	}
 
 	private String serializeSubtasks(String eventString) {
@@ -634,5 +668,136 @@ public class Event implements Comparable<Event> {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Gets event object with updated date and time with recurrence
+	 * 
+	 * @return new event object with next recurrence data and time
+	 */
+	public Event getRecurredEvent() {
+		Calendar now = Calendar.getInstance();
+		return getRecurredEvent(now);
+	}
+	
+	private Event getRecurredEvent(Calendar now) {
+		Event checkedEvent = null;
+
+		if (this.getRecurrence() == null) {
+			checkedEvent = this;
+		} else {
+			checkedEvent = new Event();
+
+			// Clone
+			String eventString = this.toString();
+			checkedEvent.fromString(eventString);
+
+			Recurrence recurrence = checkedEvent.getRecurrence();
+			Calendar startDateTime = checkedEvent.getStartDateTime();
+			Calendar endDateTime = checkedEvent.getEndDateTime();
+
+			// Update Start and End Date Time
+			updateDateTimeWithRecurrence(startDateTime, endDateTime, now, recurrence);
+		}
+
+		return checkedEvent;
+	}
+	
+	/**
+	 * Gets event object with updated date and time with recurrence
+	 * @param year	year to be limited to
+	 * @param month month to be limited to
+	 * @return	list of events
+	 */
+	public List<Event> getRecurredEvents(int year, int month) {
+		List<Event> checkedEvents = new ArrayList<>();
+		Calendar current = Calendar.getInstance();
+		Calendar end = Calendar.getInstance();
+
+		// Add actual event
+		checkedEvents.add(this);
+		
+		if(this.getStartDateTime() == null){
+			return checkedEvents;
+		}
+		
+		// Set to start of month
+		current.setTimeInMillis(0);
+		end.setTimeInMillis(0);
+		current.set(year, (month + 11) % 12, 1, 0, 0);
+		end.set(year, (month + 11) % 12, 1, 0, 0);
+		
+		// Set to next month
+		end.add(Calendar.MONTH, 1);
+		
+		if(this.getStartDateTime().compareTo(current) > 0){
+			current = (Calendar) this.getStartDateTime().clone();
+			current.set(Calendar.SECOND, 0);
+			current.set(Calendar.MILLISECOND, 0);
+			
+		}
+		
+		while(current.before(end)){
+			Event event = getRecurredEvent(current);
+			Event latestEventInList = checkedEvents.get(checkedEvents.size() - 1);
+			
+			if(event.getStartDateTime().compareTo(end) >= 0){
+				// Not in this month
+				break;
+			}
+			
+			if(event.getStartDateTime().after(latestEventInList.getStartDateTime())){
+				checkedEvents.add(event);
+			}
+			
+			// Increment to next day
+			current.add(Calendar.DATE, 1);
+		}
+		
+		return checkedEvents;
+	}
+
+	private void updateDateTimeWithRecurrence(Calendar start, Calendar end, Calendar now, Recurrence recurrence) {
+		int field = getRecurrenceField(recurrence);
+		updateCalendar(field, start, end, now);
+
+	}
+
+	private void updateCalendar(int field, Calendar start, Calendar end, Calendar now) {
+
+		if (start == null) {
+			return;
+		}
+
+		while (start.before(now)) {
+			start.add(field, 1);
+
+			if (end != null) {
+				end.add(field, 1);
+			}
+		}
+	}
+
+	private int getRecurrenceField(Recurrence recurrence) {
+		int field = -1;
+
+		switch (recurrence) {
+		case DAILY:
+			field = Calendar.DATE;
+			break;
+		case WEEKLY:
+			field = Calendar.WEEK_OF_YEAR;
+			break;
+		case MONTHLY:
+			field = Calendar.MONTH;
+			break;
+		case YEARLY:
+			field = Calendar.YEAR;
+			break;
+		default:
+			break;
+		}
+
+		return field;
 	}
 }

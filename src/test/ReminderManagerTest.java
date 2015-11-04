@@ -262,7 +262,7 @@ public class ReminderManagerTest {
 		time1.setTimeInMillis(now.getTimeInMillis());
 		time2.setTimeInMillis(now.getTimeInMillis() + 59999);
 		
-		assertTrue(reminderManager.compareTime(time1, time2));
+		assertFalse(reminderManager.compareTime(time1, time2));
 	}
 	
 	@Test
@@ -275,7 +275,7 @@ public class ReminderManagerTest {
 		Calendar now = Calendar.getInstance();
 		
 		time1.setTimeInMillis(now.getTimeInMillis());
-		time2.setTimeInMillis(now.getTimeInMillis() + 30000);
+		time2.setTimeInMillis(now.getTimeInMillis() - 30000);
 		
 		assertTrue(reminderManager.compareTime(time1, time2));
 	}
