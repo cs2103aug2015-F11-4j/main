@@ -25,6 +25,10 @@ public class EventHandlerTest {
 	ParsedCommand setStorage = new ParsedCommand();
 	ParsedCommand searchByGroupCommand =  new ParsedCommand();
 	ParsedCommand searchByPriorityCommand = new ParsedCommand();
+	ParsedCommand searchByStartDateCommand = new ParsedCommand();
+	ParsedCommand searchByEndDateCommand = new ParsedCommand();
+
+
 	
 	Event testEvent = new Event();
 	
@@ -139,6 +143,12 @@ public class EventHandlerTest {
 		
 		searchByPriorityCommand.setCommand(Command.FILTER);
 		searchByPriorityCommand.setPriority(utils.Priority.LOW);
+		
+		searchByStartDateCommand.setCommand(Command.FILTER);
+		searchByStartDateCommand.setStartDateTime(startDateTime);
+		
+		searchByEndDateCommand.setCommand(Command.FILTER);
+		searchByEndDateCommand.setEndDateTime(endDateTime);
 	}
 	
 	
@@ -169,81 +179,6 @@ public class EventHandlerTest {
 		assertEquals(addedEvent.getRecurrence(),  testEvent.getRecurrence());
 	}
 	
-	@Test
-	public void testAddMultipleEvents() throws Exception {
-//		fail();
-	}
-	
-	@Test
-	public void testAddMultipleEventsSimultaneously() throws Exception {
-//		fail();
-	}
-
-	
-//	/**
-//	 * boundary test case (conflict where new event starts before old event, and
-//	 * ends during the duration of the old event)
-//	 * 
-//	 * @throws Exception
-//	 */
-//	@Test(expected = Exception.class)
-//	public void testAddConflictingEvents1() throws Exception {
-//		conflictEvent1.setStartDateTime(start1);
-//		conflictEvent1.setEndDateTime(end1);
-//
-//		EventHandler handle = new EventHandler();
-//		handle.add(testEvent);
-//		handle.add(conflictEvent1);
-//	}
-//
-//	/**
-//	 * boundary test case (conflict where new event starts before old event, and
-//	 * ends after the end of the old event)
-//	 * 
-//	 * @throws Exception
-//	 */
-//	@Test(expected = Exception.class)
-//	public void testAddConflictingEvents2() throws Exception {
-//		conflictEvent2.setStartDateTime(start2);
-//		conflictEvent2.setEndDateTime(end2);
-//
-//		EventHandler handle = new EventHandler();
-//		handle.add(testEvent);
-//		handle.add(conflictEvent2);
-//	}
-//
-//	/**
-//	 * boundary test case (conflict where new event starts in the duration of
-//	 * the old event, and ends after the old event finishes)
-//	 * 
-//	 * @throws Exception
-//	 */
-//	@Test(expected = Exception.class)
-//	public void testAddConflictingEvents3() throws Exception {
-//		conflictEvent3.setStartDateTime(start3);
-//		conflictEvent3.setEndDateTime(end3);
-//
-//		EventHandler handle = new EventHandler();
-//		handle.add(testEvent);
-//		handle.add(conflictEvent3);
-//	}
-//
-//	/**
-//	 * boundary test case (conflict where new event starts and ends in the
-//	 * duration of the old event)
-//	 * 
-//	 * @throws Exception
-//	 */
-//	@Test(expected = Exception.class)
-//	public void testAddConflictingEvents4() throws Exception {
-//		conflictEvent4.setStartDateTime(start4);
-//		conflictEvent4.setEndDateTime(end4);
-//
-//		EventHandler handle = new EventHandler();
-//		handle.add(testEvent);
-//		handle.add(conflictEvent4);
-//	}
-
 	
 	/**
 	 * TESTS FOR REMOVE
@@ -260,16 +195,6 @@ public class EventHandlerTest {
 		handle.remove(pc);
 		assertFalse(handle.getAllEvents().contains(testEvent));
 		assertTrue(handle.getAllEvents().isEmpty());
-	}
-	
-	@Test
-	public void testRemoveMultipleEvents() throws Exception {
-//		fail();
-	}
-	
-	@Test
-	public void testRemoveMultipleEventsSimultaneously() throws Exception {
-//		fail();
 	}
 
 	
@@ -297,15 +222,17 @@ public class EventHandlerTest {
 	
 	@Test
 	public void testViewEmptyEvents() throws Exception {
-//		fail();
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		
+		Event viewedEvent = handle.view(pc);
+		assertNull(viewedEvent);
 	}
 	
 	
 	/**
 	 * TESTS FOR SEARCH
 	 */
-
-
 	
 	@Test
 	public void testSearchEventByGroup() throws Exception {
@@ -314,7 +241,6 @@ public class EventHandlerTest {
 		
 		handle.add(testEvent);
 		Event searchedEvent = handle.search(searchByGroupCommand).get(0);
-		
 		assertEquals(title , searchedEvent.getTitle());
 	}
 	
@@ -328,25 +254,31 @@ public class EventHandlerTest {
 		assertEquals(utils.Priority.LOW , searchedEvent.getPriority());
 	}
 	
+	@Test
+	public void testSearchEventsByStartDate() throws Exception {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		
+		handle.add(testEvent);
+		Event searchedEvent = handle.search(searchByStartDateCommand).get(0);
+		assertEquals(startDateTime, searchedEvent.getStartDateTime());
+	}
 	
-//	@Test
-//	public void testSearchMultipleEventsByTitle() throws Exception {
-//		EventHandler handle = new EventHandler();
-//		handle.injectStorageManager(new StorageManagerStub());
-//		
-//		testEvent2.setTitle(title);
-//
-//
-//		handle.add(testEvent);
-//		handle.add(testEvent2);
-//		
-//	}
-
+	
+	@Test
+	public void testSearchEventsByEndDate() throws Exception {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		
+		handle.add(testEvent);
+		Event searchedEvent = handle.search(searchByEndDateCommand).get(0);
+		assertEquals(endDateTime, searchedEvent.getEndDateTime());
+	}
+	
 	
 	/**
 	 * TESTS FOR UPDATE
 	 */
-	
 	
 	@Test
 	public void testUpdateEvent() throws Exception {
@@ -465,10 +397,7 @@ public class EventHandlerTest {
 		handle.add(earlyVeryHighPriorityEvent);
 		handle.add(lateVeryHighPriorityEvent);
 		
-		// create
 		handle.sortEvents();
-		
-		// check that first one is a high priority
 		assertEquals(utils.Priority.VERY_HIGH, handle.getAllEvents().get(0).getPriority());
 	}
 	

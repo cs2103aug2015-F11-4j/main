@@ -42,8 +42,6 @@ public class EventGenerator {
 		} else {
 			e.setId((pc.getId()));
 		}
-		// if date is not specified, use todays date
-		// if time is not specified, use midnight
 		e.setTitle(pc.getTitle());
 		e.setStartDateTime(pc.getStartDateTime());
 		e.setEndDateTime(pc.getEndDateTime());
@@ -54,7 +52,6 @@ public class EventGenerator {
 		e.addGroup(pc.getGroup());
 		e.setMainId(pc.getMainId());
 		e.setRecurrence(pc.getRecurFreq());
-
 		e.setMainId(IdMapper.getInstance().getActualId(pc.getMainId()));
 
 		// Automated assignment

@@ -120,13 +120,13 @@ public class EventHandler {
 		for (Event e : events) {
 			if (e.getGroup().equals(pc.getGroup())) {
 				searchedEvents.add(e);
-			} else if (e.getPriority().equals(pc.getPriority())) {
+			} else if (pc.getPriority() != null && e.getPriority().equals(pc.getPriority())) {
 				searchedEvents.add(e);
-			} else if (e.getGroup().contains(pc.getGroup())) {
+			} else if (pc.getGroup() != null && e.getGroup().contains(pc.getGroup())) {
 				searchedEvents.add(e);
-			} else if (e.getStartDateTime().equals(pc.getStartDateTime())) {
+			} else if (pc.getStartDateTime() != null && e.getStartDateTime().equals(pc.getStartDateTime())) {
 				searchedEvents.add(e);
-			} else if (e.getEndDateTime().equals(pc.getEndDateTime())) {
+			} else if (pc.getEndDateTime()!= null && e.getEndDateTime().equals(pc.getEndDateTime())) {
 				searchedEvents.add(e);
 			}
 		}
@@ -140,7 +140,7 @@ public class EventHandler {
 	 * @return eventToBeViewed
 	 */
 	public Event view(ParsedCommand pc) {
-		Event eventToBeViewed = new Event();
+		Event eventToBeViewed = null;
 		for (Event e : events) {
 			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
 				eventToBeViewed = e;
@@ -338,33 +338,33 @@ public class EventHandler {
 		}
 	}
 
-	/**
-	 * used to check if a time conflict exists between any event in storage and
-	 * the new event
-	 * 
-	 * @param newEvent
-	 * @return
-	 */
-	private boolean checkTimeConflict(Event newEvent) {
-		boolean conflict = false;
-		for (Event e : events) {
-			if (e.getStartDateTime() != null && e.getEndDateTime() != null && newEvent.getStartDateTime() != null
-					&& newEvent.getEndDateTime() != null) {
-				if (newEvent.getStartDateTime().before(e.getStartDateTime())
-						&& newEvent.getEndDateTime().after(e.getEndDateTime())) {
-					conflict = true;
-				} else if (newEvent.getStartDateTime().before(e.getStartDateTime())
-						&& newEvent.getEndDateTime().after(e.getStartDateTime())) {
-					conflict = true;
-				} else if (newEvent.getStartDateTime().before(e.getEndDateTime())
-						&& newEvent.getEndDateTime().after(e.getEndDateTime())) {
-					conflict = true;
-				} else if (newEvent.getStartDateTime().after(e.getStartDateTime())
-						&& newEvent.getEndDateTime().before(e.getEndDateTime())) {
-					conflict = true;
-				}
-			}
-		}
-		return conflict;
-	}
+//	/**
+//	 * used to check if a time conflict exists between any event in storage and
+//	 * the new event
+//	 * 
+//	 * @param newEvent
+//	 * @return
+//	 */
+//	private boolean checkTimeConflict(Event newEvent) {
+//		boolean conflict = false;
+//		for (Event e : events) {
+//			if (e.getStartDateTime() != null && e.getEndDateTime() != null && newEvent.getStartDateTime() != null
+//					&& newEvent.getEndDateTime() != null) {
+//				if (newEvent.getStartDateTime().before(e.getStartDateTime())
+//						&& newEvent.getEndDateTime().after(e.getEndDateTime())) {
+//					conflict = true;
+//				} else if (newEvent.getStartDateTime().before(e.getStartDateTime())
+//						&& newEvent.getEndDateTime().after(e.getStartDateTime())) {
+//					conflict = true;
+//				} else if (newEvent.getStartDateTime().before(e.getEndDateTime())
+//						&& newEvent.getEndDateTime().after(e.getEndDateTime())) {
+//					conflict = true;
+//				} else if (newEvent.getStartDateTime().after(e.getStartDateTime())
+//						&& newEvent.getEndDateTime().before(e.getEndDateTime())) {
+//					conflict = true;
+//				}
+//			}
+//		}
+//		return conflict;
+//	}
 }
