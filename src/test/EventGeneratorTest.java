@@ -1,7 +1,6 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -97,7 +96,6 @@ public class EventGeneratorTest {
 		gen.setCurrentID(2);
 		assertEquals(gen.getCurrentIDAsString(), 2 + "");
 	}
-<<<<<<< HEAD
 
 	@Test
 	public void testGenerateEventFromString() {
@@ -137,7 +135,7 @@ public class EventGeneratorTest {
 	@Test
 	public void testGenerateEventNoDateOrTime() {
 		fail();
-=======
+	}
 	
 	@Test
 	public void testBreakfast(){
@@ -342,6 +340,5 @@ public class EventGeneratorTest {
 		
 		assertEquals(null, generatedEvent.getPriority());
 		assertEquals(null, generatedEvent.getGroup());
->>>>>>> f03f9e7d09a7f8a3fb29822dca9e16679b1a37c3
 	}
 }
