@@ -703,6 +703,12 @@ public class Event implements Comparable<Event> {
 		return checkedEvent;
 	}
 	
+	/**
+	 * Gets event object with updated date and time with recurrence
+	 * @param year	year to be limited to
+	 * @param month month to be limited to
+	 * @return	list of events
+	 */
 	public List<Event> getRecurredEvents(int year, int month) {
 		List<Event> checkedEvents = new ArrayList<>();
 		Calendar current = Calendar.getInstance();
