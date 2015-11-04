@@ -92,9 +92,9 @@ public class ViewController extends FlowPane {
 		}
 		return idList;
 	}
-	public List<String> getIdMapper(){
-		return idList;
-	}
+//	public List<String> getIdMapper(){
+//		return idList;
+//	}
 
 	private int detectLengthofMonth(int month, int year) {
 		int end;
