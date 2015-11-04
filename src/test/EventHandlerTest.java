@@ -23,8 +23,8 @@ public class EventHandlerTest {
 	ParsedCommand undoCommand = new ParsedCommand();
 	ParsedCommand updateCommand = new ParsedCommand();
 	ParsedCommand setStorage = new ParsedCommand();
-	ParsedCommand searchCommand1 =  new ParsedCommand();
-	ParsedCommand searchCommand2 = new ParsedCommand();
+	ParsedCommand searchByGroupCommand =  new ParsedCommand();
+	ParsedCommand searchByPriorityCommand = new ParsedCommand();
 	
 	Event testEvent = new Event();
 	
@@ -133,11 +133,11 @@ public class EventHandlerTest {
 		setStorage.setCommand(Command.STORAGE_LOCATION);
 		setStorage.setStorageLocation("abc.txt");
 		
-		searchCommand1.setCommand(Command.FILTER);
-		searchCommand1.setTitle(title);
+		searchByGroupCommand.setCommand(Command.FILTER);
+		searchByGroupCommand.setGroup(group);
 		
-		searchCommand2.setCommand(Command.FILTER);
-		searchCommand2.setPriority(utils.Priority.LOW);
+		searchByPriorityCommand.setCommand(Command.FILTER);
+		searchByPriorityCommand.setPriority(utils.Priority.LOW);
 	}
 	
 	
@@ -303,24 +303,15 @@ public class EventHandlerTest {
 	 * TESTS FOR SEARCH
 	 */
 
-	@Test
-	public void testSearchEventById() throws Exception {
-		EventHandler handle = new EventHandler();
-		handle.injectStorageManager(new StorageManagerStub());
 
-		handle.add(testEvent);
-		Event searchedEvent = handle.search(pc).get(0);
-		assertEquals(searchedEvent.getId(), testEvent.getId());
-		assertEquals(searchedEvent.getNotes(), testEvent.getNotes());
-	}
 	
 	@Test
-	public void testSearchEventByTitle() throws Exception {
+	public void testSearchEventByGroup() throws Exception {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
 		
 		handle.add(testEvent);
-		Event searchedEvent = handle.search(searchCommand1).get(0);
+		Event searchedEvent = handle.search(searchByGroupCommand).get(0);
 		
 		assertEquals(title , searchedEvent.getTitle());
 	}
@@ -331,7 +322,7 @@ public class EventHandlerTest {
 		handle.injectStorageManager(new StorageManagerStub());
 		
 		handle.add(testEvent);
-		Event searchedEvent = handle.search(searchCommand2).get(0);
+		Event searchedEvent = handle.search(searchByPriorityCommand).get(0);
 		assertEquals(utils.Priority.LOW , searchedEvent.getPriority());
 	}
 	

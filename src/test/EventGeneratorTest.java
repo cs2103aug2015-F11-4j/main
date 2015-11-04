@@ -122,20 +122,6 @@ public class EventGeneratorTest {
 		assertEquals(events.get(3).getId(), "f68f148c-4a32-42e8-998b-df2ef0328158");
 	}
 
-	@Test
-	public void testGenerateEventNoDate() {
-		fail();
-	}
-
-	@Test
-	public void testGenerateEventNoTime() {
-		fail();
-	}
-
-	@Test
-	public void testGenerateEventNoDateOrTime() {
-		fail();
-	}
 	
 	@Test
 	public void testBreakfast(){

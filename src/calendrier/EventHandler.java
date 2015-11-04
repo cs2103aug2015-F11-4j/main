@@ -122,9 +122,11 @@ public class EventHandler {
 				searchedEvents.add(e);
 			} else if (e.getPriority().equals(pc.getPriority())) {
 				searchedEvents.add(e);
-			} else if (e.getTitle().contains(pc.getTitle())) {
+			} else if (e.getGroup().contains(pc.getGroup())) {
 				searchedEvents.add(e);
-			} else if (e.getGroups().contains(pc.getGroup())) {
+			} else if (e.getStartDateTime().equals(pc.getStartDateTime())) {
+				searchedEvents.add(e);
+			} else if (e.getEndDateTime().equals(pc.getEndDateTime())) {
 				searchedEvents.add(e);
 			}
 		}
