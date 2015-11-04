@@ -676,6 +676,11 @@ public class Event implements Comparable<Event> {
 	 * @return new event object with next recurrence data and time
 	 */
 	public Event getRecurredEvent() {
+		Calendar now = Calendar.getInstance();
+		return getRecurredEvent(now);
+	}
+	
+	private Event getRecurredEvent(Calendar now) {
 		Event checkedEvent = null;
 
 		if (this.getRecurrence() == null) {
@@ -692,20 +697,68 @@ public class Event implements Comparable<Event> {
 			Calendar endDateTime = checkedEvent.getEndDateTime();
 
 			// Update Start and End Date Time
-			updateDateTimeWithRecurrence(startDateTime, endDateTime, recurrence);
+			updateDateTimeWithRecurrence(startDateTime, endDateTime, now, recurrence);
 		}
 
 		return checkedEvent;
 	}
+	
+	public List<Event> getRecurredEvents(int year, int month) {
+		List<Event> checkedEvents = new ArrayList<>();
+		Calendar current = Calendar.getInstance();
+		Calendar end = Calendar.getInstance();
 
-	private void updateDateTimeWithRecurrence(Calendar start, Calendar end, Recurrence recurrence) {
+		// Add actual event
+		checkedEvents.add(this);
+		
+		if(this.getStartDateTime() == null){
+			return checkedEvents;
+		}
+		
+		// Set to start of month
+		current.setTimeInMillis(0);
+		end.setTimeInMillis(0);
+		current.set(year, (month + 11) % 12, 1, 0, 0);
+		end.set(year, (month + 11) % 12, 1, 0, 0);
+		
+		// Set to next month
+		end.add(Calendar.MONTH, 1);
+		
+		if(this.getStartDateTime().compareTo(current) > 0){
+			current = (Calendar) this.getStartDateTime().clone();
+			current.set(Calendar.SECOND, 0);
+			current.set(Calendar.MILLISECOND, 0);
+			
+		}
+		
+		while(current.before(end)){
+			Event event = getRecurredEvent(current);
+			Event latestEventInList = checkedEvents.get(checkedEvents.size() - 1);
+			
+			if(event.getStartDateTime().compareTo(end) >= 0){
+				// Not in this month
+				break;
+			}
+			
+			if(event.getStartDateTime().after(latestEventInList.getStartDateTime())){
+				System.out.println(event.getStartDateTime().getTime() + " : " + event.getTitle());
+				checkedEvents.add(event);
+			}
+			
+			// Increment to next day
+			current.add(Calendar.DATE, 1);
+		}
+		
+		return checkedEvents;
+	}
+
+	private void updateDateTimeWithRecurrence(Calendar start, Calendar end, Calendar now, Recurrence recurrence) {
 		int field = getRecurrenceField(recurrence);
-		updateCalendar(field, start, end);
+		updateCalendar(field, start, end, now);
 
 	}
 
-	private void updateCalendar(int field, Calendar start, Calendar end) {
-		Calendar now = Calendar.getInstance();
+	private void updateCalendar(int field, Calendar start, Calendar end, Calendar now) {
 
 		if (start == null) {
 			return;

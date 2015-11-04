@@ -124,16 +124,32 @@ public class MainLogic {
 	 */
 	public List<Event> getAllEvents() {
 		List<Event> savedEvents = eventHandler.getAllEvents();
-		
+
 		// Clear Events
 		this.events.clear();
-		
+
 		// Perform recurrence check
-		for(int i = 0; i < savedEvents.size(); i++){
+		for (int i = 0; i < savedEvents.size(); i++) {
 			Event event = savedEvents.get(i);
 			this.events.add(event.getRecurredEvent());
 		}
-		
+
+		return this.events;
+	}
+
+	private List<Event> getAllMonthEvents(int year, int month) {
+		List<Event> savedEvents = eventHandler.getAllEvents();
+
+		// Clear Events
+		this.events.clear();
+		System.out.println(savedEvents.size());
+
+		// Perform recurrence check
+		for (int i = 0; i < savedEvents.size(); i++) {
+			Event event = savedEvents.get(i);
+			this.events.addAll(event.getRecurredEvents(year, month));
+		}
+
 		return this.events;
 	}
 
@@ -171,12 +187,22 @@ public class MainLogic {
 	 * @return list of events in the month
 	 */
 	public List<Event> getMonthEvents(int year, int month, boolean floating) {
-		events = getAllEvents();
+		events = getAllMonthEvents(year, month);
 		List<Event> monthEvents = new ArrayList<>();
 
+		for(int i = 0; i < events.size(); i++){
+			System.out.println("ev :: " + events.get(i));
+		}
+		
 		filterToMonth(year, month, monthEvents, floating);
 		sortByStartDateTime(monthEvents);
 
+
+		
+		for(int i = 0; i < monthEvents.size(); i++){
+			System.out.println("bb :: " + monthEvents.get(i));
+		}
+		
 		return monthEvents;
 	}
 
@@ -209,7 +235,7 @@ public class MainLogic {
 	 * @return list of events in the day
 	 */
 	public List<Event> getDayEvents(int year, int month, int day, boolean floating) {
-		events = getAllEvents();
+		events = getAllMonthEvents(year, month);
 		List<Event> dayEvents = new ArrayList<>();
 
 		filterToDay(year, month, day, dayEvents, floating);
