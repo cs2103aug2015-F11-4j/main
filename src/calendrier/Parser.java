@@ -287,9 +287,8 @@ public class Parser {
 			pc.setCommand(Command.STORAGE_LOCATION);
 			pc.setStorageLocation(inputAfterCommand);
 		}  else if (command.equals("-undel")) {
-			// e.g. undelete 4: -undel 4
+			// e.g. undelete 4: -undel
 			pc.setCommand(Command.UNDELETE);
-			pc.setId(inputAfterCommand);
 		} else if (command.equals("-v")) {
 			// e.g. view 2: -v 2
 			pc.setCommand(Command.VIEW);
