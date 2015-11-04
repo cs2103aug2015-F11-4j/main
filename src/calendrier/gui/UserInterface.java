@@ -42,7 +42,7 @@ public class UserInterface extends Application implements OnRemindListener {
 	private static final String MESSAGE_REMINDER = "Reminder";
 
 	private static final int VALUE_START_SCREEN_MIN = 1;
-	private static final int VALUE_START_SCREEN_MAX = 3;
+	private static final int VALUE_START_SCREEN_MAX = 5;
 
 	private static final int VALUE_TO_ADD_OR_MINUS = 1;
 	private static final int VALUE_ADD_TO_ARRAY = 15;

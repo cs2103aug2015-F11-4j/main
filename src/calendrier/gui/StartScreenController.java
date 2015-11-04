@@ -12,6 +12,8 @@ public class StartScreenController extends StackPane {
 	private static final String START_SCREEN_1_LAYOUT_FXML = "/calendrier/resources/StartScreen.fxml";
 	private static final String START_SCREEN_2_LAYOUT_FXML = "/calendrier/resources/StartScreen2.fxml";
 	private static final String START_SCREEN_3_LAYOUT_FXML = "/calendrier/resources/StartScreen3.fxml";
+	private static final String START_SCREEN_4_LAYOUT_FXML = "/calendrier/resources/StartScreen4.fxml";
+	private static final String START_SCREEN_5_LAYOUT_FXML = "/calendrier/resources/StartScreen5.fxml";
 	
 	private UserInterface userInterface;
 	
@@ -37,6 +39,10 @@ public class StartScreenController extends StackPane {
 				return new FXMLLoader(getClass().getResource(START_SCREEN_2_LAYOUT_FXML));
 			case 3:
 				return new FXMLLoader(getClass().getResource(START_SCREEN_3_LAYOUT_FXML));
+			case 4:
+				return new FXMLLoader(getClass().getResource(START_SCREEN_4_LAYOUT_FXML));
+			case 5:
+				return new FXMLLoader(getClass().getResource(START_SCREEN_5_LAYOUT_FXML));
 			default:
 				return new FXMLLoader(getClass().getResource(START_SCREEN_1_LAYOUT_FXML));
 		}

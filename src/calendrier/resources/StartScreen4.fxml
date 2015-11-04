@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ListView?>
+
+<fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" prefHeight="680.0"
+	maxWidth="1000.0" maxHeight="680.0">
+	<children>
+		<GridPane styleClass="gridPaneHelpScreen" xmlns="http://javafx.com/javafx/8.0.40"
+			xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" prefHeight="600.0"
+			maxWidth="1000.0" maxHeight="600.0" vgap="10" hgap="10">
+			<columnConstraints>
+				<ColumnConstraints percentWidth="15.0" />
+				<ColumnConstraints percentWidth="45.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="40.0" halignment="CENTER" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints percentHeight="8.0" />
+				<RowConstraints percentHeight="34.5" />
+				<RowConstraints percentHeight="34.5" />
+				<RowConstraints percentHeight="15.0" />
+				<RowConstraints percentHeight="8.0" />
+			</rowConstraints>
+			<children>
+				<Label text="Purpose" GridPane.columnIndex="0"
+					GridPane.rowIndex="0" wrapText="true" />
+				<Label text="Command" GridPane.columnIndex="1"
+					GridPane.rowIndex="0" wrapText="true" GridPane.columnSpan="2" />
+					
+					<Label text="&#35; Adding Dated Task"
+					GridPane.columnIndex="0" GridPane.rowIndex="1" wrapText="true" />
+				<Label styleClass="commandText"
+					text="add &#60;TASK_TITLE&#62;, startdate &#60;YYYY/MM/DD&#62;, starttime &#60;HH.MM&#62;, enddate &#60;YYYY/MM/DD&#62;, endtime &#60;HH.MM&#62;, priority &#60;PRIORITY&#62;, location &#60;LOCATION&#62;, notes &#60;NOTES&#62;, recur &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, reminderDate &#60;YYYY/MM/DD&#62;, reminderTime &#60;HH.MM&#62;, group &#60;GROUP&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true" />
+				<Label styleClass="commandText"
+					text="-a &#60;TASK_TITLE&#62;, -sd &#60;YYYY/MM/DD&#62;, -st &#60;HH.MM&#62;, -ed &#60;YYYY/MM/DD&#62;, -et &#60;HH.MM&#62;, -p &#60;PRIORITY&#62;, -l &#60;LOCATION&#62;, -n &#60;NOTES&#62;, -r &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, -rd &#60;YYYY/MM/DD&#62;, -rt &#60;HH.MM&#62;, -g &#60;GROUP&#62;"
+					GridPane.columnIndex="2" GridPane.rowIndex="1" wrapText="true" />
+
+			<Label text="&#35; Adding Deadline Task"
+					GridPane.columnIndex="0" GridPane.rowIndex="2" wrapText="true" />
+				<Label styleClass="commandText"
+					text="add &#60;TASK_TITLE&#62;, deadlinedate &#60;YYYY/MM/DD&#62;, deadlinetime &#60;HH.MM&#62;, priority &#60;PRIORITY&#62;, location &#60;LOCATION&#62;, notes &#60;NOTES&#62;, recur &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, reminderDate &#60;YYYY/MM/DD&#62;, reminderTime &#60;HH.MM&#62;, group &#60;GROUP&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="2" wrapText="true" />
+				<Label styleClass="commandText"
+					text="-a &#60;TASK_TITLE&#62;, -dd &#60;YYYY/MM/DD&#62;, -dt &#60;HH.MM&#62;, -p &#60;PRIORITY&#62;, -l &#60;LOCATION&#62;, -n &#60;NOTES&#62;, -r &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, -rd &#60;YYYY/MM/DD&#62;, -rt &#60;HH.MM&#62;, -g &#60;GROUP&#62;"
+					GridPane.columnIndex="2" GridPane.rowIndex="2" wrapText="true" />
+
+				<Label text="Deleting Task" GridPane.columnIndex="0"
+					GridPane.rowIndex="3" wrapText="true" />
+				<Label styleClass="commandText" text="delete &#60;TASK_ID&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="3" wrapText="true" />
+				<Label styleClass="commandText" text="-d &#60;TASK_ID&#62;"
+					GridPane.columnIndex="2" GridPane.rowIndex="3" wrapText="true" />
+					
+				<Label styleClass="lblIndication" text="&#35; indication of field is not in order"
+					GridPane.columnIndex="0" GridPane.rowIndex="4" wrapText="true"
+					GridPane.columnSpan="3" />
+			</children>
+		</GridPane>
+		<Label styleClass="storageMessage"
+			text="* Create storage file first: 'save in &#60;FOLDER_NAME&#62;'"
+			StackPane.alignment="BOTTOM_CENTER" />
+	</children>
+</fx:root>

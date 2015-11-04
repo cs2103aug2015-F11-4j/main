@@ -10,32 +10,41 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="550.0"
-	maxWidth="500.0" maxHeight="550.0">
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="700.0" prefHeight="650.0"
+	maxWidth="700.0" maxHeight="650.0">
 	<children>
 		<GridPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
 			hgap="10" vgap="10">
+			<columnConstraints>
+				<ColumnConstraints percentWidth="85.0" />
+				<ColumnConstraints percentWidth="15.0" />
+			</columnConstraints>
+				<rowConstraints>
+				<RowConstraints percentHeight="70.0" />
+				<RowConstraints percentHeight="5.0" />
+				<RowConstraints percentHeight="25.0" />
+			</rowConstraints>
 			<children>
-				<ImageView fitHeight="400" fitWidth="550" pickOnBounds="true"
+				<ImageView fitHeight="500" fitWidth="650" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="0"
-					GridPane.rowIndex="0" GridPane.columnSpan="2">
+					GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" >
 					<image>
 						<Image url="/calendrier/resources/logo.png" />
 					</image>
 				</ImageView>
 				<Label styleClass="displayText"
 					text="Type the following command to view TUTORIAL"
-					GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.halignment="RIGHT"
+					GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.halignment="RIGHT"
 					GridPane.columnSpan="2" />
 				<ImageView fitHeight="20" fitWidth="20" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="0"
-					GridPane.rowIndex="5" GridPane.halignment="RIGHT">
+					GridPane.rowIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
 					<image>
 						<Image url="/calendrier/resources/arrow.png" />
 					</image>
 				</ImageView>
 				<Label styleClass="lblCommand" text="next"
-					GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.halignment="RIGHT" />
+					GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
 			</children>
 		</GridPane>
 		<Label styleClass="storageMessage"

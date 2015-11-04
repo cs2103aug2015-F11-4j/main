@@ -6,74 +6,101 @@
 <?import javafx.scene.control.ListView?>
 
 <fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="550.0"
-	maxWidth="500.0" maxHeight="550.0" >
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" prefHeight="680.0"
+	maxWidth="1000.0" maxHeight="680.0">
 	<children>
-		<GridPane styleClass="gridPaneHelpScreen" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-			prefWidth="480.0" prefHeight="500.0"
-			maxWidth="500.0" maxHeight="500.0" vgap="10" hgap="10">
+		<GridPane styleClass="gridPaneHelpScreen" xmlns="http://javafx.com/javafx/8.0.40"
+			xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" prefHeight="600.0"
+			maxWidth="1000.0" maxHeight="600.0" vgap="10" hgap="20">
 			<columnConstraints>
 				<ColumnConstraints percentWidth="30.0" />
-				<ColumnConstraints percentWidth="70.0" />
+				<ColumnConstraints percentWidth="35.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="35.0" halignment="CENTER" />
 			</columnConstraints>
 			<rowConstraints>
-				<RowConstraints percentHeight="8.0" />
-				<RowConstraints percentHeight="8.0" />
-				<RowConstraints percentHeight="8.0" />
-				<RowConstraints percentHeight="8.0" />
-				<RowConstraints percentHeight="15.0" />
-				<RowConstraints percentHeight="15.0" />
-				<RowConstraints percentHeight="8.0" />
-				<RowConstraints percentHeight="15.0" />
-				<RowConstraints percentHeight="8.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
 			</rowConstraints>
 			<children>
 				<Label text="Purpose" GridPane.columnIndex="0"
 					GridPane.rowIndex="0" wrapText="true" />
 				<Label text="Command" GridPane.columnIndex="1"
-					GridPane.rowIndex="0" wrapText="true" />
+					GridPane.rowIndex="0" wrapText="true" GridPane.columnSpan="2" />
 
 				<Label text="Save in folder" GridPane.columnIndex="0"
 					GridPane.rowIndex="1" wrapText="true" />
 				<Label styleClass="commandText" text="save in &#60;FOLDER_NAME&#62;"
-					GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true"  />
+					GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true" />
+					<Label styleClass="commandText" text="-s &#60;FOLDER_NAME&#62;"
+					GridPane.columnIndex="2" GridPane.rowIndex="1" wrapText="true" />
 
 				<Label text="Exit program" GridPane.columnIndex="0"
 					GridPane.rowIndex="2" wrapText="true" />
-				<Label styleClass="commandText" text="exit" GridPane.columnIndex="1" GridPane.rowIndex="2"
-					wrapText="true" />
+				<Label styleClass="commandText" text="exit"
+					GridPane.columnIndex="1" GridPane.rowIndex="2" wrapText="true" />
+					<Label styleClass="commandText" text="-e"
+					GridPane.columnIndex="2" GridPane.rowIndex="2" wrapText="true" />
 
 				<Label text="Command Help" GridPane.columnIndex="0"
 					GridPane.rowIndex="3" wrapText="true" />
-				<Label styleClass="commandText" text="help" GridPane.columnIndex="1" GridPane.rowIndex="3"
-					wrapText="true" />
+				<Label styleClass="commandText" text="help"
+					GridPane.columnIndex="1" GridPane.rowIndex="3" wrapText="true" />
+					<Label styleClass="commandText" text="-h"
+					GridPane.columnIndex="2" GridPane.rowIndex="3" wrapText="true" />
 
 				<Label text="Navigate to next page" GridPane.columnIndex="0"
 					GridPane.rowIndex="4" wrapText="true" />
-				<Label styleClass="commandText" text="next" GridPane.columnIndex="1" GridPane.rowIndex="4"
-					wrapText="true" />
+				<Label styleClass="commandText" text="next"
+					GridPane.columnIndex="1" GridPane.rowIndex="4" wrapText="true" />
+					<Label styleClass="commandText" text="-nxt"
+					GridPane.columnIndex="2" GridPane.rowIndex="4" wrapText="true" />
 
 				<Label text="Navigate to previous page" GridPane.columnIndex="0"
 					GridPane.rowIndex="5" wrapText="true" />
-				<Label styleClass="commandText" text="previous" GridPane.columnIndex="1"
-					GridPane.rowIndex="5" wrapText="true" />
-
-				<Label text="Viewing all Events" GridPane.columnIndex="0"
+				<Label styleClass="commandText" text="previous"
+					GridPane.columnIndex="1" GridPane.rowIndex="5" wrapText="true" />
+				<Label styleClass="commandText" text="-prev"
+					GridPane.columnIndex="2" GridPane.rowIndex="5" wrapText="true" />
+					
+				<Label text="Navigate to next month" GridPane.columnIndex="0"
 					GridPane.rowIndex="6" wrapText="true" />
-				<Label styleClass="commandText" text="view all" GridPane.columnIndex="1"
-					GridPane.rowIndex="6" wrapText="true" />
+				<Label styleClass="commandText" text="next month"
+					GridPane.columnIndex="1" GridPane.rowIndex="6" wrapText="true" />
+					<Label styleClass="commandText" text="-nxtm"
+					GridPane.columnIndex="2" GridPane.rowIndex="6" wrapText="true" />
 
-				<Label text="Viewing Specific Events" GridPane.columnIndex="0"
+				<Label text="Navigate to previous month" GridPane.columnIndex="0"
 					GridPane.rowIndex="7" wrapText="true" />
-				<Label styleClass="commandText" text="view &#60;TASK_ID/NAME&#62;"
+				<Label styleClass="commandText" text="previous month"
 					GridPane.columnIndex="1" GridPane.rowIndex="7" wrapText="true" />
-
-				<Label text="Undoing operation" GridPane.columnIndex="0"
+				<Label styleClass="commandText" text="-prevm"
+					GridPane.columnIndex="2" GridPane.rowIndex="7" wrapText="true" />	
+					
+					<Label text="Navigate to next day" GridPane.columnIndex="0"
 					GridPane.rowIndex="8" wrapText="true" />
-				<Label styleClass="commandText" text="undo" GridPane.columnIndex="1" GridPane.rowIndex="8"
-					wrapText="true" />
+				<Label styleClass="commandText" text="next day"
+					GridPane.columnIndex="1" GridPane.rowIndex="8" wrapText="true" />
+					<Label styleClass="commandText" text="-nxtd"
+					GridPane.columnIndex="2" GridPane.rowIndex="8" wrapText="true" />
+
+				<Label text="Navigate to previous day" GridPane.columnIndex="0"
+					GridPane.rowIndex="9" wrapText="true" />
+				<Label styleClass="commandText" text="previous day"
+					GridPane.columnIndex="1" GridPane.rowIndex="9" wrapText="true" />
+				<Label styleClass="commandText" text="-prevd"
+					GridPane.columnIndex="2" GridPane.rowIndex="9" wrapText="true" />
 			</children>
 		</GridPane>
-		<Label styleClass="storageMessage" text="* Create storage file first: 'save in &#60;FOLDER_NAME&#62;'" StackPane.alignment="BOTTOM_CENTER"  />
+		<Label styleClass="storageMessage"
+			text="* Create storage file first: 'save in &#60;FOLDER_NAME&#62;'"
+			StackPane.alignment="BOTTOM_CENTER" />
 	</children>
 </fx:root>
