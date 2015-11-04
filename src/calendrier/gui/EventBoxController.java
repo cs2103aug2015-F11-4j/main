@@ -120,11 +120,16 @@ public class EventBoxController extends StackPane {
 	// }
 
 	public String checkExistValue(String parseInValue) {
-		try {
+		if(parseInValue!=null){
 			return parseInValue;
-		} catch (NullPointerException e) {
+		} else{
 			return VALUE_SHOW_EMPTY_DATA;
 		}
+//		try {
+//			return parseInValue;
+//		} catch (NullPointerException e) {
+//			return VALUE_SHOW_EMPTY_DATA;
+//		}
 	}
 
 	private static String constructEventDate(Calendar startDateTime, Calendar endDateTime) {
