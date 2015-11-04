@@ -119,6 +119,7 @@ public class EventHandlerTest {
 		testEvent.setNotes(notes);
 		testEvent.setReminder(reminder);
 		testEvent.addGroup(group);
+		testEvent.setRecurrence(utils.Recurrence.DAILY);
 		
 
 		deleteCommand.setCommand(Command.DELETE);
@@ -165,6 +166,7 @@ public class EventHandlerTest {
 		assertEquals(addedEvent.getLocation(), testEvent.getLocation());
 		assertEquals(addedEvent.getNotes(), testEvent.getNotes());
 		assertTrue(handle.getAllEvents().contains(testEvent));
+		assertEquals(addedEvent.getRecurrence(),  testEvent.getRecurrence());
 	}
 	
 	@Test

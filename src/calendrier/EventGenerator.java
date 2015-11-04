@@ -52,11 +52,8 @@ public class EventGenerator {
 		e.setNotes(pc.getNotes());
 		e.setReminder(pc.getReminder());
 		e.addGroup(pc.getGroup());
-
 		e.setMainId(pc.getMainId());
-		
-		// save recurrnce
-//		e.setRecucrence(pc.getIsRecurring());
+		e.setRecurrence(pc.getRecurFreq());
 
 		e.setMainId(IdMapper.getInstance().getActualId(pc.getMainId()));
 
