@@ -138,11 +138,6 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private void addStartScreen(UserInterface userInterface) {
 		rootLayout.setCenter(new StartScreenController(userInterface, VALUE_START_SCREEN_MIN));
-
-		// trying out notification (for reminder)
-		// Notifications.create() .title("Task Reminder") .text("Hello")
-		// .showWarning();
-
 	}
 
 	private void addEventView(UserInterface userInterface) {
@@ -156,9 +151,6 @@ public class UserInterface extends Application implements OnRemindListener {
 		if (mainLogic.getAllEvents().size() == VALUE_NO_EVENT) {
 			rootLayout.setCenter(new NoEventController(userInterface));
 		} else {
-
-			// rootLayout.setCenter(new
-			// EventAllController(mainLogic.getAllEvents()));
 			List<Event> listEvents = null;
 			if (currentEventState == VALUE_GET_ALL_EVENTS) {
 				listEvents = mainLogic.getAllEvents();
@@ -169,67 +161,6 @@ public class UserInterface extends Application implements OnRemindListener {
 			rootLayout.setCenter(new ViewController(SortedEvents.sortEvents(listEvents), arrStartIndex));
 		}
 	}
-
-	// private void outdatedView(UserInterface userInterface) {
-	// currentScreenState = VALUE_VIEW_SCREEN;
-	// List<Event> listEvents = null;
-	// listEvents = mainLogic.getAllEvents();
-	// if (listEvents.size() == VALUE_NO_EVENT) {
-	// rootLayout.setCenter(new NoEventController(userInterface));
-	// } else if(checkOutdateEvents(listEvents).size()>0) {
-	// rootLayout.setCenter(new
-	// ViewController(SortedEvents.sortEvents(checkOutdateEvents(listEvents)),
-	// arrStartIndex));
-	// }
-	// else{
-	// addView(this);
-	// }
-	// }
-	//
-	// private List<Event> checkOngoingEvents(List<Event> listEvents) {
-	// List<Event> results= new ArrayList<Event>();
-	// for(int i=0;i<listEvents.size();i++){
-	// if(listEvents.get(i).getEndDateTime()==null &&
-	// listEvents.get(i).getStartDateTime()==null){
-	// results.add(listEvents.get(i));
-	// }
-	// else if(listEvents.get(i).getEndDateTime()!=null &&
-	// (listEvents.get(i).getEndDateTime().compareTo(cal))>0){
-	// results.add(listEvents.get(i));
-	// }
-	// else if(listEvents.get(i).getStartDateTime()!=null &&
-	// (listEvents.get(i).getStartDateTime().compareTo(cal))>0){
-	// results.add(listEvents.get(i));
-	// }
-	// }
-	// return results;
-	// }
-	//
-	// private List<Event> checkOutdateEvents(List<Event> listEvents) {
-	// List<Event> results= new ArrayList<Event>();
-	// for(int i=0;i<listEvents.size();i++){
-	// if(listEvents.get(i).getEndDateTime()!=null &&
-	// (listEvents.get(i).getEndDateTime().compareTo(cal))<0){
-	// results.add(listEvents.get(i));
-	// }
-	// else if(listEvents.get(i).getStartDateTime()!=null &&
-	// (listEvents.get(i).getStartDateTime().compareTo(cal))<0){
-	// results.add(listEvents.get(i));
-	// }
-	// }
-	// return results;
-	// }
-
-	// private void viewDay(UserInterface userInterface, int date) {
-	// List<Event> events = new ArrayList<Event>();
-	// List<Event> listEvents = new ArrayList<Event>();
-	// events = mainLogic.getMonthEvents(currentYear, currentMonth + 1);
-	// listEvents = detectDate(events, date);
-	//
-	// currentScreenState = VALUE_VIEW_SCREEN;
-	// rootLayout.setCenter(new
-	// ViewController(SortedEvents.sortEvents(listEvents), arrStartIndex));
-	// }
 
 	@SuppressWarnings("deprecation")
 	public List<Event> detectDate(List<Event> events, int date) {
@@ -260,9 +191,9 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private void viewDay(UserInterface userInterface, int date, int month, int year, int day, boolean isToday) {
 		currentScreenState = VALUE_VIEW_HOME_SCREEN;
-		rootLayout.setCenter(new ViewDayController(mainLogic.getDayEvents(year, month +1, date),
-				mainLogic.getDayEvents(year, month + 1, date, PARAM_GET_FLOATING_TASK_TRUE), date,
-				month, year, day, isToday));
+		rootLayout.setCenter(new ViewDayController(mainLogic.getDayEvents(year, month + 1, date),
+				mainLogic.getDayEvents(year, month + 1, date, PARAM_GET_FLOATING_TASK_TRUE), date, month, year, day,
+				isToday));
 	}
 
 	private void getHelp(UserInterface userInterface) {
@@ -280,7 +211,10 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 			viewMonth(this, currentMonth, currentYear);
 		} else if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
-			int lastDayOfMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+			Calendar newCal = Calendar.getInstance();
+			newCal.set(Calendar.YEAR, viewYear);
+			newCal.set(Calendar.MONTH, viewMonth);
+			int lastDayOfMonth = newCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 			viewDate += VALUE_TO_ADD_OR_MINUS;
 			if (viewDate > lastDayOfMonth) {
 				viewDate = VALUE_TO_ADD_OR_MINUS;
@@ -290,7 +224,8 @@ public class UserInterface extends Application implements OnRemindListener {
 					viewYear += VALUE_TO_ADD_OR_MINUS;
 				}
 			}
-			viewDay(this, viewDate, viewMonth, viewYear, getDay(viewDate, viewMonth, viewYear), boolIsToday(viewDate, viewMonth, viewYear));
+			viewDay(this, viewDate, viewMonth, viewYear, getDay(viewDate, viewMonth, viewYear),
+					boolIsToday(viewDate, viewMonth, viewYear));
 
 		} else if (currentScreenState == VALUE_START_SCREEN) {
 			// to navigate around the start screen page
@@ -323,10 +258,11 @@ public class UserInterface extends Application implements OnRemindListener {
 					viewYear -= VALUE_TO_ADD_OR_MINUS;
 				}
 				newCal.set(Calendar.YEAR, viewYear);
-				newCal.set(Calendar.MONTH, viewMonth + 1);
+				newCal.set(Calendar.MONTH, viewMonth);
 				viewDate = newCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 			}
-			viewDay(this, viewDate, viewMonth, viewYear, getDay(viewDate, viewMonth, viewYear), boolIsToday(viewDate, viewMonth, viewYear));
+			viewDay(this, viewDate, viewMonth, viewYear, getDay(viewDate, viewMonth, viewYear),
+					boolIsToday(viewDate, viewMonth, viewYear));
 		} else if (currentScreenState == VALUE_START_SCREEN) {
 			if (isValidScreen(PARAM_NAVIGATION_PREVIOUS)) {
 				rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
@@ -338,7 +274,6 @@ public class UserInterface extends Application implements OnRemindListener {
 				arrStartIndex = 0;
 			}
 			addView(userInterface);
-			// outdatedView(this);
 		}
 	}
 
@@ -361,10 +296,10 @@ public class UserInterface extends Application implements OnRemindListener {
 		if (key == KeyCode.ENTER) {
 			handleEnterPress(commandBarController, userInput);
 		}
-		if(key==KeyCode.LEFT){
+		if (key == KeyCode.LEFT) {
 			getPreviousPage(this);
 		}
-		if(key==KeyCode.RIGHT){
+		if (key == KeyCode.RIGHT) {
 			getNextPage(this);
 		}
 	}
@@ -516,21 +451,21 @@ public class UserInterface extends Application implements OnRemindListener {
 		commandBarController.setMessage(setMessage);
 		commandBarController.clear();
 	}
-	
+
 	private void resetViewDateInfo() {
 		viewDate = date;
 		viewMonth = month;
 		viewYear = year;
 	}
-	
+
 	private int getDay(int intDate, int intMonth, int intYear) {
 		Calendar thisCal = Calendar.getInstance();
 		thisCal.set(intYear, intMonth, intDate);
 		return thisCal.getTime().getDay();
 	}
-	
+
 	private boolean boolIsToday(int intDate, int intMonth, int intYear) {
-		if(intDate == date && intMonth == month && intYear == year) {
+		if (intDate == date && intMonth == month && intYear == year) {
 			return true;
 		}
 		return false;

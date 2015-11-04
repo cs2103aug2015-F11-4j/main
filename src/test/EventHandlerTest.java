@@ -23,6 +23,8 @@ public class EventHandlerTest {
 	ParsedCommand undoCommand = new ParsedCommand();
 	ParsedCommand updateCommand = new ParsedCommand();
 	ParsedCommand setStorage = new ParsedCommand();
+	ParsedCommand searchByGroupCommand =  new ParsedCommand();
+	ParsedCommand searchByPriorityCommand = new ParsedCommand();
 	
 	Event testEvent = new Event();
 	
@@ -42,7 +44,7 @@ public class EventHandlerTest {
 
 	static Calendar start1;
 	static Calendar end1;
-	Event conflictEvent1 = new Event();
+	Event testEvent2 = new Event();
 
 	static Calendar start2;
 	static Calendar end2;
@@ -117,6 +119,7 @@ public class EventHandlerTest {
 		testEvent.setNotes(notes);
 		testEvent.setReminder(reminder);
 		testEvent.addGroup(group);
+		
 
 		deleteCommand.setCommand(Command.DELETE);
 		deleteCommand.setId(ID);
@@ -129,7 +132,14 @@ public class EventHandlerTest {
 
 		setStorage.setCommand(Command.STORAGE_LOCATION);
 		setStorage.setStorageLocation("abc.txt");
+		
+		searchByGroupCommand.setCommand(Command.FILTER);
+		searchByGroupCommand.setGroup(group);
+		
+		searchByPriorityCommand.setCommand(Command.FILTER);
+		searchByPriorityCommand.setPriority(utils.Priority.LOW);
 	}
+	
 	
 	/**
 	 * TESTS FOR ADD
@@ -168,69 +178,69 @@ public class EventHandlerTest {
 	}
 
 	
-	/**
-	 * boundary test case (conflict where new event starts before old event, and
-	 * ends during the duration of the old event)
-	 * 
-	 * @throws Exception
-	 */
-	@Test(expected = Exception.class)
-	public void testAddConflictingEvents1() throws Exception {
-		conflictEvent1.setStartDateTime(start1);
-		conflictEvent1.setEndDateTime(end1);
-
-		EventHandler handle = new EventHandler();
-		handle.add(testEvent);
-		handle.add(conflictEvent1);
-	}
-
-	/**
-	 * boundary test case (conflict where new event starts before old event, and
-	 * ends after the end of the old event)
-	 * 
-	 * @throws Exception
-	 */
-	@Test(expected = Exception.class)
-	public void testAddConflictingEvents2() throws Exception {
-		conflictEvent2.setStartDateTime(start2);
-		conflictEvent2.setEndDateTime(end2);
-
-		EventHandler handle = new EventHandler();
-		handle.add(testEvent);
-		handle.add(conflictEvent2);
-	}
-
-	/**
-	 * boundary test case (conflict where new event starts in the duration of
-	 * the old event, and ends after the old event finishes)
-	 * 
-	 * @throws Exception
-	 */
-	@Test(expected = Exception.class)
-	public void testAddConflictingEvents3() throws Exception {
-		conflictEvent3.setStartDateTime(start3);
-		conflictEvent3.setEndDateTime(end3);
-
-		EventHandler handle = new EventHandler();
-		handle.add(testEvent);
-		handle.add(conflictEvent3);
-	}
-
-	/**
-	 * boundary test case (conflict where new event starts and ends in the
-	 * duration of the old event)
-	 * 
-	 * @throws Exception
-	 */
-	@Test(expected = Exception.class)
-	public void testAddConflictingEvents4() throws Exception {
-		conflictEvent4.setStartDateTime(start4);
-		conflictEvent4.setEndDateTime(end4);
-
-		EventHandler handle = new EventHandler();
-		handle.add(testEvent);
-		handle.add(conflictEvent4);
-	}
+//	/**
+//	 * boundary test case (conflict where new event starts before old event, and
+//	 * ends during the duration of the old event)
+//	 * 
+//	 * @throws Exception
+//	 */
+//	@Test(expected = Exception.class)
+//	public void testAddConflictingEvents1() throws Exception {
+//		conflictEvent1.setStartDateTime(start1);
+//		conflictEvent1.setEndDateTime(end1);
+//
+//		EventHandler handle = new EventHandler();
+//		handle.add(testEvent);
+//		handle.add(conflictEvent1);
+//	}
+//
+//	/**
+//	 * boundary test case (conflict where new event starts before old event, and
+//	 * ends after the end of the old event)
+//	 * 
+//	 * @throws Exception
+//	 */
+//	@Test(expected = Exception.class)
+//	public void testAddConflictingEvents2() throws Exception {
+//		conflictEvent2.setStartDateTime(start2);
+//		conflictEvent2.setEndDateTime(end2);
+//
+//		EventHandler handle = new EventHandler();
+//		handle.add(testEvent);
+//		handle.add(conflictEvent2);
+//	}
+//
+//	/**
+//	 * boundary test case (conflict where new event starts in the duration of
+//	 * the old event, and ends after the old event finishes)
+//	 * 
+//	 * @throws Exception
+//	 */
+//	@Test(expected = Exception.class)
+//	public void testAddConflictingEvents3() throws Exception {
+//		conflictEvent3.setStartDateTime(start3);
+//		conflictEvent3.setEndDateTime(end3);
+//
+//		EventHandler handle = new EventHandler();
+//		handle.add(testEvent);
+//		handle.add(conflictEvent3);
+//	}
+//
+//	/**
+//	 * boundary test case (conflict where new event starts and ends in the
+//	 * duration of the old event)
+//	 * 
+//	 * @throws Exception
+//	 */
+//	@Test(expected = Exception.class)
+//	public void testAddConflictingEvents4() throws Exception {
+//		conflictEvent4.setStartDateTime(start4);
+//		conflictEvent4.setEndDateTime(end4);
+//
+//		EventHandler handle = new EventHandler();
+//		handle.add(testEvent);
+//		handle.add(conflictEvent4);
+//	}
 
 	
 	/**
@@ -287,18 +297,55 @@ public class EventHandlerTest {
 	public void testViewEmptyEvents() throws Exception {
 //		fail();
 	}
+	
+	
+	/**
+	 * TESTS FOR SEARCH
+	 */
 
+
+	
 	@Test
-	public void testSearchEvent() throws Exception {
+	public void testSearchEventByGroup() throws Exception {
 		EventHandler handle = new EventHandler();
 		handle.injectStorageManager(new StorageManagerStub());
-
+		
 		handle.add(testEvent);
-		Event searchedEvent = handle.search(pc).get(0);
-		assertEquals(searchedEvent.getId(), testEvent.getId());
-		assertEquals(searchedEvent.getNotes(), testEvent.getNotes());
+		Event searchedEvent = handle.search(searchByGroupCommand).get(0);
+		
+		assertEquals(title , searchedEvent.getTitle());
 	}
+	
+	@Test
+	public void testSearchEventByPriority() throws Exception {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		
+		handle.add(testEvent);
+		Event searchedEvent = handle.search(searchByPriorityCommand).get(0);
+		assertEquals(utils.Priority.LOW , searchedEvent.getPriority());
+	}
+	
+	
+//	@Test
+//	public void testSearchMultipleEventsByTitle() throws Exception {
+//		EventHandler handle = new EventHandler();
+//		handle.injectStorageManager(new StorageManagerStub());
+//		
+//		testEvent2.setTitle(title);
+//
+//
+//		handle.add(testEvent);
+//		handle.add(testEvent2);
+//		
+//	}
 
+	
+	/**
+	 * TESTS FOR UPDATE
+	 */
+	
+	
 	@Test
 	public void testUpdateEvent() throws Exception {
 		EventHandler handle = new EventHandler();
@@ -316,10 +363,10 @@ public class EventHandlerTest {
 		assertEquals(updatedEvent.getNotes(), newNotes);
 	}
 
+	
 	/**
 	 * TESTS FOR UNDO
 	 */
-	
 	
 	@Test
 	public void testUndoAddEvent() throws Exception {

@@ -1,6 +1,7 @@
 package calendrier;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -84,7 +85,7 @@ public class EventHandler {
 		} else if (pc.getCommand() == Command.UNDELETE) {
 			undo();
 			eventsReturned.addAll(events);
-		} else if (pc.getCommand() == Command.SEARCH) {
+		} else if (pc.getCommand() == Command.SEARCH || pc.getCommand() == Command.FILTER) {
 			eventsReturned = search(pc);
 
 		} else if (pc.getCommand() == Command.STORAGE_LOCATION) {
@@ -104,12 +105,28 @@ public class EventHandler {
 		initialEvents = generator.createMultipleEvents(eventsFromStorage);
 	}
 
+	/** 
+	 * Search the list of events for the set of events that 
+	 * 
+	 * Can search events based on the following:
+	 * 			- title
+	 * 			- group
+	 * 			- priority
+	 * @param pc
+	 * @return			searchedEvents: the events that satisfy the search 
+	 */
 	public ArrayList<Event> search(ParsedCommand pc) {
 		ArrayList<Event> searchedEvents = new ArrayList<>();
 		for (Event e : events) {
 			if (e.getGroup().equals(pc.getGroup())) {
 				searchedEvents.add(e);
 			} else if (e.getPriority().equals(pc.getPriority())) {
+				searchedEvents.add(e);
+			} else if (e.getGroup().contains(pc.getGroup())) {
+				searchedEvents.add(e);
+			} else if (e.getStartDateTime().equals(pc.getStartDateTime())) {
+				searchedEvents.add(e);
+			} else if (e.getEndDateTime().equals(pc.getEndDateTime())) {
 				searchedEvents.add(e);
 			}
 		}
@@ -166,13 +183,9 @@ public class EventHandler {
 	public Event add(Event event) throws Exception {
 		previousEvent = event;
 
-		if (checkTimeConflict(event)) {
-			throw new Exception("ERROR - TIME CONFLICT");
-		} else {
-			events.add(event);
-			reminders.addReminder(event);
-			manage.save(events);
-		}
+		events.add(event);
+		reminders.addReminder(event);
+		manage.save(events);
 
 		// check if newly added event is a subtask
 		if (event.getMainId() != null) {
@@ -211,8 +224,16 @@ public class EventHandler {
 				break;
 			}
 		}
-		events.remove(eventToBeRemoved);
+		
+		// remove event from subtask
+		for (Event e : events) {
+			if (e.getId() == eventToBeRemoved.getMainId()) {
+				e.removeSubtask(eventToBeRemoved.getId());
+			}
+		}
+		
 		reminders.removeReminder(eventToBeRemoved);
+		events.remove(eventToBeRemoved);
 		saveHistory();
 		manage.save(events);
 		return eventToBeRemoved;
@@ -246,8 +267,8 @@ public class EventHandler {
 			// ensure updatedEvent contains all relevant info from oldEvent
 			copyEventInfo(newEvent, oldEvent);
 			beforeUpdate = oldEvent;
-			events.add(newEvent);
 			reminders.updateReminder(newEvent);
+			events.add(newEvent);
 			saveHistory();
 			manage.save(events);
 			return newEvent;
@@ -302,8 +323,10 @@ public class EventHandler {
 		if (newEvent.getNotes() == null) {
 			newEvent.setNotes(oldEvent.getNotes());
 		}
-		if (newEvent.getReminder() == null) {
-			newEvent.setReminder(oldEvent.getReminder());
+		if (newEvent.getReminder() != oldEvent.getReminder()) {
+			for (Calendar c : oldEvent.getReminder()) {
+				newEvent.addReminder(c);
+			}
 		}
 		if (newEvent.getGroup() == null) {
 			newEvent.addGroup(oldEvent.getGroup());

@@ -1,8 +1,8 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -48,7 +48,7 @@ public class EventGeneratorTest {
 		pc.setLocation(location);
 		pc.setNotes(notes);
 		pc.setGroup(group);
-		
+
 		// no ID command
 		commandNoID = new ParsedCommand();
 		commandNoID.setTitle(title);
@@ -82,20 +82,46 @@ public class EventGeneratorTest {
 		assertEquals(generatedEvent.getGroup(), testEvent.getGroup());
 		assertEquals("SUBTASK2", testEvent.getSubtasks().get(1));
 	}
-	
+
 	@Test
 	public void testGenerateEventNoGivenID() {
 		EventGenerator gen = new EventGenerator();
 		Event generatedEvent = gen.createEvent(commandNoID);
 		assertNotNull(generatedEvent.getId());
 	}
-	
+
 	@Test
 	public void testSetID() {
 		EventGenerator gen = new EventGenerator();
 		gen.setCurrentID(2);
 		assertEquals(gen.getCurrentIDAsString(), 2 + "");
 	}
+
+	@Test
+	public void testGenerateEventFromString() {
+		String s = "id: 3, mainId: null, title: test generate Event, startDateTime: null, endDateTime: null, priority: null, location: null, notes: null, reminder: [], groups: [null], recurrence: null, subtasks: [],";
+		EventGenerator gen = new EventGenerator();
+		Event generated = gen.createEvent(s);
+		assertEquals("test generate Event", generated.getTitle());
+	}
+
+	@Test
+	public void testGenerateMultipleEventsFromStrings() {
+		EventGenerator gen = new EventGenerator();
+
+		ArrayList<String> strings = new ArrayList<>();
+		strings.add("id: 4, mainId: null, title: yet, startDateTime: null, endDateTime: null, priority: null, location: null, notes: null, reminder: [], groups: [null], recurrence: null, subtasks: [], ");
+		strings.add("id: 5, mainId: null, title: yet antoher, startDateTime: null, endDateTime: null, priority: null, location: null, notes: null, reminder: [], groups: [null], recurrence: null, subtasks: [], ");
+		strings.add("id: 1945e87b-95c5-48ee-9b9c-47604b1170d2, mainId: null, title: addTitle, startDateTime: 2015/10/23-10:55, endDateTime: 2015/10/23-10:56, priority: VERY_HIGH, location: addLocation, notes: addNotes, reminder: [2015/10/30-12:18], groups: [null, null], recurrence: null, subtasks: [], ");
+		strings.add("id: f68f148c-4a32-42e8-998b-df2ef0328158, mainId: null, title: back in Canada, startDateTime: 2021/10/6-10:55, endDateTime: 2015/12/27-10:55, priority: null, location: null, notes: shovel driveway, reminder: [], groups: [null], recurrence: null, subtasks: [], ");
+
+		ArrayList<Event> events = gen.createMultipleEvents(strings);
+		assertEquals(events.get(0).getId(), "4");
+		assertEquals(events.get(1).getId(), "5");
+		assertEquals(events.get(2).getId(), "1945e87b-95c5-48ee-9b9c-47604b1170d2");
+		assertEquals(events.get(3).getId(), "f68f148c-4a32-42e8-998b-df2ef0328158");
+	}
+
 	
 	@Test
 	public void testBreakfast(){
