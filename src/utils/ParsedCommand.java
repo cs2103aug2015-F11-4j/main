@@ -12,15 +12,15 @@ public class ParsedCommand {
 	
 	private String title = null;
 	private Calendar startDateTime = null;
-	private Calendar endDateTime;	// CANT BE NULL FOR NOW
+	private Calendar endDateTime = null;
 	private Priority priority = null;
 	private String location = null;
 	private String notes = null;
-	private boolean isRecurring = false;	// not V0.1, revisit in future.....
+	// private boolean isRecurring = false;
+	private Recurrence recurFreq = null;
 	private ArrayList<Calendar> reminder = null;
 	
 	private String group = null;
-	
 	private String storageLocation = null;
 	
 	public Command getCommand() { return command; }
@@ -53,8 +53,13 @@ public class ParsedCommand {
 	public String getNotes() { return notes; }
 	public void setNotes(String notes) { this.notes = notes; }
 	
+	/*
 	public boolean getIsRecurring() { return isRecurring; }
 	public void setIsRecurring(boolean isRecurring) { this.isRecurring = isRecurring; }
+	*/
+	
+	public Recurrence getRecurFreq() { return recurFreq; }
+	public void setRecurFreq(Recurrence recurFreq) { this.recurFreq = recurFreq; }
 	
 	public ArrayList<Calendar> getReminder() { return reminder; }
 	public void setReminder(ArrayList<Calendar> reminder) { this.reminder = reminder; }

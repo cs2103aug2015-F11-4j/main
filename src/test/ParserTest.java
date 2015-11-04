@@ -147,7 +147,7 @@ public class ParserTest {
 				+ "startdate 2015/12/29, starttime 13.37, enddate 2015/12/30, "
 				+ "endtime 14.44, priority very low, group my personal group, "
 				+ "location my home, notes must do, "
-				+ "recurring no, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
+				+ "recur monthly, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
 				+ "remindertime 14.44 15.55 12.00";
 
 		ParsedCommand pc = parser.parse(userInput);
@@ -183,7 +183,7 @@ public class ParserTest {
 		assertEquals("group: ", "my personal group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
-		assertEquals("recurring: ", false, pc.getIsRecurring());
+		assertEquals("recur: ", "MONTHLY", pc.getRecurFreq().toString());
 
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
@@ -231,7 +231,7 @@ public class ParserTest {
 				+ "deadlinedate 2015/12/30, "
 				+ "deadlinetime 14.44, priority very low, group my personal group, "
 				+ "location my home, notes must do, "
-				+ "recurring no, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
+				+ "reminderdate 2015/12/29 2015/12/29 2015/12/30, "
 				+ "remindertime 14.44 15.55 12.00";
 
 		ParsedCommand pc = parser.parse(userInput);
@@ -267,7 +267,7 @@ public class ParserTest {
 		assertEquals("group: ", "my personal group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
-		assertEquals("recurring: ", false, pc.getIsRecurring());
+		assertEquals("recur: ", null, pc.getRecurFreq());
 
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
@@ -315,7 +315,7 @@ public class ParserTest {
 		String userInput = "add eat sleep drink repeat, startdate 2015/12/29, "
 				+ "starttime 13.37, enddate 2015/12/30, endtime 14.44, group my personal group, "
 				+ "priority very low, location my home, notes must do, "
-				+ "recurring no, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
+				+ "recur daily, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
 				+ "remindertime 14.44 15.55 12.00";
 
 		ParsedCommand pc = parser.parse(userInput);
@@ -350,7 +350,7 @@ public class ParserTest {
 		assertEquals("group: ", "my personal group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
-		assertEquals("recurring: ", false, pc.getIsRecurring());
+		assertEquals("recurring: ", "DAILY", pc.getRecurFreq().toString());
 
 		ArrayList<Calendar> cal3 = pc.getReminder();
 		int year3 = cal3.get(0).get(Calendar.YEAR);
@@ -396,7 +396,7 @@ public class ParserTest {
 		String userInput = "add eat sleep drink repeat, deadlinedate 2015/12/30, "
 				+ "deadlinetime 14.44, group my personal group, "
 				+ "priority very low, location my home, notes must do, "
-				+ "recurring no, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
+				+ "recur weekly, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
 				+ "remindertime 14.44 15.55 12.00";
 	
 		ParsedCommand pc = parser.parse(userInput);
@@ -432,7 +432,7 @@ public class ParserTest {
 		assertEquals("group: ", "my personal group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
-		assertEquals("recurring: ", false, pc.getIsRecurring());
+		assertEquals("recurring: ", "WEEKLY", pc.getRecurFreq().toString());
 
 		ArrayList<Calendar> cal3 = pc.getReminder();
 		int year3 = cal3.get(0).get(Calendar.YEAR);
@@ -478,7 +478,7 @@ public class ParserTest {
 		String userInput = "add subtask my first subtask! to 1, startdate 2015/11/11, "
 				+ "starttime 13.37, enddate 2015/11/15, endtime 14.44, priority high, "
 				+ "group it's a secret, location changi airport, notes I believe I can fly, "
-				+ "recurring yes, reminderdate 2015/11/12 2015/11/13, remindertime 12.34 23.45";
+				+ "recur yearly, reminderdate 2015/11/12 2015/11/13, remindertime 12.34 23.45";
 		ParsedCommand pc = parser.parse(userInput);
 		
 		assertEquals("subtask: ", "my first subtask!", pc.getTitle());
@@ -512,7 +512,7 @@ public class ParserTest {
 		assertEquals("group: ", "it's a secret", pc.getGroup());
 		assertEquals("location: ", "changi airport", pc.getLocation());
 		assertEquals("notes: ", "I believe I can fly", pc.getNotes());
-		assertEquals("recurring: ", true, pc.getIsRecurring());
+		assertEquals("recurring: ", "YEARLY", pc.getRecurFreq().toString());
 	
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
@@ -548,7 +548,7 @@ public class ParserTest {
 		String userInput = "add subtask my first subtask! to 1, deadlinedate 2015/11/15, "
 				+ "deadlinetime 14.44, priority high, "
 				+ "group it's a secret, location changi airport, notes I believe I can fly, "
-				+ "recurring yes, reminderdate 2015/11/12 2015/11/13, remindertime 12.34 23.45";
+				+ "reminderdate 2015/11/12 2015/11/13, remindertime 12.34 23.45";
 		ParsedCommand pc = parser.parse(userInput);
 		
 		assertEquals("subtask: ", "my first subtask!", pc.getTitle());
@@ -582,7 +582,7 @@ public class ParserTest {
 		assertEquals("group: ", "it's a secret", pc.getGroup());
 		assertEquals("location: ", "changi airport", pc.getLocation());
 		assertEquals("notes: ", "I believe I can fly", pc.getNotes());
-		assertEquals("recurring: ", true, pc.getIsRecurring());
+		assertEquals("recurring: ", null, pc.getRecurFreq());
 	
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
@@ -611,6 +611,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "12.34", reminderTime);
 		assertEquals("reminder time: ", "23.45", reminderTime2);
 	}
+	
 	
 	
 	
@@ -755,7 +756,7 @@ public class ParserTest {
 		Parser parser = new Parser();
 		String input = "-up 2, -t do homework, -sd 2015/10/30, -st 12.34, -ed 2015/11/12, "
 				+ "-et 13.37, -g personal circle, -l my home, -p very high, "
-				+ "-n remember to do, -r yes, -rd 2015/12/29 2015/12/29 2015/12/30, "
+				+ "-n remember to do, -r daily, -rd 2015/12/29 2015/12/29 2015/12/30, "
 				+ "-rt 14.44 15.55 12.00";
 		ParsedCommand pc = parser.parse(input);
 		
@@ -791,7 +792,7 @@ public class ParserTest {
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("priority: ", "VERY_HIGH", pc.getPriority().toString());
 		assertEquals("notes: ", "remember to do", pc.getNotes());
-		assertEquals("recurring: ", true, pc.getIsRecurring());
+		assertEquals("recurring: ", "DAILY", pc.getRecurFreq().toString());
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
 		int year3 = cal3.get(0).get(Calendar.YEAR);
@@ -836,7 +837,7 @@ public class ParserTest {
 		Parser parser = new Parser();
 		String input = "-up 2, -t do homework, -dd 2015/11/12, "
 				+ "-dt 13.37, -g personal circle, -l my home, -p very high, "
-				+ "-n remember to do, -r yes, -rd 2015/12/29 2015/12/29 2015/12/30, "
+				+ "-n remember to do, -r weekly, -rd 2015/12/29 2015/12/29 2015/12/30, "
 				+ "-rt 14.44 15.55 12.00";
 		ParsedCommand pc = parser.parse(input);
 		
@@ -872,7 +873,7 @@ public class ParserTest {
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("priority: ", "VERY_HIGH", pc.getPriority().toString());
 		assertEquals("notes: ", "remember to do", pc.getNotes());
-		assertEquals("recurring: ", true, pc.getIsRecurring());
+		assertEquals("recurring: ", "WEEKLY", pc.getRecurFreq().toString());
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
 		int year3 = cal3.get(0).get(Calendar.YEAR);
@@ -917,7 +918,7 @@ public class ParserTest {
 		Parser parser = new Parser();
 		String input = "-a eat drink sleep repeat, -sd 2015/10/12, -st 12.34, -ed 2015/10/14, "
 				+ "-et 13.37, -p very high, -g secret group, -l my home, -n must do, "
-				+ "-r no, -rd 2015/12/29 2015/12/29 2015/12/30, "
+				+ "-r monthly, -rd 2015/12/29 2015/12/29 2015/12/30, "
 				+ "-rt 14.44 15.55 12.00";
 		ParsedCommand pc = parser.parse(input);
 		
@@ -952,7 +953,7 @@ public class ParserTest {
 		assertEquals("group: ", "secret group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
-		assertEquals("recurring: ", false, pc.getIsRecurring());
+		assertEquals("recurring: ", "MONTHLY", pc.getRecurFreq().toString());
 		
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
@@ -998,7 +999,7 @@ public class ParserTest {
 		Parser parser = new Parser();
 		String input = "-a subtask drink repeat to 2, -sd 2015/10/12, -st 12.34, -ed 2015/10/14, "
 				+ "-et 13.37, -p very high, -g secret group, -l my home, -n must do, "
-				+ "-r no, -rd 2015/12/29 2015/12/29 2015/12/30, "
+				+ "-r yearly, -rd 2015/12/29 2015/12/29 2015/12/30, "
 				+ "-rt 14.44 15.55 12.00";
 		ParsedCommand pc = parser.parse(input);
 		
@@ -1034,7 +1035,7 @@ public class ParserTest {
 		assertEquals("group: ", "secret group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
-		assertEquals("recurring: ", false, pc.getIsRecurring());
+		assertEquals("recurring: ", "YEARLY", pc.getRecurFreq().toString());
 		
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
@@ -1080,7 +1081,7 @@ public class ParserTest {
 		Parser parser = new Parser();
 		String input = "-a eat drink sleep repeat, -dd 2015/10/14, "
 				+ "-dt 13.37, -p very high, -g secret group, -l my home, -n must do, "
-				+ "-r no, -rd 2015/12/29 2015/12/29 2015/12/30, "
+				+ "-rd 2015/12/29 2015/12/29 2015/12/30, "
 				+ "-rt 14.44 15.55 12.00";
 		ParsedCommand pc = parser.parse(input);
 		
@@ -1115,7 +1116,7 @@ public class ParserTest {
 		assertEquals("group: ", "secret group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
-		assertEquals("recurring: ", false, pc.getIsRecurring());
+		assertEquals("recur: ", null, pc.getRecurFreq());
 		
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
@@ -1161,7 +1162,7 @@ public class ParserTest {
 		Parser parser = new Parser();
 		String userInput = "-a subtask drink repeat to 2, -dd 2015/10/14, "
 				+ "-dt 13.37, -p very high, -g secret group, -l my home, -n must do, "
-				+ "-r no, -rd 2015/12/29 2015/12/29 2015/12/30, "
+				+ "-rd 2015/12/29 2015/12/29 2015/12/30, "
 				+ "-rt 14.44 15.55 12.00";
 		ParsedCommand pc = parser.parse(userInput);
 		
@@ -1196,7 +1197,7 @@ public class ParserTest {
 		assertEquals("group: ", "secret group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
-		assertEquals("recurring: ", false, pc.getIsRecurring());
+		assertEquals("recur: ", null, pc.getRecurFreq());
 	
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
@@ -1237,5 +1238,74 @@ public class ParserTest {
 		assertEquals("reminder time3: ", "12.0", reminderTime3);
 	}
 	
+	/**********************
+	 * FLEXIBLE COMMANDS
+	 **********************/
+	
+	@Test
+	public void addFlexible() {
+		Parser parser = new Parser();
+		String userInput = "part time job from 2015/11/12 to 2015/11/15 from 9am to "
+				+ "6pm at orchard road";
+		ParsedCommand pc = parser.parse(userInput);
+		assertEquals("title", "part time job", pc.getTitle());
+		
+		Calendar cal = pc.getStartDateTime();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		String startDate = String.valueOf(year) + "/" + String.valueOf(month) + "/" + String.valueOf(day);
+		assertEquals("start date: ", "2015/11/12", startDate);
+		
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minute = cal.get(Calendar.MINUTE);
+		String startTime = String.valueOf(hour) + "." + String.valueOf(minute);
+		assertEquals("start time: ", "9.0", startTime);
+		
+		Calendar cal2 = pc.getEndDateTime();
+		int year2 = cal2.get(Calendar.YEAR);
+		int month2 = cal2.get(Calendar.MONTH) + 1;
+		int day2 = cal2.get(Calendar.DAY_OF_MONTH);
+		String endDate = String.valueOf(year2) + "/" + String.valueOf(month2) + "/" + String.valueOf(day2);
+		assertEquals("end date: ", "2015/11/15", endDate);
+		
+		int hour2 = cal2.get(Calendar.HOUR_OF_DAY);
+		int minute2 = cal2.get(Calendar.MINUTE);
+		String endTime = String.valueOf(hour2) + "." + String.valueOf(minute2);
+		assertEquals("end time: ", "18.0", endTime);
+		
+		
+		
+		String userInput2 = "meeting with colleagues on monday from 12pm to 2pm at my house";
+		ParsedCommand pc2 = parser.parse(userInput2);
+		assertEquals("title", "meeting with colleagues", pc2.getTitle());
+		
+		Calendar cal3 = pc2.getStartDateTime();
+		int year3 = cal3.get(Calendar.YEAR);
+		int month3 = cal3.get(Calendar.MONTH) + 1;
+		int day3 = cal3.get(Calendar.DAY_OF_MONTH);
+		String startDate2 = String.valueOf(year3) + "/" + String.valueOf(month3) + "/" + String.valueOf(day3);
+		assertEquals("start date: ", "2015/11/9", startDate2);
+		
+		int hour3 = cal3.get(Calendar.HOUR_OF_DAY);
+		int minute3 = cal3.get(Calendar.MINUTE);
+		String startTime3 = String.valueOf(hour3) + "." + String.valueOf(minute3);
+		assertEquals("start time: ", "12.0", startTime3);
+		
+		/*
+		Calendar cal4 = pc2.getEndDateTime();
+		int year4 = cal2.get(Calendar.YEAR);
+		int month4 = cal2.get(Calendar.MONTH) + 1;
+		int day4 = cal2.get(Calendar.DAY_OF_MONTH);
+		String endDate2 = String.valueOf(year4) + "/" + String.valueOf(month4) + "/" + String.valueOf(day4);
+		assertEquals("end date: ", "2015/11/15", endDate);
+		
+		
+		int hour4 = cal4.get(Calendar.HOUR_OF_DAY);
+		int minute4 = cal4.get(Calendar.MINUTE);
+		String endTime2 = String.valueOf(hour4) + "." + String.valueOf(minute4);
+		assertEquals("end time: ", "18.0", endTime2);
+		*/
+	}
 }
 
