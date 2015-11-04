@@ -35,9 +35,17 @@
 					pickOnBounds="true" preserveRatio="true" visible="true"
 					GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2">
 				</ImageView>
-				<!-- <Label text="ID: " GridPane.columnIndex="1" GridPane.rowIndex="0" 
-					wrapText="true" GridPane.valignment="BOTTOM" /> <Label fx:id="lblID" GridPane.columnIndex="2" 
-					GridPane.rowIndex="0" wrapText="true" GridPane.valignment="BOTTOM" /> -->
+
+				<Label text="ID: " GridPane.columnIndex="1" GridPane.rowIndex="0"
+					wrapText="true" GridPane.valignment="BOTTOM" />
+				<Label fx:id="lblID" GridPane.columnIndex="2"
+					GridPane.rowIndex="0" wrapText="true" GridPane.valignment="BOTTOM" />
+
+				<Label text="Sub-ID: " GridPane.columnIndex="1"
+					GridPane.columnSpan="2" GridPane.rowIndex="1" wrapText="true"
+					GridPane.valignment="TOP" />
+				<Label fx:id="lblSUBID" GridPane.columnIndex="2"
+					GridPane.rowIndex="1" wrapText="true" GridPane.valignment="TOP" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="3"
@@ -50,8 +58,8 @@
 					GridPane.rowIndex="0" wrapText="true" />
 
 				<Label fx:id="lblTitle" GridPane.columnIndex="1" underline="true"
-					GridPane.rowIndex="0" GridPane.columnSpan="2" wrapText="true"
-					GridPane.rowSpan="2" />
+					GridPane.rowIndex="1" GridPane.columnSpan="2" wrapText="true"
+					GridPane.valignment="BOTTOM" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="3"

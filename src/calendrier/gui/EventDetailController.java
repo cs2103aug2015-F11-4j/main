@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import utils.Event;
+import utils.IdMapper;
 import utils.Priority;
 import utils.Recurrence;
 import javafx.fxml.FXML;
@@ -23,6 +24,8 @@ public class EventDetailController extends StackPane {
 	private ImageView imgType;
 	@FXML
 	private Label lblID;
+	@FXML
+	private Label lblSUBID;
 	@FXML
 	private Label lblTitle;
 	@FXML
@@ -81,7 +84,11 @@ public class EventDetailController extends StackPane {
 	}
 
 	public void initEventValue(Event event) {
-		// lblID.setText(checkExistValue(event.getId()));
+		IdMapper idMapper = IdMapper.getInstance();
+		idMapper.set(Integer.toString(0), checkExistValue(event.getId()));
+		
+		lblID.setText(Integer.toString(0));
+		lblSUBID.setText(" "+event.getMainId());
 		lblTitle.setText(checkExistValue(event.getTitle()));
 		lblDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 		lblLocation.setText(checkExistValue(event.getLocation()));
