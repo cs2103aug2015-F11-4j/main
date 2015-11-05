@@ -17,34 +17,34 @@
 					GridPane.columnSpan="20" />
 				<Label fx:id="lblCurrent" GridPane.rowSpan="3"
 					GridPane.rowIndex="4" GridPane.columnIndex="2" GridPane.columnSpan="20" />
-				<Label fx:id="lblCurrentEvent" text="Next Task"
+				<!-- <Label fx:id="lblCurrentEvent" text="Next Task"
 					GridPane.rowSpan="3" GridPane.rowIndex="10" GridPane.columnIndex="2"
 					GridPane.columnSpan="20" />
 				<Label fx:id="lblNext" GridPane.rowSpan="3" GridPane.rowIndex="13"
-					GridPane.columnIndex="2" GridPane.columnSpan="20" />
+					GridPane.columnIndex="2" GridPane.columnSpan="20" /> -->
 				<Label fx:id="lblCurrentEvent" text="Overdue Task"
 					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="2"
 					GridPane.columnSpan="20" />
 				<Label fx:id="lblPassed" GridPane.rowSpan="3"
-					GridPane.rowIndex="25" GridPane.columnIndex="6"
+					GridPane.rowIndex="25" GridPane.columnIndex="10"
 					GridPane.columnSpan="3" />
 				<Label fx:id="lblCurrentEvent" text="Ongoing Task"
-					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="32"
+					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="33"
 					GridPane.columnSpan="20" />
 				<Label fx:id="lblOngoing" GridPane.rowSpan="3"
-					GridPane.rowIndex="25" GridPane.columnIndex="35"
+					GridPane.rowIndex="25" GridPane.columnIndex="41"
 					GridPane.columnSpan="3" />
 				<Label fx:id="lblCurrentEvent" text="Float Task"
-					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="50"
+					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="65"
 					GridPane.columnSpan="20" />
 				<Label fx:id="lblFloat" GridPane.rowSpan="3"
-					GridPane.rowIndex="25" GridPane.columnIndex="55"
+					GridPane.rowIndex="25" GridPane.columnIndex="70"
 					GridPane.columnSpan="5" />
 				<Label fx:id="lblCurrentEvent" text="Countdown to Next Event"
-					GridPane.rowSpan="3" GridPane.rowIndex="38" GridPane.columnIndex="28"
-					GridPane.columnSpan="30" />
-				<Label fx:id="lbltime" GridPane.rowIndex="41"
-					GridPane.columnIndex="35" wrapText="true" GridPane.columnSpan="15" />
+					GridPane.rowSpan="3" GridPane.rowIndex="38" GridPane.columnIndex="55"
+					GridPane.columnSpan="40" />
+				<Label fx:id="lbltime" GridPane.rowIndex="40" GridPane.rowSpan="3" 
+					GridPane.columnIndex="65" wrapText="true" GridPane.columnSpan="25" />
 			</children>
 		</GridPane>
 		<!-- <Label styleClass="storageMessage" text="* Create storage file first: 
