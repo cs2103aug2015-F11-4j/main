@@ -26,12 +26,22 @@ public class ViewController extends FlowPane {
 	private Label lblyear;
 	@FXML
 	private Label lbltime;
+	@FXML
+	private Label lblCurrent;
+	@FXML
+	private Label lblNext;
+	@FXML
+	private Label lblPassed;
+	@FXML
+	private Label lblOngoing;
+	@FXML
+	private Label lblFloat;
 
-	
-	public ViewController(){}
-	
-	public ViewController(long time){
-		
+	public ViewController() {
+	}
+
+	public ViewController(long time, String events, String nextEvents, int floatTask, int onGoingTask, int passedTask) {
+		long sec = 0, min = 0, hour = 0, day = 0;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWHOME_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -40,8 +50,24 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		lbltime.setText(Long.toString(time));
-		
+		lblCurrent.setText(events);
+		lblNext.setText(nextEvents);
+		lblPassed.setText(Integer.toString(passedTask));
+		lblOngoing.setText(Integer.toString(onGoingTask));
+		lblFloat.setText(Integer.toString(floatTask));
+		if (time != -1){
+			sec = (time / 1000) % 60;
+			min = (time / 60000) % 60;
+			hour = (time / 3600000) % 24;
+			day = (time / 3600000) / 24;
+			lbltime.setText(Long.toString(day) + "Day " + Long.toString(hour) + "Hour " + Long.toString(min) + "Min "
+					+ Long.toString(sec) + "Sec ");
+		} else
+
+		{
+			lbltime.setText("-");
+		}
+
 	}
 
 	public ViewController(List<Event> events, int date, int month, int year) {
@@ -62,7 +88,7 @@ public class ViewController extends FlowPane {
 
 		@SuppressWarnings("deprecation")
 		int day = cal.getTime().getDay();
-		
+
 		if (day != 7) {
 			date = 0;
 			while (date < day) {
@@ -86,15 +112,15 @@ public class ViewController extends FlowPane {
 		IdMapper idMapper = IdMapper.getInstance();
 		List<String> idList = new ArrayList<String>();
 		for (int i = 0; i < events.size(); i++) {
-			//System.out.println(events.get(i).toString());
+			// System.out.println(events.get(i).toString());
 			idMapper.set(Integer.toString(i), events.get(i).getId());
 			idList.add(events.get(i).getId());
 		}
 		return idList;
 	}
-//	public List<String> getIdMapper(){
-//		return idList;
-//	}
+	// public List<String> getIdMapper(){
+	// return idList;
+	// }
 
 	private int detectLengthofMonth(int month, int year) {
 		int end;
@@ -152,10 +178,10 @@ public class ViewController extends FlowPane {
 
 		for (i = 0; i < events.size(); i++) {
 			if (events.get(i).getStartDateTime() != null && events.get(i).getEndDateTime() != null) {
-				//Start and end in same year
+				// Start and end in same year
 				if (events.get(i).getEndDateTime().getTime().getYear() + 1900 == year
 						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 == year) {
-					
+
 					if ((events.get(i).getEndDateTime().getTime().getDate() >= date
 							&& events.get(i).getEndDateTime().getTime().getMonth() == month)
 							&& (events.get(i).getStartDateTime().getTime().getDate() <= date
@@ -175,8 +201,8 @@ public class ViewController extends FlowPane {
 							&& events.get(i).getEndDateTime().getTime().getMonth() > month) {
 						results.add(events.get(i));
 					}
-				} 
-				//Start year < end year, set for start year
+				}
+				// Start year < end year, set for start year
 				else if (events.get(i).getEndDateTime().getTime().getYear() + 1900 > year
 						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 == year) {
 					if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
@@ -185,9 +211,9 @@ public class ViewController extends FlowPane {
 						}
 					} else if (events.get(i).getStartDateTime().getTime().getMonth() < month) {
 						results.add(events.get(i));
-					} 
+					}
 				}
-				//Start year < end year, set for end year
+				// Start year < end year, set for end year
 				else if (events.get(i).getEndDateTime().getTime().getYear() + 1900 == year
 						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 < year) {
 					if (events.get(i).getEndDateTime().getTime().getMonth() == month) {
@@ -198,8 +224,8 @@ public class ViewController extends FlowPane {
 						results.add(events.get(i));
 					}
 				}
-			} 
-			//for task without enddate
+			}
+			// for task without enddate
 			else {
 				if (events.get(i).getStartDateTime().getTime().getDate() == date) {
 					if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
