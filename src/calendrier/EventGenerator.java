@@ -1,3 +1,5 @@
+//@@author A0145143N
+
 package calendrier;
 
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ public class EventGenerator {
 		e.setMainId(pc.getMainId());
 		e.setRecurrence(pc.getRecurFreq());
 		e.setMainId(IdMapper.getInstance().getActualId(pc.getMainId()));
+		e.setDone(pc.isDone());
 
 		// Automated assignment
 		assignGroup(e);
@@ -60,7 +63,8 @@ public class EventGenerator {
 
 		return e;
 	}
-
+	
+	//@@author
 	private void assignPriority(Event e) {
 		if(e.getTitle() == null){
 			return;
@@ -100,6 +104,7 @@ public class EventGenerator {
 		}
 	}
 
+	//@@author
 	private void assignGroup(Event e) {
 		if(e.getTitle() == null){
 			return;
@@ -144,6 +149,8 @@ public class EventGenerator {
 	 * 
 	 * @param s
 	 * @return Event e The event created from the generator
+	 * 
+	 * @@author A0145143N
 	 */
 	public Event createEvent(String s) {
 		Event e = new Event();
@@ -157,6 +164,8 @@ public class EventGenerator {
 	 * 
 	 * @param strings
 	 * @return
+	 * 
+	 * @@author A0145143N
 	 */
 	public ArrayList<Event> createMultipleEvents(ArrayList<String> strings) {
 		ArrayList<Event> events = new ArrayList<>();

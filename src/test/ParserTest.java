@@ -231,7 +231,7 @@ public class ParserTest {
 				+ "deadlinedate 2015/12/30, "
 				+ "deadlinetime 14.44, priority very low, group my personal group, "
 				+ "location my home, notes must do, "
-				+ "reminderdate 2015/12/29 2015/12/29 2015/12/30, "
+				+ "reminderdate 2015/12/29 2015/12/29 2015/12/30, recur yearly, "
 				+ "remindertime 14.44 15.55 12.00";
 
 		ParsedCommand pc = parser.parse(userInput);
@@ -289,6 +289,8 @@ public class ParserTest {
 		assertEquals("reminder date1: ", "2015/12/29", reminderDate);
 		assertEquals("reminder date2: ", "2015/12/29", reminderDate2);
 		assertEquals("reminder date3: ", "2015/12/30", reminderDate3);
+		
+		assertEquals("recur: ", "yearly", pc.getRecurFreq().toString());
 		
 		
 		int hour3 = cal3.get(0).get(Calendar.HOUR_OF_DAY);

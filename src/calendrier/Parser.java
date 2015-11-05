@@ -56,6 +56,22 @@ public class Parser {
 			// e.g. view home
 			pc.setCommand(Command.VIEW_HOME);
 			return pc;
+		} else if (userInput.equals("next day")) {
+			// e.g. next day
+			pc.setCommand(Command.NEXT_DAY);
+			return pc;
+		} else if (userInput.equals("next month")) {
+			// e.g. next month
+			pc.setCommand(Command.NEXT_MONTH);
+			return pc;
+		} else if (userInput.equals("previous day")) {
+			// e.g. previous day
+			pc.setCommand(Command.PREVIOUS_DAY);
+			return pc;
+		} else if (userInput.equals("previous month")) {
+			// e.g. previous month
+			pc.setCommand(Command.PREVIOUS_MONTH);
+			return pc;
 		}
 
 		Scanner lineTokens = new Scanner(userInput);
@@ -96,13 +112,13 @@ public class Parser {
 			 * Case 1: not a deadline No. of parameters: 12 e.g. update 3, title
 			 * repeat sleep drink eat, startdate 2015/12/29, starttime 13.37,
 			 * enddate 2015/12/30, endtime 14.44, group my personal group priority very low, 
-			 * location my home, notes must do, recurring no, reminderdate 2015/12/30,
+			 * location my home, notes must do, recur monthly, reminderdate 2015/12/30,
 			 * remindertime 15.30
 			 * 
 			 * Case 2: a deadline
 			 * e.g. add eat sleep drink repeat, deadlinedate 2015/12/30, deadlinetime 14.44, 
 			 * priority very low, group my personal group, location my home, notes must do, 
-			 * recurring no, reminderdate 2015/12/29 2015/12/29, remindertime 12.34 23.45
+			 * recur daily, reminderdate 2015/12/29 2015/12/29, remindertime 12.34 23.45
 			 */
 			pc.setCommand(Command.UPDATE);
 			

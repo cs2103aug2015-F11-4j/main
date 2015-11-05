@@ -19,6 +19,7 @@ public class ParsedCommand {
 	// private boolean isRecurring = false;
 	private Recurrence recurFreq = null;
 	private ArrayList<Calendar> reminder = null;
+	private boolean done = false;
 	
 	private String group = null;
 	private String storageLocation = null;
@@ -70,6 +71,14 @@ public class ParsedCommand {
 	public String getStorageLocation() { return storageLocation; }
 	public void setStorageLocation(String storageLocation) { this.storageLocation = storageLocation; }
 	
+	//@@author A0145143N
+	public boolean isDone() { 
+		return done;
+	}
+	
+	public void setDone(boolean done) { 
+		this.done = done; 
+	}
 }
 	
 
