@@ -1,3 +1,5 @@
+//@@author A0145143N
+
 package test;
 
 import static org.junit.Assert.*;
@@ -48,6 +50,7 @@ public class EventGeneratorTest {
 		pc.setLocation(location);
 		pc.setNotes(notes);
 		pc.setGroup(group);
+		pc.setDone(false);
 
 		// no ID command
 		commandNoID = new ParsedCommand();
@@ -81,6 +84,7 @@ public class EventGeneratorTest {
 		assertEquals(generatedEvent.getNotes(), testEvent.getNotes());
 		assertEquals(generatedEvent.getGroup(), testEvent.getGroup());
 		assertEquals("SUBTASK2", testEvent.getSubtasks().get(1));
+		assertEquals(testEvent.isDone(), generatedEvent.isDone());
 	}
 
 	@Test
@@ -122,7 +126,7 @@ public class EventGeneratorTest {
 		assertEquals(events.get(3).getId(), "f68f148c-4a32-42e8-998b-df2ef0328158");
 	}
 
-	
+	//@@author
 	@Test
 	public void testBreakfast(){
 		EventGenerator gen = new EventGenerator();
