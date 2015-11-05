@@ -210,9 +210,9 @@ public class EventDetailController extends StackPane {
 	}
 
 	private static String checkExistValue(String parseInValue) {
-		try {
+		if(parseInValue!=null){
 			return parseInValue;
-		} catch (NullPointerException e) {
+		}else{
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 	}
