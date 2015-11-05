@@ -107,15 +107,13 @@ public class EventHandler {
 		initialEvents = generator.createMultipleEvents(eventsFromStorage);
 	}
 
-	/** 
-	 * Search the list of events for the set of events that 
+	/**
+	 * Search the list of events for the set of events that match the given
+	 * parsed command Can search events based on the following: - startDateTime
+	 * - endDateTime - group - priority
 	 * 
-	 * Can search events based on the following:
-	 * 			- title
-	 * 			- group
-	 * 			- priority
 	 * @param pc
-	 * @return			searchedEvents: the events that satisfy the search 
+	 * @return searchedEvents: the events that satisfy the search
 	 */
 	public ArrayList<Event> search(ParsedCommand pc) {
 		ArrayList<Event> searchedEvents = new ArrayList<>();
@@ -128,7 +126,7 @@ public class EventHandler {
 				searchedEvents.add(e);
 			} else if (pc.getStartDateTime() != null && e.getStartDateTime().equals(pc.getStartDateTime())) {
 				searchedEvents.add(e);
-			} else if (pc.getEndDateTime()!= null && e.getEndDateTime().equals(pc.getEndDateTime())) {
+			} else if (pc.getEndDateTime() != null && e.getEndDateTime().equals(pc.getEndDateTime())) {
 				searchedEvents.add(e);
 			}
 		}
@@ -157,20 +155,14 @@ public class EventHandler {
 	 */
 	public void undo() throws Exception {
 		if (history.isEmpty()) {
-			// do nothing!
 			throw new Exception("ERROR - CANNOT UNDO");
-
 		} else if (history.size() == 1) {
-			// empty history after undo
 			history.pop();
 			events.clear();
-			// populate with initial events on load
 			for (Event e : initialEvents) {
 				events.add(e);
 			}
-
 		} else {
-			// regular undo of history
 			history.pop();
 			events = history.peek();
 		}
@@ -203,7 +195,6 @@ public class EventHandler {
 		return event;
 	}
 
-
 	/**
 	 * Removes an event identified by the ParsedCommand pc
 	 * 
@@ -219,14 +210,14 @@ public class EventHandler {
 				break;
 			}
 		}
-		
+
 		// remove event from subtask
 		for (Event e : events) {
 			if (e.getId() == eventToBeRemoved.getMainId()) {
 				e.removeSubtask(eventToBeRemoved.getId());
 			}
 		}
-		
+
 		reminders.removeReminder(eventToBeRemoved);
 		events.remove(eventToBeRemoved);
 		saveHistory();
@@ -284,12 +275,10 @@ public class EventHandler {
 		return events;
 	}
 
-	
-	
 	/*
 	 * ============== Private Methods ==============
-	 */	
-	
+	 */
+
 	/**
 	 * Used to copy information from the old event over to the new event
 	 * 
@@ -331,11 +320,8 @@ public class EventHandler {
 				newEvent.addSubtask(s);
 			}
 		}
-		if (newEvent.isDone() != oldEvent.isDone()) {
-			newEvent.setDone(oldEvent.isDone());
-		}
 	}
-	
+
 	private void saveHistory() {
 		ArrayList<Event> tempEvents = new ArrayList<>();
 		for (Event e : events) {
@@ -344,33 +330,35 @@ public class EventHandler {
 		history.add(tempEvents);
 	}
 
-//	/**
-//	 * used to check if a time conflict exists between any event in storage and
-//	 * the new event
-//	 * 
-//	 * @param newEvent
-//	 * @return
-//	 */
-//	private boolean checkTimeConflict(Event newEvent) {
-//		boolean conflict = false;
-//		for (Event e : events) {
-//			if (e.getStartDateTime() != null && e.getEndDateTime() != null && newEvent.getStartDateTime() != null
-//					&& newEvent.getEndDateTime() != null) {
-//				if (newEvent.getStartDateTime().before(e.getStartDateTime())
-//						&& newEvent.getEndDateTime().after(e.getEndDateTime())) {
-//					conflict = true;
-//				} else if (newEvent.getStartDateTime().before(e.getStartDateTime())
-//						&& newEvent.getEndDateTime().after(e.getStartDateTime())) {
-//					conflict = true;
-//				} else if (newEvent.getStartDateTime().before(e.getEndDateTime())
-//						&& newEvent.getEndDateTime().after(e.getEndDateTime())) {
-//					conflict = true;
-//				} else if (newEvent.getStartDateTime().after(e.getStartDateTime())
-//						&& newEvent.getEndDateTime().before(e.getEndDateTime())) {
-//					conflict = true;
-//				}
-//			}
-//		}
-//		return conflict;
-//	}
+	// /**
+	// * used to check if a time conflict exists between any event in storage
+	// and
+	// * the new event
+	// *
+	// * @param newEvent
+	// * @return
+	// */
+	// private boolean checkTimeConflict(Event newEvent) {
+	// boolean conflict = false;
+	// for (Event e : events) {
+	// if (e.getStartDateTime() != null && e.getEndDateTime() != null &&
+	// newEvent.getStartDateTime() != null
+	// && newEvent.getEndDateTime() != null) {
+	// if (newEvent.getStartDateTime().before(e.getStartDateTime())
+	// && newEvent.getEndDateTime().after(e.getEndDateTime())) {
+	// conflict = true;
+	// } else if (newEvent.getStartDateTime().before(e.getStartDateTime())
+	// && newEvent.getEndDateTime().after(e.getStartDateTime())) {
+	// conflict = true;
+	// } else if (newEvent.getStartDateTime().before(e.getEndDateTime())
+	// && newEvent.getEndDateTime().after(e.getEndDateTime())) {
+	// conflict = true;
+	// } else if (newEvent.getStartDateTime().after(e.getStartDateTime())
+	// && newEvent.getEndDateTime().before(e.getEndDateTime())) {
+	// conflict = true;
+	// }
+	// }
+	// }
+	// return conflict;
+	// }
 }

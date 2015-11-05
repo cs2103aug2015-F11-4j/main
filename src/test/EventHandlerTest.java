@@ -2,7 +2,9 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import org.junit.Before;
@@ -27,11 +29,8 @@ public class EventHandlerTest {
 	ParsedCommand searchByPriorityCommand = new ParsedCommand();
 	ParsedCommand searchByStartDateCommand = new ParsedCommand();
 	ParsedCommand searchByEndDateCommand = new ParsedCommand();
-
-
 	
 	Event testEvent = new Event();
-	
 
 	// simulating inputs from a parsed command
 	String ID = "TEST";
@@ -41,26 +40,14 @@ public class EventHandlerTest {
 	String location = "Orchard Road";
 	String notes = "Run at least 5 km";
 	String group = "Exercise";
+	
+	String updatedGroup = "Exercise Jogging";
+	String updatedTitle = "updated1";
+	static ArrayList<String> updatadSubtasks = new ArrayList<>();
 
 	static Calendar startDateTime;
 	static Calendar endDateTime;
 	static Calendar reminder;
-
-	static Calendar start1;
-	static Calendar end1;
-	Event testEvent2 = new Event();
-
-	static Calendar start2;
-	static Calendar end2;
-	Event conflictEvent2 = new Event();
-
-	static Calendar start3;
-	static Calendar end3;
-	Event conflictEvent3 = new Event();
-
-	static Calendar start4;
-	static Calendar end4;
-	Event conflictEvent4 = new Event();
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -72,36 +59,17 @@ public class EventHandlerTest {
 
 		reminder = Calendar.getInstance();
 		reminder.set(2015, 10, 21, 11, 34, 26);
-
-		// refers to a test case where new event starts before old one, bet ends
-		// while the old one continues
-		start1 = Calendar.getInstance();
-		start1.set(2015, 8, 20, 10, 33, 25);
-		end1 = Calendar.getInstance();
-		end1.set(2015, 10, 20, 10, 33, 25);
-
-		// new event starts before old one, ends after old one
-		start2 = Calendar.getInstance();
-		start2.set(2015, 8, 20, 10, 33, 25);
-		end2 = Calendar.getInstance();
-		end2.set(2015, 12, 20, 10, 33, 25);
-
-		// new event starts in the duration of the old one, ends after old event
-		// finishes
-		start3 = Calendar.getInstance();
-		start3.set(2015, 9, 22, 10, 33, 25);
-		end3 = Calendar.getInstance();
-		end3.set(2015, 12, 20, 10, 33, 25);
-
-		// new event starts and ends in the duration of the old one
-		start4 = Calendar.getInstance();
-		start4.set(2015, 9, 22, 10, 33, 25);
-		end4 = Calendar.getInstance();
-		end4.set(2015, 12, 20, 10, 33, 25);
+		
 	}
 
 	@Before
 	public void setUp() {
+
+		
+		updatadSubtasks.add("sub4");
+		updatadSubtasks.add("sub5");
+		updatadSubtasks.add("sub6");
+
 		// create parsedCommand add
 		pc.setCommand(Command.ADD);
 		pc.setId(ID);
@@ -124,7 +92,9 @@ public class EventHandlerTest {
 		testEvent.setReminder(reminder);
 		testEvent.addGroup(group);
 		testEvent.setRecurrence(utils.Recurrence.DAILY);
-		
+		testEvent.addSubtask("sub1");
+		testEvent.addSubtask("sub2");
+		testEvent.addSubtask("sub3");
 
 		deleteCommand.setCommand(Command.DELETE);
 		deleteCommand.setId(ID);
@@ -133,7 +103,10 @@ public class EventHandlerTest {
 
 		updateCommand.setCommand(Command.UPDATE);
 		updateCommand.setId(ID);
+		updateCommand.setTitle(updatedTitle);
 		updateCommand.setNotes(newNotes);
+		updateCommand.setDone(true);
+		updateCommand.setGroup(updatedGroup);
 
 		setStorage.setCommand(Command.STORAGE_LOCATION);
 		setStorage.setStorageLocation("abc.txt");
@@ -288,13 +261,14 @@ public class EventHandlerTest {
 
 		Event updatedEvent = handle.update(updateCommand);
 
-		assertEquals(updatedEvent.getId(), ID);
-		assertEquals(updatedEvent.getTitle(), title);
-		assertEquals(updatedEvent.getStartDateTime(), startDateTime);
-		assertEquals(updatedEvent.getEndDateTime(), endDateTime);
-		assertEquals(updatedEvent.getPriority(), priority);
-		assertEquals(updatedEvent.getLocation(), location);
-		assertEquals(updatedEvent.getNotes(), newNotes);
+		assertEquals(ID, updatedEvent.getId());
+		assertEquals(updatedTitle, updatedEvent.getTitle());
+		assertEquals(startDateTime, updatedEvent.getStartDateTime());
+		assertEquals(endDateTime, updatedEvent.getEndDateTime());
+		assertEquals(priority, updatedEvent.getPriority());
+		assertEquals(location, updatedEvent.getLocation());
+		assertEquals(newNotes, updatedEvent.getNotes());
+		assertEquals(true, updatedEvent.isDone());
 	}
 
 	
