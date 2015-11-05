@@ -41,12 +41,6 @@
 				<Label fx:id="lblID" GridPane.columnIndex="2"
 					GridPane.rowIndex="0" wrapText="true" GridPane.valignment="BOTTOM" />
 
-				<Label text="Sub-Task: " GridPane.columnIndex="1"
-					GridPane.columnSpan="2" GridPane.rowIndex="1" wrapText="true"
-					GridPane.valignment="TOP" />
-				<Label fx:id="lblSUBID" GridPane.columnIndex="2"
-					GridPane.rowIndex="1" wrapText="true" GridPane.valignment="TOP" />
-
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="3"
 					GridPane.rowIndex="0">
@@ -59,7 +53,7 @@
 
 				<Label fx:id="lblTitle" GridPane.columnIndex="1" underline="true"
 					GridPane.rowIndex="1" GridPane.columnSpan="2" wrapText="true"
-					GridPane.valignment="BOTTOM" />
+					GridPane.valignment="TOP" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="3"
@@ -120,7 +114,13 @@
 				</ImageView>
 				<Label fx:id="lblReminder" GridPane.columnIndex="1"
 					GridPane.rowIndex="4" GridPane.columnSpan="2" wrapText="true" />
-
+				<Label text="Sub-Task: " GridPane.columnIndex="4"
+					GridPane.columnSpan="2" GridPane.rowIndex="4" wrapText="true"
+					GridPane.valignment="TOP" />
+				<Label fx:id="lblSUBID" GridPane.columnIndex="4"
+					GridPane.rowIndex="4" wrapText="true"/>
+				<Label fx:id="lblSUBID1" GridPane.columnIndex="4"
+					GridPane.rowIndex="4" wrapText="true" GridPane.valignment="BOTTOM"/>
 				<!-- <CheckBox fx:id="checkBoxDone" text="Done" GridPane.rowIndex="4" 
 					GridPane.columnIndex="3" /> -->
 			</children>

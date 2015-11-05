@@ -27,6 +27,8 @@ public class EventDetailController extends StackPane {
 	@FXML
 	private Label lblSUBID;
 	@FXML
+	private Label lblSUBID1;
+	@FXML
 	private Label lblTitle;
 	@FXML
 	private Label lblDate;
@@ -99,6 +101,9 @@ public class EventDetailController extends StackPane {
 		lblPriority.setText(strPriority);
 		if(event.getSubtasks().size()!=0){
 			lblSUBID.setText(event.getSubtasks().get(0));
+			if(event.getSubtasks().size()>0){
+				lblSUBID1.setText(event.getSubtasks().get(1));
+			}
 		}else{
 			lblSUBID.setText(VALUE_SHOW_EMPTY_DATA);
 		}
