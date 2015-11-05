@@ -72,7 +72,7 @@ public class ParsedCommand {
 	public void setStorageLocation(String storageLocation) { this.storageLocation = storageLocation; }
 	
 	//@@author A0145143N
-	public boolean getDone() { return done;}
+	public boolean isDone() { return done;}
 	public void setDone(boolean done) { this.done = done;}
 }
 	

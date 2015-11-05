@@ -223,7 +223,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", true, pc.getDone());
+		assertEquals("done: ", true, pc.isDone());
 	}
 	
 	@Test
@@ -312,7 +312,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", false, pc.getDone());
+		assertEquals("done: ", false, pc.isDone());
 	}
 
 	@Test
@@ -396,7 +396,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", true, pc.getDone());
+		assertEquals("done: ", true, pc.isDone());
 	}
 	
 	@Test
@@ -480,7 +480,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", false, pc.getDone());
+		assertEquals("done: ", false, pc.isDone());
 	}
 
 	@Test
@@ -841,7 +841,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", false, pc.getDone());
+		assertEquals("done: ", false, pc.isDone());
 	}
 	
 	@Test
@@ -924,7 +924,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", true, pc.getDone());
+		assertEquals("done: ", true, pc.isDone());
 	}
 	
 	@Test
@@ -1007,7 +1007,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", false, pc.getDone());
+		assertEquals("done: ", false, pc.isDone());
 	}
 	
 	@Test
@@ -1091,7 +1091,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", true, pc.getDone());
+		assertEquals("done: ", true, pc.isDone());
 	}
 	
 	@Test
@@ -1174,7 +1174,7 @@ public class ParserTest {
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", false, pc.getDone());
+		assertEquals("done: ", false, pc.isDone());
 	}
 	
 	@Test
@@ -1257,7 +1257,7 @@ public class ParserTest {
 		assertEquals("reminder time2: ", "15.55", reminderTime2);
 		assertEquals("reminder time3: ", "12.0", reminderTime3);
 		
-		assertEquals("done: ", true, pc.getDone());
+		assertEquals("done: ", true, pc.isDone());
 	}
 	
 	/**********************
