@@ -44,8 +44,12 @@ public class ViewController extends FlowPane {
 	 * @@author A0126421U
 	 * Constructor to initialize the main components of viewHome
 	 * 
-	 * @param priority - the priority of the current event
-	 * @param lblEvent - the layout to be modified
+	 * @param time - the remaining time for next event to happen
+	 * @param events - the events that happen today
+	 * @param nextEvents - the next event that going to happen
+	 * @param floatTask - total number of floating task
+	 * @param onGoingTask - total number of on going task 
+	 * @param passedTask - total number of passed task
 	 * 
 	 */
 	public ViewController(long time, String events, String nextEvents, int floatTask, int onGoingTask, int passedTask) {
@@ -77,7 +81,16 @@ public class ViewController extends FlowPane {
 		}
 
 	}
-
+	/**
+	 * @@author A0126421U
+	 * Constructor to initialize the main components of viewMonth
+	 * 
+	 * @param events - List of events in the specific month
+	 * @param date - the date to be display for user
+	 * @param month - the month to display for user
+	 * @param year - the year to display for user
+	 * 
+	 */
 	public ViewController(List<Event> events, int date, int month, int year) {
 		int i, end;
 		List<String> idList = new ArrayList<String>();
@@ -115,7 +128,16 @@ public class ViewController extends FlowPane {
 					.add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month, year), idList));
 		}
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * Map short id to the real id
+	 * 
+	 * @param events - the events to be mapped
+	 * 
+	 * @return idList -  the list of id that map to the id
+	 * 
+	 */
 	private List<String> setIdMapper(List<Event> events) {
 		IdMapper idMapper = IdMapper.getInstance();
 		List<String> idList = new ArrayList<String>();
@@ -126,10 +148,17 @@ public class ViewController extends FlowPane {
 		}
 		return idList;
 	}
-	// public List<String> getIdMapper(){
-	// return idList;
-	// }
-
+	
+	/**
+	 * @@author A0126421U
+	 * to compute total number of day in month
+	 * 
+	 * @param month - the month to detect the total day
+	 * @param year - the year to display
+	 * 
+	 * @return numOfDay - number of day in particular month
+	 * 
+	 */
 	private int detectLengthofMonth(int month, int year) {
 		int end;
 		if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
@@ -141,7 +170,16 @@ public class ViewController extends FlowPane {
 		}
 		return end;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * convert month from integer to string
+	 * 
+	 * @param month - the month to be convert
+	 * 
+	 * @return String of month
+	 * 
+	 */
 	private String detectMonth(int month) {
 		switch (month) {
 		case 0:
@@ -171,14 +209,35 @@ public class ViewController extends FlowPane {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * determine for leap year
+	 * 
+	 * @param year - the year to be determine for leap year
+	 * 
+	 * @return numOfDay - number of day in February for that year
+	 * 
+	 */
 	private int detectLeapYear(int year) {
 		if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
 			return 29;
 		}
 		return 28;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * detect the number of events in particular date
+	 * 
+	 * @param year - the year to display for user
+	 * @param month - the month to display for user
+	 * @param date - the date to display for user
+	 * @param events - the list of events for a month
+	 * 
+	 * @return eventList -total event in a date
+	 * 
+	 */
 	@SuppressWarnings("deprecation")
 	public List<Event> detectDate(List<Event> events, int date, int month, int year) {
 		int i;
@@ -244,13 +303,23 @@ public class ViewController extends FlowPane {
 		}
 		return results;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * check for month
+	 * 
+	 * @param month - the month to be check
+	 * 
+	 * @return month -the checked month
+	 * 
+	 */
 	public int checkMonth(int month) {
 		if (month > 11) {
 			return 12;
 		}
 		return month;
 	}
+	
 
 	public ViewController(List<Event> events, int startIndex) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_SCREEN_LAYOUT_FXML));
