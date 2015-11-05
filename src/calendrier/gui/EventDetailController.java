@@ -88,7 +88,6 @@ public class EventDetailController extends StackPane {
 		idMapper.set(Integer.toString(0), checkExistValue(event.getId()));
 		
 		lblID.setText(Integer.toString(0));
-		lblSUBID.setText(" "+event.getMainId());
 		lblTitle.setText(checkExistValue(event.getTitle()));
 		lblDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 		lblLocation.setText(checkExistValue(event.getLocation()));
@@ -98,7 +97,11 @@ public class EventDetailController extends StackPane {
 		
 		String strPriority = checkExistPriority(event.getPriority());
 		lblPriority.setText(strPriority);
-
+		if(event.getSubtasks().size()!=0){
+			lblSUBID.setText(event.getSubtasks().get(0));
+		}else{
+			lblSUBID.setText(VALUE_SHOW_EMPTY_DATA);
+		}
 		if (event.isDone()) {
 			changeEventDesign();
 		} else {

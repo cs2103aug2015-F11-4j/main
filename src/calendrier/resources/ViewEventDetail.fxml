@@ -41,7 +41,7 @@
 				<Label fx:id="lblID" GridPane.columnIndex="2"
 					GridPane.rowIndex="0" wrapText="true" GridPane.valignment="BOTTOM" />
 
-				<Label text="Sub-ID: " GridPane.columnIndex="1"
+				<Label text="Sub-Task: " GridPane.columnIndex="1"
 					GridPane.columnSpan="2" GridPane.rowIndex="1" wrapText="true"
 					GridPane.valignment="TOP" />
 				<Label fx:id="lblSUBID" GridPane.columnIndex="2"
