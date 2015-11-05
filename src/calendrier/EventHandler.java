@@ -55,7 +55,7 @@ public class EventHandler {
 	 * @param id
 	 * @return event that has the id specified
 	 */
-	public Event getEventFromID(String id) {
+	public Event getEvent(String id) {
 		Event returnedEvent = null;
 		for (Event e : events) {
 			if (e.getId().equals(id)) {

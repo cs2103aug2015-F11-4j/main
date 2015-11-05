@@ -419,7 +419,7 @@ public class EventHandlerTest {
 		handle.injectStorageManager(new StorageManagerStub());
 		
 		handle.add(testEvent);
-		Event returnedEvent = handle.getEventFromID(ID);
+		Event returnedEvent = handle.getEvent(ID);
 		assertEquals(testEvent.getId(), returnedEvent.getId());
 		assertEquals(testEvent.getTitle(), returnedEvent.getTitle());
 		assertEquals(testEvent.getLocation(), returnedEvent.getLocation());
