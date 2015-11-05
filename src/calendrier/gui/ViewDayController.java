@@ -36,7 +36,7 @@ public class ViewDayController extends GridPane {
 	private FlowPane flowPaneOpenEvents;
 
 	public ViewDayController(List<Event> datedEvents, List<Event> withFloatingEvents, int viewDate, int viewMonth,
-			int viewYear, int day, boolean isToday) {
+			int viewYear, int day, boolean isToday, boolean isPast) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWDAY_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -62,7 +62,7 @@ public class ViewDayController extends GridPane {
 			}
 			flowPaneDayEvents.setPrefHeight(totalDatedEventsHeight);
 			flowPaneDayEvents.setMaxHeight(totalDatedEventsHeight);
-			setHand(datedEvents);
+			setHand(datedEvents, isPast);
 		} else {
 			flowPaneDayEvents.setPrefHeight(eachEventHeight * VALUE_TO_MULTIPLY);
 			flowPaneDayEvents.setMaxHeight(eachEventHeight * VALUE_TO_MULTIPLY);
@@ -109,14 +109,14 @@ public class ViewDayController extends GridPane {
 		flowPaneOpenEvents.getChildren().add(new OpenEventBoxController(event, position));
 	}
 
-	private void setHand(List<Event> events) {
+	private void setHand(List<Event> events, boolean isPast) {
 		for (int i = 0; i < events.size(); i++) {
-			addEvent(events.get(i), i);
+			addEvent(events.get(i), i, isPast);
 		}
 	}
 
-	private void addEvent(Event event, int position) {
-		flowPaneDayEvents.getChildren().add(new DatedEventBoxController(event, position));
+	private void addEvent(Event event, int position, boolean isPast) {
+		flowPaneDayEvents.getChildren().add(new DatedEventBoxController(event, position, isPast));
 	}
 
 	private List<Event> getFloatingEvents(List<Event> datedEvents, List<Event> floatingEvents) {

@@ -41,7 +41,7 @@ public class DatedEventBoxController extends StackPane {
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
 
-	public DatedEventBoxController(Event event, int position) {
+	public DatedEventBoxController(Event event, int position, boolean isPast) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_DATED_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -51,20 +51,22 @@ public class DatedEventBoxController extends StackPane {
 			e.printStackTrace();
 		}
 
-		initEventValue(event, position);
+		initEventValue(event, position, isPast);
 	}
 
-	private void initEventValue(Event event, int position) {
+	private void initEventValue(Event event, int position, boolean isPast) {
 		IdMapper idMapper = IdMapper.getInstance();
 		idMapper.set(Integer.toString(position), checkExistValue(event.getId()));
 		lblDatedEventID.setText(Integer.toString(position));
 		lblDatedEventTitle.setText(checkExistValue(event.getTitle()));
-		lblDatedEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
+		String displayDate = constructEventDate(event.getStartDateTime(), event.getEndDateTime());
+		lblDatedEventDate.setText(displayDate);
 
-		if (event.isDone()) {
-			checkBoxDone.setSelected(VALUE_IS_DONE);
+		if(isPast) {
 			changeEventDesign();
-			
+			if(event.isDone()) {
+				checkBoxDone.setSelected(VALUE_IS_DONE);
+			}
 		} else {
 			String strPriority = checkExistPriority(event.getPriority());
 			changeBorderColor(strPriority);

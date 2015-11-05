@@ -249,7 +249,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		currentScreenState = VALUE_VIEW_HOME_SCREEN;
 		rootLayout.setCenter(new ViewDayController(mainLogic.getDayEvents(year, month + 1, date),
 				mainLogic.getDayEvents(year, month + 1, date, PARAM_GET_FLOATING_TASK_TRUE), date, month, year, day,
-				isToday));
+				isToday, checkPassedDay()));
 	}
 
 	private void getHelp(UserInterface userInterface) {
@@ -602,6 +602,13 @@ public class UserInterface extends Application implements OnRemindListener {
 		commandBarController.setMessage(setMessage);
 		commandBarController.clear();
 	}
+	
+	private boolean checkPassedDay() {
+		if (viewDate < date && viewMonth <= month && viewYear <= year) {
+			return true;
+		}
+		return false;
+	}
 
 	private void resetViewDateInfo() {
 		viewDate = date;
@@ -734,7 +741,7 @@ public class UserInterface extends Application implements OnRemindListener {
 				addView(this);
 			} else if(currentScreenState == VALUE_VIEW_HOME_SCREEN) {
 				viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-			} else {
+			} else if(currentScreenState == VALUE_VIEW_MONTH_SCREEN){
 				viewMonth(this, currentMonth, currentYear);
 			}
 			return MESSAGE_FAIL_VIEW_DETAIL;
