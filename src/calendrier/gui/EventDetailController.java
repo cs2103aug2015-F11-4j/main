@@ -72,7 +72,7 @@ public class EventDetailController extends StackPane {
 	private static final String VALUE_SHOW_NULL = "null, ";
 	private static final String VALUE_ADD_COMMA = ", ";
 
-	public EventDetailController(Event event) {
+	public EventDetailController(Event event, List<Event> subEvents) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(EVENT_DETAIL_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -82,10 +82,10 @@ public class EventDetailController extends StackPane {
 			e.printStackTrace();
 		}
 
-		initEventValue(event);
+		initEventValue(event, subEvents);
 	}
 
-	public void initEventValue(Event event) {
+	public void initEventValue(Event event, List<Event> subEvents) {
 		IdMapper idMapper = IdMapper.getInstance();
 		idMapper.set(Integer.toString(0), checkExistValue(event.getId()));
 		
@@ -99,10 +99,10 @@ public class EventDetailController extends StackPane {
 		
 		String strPriority = checkExistPriority(event.getPriority());
 		lblPriority.setText(strPriority);
-		if(event.getSubtasks().size()!=0){
-			lblSUBID.setText(event.getSubtasks().get(0));
+		if(subEvents.size()!=0){
+			lblSUBID.setText(subEvents.get(0).getTitle());
 			if(event.getSubtasks().size()>1){
-				lblSUBID1.setText(event.getSubtasks().get(1));
+				lblSUBID1.setText(subEvents.get(1).getTitle());
 			}
 		}else{
 			lblSUBID.setText(VALUE_SHOW_EMPTY_DATA);

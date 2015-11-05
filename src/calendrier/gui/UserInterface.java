@@ -54,12 +54,12 @@ public class UserInterface extends Application implements OnRemindListener {
 	private static final int VALUE_VIEW_MONTH_SCREEN = 3;
 	private static final int VALUE_VIEW_HOME_SCREEN = 4;
 	private static final int VALUE_VIEW_DETAIL_SCREEN = 5;
-
+	
 	private static final int VALUE_GET_ALL_EVENTS = 1;
 	private static final int VALUE_GET_FILTERED_EVENTS = 2;
 
 	private static final int VALUE_NO_EVENT = 0;
-
+	
 	private static final String PARAM_NAVIGATION_NEXT = "next";
 	private static final String PARAM_NAVIGATION_PREVIOUS = "previous";
 
@@ -144,8 +144,14 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private void addEventView(UserInterface userInterface) {
 		// currentScreenState = VALUE_VIEW_SCREEN;
+		List<Event> subEvents= new ArrayList<Event>();
+		if(mainLogic.getEvent().getSubtasks().size()!=0){
+			for(int i=0;i<mainLogic.getEvent().getSubtasks().size();i++){
+				subEvents.add(mainLogic.getEvent(mainLogic.getEvent().getSubtasks().get(i)));
+			}
+		}
 		currentScreenState = VALUE_VIEW_DETAIL_SCREEN;
-		rootLayout.setCenter(new EventDetailController(mainLogic.getEvent()));
+		rootLayout.setCenter(new EventDetailController(mainLogic.getEvent(), subEvents));
 	}
 
 	private void addView(UserInterface userInterface) {
@@ -200,13 +206,14 @@ public class UserInterface extends Application implements OnRemindListener {
 		while (nextTask.size() == 0) {
 			cal.add(Calendar.DATE, 1);
 			nextTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
-					cal.getTime().getDay()+1);
+					cal.getTime().getDay() + 1);
 		}
+		System.out.println(cal.getTime().toString());
 		currentScreenState = VALUE_VIEW_HOME_SCREEN;
-		if(currentTask.size()!=0){
+		if (currentTask.size() != 0) {
 			name1 = currentTask.get(0).getTitle();
-		}else{
-			name1=null;
+		} else {
+			name1 = null;
 		}
 		name2 = nextTask.get(0).getTitle();
 		rootLayout.setCenter(new ViewController(timeToNextEvent, name1, name2,
@@ -277,7 +284,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			if (isValidScreen(PARAM_NAVIGATION_NEXT)) {
 				rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
 			}
-		} else {
+		} else{
 			if ((arrStartIndex + VALUE_ADD_TO_ARRAY) <= (mainLogic.getAllEvents().size() - VALUE_TO_ADD_OR_MINUS)) {
 				arrStartIndex += VALUE_ADD_TO_ARRAY;
 				addView(userInterface);
@@ -312,7 +319,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			if (isValidScreen(PARAM_NAVIGATION_PREVIOUS)) {
 				rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
 			}
-		} else {
+		} else{
 			if ((arrStartIndex - VALUE_ADD_TO_ARRAY) >= 0) {
 				arrStartIndex -= VALUE_ADD_TO_ARRAY;
 			} else if ((arrStartIndex - VALUE_ADD_TO_ARRAY) < 0) {
@@ -321,59 +328,6 @@ public class UserInterface extends Application implements OnRemindListener {
 			addView(userInterface);
 		}
 	}
-	// private void getNextPart(UserInterface userInterface) {
-	// if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
-	// Calendar newCal = Calendar.getInstance();
-	// newCal.set(Calendar.YEAR, viewYear);
-	// newCal.set(Calendar.MONTH, viewMonth);
-	// int lastDayOfMonth = newCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-	// viewDate += VALUE_TO_ADD_OR_MINUS;
-	// if (viewDate > lastDayOfMonth) {
-	// viewDate = VALUE_TO_ADD_OR_MINUS;
-	// viewMonth += VALUE_TO_ADD_OR_MINUS;
-	// if (viewMonth > 11) {
-	// viewMonth = 0;
-	// viewYear += VALUE_TO_ADD_OR_MINUS;
-	// }
-	// }
-	// viewDay(this, viewDate, viewMonth, viewYear, getDay(viewDate, viewMonth,
-	// viewYear),
-	// boolIsToday(viewDate, viewMonth, viewYear));
-	//
-	// } else {
-	// if ((arrStartIndex + VALUE_ADD_TO_ARRAY) <=
-	// (mainLogic.getAllEvents().size() - VALUE_TO_ADD_OR_MINUS)) {
-	// arrStartIndex += VALUE_ADD_TO_ARRAY;
-	// addView(userInterface);
-	// }
-	// }
-	// }
-	// private void getPreviousPart(UserInterface userInterface) {
-	// if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
-	// viewDate -= VALUE_TO_ADD_OR_MINUS;
-	// if (viewDate < 1) {
-	// Calendar newCal = Calendar.getInstance();
-	// viewMonth -= VALUE_TO_ADD_OR_MINUS;
-	// if (viewMonth < 0) {
-	// viewMonth = 11;
-	// viewYear -= VALUE_TO_ADD_OR_MINUS;
-	// }
-	// newCal.set(Calendar.YEAR, viewYear);
-	// newCal.set(Calendar.MONTH, viewMonth);
-	// viewDate = newCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-	// }
-	// viewDay(this, viewDate, viewMonth, viewYear, getDay(viewDate, viewMonth,
-	// viewYear),
-	// boolIsToday(viewDate, viewMonth, viewYear));
-	// } else {
-	// if ((arrStartIndex - VALUE_ADD_TO_ARRAY) >= 0) {
-	// arrStartIndex -= VALUE_ADD_TO_ARRAY;
-	// } else if ((arrStartIndex - VALUE_ADD_TO_ARRAY) < 0) {
-	// arrStartIndex = 0;
-	// }
-	// addView(userInterface);
-	// }
-	// }
 
 	private boolean isValidScreen(String operation) {
 		if (operation.equals(PARAM_NAVIGATION_NEXT)) {
@@ -400,13 +354,12 @@ public class UserInterface extends Application implements OnRemindListener {
 		if (key == KeyCode.RIGHT) {
 			getNextPage(this);
 		}
-		// if(key==KeyCode.UP){
-		// getPreviousPart(this);
-		// }
-		// if(key==KeyCode.DOWN){
-		// getNextPart
-		// (this);
-		// }
+//		if (key == KeyCode.UP) {
+//			getPreviousPart(this);
+//		}
+//		if (key == KeyCode.DOWN) {
+//			getNextPart(this);
+//		}
 	}
 
 	private void handleEnterPress(CommandBarController commandBarController, String userInput) {
@@ -418,8 +371,8 @@ public class UserInterface extends Application implements OnRemindListener {
 			if (eventSize == 0) {
 				addView(this);
 			} else {
-				//viewHome(this, mainLogic.getTimeToNextEvent());
-				viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
+				viewHome(this, mainLogic.getTimeToNextEvent());
+				//viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
 			}
 			break;
 		case ADD:

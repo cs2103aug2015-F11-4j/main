@@ -39,7 +39,15 @@ public class ViewController extends FlowPane {
 
 	public ViewController() {
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * Constructor to initialize the main components of viewHome
+	 * 
+	 * @param priority - the priority of the current event
+	 * @param lblEvent - the layout to be modified
+	 * 
+	 */
 	public ViewController(long time, String events, String nextEvents, int floatTask, int onGoingTask, int passedTask) {
 		long sec = 0, min = 0, hour = 0, day = 0;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWHOME_SCREEN_LAYOUT_FXML));
@@ -51,7 +59,7 @@ public class ViewController extends FlowPane {
 			e.printStackTrace();
 		}
 		lblCurrent.setText(events);
-		lblNext.setText(nextEvents);
+		//lblNext.setText(nextEvents);
 		lblPassed.setText(Integer.toString(passedTask));
 		lblOngoing.setText(Integer.toString(onGoingTask));
 		lblFloat.setText(Integer.toString(floatTask));
