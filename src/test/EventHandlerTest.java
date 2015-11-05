@@ -22,15 +22,19 @@ import utils.Priority;
 public class EventHandlerTest {
 	ParsedCommand pc = new ParsedCommand();
 	ParsedCommand deleteCommand = new ParsedCommand();
+	ParsedCommand deleteSubtaskCommand = new ParsedCommand();
+
 	ParsedCommand undoCommand = new ParsedCommand();
 	ParsedCommand updateCommand = new ParsedCommand();
 	ParsedCommand setStorage = new ParsedCommand();
+	
 	ParsedCommand searchByGroupCommand =  new ParsedCommand();
 	ParsedCommand searchByPriorityCommand = new ParsedCommand();
 	ParsedCommand searchByStartDateCommand = new ParsedCommand();
 	ParsedCommand searchByEndDateCommand = new ParsedCommand();
 	
 	Event testEvent = new Event();
+	Event testSubtask = new Event();
 
 	// simulating inputs from a parsed command
 	String ID = "TEST";
@@ -40,6 +44,8 @@ public class EventHandlerTest {
 	String location = "Orchard Road";
 	String notes = "Run at least 5 km";
 	String group = "Exercise";
+	
+	String subtaskID = "Subtask1";
 	
 	String updatedGroup = "Exercise Jogging";
 	String updatedTitle = "updated1";
@@ -59,17 +65,10 @@ public class EventHandlerTest {
 
 		reminder = Calendar.getInstance();
 		reminder.set(2015, 10, 21, 11, 34, 26);
-		
 	}
 
 	@Before
 	public void setUp() {
-
-		
-		updatadSubtasks.add("sub4");
-		updatadSubtasks.add("sub5");
-		updatadSubtasks.add("sub6");
-
 		// create parsedCommand add
 		pc.setCommand(Command.ADD);
 		pc.setId(ID);
@@ -92,12 +91,17 @@ public class EventHandlerTest {
 		testEvent.setReminder(reminder);
 		testEvent.addGroup(group);
 		testEvent.setRecurrence(utils.Recurrence.DAILY);
-		testEvent.addSubtask("sub1");
-		testEvent.addSubtask("sub2");
-		testEvent.addSubtask("sub3");
+//		testEvent.addSubtask("Subtask1");
+		
+		testSubtask.setId(subtaskID);
+		testSubtask.setTitle("Subtask1");
+		testSubtask.setMainId(ID);
 
 		deleteCommand.setCommand(Command.DELETE);
 		deleteCommand.setId(ID);
+		
+		deleteSubtaskCommand.setCommand(Command.DELETE);
+		deleteSubtaskCommand.setId(subtaskID);
 
 		undoCommand.setCommand(Command.UNDO);
 
@@ -152,11 +156,20 @@ public class EventHandlerTest {
 		assertEquals(addedEvent.getRecurrence(),  testEvent.getRecurrence());
 	}
 	
+	@Test
+	public void testAddedSubtask() throws Exception {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		handle.add(testEvent);
+		handle.add(testSubtask);
+		assertEquals(handle.getAllEvents().get(0).getSubtasks().get(0), testSubtask.getId());
+	}
+	
 	
 	/**
 	 * TESTS FOR REMOVE
-	 * 
 	 */
+	
 	@Test
 	public void testRemoveSingleEvent() throws Exception {
 		EventHandler handle = new EventHandler();
@@ -169,6 +182,18 @@ public class EventHandlerTest {
 		assertFalse(handle.getAllEvents().contains(testEvent));
 		assertTrue(handle.getAllEvents().isEmpty());
 	}
+	
+//	@Test
+//	public void testIdRemovedFromMaintaskWhenSubtaskDeleted() throws Exception{
+//		EventHandler handle = new EventHandler();
+//		handle.injectStorageManager(new StorageManagerStub());
+//		
+//		handle.add(testEvent);
+//		handle.add(testSubtask);
+//		handle.remove(deleteSubtaskCommand);
+//		
+//		assertEquals(0, handle.getAllEvents().get(0).getSubtasks().size());
+//	}
 
 	
 	/**
