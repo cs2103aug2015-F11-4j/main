@@ -366,6 +366,9 @@ public class EventHandler {
 				newEvent.addSubtask(s);
 			}
 		}
+		if (newEvent.getRecurrence() == null) {
+			newEvent.setRecurrence(oldEvent.getRecurrence());
+		}
 	}
 
 	private void saveHistory() {
