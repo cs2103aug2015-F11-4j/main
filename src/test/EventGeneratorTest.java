@@ -48,6 +48,7 @@ public class EventGeneratorTest {
 		pc.setLocation(location);
 		pc.setNotes(notes);
 		pc.setGroup(group);
+		pc.setDone(false);
 
 		// no ID command
 		commandNoID = new ParsedCommand();
@@ -81,6 +82,7 @@ public class EventGeneratorTest {
 		assertEquals(generatedEvent.getNotes(), testEvent.getNotes());
 		assertEquals(generatedEvent.getGroup(), testEvent.getGroup());
 		assertEquals("SUBTASK2", testEvent.getSubtasks().get(1));
+		assertEquals(testEvent.isDone(), generatedEvent.isDone());
 	}
 
 	@Test

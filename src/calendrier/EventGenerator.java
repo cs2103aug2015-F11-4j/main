@@ -53,6 +53,7 @@ public class EventGenerator {
 		e.setMainId(pc.getMainId());
 		e.setRecurrence(pc.getRecurFreq());
 		e.setMainId(IdMapper.getInstance().getActualId(pc.getMainId()));
+		e.setDone(pc.isDone());
 
 		// Automated assignment
 		assignGroup(e);

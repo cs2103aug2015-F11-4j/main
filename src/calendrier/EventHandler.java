@@ -336,6 +336,9 @@ public class EventHandler {
 				newEvent.addSubtask(s);
 			}
 		}
+		if (newEvent.isDone() != oldEvent.isDone()) {
+			newEvent.setDone(oldEvent.isDone());
+		}
 	}
 
 //	/**
