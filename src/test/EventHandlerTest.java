@@ -194,6 +194,19 @@ public class EventHandlerTest {
 //		
 //		assertEquals(0, handle.getAllEvents().get(0).getSubtasks().size());
 //	}
+	
+	@Test
+	public void testSubtasksRemovedWhenMaintaskRemoved() throws Exception {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		
+		handle.add(testEvent);
+		handle.add(testSubtask);
+		handle.remove(deleteCommand);
+		
+		assertEquals(handle.getAllEvents().size(), 0);
+//		fail();
+	}
 
 	
 	/**

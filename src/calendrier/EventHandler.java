@@ -32,7 +32,6 @@ public class EventHandler {
 	ReminderManager reminders;
 	Event previousEvent;
 	Event beforeUpdate;
-	Logger log;
 
 	public EventHandler() {
 		manage = new StorageManager();
@@ -40,7 +39,6 @@ public class EventHandler {
 		reminders = new ReminderManager();
 		previousEvent = new Event();
 		beforeUpdate = new Event();
-		log = Logger.getLogger(EventHandler.class.getName());
 		history = new Stack<>();
 	}
 
@@ -100,6 +98,7 @@ public class EventHandler {
 	}
 
 	private void setStorageAndLoadEvents(ParsedCommand pc) {
+		assert(manage != null);
 		manage.setStorageLocation(pc.getStorageLocation());
 
 		ArrayList<String> eventsFromStorage = (ArrayList<String>) manage.load();
@@ -149,10 +148,7 @@ public class EventHandler {
 		return eventToBeViewed;
 	}
 
-	/**
-	 * 
-	 * @returns the undone event
-	 */
+
 	public void undo() throws Exception {
 		if (history.isEmpty()) {
 			throw new Exception("ERROR - CANNOT UNDO");
@@ -202,28 +198,17 @@ public class EventHandler {
 	 * @return eventToBeRemoved
 	 */
 	public Event remove(ParsedCommand pc) {
-		Event eventToBeRemoved = new Event();
+		Event eventToBeRemoved = findEventToRemove(pc);
 
-		for (Event e : events) {
-			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
-				eventToBeRemoved = e;
-				break;
-			}
-		}
-
-		// remove event from subtask
-		for (Event e : events) {
-			if (e.getId() == eventToBeRemoved.getMainId()) {
-				e.removeSubtask(eventToBeRemoved.getId());
-			}
-		}
-
+		removeFromSubtasksAndMaintask(eventToBeRemoved);
 		reminders.removeReminder(eventToBeRemoved);
 		events.remove(eventToBeRemoved);
 		saveHistory();
 		manage.save(events);
 		return eventToBeRemoved;
 	}
+
+	
 
 	/**
 	 * Updates an event identified by the ParsedCommand pc
@@ -278,7 +263,49 @@ public class EventHandler {
 	/*
 	 * ============== Private Methods ==============
 	 */
+	
+	/**
+	 * 
+	 * @param pc
+	 * @return
+	 */
+	private Event findEventToRemove(ParsedCommand pc) {
+		Event eventToBeRemoved = new Event();
+		for (Event e : events) {
+			if (e.getId().equals(IdMapper.getInstance().getActualId(pc.getId()))) {
+				eventToBeRemoved = e;
+				break;
+			}
+		}
+		return eventToBeRemoved;
+	}
 
+	/**
+	 * removes the event from any list of subtasks it may belong to
+	 * also removes any subtasks that this even may have
+	 * 
+	 * @param eventToBeRemoved
+	 */
+	private void removeFromSubtasksAndMaintask(Event eventToBeRemoved) {
+		// remove this event from maintask's list of subtask
+		for (Event e : events) {
+			if (e.getId() == eventToBeRemoved.getMainId()) {
+				e.removeSubtask(eventToBeRemoved.getId());
+			}
+		}
+		
+		// remove subtasks of this event
+		for (String s : eventToBeRemoved.getSubtasks()) {
+			for (Event e : events) {
+				if (e.getId().equals(s)) {
+					reminders.removeReminder(e);
+					events.remove(e);
+					break;
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Used to copy information from the old event over to the new event
 	 * 
