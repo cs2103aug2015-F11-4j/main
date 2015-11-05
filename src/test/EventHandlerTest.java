@@ -413,4 +413,18 @@ public class EventHandlerTest {
 		assertEquals(utils.Priority.VERY_HIGH, handle.getAllEvents().get(0).getPriority());
 	}
 	
+	@Test
+	public void testgetEventFromID() throws Exception {
+		EventHandler handle = new EventHandler();
+		handle.injectStorageManager(new StorageManagerStub());
+		
+		handle.add(testEvent);
+		Event returnedEvent = handle.getEventFromID(ID);
+		assertEquals(testEvent.getId(), returnedEvent.getId());
+		assertEquals(testEvent.getTitle(), returnedEvent.getTitle());
+		assertEquals(testEvent.getLocation(), returnedEvent.getLocation());
+		assertEquals(testEvent.getGroup(), returnedEvent.getGroup());
+
+	}
+	
 }
