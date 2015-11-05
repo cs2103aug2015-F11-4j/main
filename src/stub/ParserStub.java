@@ -10,9 +10,15 @@ import utils.Command;
 import utils.ParsedCommand;
 import utils.Priority;
 
+/**
+ * @@author A0088646M-unused
+ * @author yeehuipoh
+ *
+ */
 public class ParserStub extends Parser {
 
 	/**
+	 * @@author A0088646M-unused
 	 * Parse command
 	 */
 	@Override
@@ -61,6 +67,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate add structured command
 	 * 
 	 * @return structured command
@@ -93,6 +100,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate add structured command (with only title)
 	 * 
 	 * @return structured command
@@ -108,6 +116,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate update structured command
 	 * 
 	 * @return structured command
@@ -123,6 +132,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate delete structured command
 	 * 
 	 * @return structured command
@@ -137,6 +147,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate view structured command
 	 * 
 	 * @return structured command
@@ -151,6 +162,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate filter priority structured command
 	 * 
 	 * @return structured command
@@ -165,6 +177,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate filter group structured command
 	 * 
 	 * @return structured command
@@ -179,6 +192,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate filter date structured command
 	 * 
 	 * @return structured command
@@ -196,6 +210,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate view all structured command
 	 * 
 	 * @return structured command
@@ -209,6 +224,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate undelete structured command
 	 * 
 	 * @return structured command
@@ -222,6 +238,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate undo structured command
 	 * 
 	 * @return structured command
@@ -235,6 +252,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate previous structured command
 	 * 
 	 * @return structured command
@@ -248,6 +266,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate next structured command
 	 * 
 	 * @return structured command
@@ -261,6 +280,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * generate save in structured command
 	 * 
 	 * @return structured command
@@ -275,6 +295,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate exit structured command
 	 * 
 	 * @return structured command
@@ -288,6 +309,7 @@ public class ParserStub extends Parser {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Generate help structured command
 	 * 
 	 * @return structured command

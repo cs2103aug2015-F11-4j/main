@@ -13,6 +13,7 @@ import utils.ParsedCommand;
 import utils.Recurrence;
 
 /**
+ * @@author A0088646M
  * For handling the main logic
  * 
  * @author yeehuipoh
@@ -26,6 +27,7 @@ public class MainLogic {
 	private List<Event> filteredEvents = null;
 
 	/**
+	 * @@author A0088646M
 	 * Constructor to initialize the main components of Main Logic
 	 */
 	public MainLogic() {
@@ -35,6 +37,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Inject a stub event handler
 	 * 
 	 * @param eventHandler
@@ -45,6 +48,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Inject a stub parser
 	 * 
 	 * @param parser
@@ -55,6 +59,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Execute command
 	 * 
 	 * @param command
@@ -74,6 +79,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Perform the parsed command
 	 * 
 	 * @param parsedCommand
@@ -95,6 +101,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Update event of the last action
 	 * 
 	 * @param eventList
@@ -109,6 +116,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets the event of the last action performed
 	 * 
 	 * @return event which the last action has performed on
@@ -118,6 +126,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets all available events
 	 * 
 	 * @return all events
@@ -137,6 +146,8 @@ public class MainLogic {
 		return this.events;
 	}
 
+
+	/* @@author A0088646M */
 	private List<Event> getAllMonthEvents(int year, int month) {
 		List<Event> savedEvents = eventHandler.getAllEvents();
 
@@ -153,6 +164,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets a list of filtered events
 	 * 
 	 * @return list of filtered events
@@ -162,6 +174,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets all events within a specific month excluding Floating tasks
 	 * 
 	 * @param year
@@ -175,6 +188,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets all events within a specific month
 	 * 
 	 * @param year
@@ -196,6 +210,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets all events within a specific day excluding Floating tasks
 	 * 
 	 * @param year
@@ -211,6 +226,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets all events within a specific day
 	 * 
 	 * @param year
@@ -233,6 +249,7 @@ public class MainLogic {
 		return dayEvents;
 	}
 
+	/* @@author A0088646M */
 	private void sortByStartDateTime(List<Event> monthEvents) {
 		Collections.sort(monthEvents, new Comparator<Event>() {
 
@@ -274,6 +291,8 @@ public class MainLogic {
 		});
 	}
 
+
+	/* @@author A0088646M */
 	private void filterToDay(int year, int month, int day, List<Event> dayEvents, boolean floating) {
 		// Filter into day
 		for (int i = 0; i < events.size(); i++) {
@@ -285,6 +304,7 @@ public class MainLogic {
 		}
 	}
 
+	/* @@author A0088646M */
 	private void filterToMonth(int year, int month, List<Event> monthEvents, boolean floating) {
 		// Filter into month
 		for (int i = 0; i < events.size(); i++) {
@@ -296,6 +316,7 @@ public class MainLogic {
 		}
 	}
 
+	/* @@author A0088646M */
 	private boolean isInDay(Event event, int year, int month, int day, boolean floating) {
 		boolean isInThisDay = false;
 
@@ -327,6 +348,7 @@ public class MainLogic {
 		return isInThisDay;
 	}
 
+	/* @@author A0088646M */
 	private boolean isInMonth(Event event, int year, int month, boolean floating) {
 		boolean isInThisMonth = false;
 		Calendar thisMonth = Calendar.getInstance();
@@ -357,6 +379,7 @@ public class MainLogic {
 		return isInThisMonth;
 	}
 
+	/* @@author A0088646M */
 	private boolean coversDay(Event event, Calendar thisDay, Calendar nextDay) {
 		boolean coveringDay = false;
 		Calendar start = event.getStartDateTime();
@@ -371,6 +394,7 @@ public class MainLogic {
 		return coveringDay;
 	}
 
+	/* @@author A0088646M */
 	private boolean coversMonth(Event event, Calendar thisMonth, Calendar nextMonth) {
 		boolean coveringMonth = false;
 		Calendar start = event.getStartDateTime();
@@ -385,6 +409,7 @@ public class MainLogic {
 		return coveringMonth;
 	}
 
+	/* @@author A0088646M */
 	private void setDayAnchor(int year, int month, int day, Calendar thisDay, Calendar nextDay) {
 		// Reset
 		thisDay.setTimeInMillis(0);
@@ -397,6 +422,7 @@ public class MainLogic {
 
 	}
 
+	/* @@author A0088646M */
 	private void setMonthAnchor(int year, int month, Calendar thisMonth, Calendar nextMonth) {
 		// Reset
 		thisMonth.setTimeInMillis(0);
@@ -409,6 +435,7 @@ public class MainLogic {
 
 	}
 
+	/* @@author A0088646M */
 	private boolean isWithinDay(Calendar eventDateTime, Calendar thisDay, Calendar nextDay) {
 		boolean isWithin = false;
 
@@ -419,6 +446,7 @@ public class MainLogic {
 		return isWithin;
 	}
 
+	/* @@author A0088646M */
 	private boolean isWithinMonth(Calendar eventDateTime, Calendar thisMonth, Calendar nextMonth) {
 		boolean isWithin = false;
 		if (eventDateTime != null) {
@@ -428,6 +456,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Set OnRemindListener
 	 * 
 	 * @param listener
@@ -441,6 +470,7 @@ public class MainLogic {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets number of milliseconds until the next event
 	 * 
 	 * @return number of milliseconds until next event. If no next event, -1

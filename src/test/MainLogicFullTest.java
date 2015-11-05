@@ -17,8 +17,14 @@ import utils.IdMapper;
 import utils.OnRemindListener;
 import utils.Priority;
 
+/**
+ * @@author A0088646M
+ * @author yeehuipoh
+ *
+ */
 public class MainLogicFullTest {
 
+	/* @@author A0088646M */
 	@Test
 	public void executeShouldNotReturnNull() {
 		MainLogic mainLogic = new MainLogic();
@@ -31,6 +37,7 @@ public class MainLogicFullTest {
 		assertFalse("should not return null", cmd == null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeAdd() {
 		MainLogic mainLogic = new MainLogic();
@@ -38,6 +45,7 @@ public class MainLogicFullTest {
 		addDummyEvents(mainLogic);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeAddOnlyTitle() {
 		MainLogic mainLogic = new MainLogic();
@@ -66,6 +74,7 @@ public class MainLogicFullTest {
 		assertTrue("list should have added event", haveAdded);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeDelete() {
 		MainLogic mainLogic = new MainLogic();
@@ -98,6 +107,7 @@ public class MainLogicFullTest {
 		assertTrue("should be id", mainLogic.getEvent().getId().equals(id));
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeUpdate() {
 		MainLogic mainLogic = new MainLogic();
@@ -133,6 +143,7 @@ public class MainLogicFullTest {
 		assertTrue("should be low", mainLogic.getEvent().getPriority() == Priority.LOW);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeView() {
 		MainLogic mainLogic = new MainLogic();
@@ -153,6 +164,7 @@ public class MainLogicFullTest {
 		assertTrue("is id", mainLogic.getEvent().getId().equals(id));
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeViewAll() {
 		MainLogic mainLogic = new MainLogic();
@@ -172,6 +184,7 @@ public class MainLogicFullTest {
 		assertTrue("should have at least 1 event", mainLogic.getAllEvents().size() > 0);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void getAllEvents() {
 		MainLogic mainLogic = new MainLogic();
@@ -182,6 +195,7 @@ public class MainLogicFullTest {
 		assertTrue("Should have at least 1 event", mainLogic.getAllEvents().size() > 0);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeUndelete() {
 		MainLogic mainLogic = new MainLogic();
@@ -228,6 +242,7 @@ public class MainLogicFullTest {
 		assertTrue("can find", found);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeUndoAdd() {
 		MainLogic mainLogic = new MainLogic();
@@ -253,6 +268,7 @@ public class MainLogicFullTest {
 		assertTrue("should be less by 1", mainLogic.getAllEvents().size() == size - 1);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeUndoDelete() {
 		MainLogic mainLogic = new MainLogic();
@@ -299,6 +315,7 @@ public class MainLogicFullTest {
 		assertTrue("can find", found);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeUndoUpdate() {
 		MainLogic mainLogic = new MainLogic();
@@ -359,6 +376,7 @@ public class MainLogicFullTest {
 		assertTrue("should be very high", mainLogic.getEvent().getPriority() == Priority.VERY_HIGH);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeSaveIn() {
 		MainLogic mainLogic = new MainLogic();
@@ -368,6 +386,7 @@ public class MainLogicFullTest {
 		assertTrue("is storage location command", cmd == Command.STORAGE_LOCATION);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executePrevious() {
 		MainLogic mainLogic = new MainLogic();
@@ -377,6 +396,7 @@ public class MainLogicFullTest {
 		assertTrue("is previous command", cmd == Command.PREVIOUS);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeNext() {
 		MainLogic mainLogic = new MainLogic();
@@ -386,6 +406,7 @@ public class MainLogicFullTest {
 		assertTrue("is next command", cmd == Command.NEXT);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeExit() {
 		MainLogic mainLogic = new MainLogic();
@@ -395,6 +416,7 @@ public class MainLogicFullTest {
 		assertTrue("is exit command", cmd == Command.EXIT);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void executeHelp() {
 		MainLogic mainLogic = new MainLogic();
@@ -404,6 +426,7 @@ public class MainLogicFullTest {
 		assertTrue("is help command", cmd == Command.HELP);
 	}
 
+	/* @@author A0088646M */
 	public String addDummyEvents(MainLogic mainLogic) {
 		String command = "add addTitle, " + "startdate 2015/09/23, " + "starttime 10.55, " + "enddate 2015/09/23, "
 				+ "endtime 10.56, " + "priority very high, " + "location addLocation, " + "notes addNotes, "

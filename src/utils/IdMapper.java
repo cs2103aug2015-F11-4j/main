@@ -2,6 +2,11 @@ package utils;
 
 import java.util.*;
 
+/**
+ * @@author A0088646M
+ * @author yeehuipoh
+ *
+ */
 public class IdMapper {
 	private static IdMapper idMapper = null;
 	private HashMap<String, String> map = null;
@@ -11,6 +16,7 @@ public class IdMapper {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets an instance of the mapper
 	 * 
 	 * @return instance of mapper
@@ -23,6 +29,7 @@ public class IdMapper {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Creates Mapping for Short ID to Actual ID
 	 * 
 	 * @param shortId
@@ -37,6 +44,7 @@ public class IdMapper {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Clear mapping for the short ID
 	 * 
 	 * @param shortId
@@ -54,6 +62,7 @@ public class IdMapper {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets the actual ID (Storage ID)
 	 * 
 	 * @param shortId

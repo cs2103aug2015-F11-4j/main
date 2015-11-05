@@ -8,10 +8,16 @@ import utils.Command;
 import utils.Event;
 import utils.ParsedCommand;
 
+/**
+ * @@author A0088646M-unused
+ * @author yeehuipoh
+ *
+ */
 public class EventHandlerStub extends EventHandler {
 	private ArrayList<Event> events = new ArrayList<>();
 
 	/**
+	 * @@author A0088646M-unused
 	 * Execute Command
 	 */
 	public ArrayList<Event> execute(ParsedCommand parsedCommand) {
@@ -33,6 +39,7 @@ public class EventHandlerStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Add mock event
 	 * 
 	 * @param parsedCommand
@@ -59,6 +66,7 @@ public class EventHandlerStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Delete mock event
 	 * 
 	 * @param parsedCommand
@@ -84,6 +92,7 @@ public class EventHandlerStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Update mock event
 	 * 
 	 * @param parsedCommand
@@ -106,6 +115,7 @@ public class EventHandlerStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * view mock events
 	 * 
 	 * @param parsedCommand
@@ -127,6 +137,7 @@ public class EventHandlerStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Get all events
 	 */
 	@Override

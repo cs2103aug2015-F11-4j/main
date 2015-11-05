@@ -13,9 +13,14 @@ import utils.Command;
 import utils.Event;
 import utils.OnRemindListener;
 
+/**
+ * @@author A0088646M
+ * @author yeehuipoh
+ *
+ */
 public class MainLogicClassTest {
 
-	
+	/* @@author A0088646M */
 	@Test
 	public void testCountDown(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -32,7 +37,8 @@ public class MainLogicClassTest {
 		long countdown = mainLogic.getTimeToNextEvent();
 		assertTrue(countdown <= 600000);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testCountDownNotAfter(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -49,7 +55,8 @@ public class MainLogicClassTest {
 		long countdown = mainLogic.getTimeToNextEvent();
 		assertTrue(countdown == -1);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testCountDownFloating(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -61,7 +68,8 @@ public class MainLogicClassTest {
 		long countdown = mainLogic.getTimeToNextEvent();
 		assertTrue(countdown == -1);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testCovers(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -95,7 +103,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testCoversStartBeforeEndBefore(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -129,7 +138,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test 
 	public void testValidGetMonth12AM(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -163,7 +173,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test 
 	public void testValidGetMonthStartBeforeEndIn(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -197,7 +208,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test 
 	public void testValidGetMonth(){
 		MainLogic mainLogic = loadTestCases();
@@ -227,7 +239,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test 
 	public void testValidGetMonthWithFloating(){
 		MainLogic mainLogic = loadTestCases();
@@ -258,7 +271,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || floating || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test 
 	public void testValidGetDay(){
 		MainLogic mainLogic = loadTestCases();
@@ -280,7 +294,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test 
 	public void testValidGetDayStart12AM(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -306,7 +321,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test 
 	public void testValidGetDayStartBeforeEndIn(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -332,7 +348,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test 
 	public void testValidGetDayWithFloating(){
 		MainLogic mainLogic = loadTestCases();
@@ -363,7 +380,8 @@ public class MainLogicClassTest {
 			assertTrue(startOK || endOK || floating || cover);
 		}
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testSetOnRemindListener(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -375,14 +393,16 @@ public class MainLogicClassTest {
 			}
 		});
 	}
-	
+
+	/* @@author A0088646M */
 	@Test 
 	public void testSetNullOnRemindListener(){
 		MainLogic mainLogic = loadEmptyTestCases();
 		mainLogic.setOnRemindListener(null);
 		assertTrue(true);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testInvalidCommand(){
 		MainLogic mainLogic = loadTestCases();
@@ -391,7 +411,8 @@ public class MainLogicClassTest {
 		Command cmd = mainLogic.execute(command);
 		assertTrue("should be null", cmd == null);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testFilterCommand(){
 		MainLogic mainLogic = loadTestCases();
@@ -401,7 +422,8 @@ public class MainLogicClassTest {
 		assertTrue(mainLogic.getFilteredEvents() != null);
 		
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testAdd(){
 		MainLogic mainLogic = loadEmptyTestCases();
@@ -416,6 +438,7 @@ public class MainLogicClassTest {
 	}
 	
 
+	/* @@author A0088646M */
 	private MainLogic loadTestCases(){
 		MainLogic mainLogic = new MainLogic();
 		String command = "save in ml-test.txt";
@@ -424,7 +447,8 @@ public class MainLogicClassTest {
 		
 		return mainLogic;
 	}
-	
+
+	/* @@author A0088646M */
 	private MainLogic storageTestCases(){
 		MainLogic mainLogic = new MainLogic();
 		String command = "save in storage.txt";
@@ -433,7 +457,8 @@ public class MainLogicClassTest {
 		
 		return mainLogic;
 	}
-	
+
+	/* @@author A0088646M */
 	private MainLogic loadEmptyTestCases(){
 		clearFile("empty.txt");
 		MainLogic mainLogic = new MainLogic();
@@ -443,7 +468,8 @@ public class MainLogicClassTest {
 		
 		return mainLogic;
 	}
-	
+
+	/* @@author A0088646M */
 	private void clearFile(String filename){
 		File file = new File(filename);
 		file.delete();

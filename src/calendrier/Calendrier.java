@@ -7,6 +7,11 @@ import java.util.List;
 
 import utils.Event;
 
+/**
+ * @@author A0088646M
+ * @author yeehuipoh
+ *
+ */
 public class Calendrier {
 	public static void main(String[] args) {
 		if (args.length > 0 && args[0].equals("cli")) {
@@ -19,6 +24,7 @@ public class Calendrier {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Loop program until no input (basic console based UI)
 	 */
 	private static void loop() {
@@ -35,6 +41,7 @@ public class Calendrier {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Get input from user
 	 * 
 	 * @param reader
@@ -53,6 +60,7 @@ public class Calendrier {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Show event list to user
 	 * 
 	 * @param eventList
@@ -67,6 +75,7 @@ public class Calendrier {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Print event title to console
 	 * 
 	 * @param event
@@ -77,6 +86,7 @@ public class Calendrier {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Print output to console
 	 * 
 	 * @param output

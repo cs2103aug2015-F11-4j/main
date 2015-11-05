@@ -8,11 +8,17 @@ import utils.Command;
 import utils.Event;
 import utils.ParsedCommand;
 
+/**
+ * @@author A0088646M-unused
+ * @author yeehuipoh
+ *
+ */
 public class EventHandlerUndoDeleteStub extends EventHandler {
 	private ArrayList<Event> events = new ArrayList<>();
 	private ParsedCommand addParsedCommand = null;
 
 	/**
+	 * @@author A0088646M-unused
 	 * Execute command
 	 */
 	public ArrayList<Event> execute(ParsedCommand parsedCommand) {
@@ -39,6 +45,7 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Add mock event
 	 * 
 	 * @param parsedCommand
@@ -65,6 +72,7 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * delete mock events
 	 * 
 	 * @param parsedCommand
@@ -90,6 +98,7 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * update mock events
 	 * 
 	 * @param parsedCommand
@@ -112,6 +121,7 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * view mock event
 	 * 
 	 * @param parsedCommand
@@ -133,6 +143,7 @@ public class EventHandlerUndoDeleteStub extends EventHandler {
 	}
 
 	/**
+	 * @@author A0088646M-unused
 	 * Get all events
 	 */
 	@Override

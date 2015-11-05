@@ -7,12 +7,18 @@ import java.util.List;
 import utils.Event;
 import utils.OnRemindListener;
 
+/**
+ * @@author A0088646M
+ * @author yeehuipoh
+ *
+ */
 public class ReminderManager implements Runnable {
 	private Thread reminderThread;
 	private List<Event> events;
 	private OnRemindListener onRemindListener = null;
 
 	/**
+	 * @@author A0088646M
 	 * Constructor
 	 */
 	public ReminderManager() {
@@ -24,6 +30,7 @@ public class ReminderManager implements Runnable {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Thread function
 	 */
 	@Override
@@ -32,7 +39,7 @@ public class ReminderManager implements Runnable {
 			try {
 				checkEvents();
 
-				long sleepTime = 60000 - Calendar.getInstance().getTimeInMillis() % 60000;
+				long sleepTime = getSleepTime();
 
 				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
@@ -41,7 +48,14 @@ public class ReminderManager implements Runnable {
 		}
 	}
 
+	/* @@author A0088646M */
+	private long getSleepTime() {
+		long sleepTime = 60000 - Calendar.getInstance().getTimeInMillis() % 60000;
+		return sleepTime;
+	}
+
 	/**
+	 * @@author A0088646M
 	 * Check all the events
 	 */
 	public void checkEvents() {
@@ -52,6 +66,7 @@ public class ReminderManager implements Runnable {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Check event for reminder
 	 * 
 	 * @param event
@@ -71,6 +86,7 @@ public class ReminderManager implements Runnable {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Sends reminder through the onRemind listener
 	 * 
 	 * @param event
@@ -84,6 +100,7 @@ public class ReminderManager implements Runnable {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Compares time to current time (accuracy to minute)
 	 * 
 	 * @param time1
@@ -98,6 +115,7 @@ public class ReminderManager implements Runnable {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Adds event to reminder
 	 * 
 	 * @param event
@@ -109,6 +127,7 @@ public class ReminderManager implements Runnable {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Removes event from reminder
 	 * 
 	 * @param event
@@ -129,6 +148,7 @@ public class ReminderManager implements Runnable {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Update event in reminder
 	 * 
 	 * @param event
@@ -141,6 +161,7 @@ public class ReminderManager implements Runnable {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Sets the listener for remind event
 	 * 
 	 * @param listener

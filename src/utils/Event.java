@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @@author A0088646M
+ * @author yeehuipoh 
+ **/
 public class Event implements Comparable<Event> {
 	private static final String NULL = "null";
 	private static final String NUMBER_REGEX = "\\d+";
@@ -55,6 +59,7 @@ public class Event implements Comparable<Event> {
 	private List<String> subtasks; // List of Subtask ID
 	private boolean done;
 
+	/* @@author A0088646M */
 	public Event() {
 		this.id = null;
 		this.title = null;
@@ -71,6 +76,7 @@ public class Event implements Comparable<Event> {
 		this.done = false;
 	}
 
+	/* @@author A0088646M */
 	public void fromString(String eventString) {
 		parseId(eventString);
 		parseMainId(eventString);
@@ -87,6 +93,7 @@ public class Event implements Comparable<Event> {
 		parseDone(eventString);
 	}
 
+	/* @@author A0088646M */
 	public String toString() {
 		String eventString = "";
 
@@ -107,6 +114,7 @@ public class Event implements Comparable<Event> {
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	public String toTimestamp(Calendar calendar) {
 		String timestamp = null;
 
@@ -123,6 +131,7 @@ public class Event implements Comparable<Event> {
 		return timestamp;
 	}
 
+	/* @@author A0088646M */
 	public Calendar fromTimestamp(String timestamp) {
 		Calendar calendar = null;
 
@@ -174,106 +183,130 @@ public class Event implements Comparable<Event> {
 		return calendar;
 	}
 
+	/* @@author A0088646M */
 	public String getId() {
 		return id;
 	}
 
+	/* @@author A0088646M */
 	public void setId(String id) {
 		this.id = id;
 	}
 
+	/* @@author A0088646M */
 	public String getMainId() {
 		return mainId;
 	}
 
+	/* @@author A0088646M */
 	public void setMainId(String id) {
 		this.mainId = id;
 	}
 
+	/* @@author A0088646M */
 	public String getTitle() {
 		return title;
 	}
 
+	/* @@author A0088646M */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	/* @@author A0088646M */
 	public Calendar getStartDateTime() {
 		return startDateTime;
 	}
 
+	/* @@author A0088646M */
 	public void setStartDateTime(Calendar startDateTime) {
 		this.startDateTime = startDateTime;
 	}
 
+	/* @@author A0088646M */
 	public Calendar getEndDateTime() {
 		return endDateTime;
 	}
 
+	/* @@author A0088646M */
 	public void setEndDateTime(Calendar endDateTime) {
 		this.endDateTime = endDateTime;
 	}
 
+	/* @@author A0088646M */
 	public Priority getPriority() {
 		return priority;
 	}
 
+	/* @@author A0088646M */
 	public void setPriority(Priority priority) {
 		this.priority = priority;
 	}
 
+	/* @@author A0088646M */
 	public String getLocation() {
 		return location;
 	}
 
+	/* @@author A0088646M */
 	public void setLocation(String location) {
 		this.location = location;
 	}
 
+	/* @@author A0088646M */
 	public String getNotes() {
 		return notes;
 	}
 
+	/* @@author A0088646M */
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
 
+	/* @@author A0088646M */
 	public List<Calendar> getReminder() {
 		return reminder;
 	}
 
+	/* @@author A0088646M */
 	public void setReminder(Calendar reminder) {
 		if (reminder != null) {
 			this.reminder.add(reminder);
 		}
 	}
 
+	/* @@author A0088646M */
 	public void addReminder(Calendar reminder) {
 		if (reminder != null) {
 			this.reminder.add(reminder);
 		}
 	}
 
+	/* @@author A0088646M */
 	public void setReminder(List<Calendar> reminders) {
 		if (reminders != null) {
 			this.reminder.addAll(reminders);
 		}
 	}
 
+	/* @@author A0088646M */
 	public void removeReminder(Calendar reminder) {
 		if (reminder != null) {
 			this.reminder.remove(reminder);
 		}
 	}
 
+	/* @@author A0088646M */
 	public void removeReminder(int position) {
 		this.reminder.remove(position);
 	}
 
+	/* @@author A0088646M */
 	public void removeAllReminders() {
 		this.reminder.clear();
 	}
 
+	/* @@author A0088646M */
 	public List<String> getReminderList() {
 		List<String> reminderList = new ArrayList<>();
 		for (int i = 0; i < this.reminder.size(); i++) {
@@ -284,22 +317,27 @@ public class Event implements Comparable<Event> {
 		return reminderList;
 	}
 
+	/* @@author A0088646M */
 	public String getGroup() {
 		return group;
 	}
 
+	/* @@author A0088646M */
 	public void addGroup(String group) {
 		this.group = group;
 	}
 
+	/* @@author A0088646M */
 	public void removeGroup() {
 		this.group = null;
 	}
 
+	/* @@author A0088646M */
 	public List<String> getSubtasks() {
 		return subtasks;
 	}
 
+	/* @@author A0088646M */
 	public void addSubtask(Event event) {
 		if (event != null && event.getId() != null) {
 			this.subtasks.add(event.getId());
@@ -307,12 +345,14 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	public void addSubtask(String id) {
 		if (id != null) {
 			this.subtasks.add(id);
 		}
 	}
 
+	/* @@author A0088646M */
 	public void removeSubtask(String id) {
 		int removeIndex = -1;
 		for (int i = 0; i < this.subtasks.size(); i++) {
@@ -328,31 +368,38 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	public void removeAllSubtasks() {
 		this.subtasks.clear();
 	}
 
+	/* @@author A0088646M */
 	public Recurrence getRecurrence() {
 		return recurrence;
 	}
 
+	/* @@author A0088646M */
 	public void setRecurrence(Recurrence recurrence) {
 		this.recurrence = recurrence;
 	}
 
+	/* @@author A0088646M */
 	public boolean isDone() {
 		return done;
 	}
 
+	/* @@author A0088646M */
 	public void setDone(boolean done) {
 		this.done = done;
 	}
 
+	/* @@author A0088646M */
 	private String serializeDone(String eventString) {
 		eventString += String.format(DONE_STRING, Boolean.toString(done));
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseDone(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -368,11 +415,13 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeSubtasks(String eventString) {
 		eventString += String.format(SUBTASKS_STRING, Arrays.toString(this.subtasks.toArray()));
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseSubtasks(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -395,11 +444,13 @@ public class Event implements Comparable<Event> {
 
 	}
 
+	/* @@author A0088646M */
 	private String serializeRecurrence(String eventString) {
 		eventString += String.format(RECURRENCE_STRING, (this.recurrence != null) ? this.recurrence.name() : NULL);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseRecurrence(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -419,11 +470,13 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeGroups(String eventString) {
 		eventString += String.format(GROUPS_STRING, this.group);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseGroups(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -438,6 +491,7 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeReminder(String eventString) {
 		List<String> reminders = new ArrayList<>();
 		for (int i = 0; i < this.reminder.size(); i++) {
@@ -447,6 +501,7 @@ public class Event implements Comparable<Event> {
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseReminder(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -469,11 +524,13 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeNotes(String eventString) {
 		eventString += String.format(NOTES_STRING, (this.notes != null) ? this.notes : NULL);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseNotes(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -491,11 +548,13 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeLocation(String eventString) {
 		eventString += String.format(LOCATION_STRING, (this.location != null) ? this.location : NULL);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseLocation(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -513,11 +572,13 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializePriority(String eventString) {
 		eventString += String.format(PRIORITY_STRING, (this.priority != null) ? this.priority.name() : NULL);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parsePriority(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -537,12 +598,14 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeEndDateTime(String eventString) {
 		eventString += String.format(ENDDATETIME_STRING,
 				(this.endDateTime != null) ? toTimestamp(this.endDateTime) : NULL);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseEndDateTime(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -558,12 +621,14 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeStartDateTime(String eventString) {
 		eventString += String.format(STARTDATETIME_STRING,
 				(this.startDateTime != null) ? toTimestamp(this.startDateTime) : NULL);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseStartDateTime(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -579,11 +644,13 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeTitle(String eventString) {
 		eventString += String.format(TITLE_STRING, (this.title != null) ? this.title : NULL);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseTitle(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -601,11 +668,13 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeId(String eventString) {
 		eventString += String.format(ID_STRING, (this.id != null) ? this.id : NULL);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseId(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -623,11 +692,13 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private String serializeMainId(String eventString) {
 		eventString += String.format(MAIN_ID_STRING, (this.mainId != null) ? this.mainId : NULL);
 		return eventString;
 	}
 
+	/* @@author A0088646M */
 	private void parseMainId(String eventString) {
 		Pattern pattern;
 		Matcher matcher;
@@ -645,6 +716,7 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	@Override
 	public int compareTo(Event arg0) {
 		int result = 0;
@@ -671,6 +743,7 @@ public class Event implements Comparable<Event> {
 	}
 
 	/**
+	 * @@author A0088646M
 	 * Gets event object with updated date and time with recurrence
 	 * 
 	 * @return new event object with next recurrence data and time
@@ -679,7 +752,8 @@ public class Event implements Comparable<Event> {
 		Calendar now = Calendar.getInstance();
 		return getRecurredEvent(now);
 	}
-	
+
+	/* @@author A0088646M */
 	private Event getRecurredEvent(Calendar now) {
 		Event checkedEvent = null;
 
@@ -704,6 +778,7 @@ public class Event implements Comparable<Event> {
 	}
 	
 	/**
+	 * @@author A0088646M
 	 * Gets event object with updated date and time with recurrence
 	 * @param year	year to be limited to
 	 * @param month month to be limited to
@@ -757,12 +832,14 @@ public class Event implements Comparable<Event> {
 		return checkedEvents;
 	}
 
+	/* @@author A0088646M */
 	private void updateDateTimeWithRecurrence(Calendar start, Calendar end, Calendar now, Recurrence recurrence) {
 		int field = getRecurrenceField(recurrence);
 		updateCalendar(field, start, end, now);
 
 	}
 
+	/* @@author A0088646M */
 	private void updateCalendar(int field, Calendar start, Calendar end, Calendar now) {
 
 		if (start == null) {
@@ -778,6 +855,7 @@ public class Event implements Comparable<Event> {
 		}
 	}
 
+	/* @@author A0088646M */
 	private int getRecurrenceField(Recurrence recurrence) {
 		int field = -1;
 

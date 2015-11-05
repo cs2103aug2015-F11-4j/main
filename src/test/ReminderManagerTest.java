@@ -14,9 +14,15 @@ import calendrier.ReminderManager;
 import utils.Event;
 import utils.OnRemindListener;
 
+/**
+ * @@author A0088646M
+ * @author yeehuipoh
+ *
+ */
 public class ReminderManagerTest {
 	
 	
+	/* @@author A0088646M */
 	@Test
 	public void testAdd() {
 		ReminderManager reminderManager = new ReminderManager();
@@ -40,6 +46,7 @@ public class ReminderManagerTest {
 		
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	public void testAddWithoutListener() {
 		ReminderManager reminderManager = new ReminderManager();
@@ -49,6 +56,7 @@ public class ReminderManagerTest {
 		reminderManager.checkEvents();
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	public void testAddWithoutReminder(){
 		ReminderManager reminderManager = new ReminderManager();
@@ -60,6 +68,7 @@ public class ReminderManagerTest {
 		reminderManager.checkEvents();
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	public void testSetNullListener() {
 		Event event = generateEvent(0);
@@ -73,6 +82,7 @@ public class ReminderManagerTest {
 		reminderManager.checkEvents();
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	public void testRemove(){
 		ReminderManager reminderManager = new ReminderManager();
@@ -96,6 +106,7 @@ public class ReminderManagerTest {
 		reminderManager.checkEvents();
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	public void testRemoveNotExist(){
 		ReminderManager reminderManager = new ReminderManager();
@@ -121,6 +132,7 @@ public class ReminderManagerTest {
 	}
 	
 
+	/* @@author A0088646M */
 	@Test
 	public void testUpdate(){
 		ReminderManager reminderManager = new ReminderManager();
@@ -145,6 +157,7 @@ public class ReminderManagerTest {
 	}
 	
 
+	/* @@author A0088646M */
 	@Test
 	/* Boundary Test: More than a minute */
 	public void testCompareTimeMoreThan(){
@@ -160,6 +173,7 @@ public class ReminderManagerTest {
 		assertFalse(reminderManager.compareTime(time1, time2));
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	/* Boundary Test: More than a minute */
 	public void testCompareTimeReversedMoreThan(){
@@ -175,6 +189,7 @@ public class ReminderManagerTest {
 		assertFalse(reminderManager.compareTime(time1, time2));
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	/* Boundary Test: Just More than a minute */
 	public void testCompareTimeJustMoreThan(){
@@ -190,6 +205,7 @@ public class ReminderManagerTest {
 		assertFalse(reminderManager.compareTime(time1, time2));
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	/* Boundary Test: Just More than a minute */
 	public void testCompareTimeReversedJustMoreThan(){
@@ -205,6 +221,7 @@ public class ReminderManagerTest {
 		assertFalse(reminderManager.compareTime(time1, time2));
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	/* Boundary Test: Just a little more than a minute */
 	public void testCompareTimeExactly(){
@@ -220,6 +237,7 @@ public class ReminderManagerTest {
 		assertFalse(reminderManager.compareTime(time1, time2));
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	/* Boundary Test: Just a little more than a minute */
 	public void testCompareTimeReversedExactly(){
@@ -235,6 +253,7 @@ public class ReminderManagerTest {
 		assertFalse(reminderManager.compareTime(time1, time2));
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	/* Boundary Test: Just a little less than a minute */
 	public void testCompareTimeJustLessThan(){
@@ -250,6 +269,7 @@ public class ReminderManagerTest {
 		assertTrue(reminderManager.compareTime(time1, time2));
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	/* Boundary Test: Reversed Just a little less than a minute */
 	public void testCompareTimeReversedJustLessThan(){
@@ -265,6 +285,7 @@ public class ReminderManagerTest {
 		assertFalse(reminderManager.compareTime(time1, time2));
 	}
 	
+	/* @@author A0088646M */
 	@Test
 	/* Boundary Test: Within minute */
 	public void testCompareTimeWithin(){

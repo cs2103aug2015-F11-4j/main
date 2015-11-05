@@ -15,13 +15,19 @@ import utils.Event;
 import utils.Priority;
 import utils.Recurrence;
 
+/**
+ * @@author A0088646M
+ * @author yeehuipoh
+ *
+ */
 public class EventTest {
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRecurrenceDaily(){
+	public void testRecurrenceDaily() {
 		Calendar now = Calendar.getInstance();
 		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
-		
+
 		Calendar start = Calendar.getInstance();
 		start.setTimeInMillis(0);
 		start.set(2015, previousMonth, 11, 12, 13);
@@ -29,36 +35,37 @@ public class EventTest {
 		Calendar end = Calendar.getInstance();
 		end.setTimeInMillis(0);
 		end.set(2015, previousMonth, 11, 13, 14);
-		
+
 		Event event = new Event();
 		event.setStartDateTime(start);
 		event.setEndDateTime(end);
 		event.setRecurrence(Recurrence.DAILY);
-		
+
 		Event recurredEvent = event.getRecurredEvent();
-		
+
 		Calendar recurredStart = recurredEvent.getStartDateTime();
 		Calendar recurredEnd = recurredEvent.getEndDateTime();
 
 		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
 		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
-		
+
 		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
 		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
-		
+
 		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
 		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
 
 		assertTrue(recurredStart.after(now));
 		assertTrue(recurredStart.after(start));
-		assertTrue(recurredEnd.after(end));	
+		assertTrue(recurredEnd.after(end));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRecurrenceWeekly(){
+	public void testRecurrenceWeekly() {
 		Calendar now = Calendar.getInstance();
 		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
-		
+
 		Calendar start = Calendar.getInstance();
 		start.setTimeInMillis(0);
 		start.set(2015, previousMonth, 11, 12, 13);
@@ -66,39 +73,40 @@ public class EventTest {
 		Calendar end = Calendar.getInstance();
 		end.setTimeInMillis(0);
 		end.set(2015, previousMonth, 11, 13, 14);
-		
+
 		Event event = new Event();
 		event.setStartDateTime(start);
 		event.setEndDateTime(end);
 		event.setRecurrence(Recurrence.WEEKLY);
-		
+
 		Event recurredEvent = event.getRecurredEvent();
-		
+
 		Calendar recurredStart = recurredEvent.getStartDateTime();
 		Calendar recurredEnd = recurredEvent.getEndDateTime();
 
 		assertEquals(start.get(Calendar.DAY_OF_WEEK), recurredStart.get(Calendar.DAY_OF_WEEK));
 		assertEquals(end.get(Calendar.DAY_OF_WEEK), recurredEnd.get(Calendar.DAY_OF_WEEK));
-		
+
 		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
 		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
-		
+
 		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
 		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
-		
+
 		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
 		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
 
 		assertTrue(recurredStart.after(now));
 		assertTrue(recurredStart.after(start));
-		assertTrue(recurredEnd.after(end));	
+		assertTrue(recurredEnd.after(end));
 	}
 
+	/* @@author A0088646M */
 	@Test
-	public void testRecurrenceMonthly(){
+	public void testRecurrenceMonthly() {
 		Calendar now = Calendar.getInstance();
 		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
-		
+
 		Calendar start = Calendar.getInstance();
 		start.setTimeInMillis(0);
 		start.set(2015, previousMonth, 11, 12, 13);
@@ -106,39 +114,40 @@ public class EventTest {
 		Calendar end = Calendar.getInstance();
 		end.setTimeInMillis(0);
 		end.set(2015, previousMonth, 11, 13, 14);
-		
+
 		Event event = new Event();
 		event.setStartDateTime(start);
 		event.setEndDateTime(end);
 		event.setRecurrence(Recurrence.MONTHLY);
-		
+
 		Event recurredEvent = event.getRecurredEvent();
-		
+
 		Calendar recurredStart = recurredEvent.getStartDateTime();
 		Calendar recurredEnd = recurredEvent.getEndDateTime();
 
 		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
 		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
-		
+
 		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
 		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
-		
+
 		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
 		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
-		
+
 		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
 		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
 
 		assertTrue(recurredStart.after(now));
 		assertTrue(recurredStart.after(start));
-		assertTrue(recurredEnd.after(end));	
+		assertTrue(recurredEnd.after(end));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRecurrenceYearly(){
+	public void testRecurrenceYearly() {
 		Calendar now = Calendar.getInstance();
 		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
-		
+
 		Calendar start = Calendar.getInstance();
 		start.setTimeInMillis(0);
 		start.set(2015, previousMonth, 11, 12, 13);
@@ -146,42 +155,43 @@ public class EventTest {
 		Calendar end = Calendar.getInstance();
 		end.setTimeInMillis(0);
 		end.set(2015, previousMonth, 11, 13, 14);
-		
+
 		Event event = new Event();
 		event.setStartDateTime(start);
 		event.setEndDateTime(end);
 		event.setRecurrence(Recurrence.YEARLY);
-		
+
 		Event recurredEvent = event.getRecurredEvent();
-		
+
 		Calendar recurredStart = recurredEvent.getStartDateTime();
 		Calendar recurredEnd = recurredEvent.getEndDateTime();
 
 		assertEquals(start.get(Calendar.MONTH), recurredStart.get(Calendar.MONTH));
 		assertEquals(end.get(Calendar.MONTH), recurredEnd.get(Calendar.MONTH));
-		
+
 		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
 		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
-		
+
 		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
 		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
-		
+
 		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
 		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
-		
+
 		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
 		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
 
 		assertTrue(recurredStart.after(now));
 		assertTrue(recurredStart.after(start));
-		assertTrue(recurredEnd.after(end));	
+		assertTrue(recurredEnd.after(end));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRecurrenceNoStart(){
+	public void testRecurrenceNoStart() {
 		Calendar now = Calendar.getInstance();
 		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
-		
+
 		Calendar start = Calendar.getInstance();
 		start.setTimeInMillis(0);
 		start.set(2015, previousMonth, 11, 12, 13);
@@ -189,42 +199,48 @@ public class EventTest {
 		Calendar end = Calendar.getInstance();
 		end.setTimeInMillis(0);
 		end.set(2015, previousMonth, 11, 13, 14);
-		
+
 		Event event = new Event();
 		event.setStartDateTime(null);
 		event.setEndDateTime(end);
 		event.setRecurrence(Recurrence.YEARLY);
-		
+
 		Event recurredEvent = event.getRecurredEvent();
-		
+
 		Calendar recurredStart = recurredEvent.getStartDateTime();
 		Calendar recurredEnd = recurredEvent.getEndDateTime();
 
-//		assertEquals(start.get(Calendar.MONTH), recurredStart.get(Calendar.MONTH));
+		// assertEquals(start.get(Calendar.MONTH),
+		// recurredStart.get(Calendar.MONTH));
 		assertEquals(end.get(Calendar.MONTH), recurredEnd.get(Calendar.MONTH));
-		
-//		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
+
+		// assertEquals(start.get(Calendar.DATE),
+		// recurredStart.get(Calendar.DATE));
 		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
-		
-//		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
+
+		// assertEquals(start.get(Calendar.HOUR),
+		// recurredStart.get(Calendar.HOUR));
 		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
-		
-//		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
+
+		// assertEquals(start.get(Calendar.MINUTE),
+		// recurredStart.get(Calendar.MINUTE));
 		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
-		
-//		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
+
+		// assertEquals(start.get(Calendar.SECOND),
+		// recurredStart.get(Calendar.SECOND));
 		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
 
-//		assertTrue(recurredStart.after(now));
-//		assertTrue(recurredStart.after(start));
-		assertFalse(recurredEnd.after(end));	
+		// assertTrue(recurredStart.after(now));
+		// assertTrue(recurredStart.after(start));
+		assertFalse(recurredEnd.after(end));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRecurrenceNoEnd(){
+	public void testRecurrenceNoEnd() {
 		Calendar now = Calendar.getInstance();
 		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
-		
+
 		Calendar start = Calendar.getInstance();
 		start.setTimeInMillis(0);
 		start.set(2015, previousMonth, 11, 12, 13);
@@ -232,42 +248,46 @@ public class EventTest {
 		Calendar end = Calendar.getInstance();
 		end.setTimeInMillis(0);
 		end.set(2015, previousMonth, 11, 13, 14);
-		
+
 		Event event = new Event();
 		event.setStartDateTime(start);
 		event.setEndDateTime(null);
 		event.setRecurrence(Recurrence.YEARLY);
-		
+
 		Event recurredEvent = event.getRecurredEvent();
-		
+
 		Calendar recurredStart = recurredEvent.getStartDateTime();
 		Calendar recurredEnd = recurredEvent.getEndDateTime();
 
 		assertEquals(start.get(Calendar.MONTH), recurredStart.get(Calendar.MONTH));
-//		assertEquals(end.get(Calendar.MONTH), recurredEnd.get(Calendar.MONTH));
-		
+		// assertEquals(end.get(Calendar.MONTH),
+		// recurredEnd.get(Calendar.MONTH));
+
 		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
-//		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
-		
+		// assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
+
 		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
-//		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
-		
+		// assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
+
 		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
-//		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
-		
+		// assertEquals(end.get(Calendar.MINUTE),
+		// recurredEnd.get(Calendar.MINUTE));
+
 		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
-//		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
+		// assertEquals(end.get(Calendar.SECOND),
+		// recurredEnd.get(Calendar.SECOND));
 
 		assertTrue(recurredStart.after(now));
 		assertTrue(recurredStart.after(start));
-//		assertFalse(recurredEnd.after(end));	
+		// assertFalse(recurredEnd.after(end));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRecurrenceNoRecurrence(){
+	public void testRecurrenceNoRecurrence() {
 		Calendar now = Calendar.getInstance();
 		int previousMonth = (now.get(Calendar.MONTH) + 11) % 12;
-		
+
 		Calendar start = Calendar.getInstance();
 		start.setTimeInMillis(0);
 		start.set(2015, previousMonth, 11, 12, 13);
@@ -275,38 +295,38 @@ public class EventTest {
 		Calendar end = Calendar.getInstance();
 		end.setTimeInMillis(0);
 		end.set(2015, previousMonth, 11, 13, 14);
-		
+
 		Event event = new Event();
 		event.setStartDateTime(start);
 		event.setEndDateTime(end);
 		event.setRecurrence(null);
-		
+
 		Event recurredEvent = event.getRecurredEvent();
-		
+
 		Calendar recurredStart = recurredEvent.getStartDateTime();
 		Calendar recurredEnd = recurredEvent.getEndDateTime();
 
 		assertEquals(start.get(Calendar.MONTH), recurredStart.get(Calendar.MONTH));
 		assertEquals(end.get(Calendar.MONTH), recurredEnd.get(Calendar.MONTH));
-		
+
 		assertEquals(start.get(Calendar.DATE), recurredStart.get(Calendar.DATE));
 		assertEquals(end.get(Calendar.DATE), recurredEnd.get(Calendar.DATE));
-		
+
 		assertEquals(start.get(Calendar.HOUR), recurredStart.get(Calendar.HOUR));
 		assertEquals(end.get(Calendar.HOUR), recurredEnd.get(Calendar.HOUR));
-		
+
 		assertEquals(start.get(Calendar.MINUTE), recurredStart.get(Calendar.MINUTE));
 		assertEquals(end.get(Calendar.MINUTE), recurredEnd.get(Calendar.MINUTE));
-		
+
 		assertEquals(start.get(Calendar.SECOND), recurredStart.get(Calendar.SECOND));
 		assertEquals(end.get(Calendar.SECOND), recurredEnd.get(Calendar.SECOND));
 
 		assertFalse(recurredStart.after(now));
 		assertFalse(recurredStart.after(start));
-		assertFalse(recurredEnd.after(end));	
+		assertFalse(recurredEnd.after(end));
 	}
-	
 
+	/* @@author A0088646M */
 	@Test
 	public void testPriorityOrdinal() {
 		assertTrue(Priority.VERY_HIGH.ordinal() > Priority.HIGH.ordinal());
@@ -315,6 +335,7 @@ public class EventTest {
 		assertTrue(Priority.LOW.ordinal() > Priority.VERY_LOW.ordinal());
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testRemoveGroup() {
 		Event event = new Event();
@@ -325,58 +346,65 @@ public class EventTest {
 		assertEquals(null, event.getGroup());
 
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testAddReminder(){
+	public void testAddReminder() {
 		Event event = new Event();
 		event.addReminder(Calendar.getInstance());
 		assertEquals(1, event.getReminder().size());
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testAddNullReminder(){
+	public void testAddNullReminder() {
 		Event event = new Event();
 		event.addReminder(null);
 		assertEquals(0, event.getReminder().size());
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testSetReminder(){
+	public void testSetReminder() {
 		Event event = new Event();
 		event.setReminder(Calendar.getInstance());
 		assertEquals(1, event.getReminder().size());
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testSetNullReminder(){
+	public void testSetNullReminder() {
 		Event event = new Event();
 		event.setReminder((Calendar) null);
 		assertEquals(0, event.getReminder().size());
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testSetManyReminders(){
+	public void testSetManyReminders() {
 		List<Calendar> reminders = new ArrayList<>();
 		Event event = new Event();
 
 		reminders.add(Calendar.getInstance());
 		reminders.add(Calendar.getInstance());
 		assertEquals(2, reminders.size());
-		
+
 		event.setReminder(reminders);
 		assertEquals(2, event.getReminder().size());
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testSetNullReminders(){
+	public void testSetNullReminders() {
 		Event event = new Event();
 		event.setReminder((List<Calendar>) null);
-		
+
 		assertEquals(0, event.getReminder().size());
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRemoveReminder(){
+	public void testRemoveReminder() {
 		List<Calendar> reminders = new ArrayList<>();
 		Event event = new Event();
 		Calendar c1 = Calendar.getInstance();
@@ -386,17 +414,18 @@ public class EventTest {
 		reminders.add(c1);
 		reminders.add(c2);
 		assertEquals(2, reminders.size());
-		
+
 		event.setReminder(reminders);
 		assertEquals(2, event.getReminder().size());
-		
+
 		event.removeReminder(c1);
 		assertEquals(1, event.getReminder().size());
 		assertFalse(event.getReminder().contains(c1));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRemoveReminderPosition(){
+	public void testRemoveReminderPosition() {
 		List<Calendar> reminders = new ArrayList<>();
 		Event event = new Event();
 		Calendar c1 = Calendar.getInstance();
@@ -406,17 +435,18 @@ public class EventTest {
 		reminders.add(c1);
 		reminders.add(c2);
 		assertEquals(2, reminders.size());
-		
+
 		event.setReminder(reminders);
 		assertEquals(2, event.getReminder().size());
-		
+
 		event.removeReminder(0);
 		assertEquals(1, event.getReminder().size());
 		assertFalse(event.getReminder().contains(c1));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRemoveNullReminder(){
+	public void testRemoveNullReminder() {
 		List<Calendar> reminders = new ArrayList<>();
 		Event event = new Event();
 		Calendar c1 = Calendar.getInstance();
@@ -426,18 +456,19 @@ public class EventTest {
 		reminders.add(c1);
 		reminders.add(c2);
 		assertEquals(2, reminders.size());
-		
+
 		event.setReminder(reminders);
 		assertEquals(2, event.getReminder().size());
-		
+
 		event.removeReminder(null);
 		assertEquals(2, event.getReminder().size());
 		assertTrue(event.getReminder().contains(c1));
 		assertTrue(event.getReminder().contains(c2));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRemoveAllReminder(){
+	public void testRemoveAllReminder() {
 		List<Calendar> reminders = new ArrayList<>();
 		Event event = new Event();
 		Calendar c1 = Calendar.getInstance();
@@ -447,130 +478,139 @@ public class EventTest {
 		reminders.add(c1);
 		reminders.add(c2);
 		assertEquals(2, reminders.size());
-		
+
 		event.setReminder(reminders);
 		assertEquals(2, event.getReminder().size());
-		
+
 		event.removeAllReminders();
 		assertEquals(0, event.getReminder().size());
 		assertFalse(event.getReminder().contains(c1));
 		assertFalse(event.getReminder().contains(c2));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testAddSubTask(){
+	public void testAddSubTask() {
 		Event event = new Event();
 		event.setId("main");
-		
+
 		Event subtask = new Event();
 		subtask.setId("subtask");
-		
+
 		event.addSubtask(subtask);
-		
+
 		assertEquals(1, event.getSubtasks().size());
 		assertTrue(event.getSubtasks().contains(subtask.getId()));
 	}
 
+	/* @@author A0088646M */
 	@Test
-	public void testAddSubTaskId(){
+	public void testAddSubTaskId() {
 		Event event = new Event();
 		event.setId("main");
-		
+
 		Event subtask = new Event();
 		subtask.setId("subtask");
-		
+
 		event.addSubtask(subtask.getId());
-		
+
 		assertEquals(1, event.getSubtasks().size());
 		assertTrue(event.getSubtasks().contains(subtask.getId()));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testAddNullSubTask(){
+	public void testAddNullSubTask() {
 		Event event = new Event();
 		event.setId("main");
-		
+
 		event.addSubtask((Event) null);
-		
-		assertEquals(0, event.getSubtasks().size());
-	}
-	
-	@Test
-	public void testAddNullSubTaskIdEvent(){
-		Event event = new Event();
-		event.setId("main");
-		
-		Event subtask = new Event();
-		
-		event.addSubtask(subtask);
-		
-		assertEquals(0, event.getSubtasks().size());
-	}
-	
-	@Test
-	public void testAddNullSubTaskId(){
-		Event event = new Event();
-		event.setId("main");
-		
-		event.addSubtask((String) null);
-		
+
 		assertEquals(0, event.getSubtasks().size());
 	}
 
+	/* @@author A0088646M */
 	@Test
-	public void testRemoveSubTask(){
+	public void testAddNullSubTaskIdEvent() {
 		Event event = new Event();
 		event.setId("main");
-		
+
+		Event subtask = new Event();
+
+		event.addSubtask(subtask);
+
+		assertEquals(0, event.getSubtasks().size());
+	}
+
+	/* @@author A0088646M */
+	@Test
+	public void testAddNullSubTaskId() {
+		Event event = new Event();
+		event.setId("main");
+
+		event.addSubtask((String) null);
+
+		assertEquals(0, event.getSubtasks().size());
+	}
+
+	/* @@author A0088646M */
+	@Test
+	public void testRemoveSubTask() {
+		Event event = new Event();
+		event.setId("main");
+
 		Event subtask = new Event();
 		subtask.setId("subtask");
-		
+
 		event.addSubtask(subtask.getId());
-		
+
 		assertEquals(1, event.getSubtasks().size());
 		assertTrue(event.getSubtasks().contains(subtask.getId()));
-		
+
 		event.removeSubtask(subtask.getId());
 		assertEquals(0, event.getSubtasks().size());
 		assertFalse(event.getSubtasks().contains(subtask.getId()));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRemoveNullSubTask(){
+	public void testRemoveNullSubTask() {
 		Event event = new Event();
 		event.setId("main");
-		
+
 		Event subtask = new Event();
 		subtask.setId("subtask");
-		
+
 		event.addSubtask(subtask.getId());
-		
+
 		assertEquals(1, event.getSubtasks().size());
 		assertTrue(event.getSubtasks().contains(subtask.getId()));
-		
+
 		event.removeSubtask(null);
 		assertEquals(1, event.getSubtasks().size());
 		assertTrue(event.getSubtasks().contains(subtask.getId()));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
-	public void testRemoveAllSubtasks(){
+	public void testRemoveAllSubtasks() {
 		Event event = new Event();
 		event.setId("main");
-		
+
 		Event subtask = new Event();
 		subtask.setId("subtask");
-		
+
 		event.addSubtask(subtask.getId());
-		
+
 		assertEquals(1, event.getSubtasks().size());
 		assertTrue(event.getSubtasks().contains(subtask.getId()));
-		
+
 		event.removeAllSubtasks();
 		assertEquals(0, event.getSubtasks().size());
 		assertFalse(event.getSubtasks().contains(subtask.getId()));
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampEmptyYear() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: /10/20-10:33, "
@@ -583,6 +623,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampEmptyMonth() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015//20-10:33, "
@@ -595,6 +636,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampEmptyDate() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/-10:33, "
@@ -607,6 +649,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampEmptyHour() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-:33, "
@@ -619,6 +662,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampEmptyMinute() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:, "
@@ -631,6 +675,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampInvalidYear() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: a/10/20-10:33, "
@@ -643,6 +688,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampInvalidMonth() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/a/20-10:33, "
@@ -655,6 +701,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampInvalidDate() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/a-10:33, "
@@ -667,6 +714,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampInvalidHour() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-a:33, "
@@ -679,6 +727,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromTimeStampInvalidMinute() {
 		String s = "id: test," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:a, "
@@ -691,6 +740,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoIdParse() {
 		String s = "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -703,6 +753,7 @@ public class EventTest {
 		assertEquals(event.getId(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyIdParse() {
 		String s = "id: ," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -715,6 +766,7 @@ public class EventTest {
 		assertEquals(event.getId(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoTitleParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "startDateTime: 2015/10/20-10:33, "
@@ -727,6 +779,7 @@ public class EventTest {
 		assertEquals(event.getTitle(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyTitleParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: , " + "startDateTime: 2015/10/20-10:33, "
@@ -739,6 +792,7 @@ public class EventTest {
 		assertEquals(event.getTitle(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoMainIdParse() {
 		String s = "id: testId," + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -751,6 +805,7 @@ public class EventTest {
 		assertEquals(event.getMainId(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyMainIdParse() {
 		String s = "id: testId," + "mainId: , " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -763,6 +818,7 @@ public class EventTest {
 		assertEquals(event.getMainId(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoStartDateTimeParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "endDateTime: 2015/10/20-10:33, "
@@ -775,6 +831,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyStartDateTimeParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: , "
@@ -787,6 +844,7 @@ public class EventTest {
 		assertEquals(event.getStartDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoEndDateTimeParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -799,6 +857,7 @@ public class EventTest {
 		assertEquals(event.getEndDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyEndDateTimeParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -811,6 +870,7 @@ public class EventTest {
 		assertEquals(event.getEndDateTime(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoPriorityParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -823,6 +883,7 @@ public class EventTest {
 		assertEquals(event.getPriority(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyPriorityParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -835,6 +896,7 @@ public class EventTest {
 		assertEquals(event.getPriority(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoLocationParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -847,6 +909,7 @@ public class EventTest {
 		assertEquals(event.getLocation(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyLocationParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -859,6 +922,7 @@ public class EventTest {
 		assertEquals(event.getLocation(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoNotesParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -871,6 +935,7 @@ public class EventTest {
 		assertEquals(event.getNotes(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyNotesParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -883,6 +948,7 @@ public class EventTest {
 		assertEquals(event.getNotes(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoReminderParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -894,6 +960,7 @@ public class EventTest {
 		assertEquals(event.getReminder().size(), 0);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyReminderParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -906,6 +973,7 @@ public class EventTest {
 		assertEquals(event.getReminder().size(), 0);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoGroupsParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -918,6 +986,7 @@ public class EventTest {
 		assertEquals(null, event.getGroup());
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyGroupParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -930,6 +999,7 @@ public class EventTest {
 		assertEquals(null, event.getGroup());
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoRecurrenceParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -942,6 +1012,7 @@ public class EventTest {
 		assertEquals(event.getRecurrence(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptyRecurrenceParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -954,6 +1025,7 @@ public class EventTest {
 		assertEquals(event.getRecurrence(), null);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testNoSubtaskParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -966,6 +1038,7 @@ public class EventTest {
 		assertEquals(event.getSubtasks().size(), 0);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testEmptySubtasksParse() {
 		String s = "id: testId," + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -978,6 +1051,7 @@ public class EventTest {
 		assertEquals(event.getSubtasks().size(), 0);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testCompareToNull() {
 		Event testEvent = new Event();
@@ -990,6 +1064,7 @@ public class EventTest {
 		assertEquals(1, result);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testCompareToNullReversed() {
 		Event testEvent = new Event();
@@ -1002,6 +1077,7 @@ public class EventTest {
 		assertEquals(-1, result);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testCompareNullToNull() {
 		Event testEvent = new Event();
@@ -1014,6 +1090,7 @@ public class EventTest {
 		assertEquals(0, result);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testCompareMediumToHigh() {
 		Event testEvent = new Event();
@@ -1026,6 +1103,7 @@ public class EventTest {
 		assertEquals(-1, result);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testCompareMediumToLow() {
 		Event testEvent = new Event();
@@ -1038,6 +1116,7 @@ public class EventTest {
 		assertEquals(1, result);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testCompareMediumToMedium() {
 		Event testEvent = new Event();
@@ -1050,6 +1129,7 @@ public class EventTest {
 		assertEquals(0, result);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringWithGroups1Item() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1084,7 +1164,8 @@ public class EventTest {
 
 		assertTrue(true);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoDone() {
 		String s = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1119,7 +1200,8 @@ public class EventTest {
 
 		assertTrue(true);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testToStringDone() {
 		String s = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1155,7 +1237,8 @@ public class EventTest {
 
 		assertTrue(true);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNotDone() {
 		String s = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1192,6 +1275,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoId() {
 		String s = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1227,6 +1311,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoMainId() {
 		String s = "id: testId, " + "mainId: null, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1262,6 +1347,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoTitle() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: null, " + "startDateTime: 2015/10/20-10:33, "
@@ -1297,6 +1383,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoStartDateTime() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: null, "
@@ -1332,6 +1419,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoEndDateTime() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1367,6 +1455,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoPriority() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1402,6 +1491,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoLocation() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1437,6 +1527,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoNotes() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1472,6 +1563,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoReminder() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1505,12 +1597,13 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToString1Reminder() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/20-10:33, " + "priority: HIGH, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34], " + "groups: abc, "
-				+ "recurrence: WEEKLY, " + "subtasks: [abcd, defg], done: false, ";
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34], " + "groups: abc, " + "recurrence: WEEKLY, "
+				+ "subtasks: [abcd, defg], done: false, ";
 
 		Calendar startDateTime = Calendar.getInstance();
 		startDateTime.setTimeInMillis(Long.valueOf("1445308380000"));
@@ -1539,6 +1632,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToString2Reminder() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1574,6 +1668,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoSubtask() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1607,6 +1702,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToString1Subtask() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1641,6 +1737,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToString2Subtask() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1676,6 +1773,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToStringNoRecurrence() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1711,6 +1809,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringWithNoGroupsItem() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1737,6 +1836,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringWithGroups1Item() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1763,6 +1863,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoId() {
 		String c = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1788,7 +1889,8 @@ public class EventTest {
 
 		assertTrue(true);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoDone() {
 		String c = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1815,7 +1917,8 @@ public class EventTest {
 
 		assertTrue(true);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNotDone() {
 		String c = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1842,7 +1945,8 @@ public class EventTest {
 
 		assertTrue(true);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringIsDone() {
 		String c = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1869,7 +1973,8 @@ public class EventTest {
 
 		assertTrue(true);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringEmptyDone() {
 		String c = "id: null, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1897,6 +2002,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoMainId() {
 		String c = "id: testId, " + "mainId: null, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -1923,6 +2029,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoTitle() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: null, " + "startDateTime: 2015/10/20-10:33, "
@@ -1949,6 +2056,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoStartDateTime() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: null, "
@@ -1975,6 +2083,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoEndDateTime() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2001,6 +2110,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoPriority() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2027,6 +2137,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoLocation() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2053,6 +2164,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoNotes() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2079,6 +2191,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoReminder() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2105,12 +2218,13 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromString1Reminder() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
 				+ "endDateTime: 2015/10/21-11:34, " + "priority: MEDIUM, " + "location: test location, "
-				+ "notes: test note, " + "reminder: [2015/10/21-11:34], " + "groups: abc, "
-				+ "recurrence: null, " + "subtasks: [abcd, defg], ";
+				+ "notes: test note, " + "reminder: [2015/10/21-11:34], " + "groups: abc, " + "recurrence: null, "
+				+ "subtasks: [abcd, defg], ";
 
 		Event e = new Event();
 		e.fromString(c);
@@ -2131,6 +2245,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromString2Reminder() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2157,6 +2272,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoSubtask() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2183,6 +2299,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromString1Subtask() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2209,6 +2326,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromString2Subtask() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2235,6 +2353,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringNoRecurrence() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2260,7 +2379,8 @@ public class EventTest {
 
 		assertTrue(true);
 	}
-	
+
+	/* @@author A0088646M */
 	@Test
 	public void testFromStringWithRecurrence() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2287,6 +2407,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testToString() {
 		String s = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -2322,6 +2443,7 @@ public class EventTest {
 		assertTrue(true);
 	}
 
+	/* @@author A0088646M */
 	@Test
 	public void testFromString() {
 		String c = "id: testId, " + "mainId: testMainId, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
