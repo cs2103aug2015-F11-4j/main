@@ -1,3 +1,5 @@
+//@@author A0145143N
+
 package calendrier;
 
 import java.util.ArrayList;
@@ -201,13 +203,6 @@ public class EventHandler {
 		return event;
 	}
 
-	private void saveHistory() {
-		ArrayList<Event> tempEvents = new ArrayList<>();
-		for (Event e : events) {
-			tempEvents.add(e);
-		}
-		history.add(tempEvents);
-	}
 
 	/**
 	 * Removes an event identified by the ParsedCommand pc
@@ -339,6 +334,14 @@ public class EventHandler {
 		if (newEvent.isDone() != oldEvent.isDone()) {
 			newEvent.setDone(oldEvent.isDone());
 		}
+	}
+	
+	private void saveHistory() {
+		ArrayList<Event> tempEvents = new ArrayList<>();
+		for (Event e : events) {
+			tempEvents.add(e);
+		}
+		history.add(tempEvents);
 	}
 
 //	/**

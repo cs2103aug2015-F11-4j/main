@@ -1,3 +1,5 @@
+//@@author A0145143N
+
 package test;
 
 import static org.junit.Assert.*;
@@ -124,7 +126,7 @@ public class EventGeneratorTest {
 		assertEquals(events.get(3).getId(), "f68f148c-4a32-42e8-998b-df2ef0328158");
 	}
 
-	
+	//@@author
 	@Test
 	public void testBreakfast(){
 		EventGenerator gen = new EventGenerator();
