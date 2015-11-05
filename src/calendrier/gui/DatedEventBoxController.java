@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -24,6 +25,8 @@ public class DatedEventBoxController extends StackPane {
 	private Label lblDatedEventTitle;
 	@FXML
 	private Label lblDatedEventDate;
+	@FXML 
+	private CheckBox checkBoxDone;
 
 	private static final String SINGLE_DATED_EVENT_LAYOUT_FXML = "/calendrier/resources/DatedEventBox.fxml";
 
@@ -32,6 +35,8 @@ public class DatedEventBoxController extends StackPane {
 	private static final String VALUE_MEDIUM_PRIORITY = "medium";
 	private static final String VALUE_LOW_PRIORITY = "low";
 	private static final String VALUE_VERY_LOW_PRIORITY = "very_low";
+	
+	private static final boolean VALUE_IS_DONE = true;
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
@@ -57,7 +62,9 @@ public class DatedEventBoxController extends StackPane {
 		lblDatedEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 
 		if (event.isDone()) {
+			checkBoxDone.setSelected(VALUE_IS_DONE);
 			changeEventDesign();
+			
 		} else {
 			String strPriority = checkExistPriority(event.getPriority());
 			changeBorderColor(strPriority);
