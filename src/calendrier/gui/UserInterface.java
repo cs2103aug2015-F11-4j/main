@@ -174,28 +174,16 @@ public class UserInterface extends Application implements OnRemindListener {
 			rootLayout.setCenter(new ViewController(SortedEvents.sortEvents(listEvents), arrStartIndex));
 		}
 	}
-
-	@SuppressWarnings("deprecation")
-	public List<Event> detectDate(List<Event> events, int date) {
-		int i, flag = 0;
-		List<Event> results = new ArrayList<Event>();
-
-		for (i = 0; i < events.size(); i++) {
-			if (events.get(i).getStartDateTime() != null && events.get(i).getEndDateTime() != null) {
-				if (events.get(i).getEndDateTime().getTime().getDate() >= date
-						&& events.get(i).getStartDateTime().getTime().getDate() <= date) {
-					results.add(events.get(i));
-					flag++;
-				}
-			}
-			if (events.get(i).getStartDateTime().getTime().getDate() == date && flag == 0) {
-				results.add(events.get(i));
-			}
-			flag = 0;
-		}
-		return results;
-	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * generate home view
+	 * 
+	 * @param userInterface - the current userInterface
+	 * @param timeToNextEvent - time left for next event
+	 * 
+	 * 
+	 */
 	@SuppressWarnings("deprecation")
 	private void viewHome(UserInterface userInterface, long timeToNextEvent) {
 		Calendar cal = Calendar.getInstance();
@@ -212,7 +200,6 @@ public class UserInterface extends Application implements OnRemindListener {
 			nextTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
 					cal.getTime().getDay() + 1);
 		}
-		System.out.println(cal.getTime().toString());
 		currentScreenState = VALUE_VIEW_HOME_SCREEN;
 		if (currentTask.size() != 0) {
 			name1 = currentTask.get(0).getTitle();
@@ -224,6 +211,19 @@ public class UserInterface extends Application implements OnRemindListener {
 				getNumOfFloatEvents(mainLogic.getAllEvents()), getNumOfOnGoingEvents(mainLogic.getAllEvents()),
 				getNumOfPassedEvents(mainLogic.getAllEvents())));
 
+		startCountDown(name1, name2);
+	}
+	
+	/**
+	 * @@author A0126421U
+	 * Start count down for the next event 
+	 * 
+	 * @param name1 - the title for current event
+	 * @param name2 - the title for next event
+	 * 
+	 * 
+	 */
+	private void startCountDown(String name1, String name2) {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -238,7 +238,16 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		}, 1, 1000);
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * generate month view
+	 * 
+	 *  @param userInterface - the current userInterface
+	 *  @param month - the month to be display
+	 *  @param year - year to be display
+	 * 
+	 */
 	private void viewMonth(UserInterface userInterface, int month, int year) {
 		currentScreenState = VALUE_VIEW_MONTH_SCREEN;
 		rootLayout.setCenter(new ViewController(mainLogic.getMonthEvents(currentYear, currentMonth + 1), date,
@@ -622,7 +631,16 @@ public class UserInterface extends Application implements OnRemindListener {
 		thisCal.set(intYear, intMonth, intDate);
 		return thisCal.getTime().getDay();
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * get number of events that are passed
+	 * 
+	 * @param events - whole list of event
+	 * 
+	 * @return numOfPassedEvent - total number of events that are passed
+	 * 
+	 */
 	private int getNumOfPassedEvents(List<Event> events) {
 		int num = 0;
 		Calendar thisCal = Calendar.getInstance();
@@ -635,7 +653,16 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 		return num;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * get number of events that are still active
+	 * 
+	 * @param events - whole list of event
+	 * 
+	 * @return numOfActiveEvent - total number of events that are still active
+	 * 
+	 */
 	private int getNumOfOnGoingEvents(List<Event> events) {
 		int num = 0;
 		Calendar thisCal = Calendar.getInstance();
@@ -650,7 +677,16 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 		return num;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * get number of events that does not have deadline
+	 * 
+	 * @param events - whole list of event
+	 * 
+	 * @return numOfPassedEvent - total number of events that does not have deadline
+	 * 
+	 */
 	private int getNumOfFloatEvents(List<Event> events) {
 		int num = 0;
 		for (int i = 0; i < events.size(); i++) {
