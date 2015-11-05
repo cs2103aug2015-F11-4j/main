@@ -10,6 +10,7 @@ import utils.Priority;
 import utils.Recurrence;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,6 +45,8 @@ public class EventDetailController extends StackPane {
 	private Label lblGroup;
 	@FXML
 	private Label lblRecurrence;
+	@FXML
+	private CheckBox checkBoxDone;
 
 	private static final String EVENT_DETAIL_LAYOUT_FXML = "/calendrier/resources/ViewEventDetail.fxml";
 
@@ -65,6 +68,11 @@ public class EventDetailController extends StackPane {
 	private static final String VALUE_MEDIUM_PRIORITY = "medium";
 	private static final String VALUE_LOW_PRIORITY = "low";
 	private static final String VALUE_VERY_LOW_PRIORITY = "very_low";
+	
+	private static final boolean VALUE_TRUE = true;
+	private static final boolean VALUE_FALSE = false;
+	private static final String VALUE_DONE = "Done";
+	private static final String VALUE_NOT_DONE ="Undone";
 	
 	private static final int VALUE_EMPTY_SIZE = 0;
 
@@ -124,6 +132,14 @@ public class EventDetailController extends StackPane {
 			img = new Image(strImage);
 		}
 		imgType.setImage(img);
+		
+		if(event.isDone()) {
+			checkBoxDone.setText(VALUE_DONE);
+			checkBoxDone.setSelected(VALUE_TRUE);
+		} else {
+			checkBoxDone.setText(VALUE_NOT_DONE);
+			checkBoxDone.setSelected(VALUE_FALSE);
+		}
 	}
 
 	private static String checkExistReminder(List<Calendar> reminders) {
