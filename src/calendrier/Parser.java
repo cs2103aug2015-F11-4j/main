@@ -17,6 +17,8 @@ public class Parser {
 	 * update) are broken down into individual tokens.
 	 * 
 	 */
+	private static int KEYWORD_NOT_FOUND = -2;
+	private static int SPACE_NOT_FOUND = -1;
 
 	public ParsedCommand parse(String userInput) {
 		ParsedCommand pc = new ParsedCommand();
@@ -91,7 +93,7 @@ public class Parser {
 		lineTokens.close();
 		String inputAfterCommand = null;
 		
-		if (userInput.indexOf(" ") != -1)
+		if (userInput.indexOf(" ") != SPACE_NOT_FOUND)
 			inputAfterCommand = userInput.substring(userInput.indexOf(" ") + 1);
 
 		if (command.equals("view")) {
@@ -113,12 +115,12 @@ public class Parser {
 			 * repeat sleep drink eat, startdate 2015/12/29, starttime 13.37,
 			 * enddate 2015/12/30, endtime 14.44, group my personal group priority very low, 
 			 * location my home, notes must do, recur monthly, reminderdate 2015/12/30,
-			 * remindertime 15.30
+			 * remindertime 15.30, done no
 			 * 
 			 * Case 2: a deadline
 			 * e.g. add eat sleep drink repeat, deadlinedate 2015/12/30, deadlinetime 14.44, 
 			 * priority very low, group my personal group, location my home, notes must do, 
-			 * recur daily, reminderdate 2015/12/29 2015/12/29, remindertime 12.34 23.45
+			 * recur daily, reminderdate 2015/12/29 2015/12/29, remindertime 12.34 23.45, done yes
 			 */
 			pc.setCommand(Command.UPDATE);
 			
@@ -164,6 +166,11 @@ public class Parser {
 			if (recur != null) {
 				setRecur(pc, recur);
 			}
+			
+			String done = getAttributeFromInput(inputAfterCommand, "done", 4);
+			if (done != null) {
+				pc.setDone(done.equals("yes"));
+			}
 
 			setReminder(pc, inputAfterCommand, "reminderdate", "remindertime", 12);
 
@@ -181,13 +188,13 @@ public class Parser {
 			 * sleep drink repeat, startdate 2015/12/29, starttime 13.37,
 			 * enddate 2015/12/30, endtime 14.44, priority very low, group my personal group, 
 			 * location my home, notes must do, recur <daily/weekly/monthly/yearly>, reminderdate 2015/12/29 2015/12/29, 
-			 * remindertime 12.34 23.45
+			 * remindertime 12.34 23.45, done yes
 			 * 
 			 * Case 2: a deadline
 			 * e.g. add eat sleep drink repeat, deadlinedate 2015/12/30, deadlinetime 14.44, 
 			 * priority very low, group my personal group, location my home, notes must do, 
 			 * recur <daily/weekly/monthly/yearly>, reminderdate 2015/12/29 2015/12/29, 
-			 * remindertime 12.34 23.45
+			 * remindertime 12.34 23.45, done no
 			 * 
 			 * Case 3: subtask
 			 * e.g. add subtask sleep drink repeat to 1, .......
@@ -246,6 +253,11 @@ public class Parser {
 				setRecur(pc, recur);
 			}
 			
+			String done = getAttributeFromInput(inputAfterCommand, "done", 4);
+			if (done != null) {
+				pc.setDone(done.equals("yes"));
+			}
+			
 			setReminder(pc, inputAfterCommand, "reminderdate", "remindertime", 12);
 			
 		}
@@ -261,7 +273,7 @@ public class Parser {
 		String command = "";
 		
 		// input has more than 1 word
-		if (userInput.indexOf(" ") != -1) {
+		if (userInput.indexOf(" ") != SPACE_NOT_FOUND) {
 			inputAfterCommand = userInput.substring(userInput.indexOf(" ")+1);
 			command = userInput.substring(0, userInput.indexOf(" "));
 		} else {
@@ -325,12 +337,12 @@ public class Parser {
 			// Case 1: Not deadline
 			// e.g. -up 2, -t do homework, -sd 2015/10/30, -st 12.34, -ed 2015/11/12, 
 			// -et 13.37, -g personal circle, -l my home, -p very high,  
-			// -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11 
+			// -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11, -dne yes 
 			
 			// Case 2: Deadline
 			// e.g. -up 2, -t do homework, -dd 2015/11/12, 
 			// -dt 13.37, -g personal circle, -l my home, -p very high,  
-			// -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11
+			// -n remember to do, -r yes, -rd 2015/11/11, -rt 11.11, -dne no
 			
 			pc.setCommand(Command.UPDATE);
 				
@@ -376,6 +388,11 @@ public class Parser {
 			if (recur != null) {
 				setRecur(pc, recur);
 			}
+			
+			String done = getAttributeFromInput(inputAfterCommand, "-dne", 4);
+			if (done != null) {
+				pc.setDone(done.equals("yes"));
+			}
 
 			setReminder(pc, inputAfterCommand, "-rd", "-rt", 3);	
 		}
@@ -384,12 +401,12 @@ public class Parser {
 			// Case 1: Not deadline
 			// e.g. -a eat drink sleep repeat, -sd 2015/10/12, -st 12.34, ed 2015/10/14, 
 			// -et 13.37, -p very high, -g secret group, -l my home, -n must do, 
-			// -r no, -rd 2015/10/13 2015/10/14, -rt 13.37 11.11
+			// -r no, -rd 2015/10/13 2015/10/14, -rt 13.37 11.11, -dne no
 			
 			// Case 2: Deadline
 			// e.g. -a eat drink sleep repeat, -dd 2015/10/14, -dt 13.37, -p very high, 
 			// -g secret group, -l my home, -n must do, -r no, -rd 2015/10/13 2015/10/14, 
-			// -rt 13.37 11.11
+			// -rt 13.37 11.11, -dne yes
 			
 			// Case 3: Subtask
 			// e.g. -a subtask drink repeat to 1, .......
@@ -453,6 +470,11 @@ public class Parser {
 			if (recur != null) {
 				setRecur(pc, recur);
 			}
+			
+			String done = getAttributeFromInput(inputAfterCommand, "-dne", 4);
+			if (done != null) {
+				pc.setDone(done.equals("yes"));
+			}
 
 			setReminder(pc, inputAfterCommand, "-rd", "-rt", 3);
 		}
@@ -473,7 +495,7 @@ public class Parser {
 	 * 1. meeting with colleagues on monday from 12pm to 2pm at my house
 	 * 2. part time job from 2015/11/12 to 2015/11/15 from 9am to 6pm at orchard road
 	 */
-	public static void parseFlexibleCommand(ParsedCommand pc, String userInput) {
+	public static ParsedCommand parseFlexibleCommand(ParsedCommand pc, String userInput) {
 		ArrayList<String> dayKeyword = new ArrayList<>();
 		ArrayList<String> keywords = new ArrayList<>();
 		
@@ -500,6 +522,9 @@ public class Parser {
 		// String userInput = "meeting with colleagues on monday from 12pm to 2pm at my house";
 		
 		int titleEndIndex = getFirstKeywordIndex(userInput, keywords)-1;
+		// Invalid command
+		if (titleEndIndex == KEYWORD_NOT_FOUND)
+			return pc;
 		title = userInput.substring(0, titleEndIndex);
 		pc.setTitle(title);
 		
@@ -508,7 +533,7 @@ public class Parser {
 		tokens = new StringTokenizer(resultingString);
 		keyword = tokens.nextToken();
 		
-		int nextKeywordIndex = -1;
+		int nextKeywordIndex = SPACE_NOT_FOUND;
 		int runCount = 0;
 		
 		while(!resultingString.equals("")) {
@@ -527,14 +552,14 @@ public class Parser {
 					if (nextToken.equals("to")) {
 						nextToken = tokens.nextToken();
 						endTime = nextToken;
-						int endTimeIndex = resultingString.lastIndexOf(endTime);
 						
 						// System.out.println("startTime: " + startTime);
 						// System.out.println("endTime: " + endTime);
 						// System.out.println("endTimeIndex: " + endTimeIndex);
 						
-						nextKeywordIndex = resultingString.indexOf(" ", endTimeIndex) + 1;
-						System.out.println("nextkeywordindex: " + nextKeywordIndex);
+						nextKeywordIndex = getNextKeywordIndex(resultingString, endTime);
+						
+						// System.out.println("nextkeywordindex: " + nextKeywordIndex);
 					}
 				} else if (nextToken.contains("/")) {
 					startDate = nextToken;
@@ -544,25 +569,12 @@ public class Parser {
 						endDate = nextToken;
 						// System.out.println("startDate: " + startDate);
 						// System.out.println("endDate: " + endDate);
-						int endDateIndex = resultingString.indexOf(endDate);
 						
-						nextKeywordIndex = resultingString.indexOf(" ", endDateIndex) + 1;
+						nextKeywordIndex = getNextKeywordIndex(resultingString, endDate);
 					}
 				}
 				
-				// end of user input
-				if (nextKeywordIndex == 0) {
-					resultingString = "";
-					// System.out.println("After: " + resultingString);
-				}
-				else {
-					resultingString = resultingString.substring(nextKeywordIndex).trim();
-					
-					// System.out.println("attribute end index: " + nextKeywordIndex);
-					// System.out.println("After: " + resultingString);
-					// tokens = new StringTokenizer(resultingString);
-					// keyword = resultingString.substring(0, resultingString.indexOf(" "));
-				}
+				resultingString = getResultingString(nextKeywordIndex, resultingString);
 				
 			} 
 			// keyword 'at': for location
@@ -596,79 +608,33 @@ public class Parser {
 					startDate = nextToken;
 					int endDateIndex = resultingString.indexOf(startDate);
 					nextKeywordIndex = resultingString.indexOf(" ", endDateIndex) + 1;
-
 				}
 				else if (dayKeyword.contains(nextToken)) {
-					int[] daysInMonth = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-					final int NUM_DAYS_IN_WEEK = 7;
-					int projectedDay = 0, diffInDay = 0;
-					
-					Calendar today = Calendar.getInstance();
-					int dayOfWeek = today.get(Calendar.DAY_OF_WEEK) - 1;
-					int year = today.get(Calendar.YEAR);
-					int month = today.get(Calendar.MONTH) + 1;
-					int dayOfMonth = today.get(Calendar.DAY_OF_MONTH);
-					
-					// System.out.println("curr year: " + year);
-					// System.out.println("curr month: " + month);
-					// System.out.println("curr day: " + dayOfMonth);
-					
-					if (nextToken.equals("monday")) {
-						projectedDay = 1;
-					} else if (nextToken.equals("tuesday")) {
-						projectedDay = 2;
-					} else if (nextToken.equals("wednesday")) {
-						projectedDay = 3;
-					} else if (nextToken.equals("thursday")) {
-						projectedDay = 4;
-					} else if (nextToken.equals("friday")) {
-						projectedDay = 5;
-					} else if (nextToken.equals("saturday")) {
-						projectedDay = 6;
-					} else if (nextToken.equals("sunday")) {
-						projectedDay = 7;
-					}
-					
-					// today is not sunday
-					if (dayOfWeek != 0) {
-						if (projectedDay > dayOfWeek) {
-							diffInDay = projectedDay - dayOfWeek;
-						} else if (projectedDay < dayOfWeek) {
-							diffInDay = NUM_DAYS_IN_WEEK - dayOfWeek + projectedDay;
-						}
-					}
-					// today is sunday
-					else if (dayOfWeek == 0) {
-						diffInDay = projectedDay;
-					}
-					
-					int resultantDay = 0;
-					if (diffInDay + dayOfMonth > daysInMonth[month]) {
-						resultantDay = (diffInDay + dayOfMonth) - daysInMonth[month];
-						month++;
-					} else if (diffInDay + dayOfMonth <= daysInMonth[month]) {
-						resultantDay = diffInDay + dayOfMonth;
-					}
-					
-					
-					
-					startDate = String.valueOf(year) + "/" + String.valueOf(month) + 
-							"/" + String.valueOf(resultantDay); 
+					startDate = getFlexibleDateFromDay(nextToken); 
 					// System.out.println("resultant day: " + resultantDay);
 					
-					int dayIndex = resultingString.indexOf(nextToken);
-					nextKeywordIndex = resultingString.indexOf(" ", dayIndex) + 1;
+					nextKeywordIndex = getNextKeywordIndex(resultingString, nextToken);
 				}
 				
-				if (nextKeywordIndex == 0) {
-					resultingString = "";
-				} else {
-					resultingString = resultingString.substring(nextKeywordIndex);
+				resultingString = getResultingString(nextKeywordIndex, resultingString);
+			}
+			// keyword 'by': for end date, end time
+			// e.g. by tuesday, by 10.35am
+			else if (keyword.equals("by")) {
+				nextToken = tokens.nextToken();
+				// token is a day
+				if (dayKeyword.contains(nextToken)) {
+					endDate = getFlexibleDateFromDay(nextToken); 
+					nextKeywordIndex = getNextKeywordIndex(resultingString, nextToken);
+				} else if (nextToken.contains("am") || nextToken.contains("pm")) {
+					endTime = nextToken;
+					int endTimeIndex = resultingString.indexOf(endTime);
+					nextKeywordIndex = resultingString.indexOf(" ", endTimeIndex) + 1;
 				}
+				resultingString = getResultingString(nextKeywordIndex, resultingString);
 			}
 			
 			System.out.println("After: " + resultingString);
-			
 			
 			if (!resultingString.equals("")) {
 				tokens = new StringTokenizer(resultingString);
@@ -709,6 +675,7 @@ public class Parser {
 		if (location != null) {
 			pc.setLocation(location);
 		}
+		return pc;
 	}
 	
 	/*
@@ -730,9 +697,82 @@ public class Parser {
 			}
 		}
 		if (!found) {
+			System.out.println("NOT FOUND");
 			return -1;
 		}
+		System.out.println("result: " + result);
 		return result;
+	}
+	
+	public static int getNextKeywordIndex(String currentString, String attributeEnd) {
+		int attributeEndIndex = currentString.lastIndexOf(attributeEnd);
+		return currentString.indexOf(" ", attributeEndIndex) + 1;
+	}
+	
+	public static String getResultingString(int nextKeywordIndex, String currentString) {
+		String resultingString;
+		if (nextKeywordIndex == 0) {
+			resultingString = "";
+		} else {
+			resultingString = currentString.substring(nextKeywordIndex);
+		}
+		return resultingString;
+	}
+	
+	public static String getFlexibleDateFromDay(String nextToken) {
+		int[] daysInMonth = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+		final int NUM_DAYS_IN_WEEK = 7;
+		int projectedDay = 0, diffInDay = 0;
+		
+		Calendar today = Calendar.getInstance();
+		int dayOfWeek = today.get(Calendar.DAY_OF_WEEK) - 1;
+		int year = today.get(Calendar.YEAR);
+		int month = today.get(Calendar.MONTH) + 1;
+		int dayOfMonth = today.get(Calendar.DAY_OF_MONTH);
+		
+		// System.out.println("curr year: " + year);
+		// System.out.println("curr month: " + month);
+		// System.out.println("curr day: " + dayOfMonth);
+		
+		if (nextToken.equals("monday")) {
+			projectedDay = 1;
+		} else if (nextToken.equals("tuesday")) {
+			projectedDay = 2;
+		} else if (nextToken.equals("wednesday")) {
+			projectedDay = 3;
+		} else if (nextToken.equals("thursday")) {
+			projectedDay = 4;
+		} else if (nextToken.equals("friday")) {
+			projectedDay = 5;
+		} else if (nextToken.equals("saturday")) {
+			projectedDay = 6;
+		} else if (nextToken.equals("sunday")) {
+			projectedDay = 7;
+		}
+		
+		// today is not sunday
+		if (dayOfWeek != 0) {
+			if (projectedDay > dayOfWeek) {
+				diffInDay = projectedDay - dayOfWeek;
+			} else if (projectedDay < dayOfWeek) {
+				diffInDay = NUM_DAYS_IN_WEEK - dayOfWeek + projectedDay;
+			}
+		}
+		// today is sunday
+		else if (dayOfWeek == 0) {
+			diffInDay = projectedDay;
+		}
+		
+		int resultantDay = 0;
+		if (diffInDay + dayOfMonth > daysInMonth[month]) {
+			resultantDay = (diffInDay + dayOfMonth) - daysInMonth[month];
+			month++;
+		} else if (diffInDay + dayOfMonth <= daysInMonth[month]) {
+			resultantDay = diffInDay + dayOfMonth;
+		}
+		
+		return (String.valueOf(year) + "/" + String.valueOf(month) + 
+		"/" + String.valueOf(resultantDay)); 
 	}
 	
 	public static String padWithZero(String time) {

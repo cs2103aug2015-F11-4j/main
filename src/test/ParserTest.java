@@ -148,7 +148,7 @@ public class ParserTest {
 				+ "endtime 14.44, priority very low, group my personal group, "
 				+ "location my home, notes must do, "
 				+ "recur monthly, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
-				+ "remindertime 14.44 15.55 12.00";
+				+ "remindertime 14.44 15.55 12.00, done yes";
 
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
@@ -222,6 +222,8 @@ public class ParserTest {
 		assertEquals("reminder time: ", "14.44", reminderTime);
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", true, pc.getDone());
 	}
 	
 	@Test
@@ -232,7 +234,7 @@ public class ParserTest {
 				+ "deadlinetime 14.44, priority very low, group my personal group, "
 				+ "location my home, notes must do, "
 				+ "reminderdate 2015/12/29 2015/12/29 2015/12/30, recur yearly, "
-				+ "remindertime 14.44 15.55 12.00";
+				+ "remindertime 14.44 15.55 12.00, done no";
 
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
@@ -267,7 +269,7 @@ public class ParserTest {
 		assertEquals("group: ", "my personal group", pc.getGroup());
 		assertEquals("location: ", "my home", pc.getLocation());
 		assertEquals("notes: ", "must do", pc.getNotes());
-		assertEquals("recur: ", null, pc.getRecurFreq());
+		assertEquals("recur: ", "YEARLY" , pc.getRecurFreq().toString());
 
 		
 		ArrayList<Calendar> cal3 = pc.getReminder();
@@ -290,7 +292,8 @@ public class ParserTest {
 		assertEquals("reminder date2: ", "2015/12/29", reminderDate2);
 		assertEquals("reminder date3: ", "2015/12/30", reminderDate3);
 		
-		assertEquals("recur: ", "yearly", pc.getRecurFreq().toString());
+		assertEquals("recur: ", "YEARLY", pc.getRecurFreq().toString());
+		
 		
 		
 		int hour3 = cal3.get(0).get(Calendar.HOUR_OF_DAY);
@@ -308,6 +311,8 @@ public class ParserTest {
 		assertEquals("reminder time: ", "14.44", reminderTime);
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", false, pc.getDone());
 	}
 
 	@Test
@@ -318,7 +323,7 @@ public class ParserTest {
 				+ "starttime 13.37, enddate 2015/12/30, endtime 14.44, group my personal group, "
 				+ "priority very low, location my home, notes must do, "
 				+ "recur daily, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
-				+ "remindertime 14.44 15.55 12.00";
+				+ "remindertime 14.44 15.55 12.00, done yes";
 
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", "ADD", pc.getCommand().toString());
@@ -390,6 +395,8 @@ public class ParserTest {
 		assertEquals("reminder time: ", "14.44", reminderTime);
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", true, pc.getDone());
 	}
 	
 	@Test
@@ -399,7 +406,7 @@ public class ParserTest {
 				+ "deadlinetime 14.44, group my personal group, "
 				+ "priority very low, location my home, notes must do, "
 				+ "recur weekly, reminderdate 2015/12/29 2015/12/29 2015/12/30, "
-				+ "remindertime 14.44 15.55 12.00";
+				+ "remindertime 14.44 15.55 12.00, done no";
 	
 		ParsedCommand pc = parser.parse(userInput);
 		
@@ -472,6 +479,8 @@ public class ParserTest {
 		assertEquals("reminder time: ", "14.44", reminderTime);
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", false, pc.getDone());
 	}
 
 	@Test
@@ -681,10 +690,9 @@ public class ParserTest {
 	@Test
 	public void undeleteShortened() {
 		Parser parser = new Parser();
-		String input = "-undel 4";
+		String input = "-undel";
 		ParsedCommand pc = parser.parse(input);
 		assertEquals("command: ", "UNDELETE", pc.getCommand().toString());
-		assertEquals("id: ", "4", pc.getId());
 	}
 	
 	@Test
@@ -759,7 +767,7 @@ public class ParserTest {
 		String input = "-up 2, -t do homework, -sd 2015/10/30, -st 12.34, -ed 2015/11/12, "
 				+ "-et 13.37, -g personal circle, -l my home, -p very high, "
 				+ "-n remember to do, -r daily, -rd 2015/12/29 2015/12/29 2015/12/30, "
-				+ "-rt 14.44 15.55 12.00";
+				+ "-rt 14.44 15.55 12.00, -d no";
 		ParsedCommand pc = parser.parse(input);
 		
 		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
@@ -832,6 +840,8 @@ public class ParserTest {
 		assertEquals("reminder time: ", "14.44", reminderTime);
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", false, pc.getDone());
 	}
 	
 	@Test
@@ -840,7 +850,7 @@ public class ParserTest {
 		String input = "-up 2, -t do homework, -dd 2015/11/12, "
 				+ "-dt 13.37, -g personal circle, -l my home, -p very high, "
 				+ "-n remember to do, -r weekly, -rd 2015/12/29 2015/12/29 2015/12/30, "
-				+ "-rt 14.44 15.55 12.00";
+				+ "-rt 14.44 15.55 12.00, -dne yes";
 		ParsedCommand pc = parser.parse(input);
 		
 		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
@@ -913,6 +923,8 @@ public class ParserTest {
 		assertEquals("reminder time: ", "14.44", reminderTime);
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", true, pc.getDone());
 	}
 	
 	@Test
@@ -921,7 +933,7 @@ public class ParserTest {
 		String input = "-a eat drink sleep repeat, -sd 2015/10/12, -st 12.34, -ed 2015/10/14, "
 				+ "-et 13.37, -p very high, -g secret group, -l my home, -n must do, "
 				+ "-r monthly, -rd 2015/12/29 2015/12/29 2015/12/30, "
-				+ "-rt 14.44 15.55 12.00";
+				+ "-rt 14.44 15.55 12.00, -dne no";
 		ParsedCommand pc = parser.parse(input);
 		
 		assertEquals("command: ", "ADD", pc.getCommand().toString());
@@ -994,6 +1006,8 @@ public class ParserTest {
 		assertEquals("reminder time: ", "14.44", reminderTime);
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", false, pc.getDone());
 	}
 	
 	@Test
@@ -1002,7 +1016,7 @@ public class ParserTest {
 		String input = "-a subtask drink repeat to 2, -sd 2015/10/12, -st 12.34, -ed 2015/10/14, "
 				+ "-et 13.37, -p very high, -g secret group, -l my home, -n must do, "
 				+ "-r yearly, -rd 2015/12/29 2015/12/29 2015/12/30, "
-				+ "-rt 14.44 15.55 12.00";
+				+ "-rt 14.44 15.55 12.00, -dne yes";
 		ParsedCommand pc = parser.parse(input);
 		
 		assertEquals("command: ", "ADD", pc.getCommand().toString());
@@ -1076,6 +1090,8 @@ public class ParserTest {
 		assertEquals("reminder time: ", "14.44", reminderTime);
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", true, pc.getDone());
 	}
 	
 	@Test
@@ -1084,7 +1100,7 @@ public class ParserTest {
 		String input = "-a eat drink sleep repeat, -dd 2015/10/14, "
 				+ "-dt 13.37, -p very high, -g secret group, -l my home, -n must do, "
 				+ "-rd 2015/12/29 2015/12/29 2015/12/30, "
-				+ "-rt 14.44 15.55 12.00";
+				+ "-rt 14.44 15.55 12.00, -dne no";
 		ParsedCommand pc = parser.parse(input);
 		
 		assertEquals("command: ", "ADD", pc.getCommand().toString());
@@ -1157,6 +1173,8 @@ public class ParserTest {
 		assertEquals("reminder time: ", "14.44", reminderTime);
 		assertEquals("reminder time: ", "15.55", reminderTime2);
 		assertEquals("reminder time: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", false, pc.getDone());
 	}
 	
 	@Test
@@ -1165,7 +1183,7 @@ public class ParserTest {
 		String userInput = "-a subtask drink repeat to 2, -dd 2015/10/14, "
 				+ "-dt 13.37, -p very high, -g secret group, -l my home, -n must do, "
 				+ "-rd 2015/12/29 2015/12/29 2015/12/30, "
-				+ "-rt 14.44 15.55 12.00";
+				+ "-rt 14.44 15.55 12.00, -dne yes";
 		ParsedCommand pc = parser.parse(userInput);
 		
 		assertEquals("subtask: ", "drink repeat", pc.getTitle());
@@ -1238,6 +1256,8 @@ public class ParserTest {
 		assertEquals("reminder time1: ", "14.44", reminderTime);
 		assertEquals("reminder time2: ", "15.55", reminderTime2);
 		assertEquals("reminder time3: ", "12.0", reminderTime3);
+		
+		assertEquals("done: ", true, pc.getDone());
 	}
 	
 	/**********************
@@ -1277,7 +1297,6 @@ public class ParserTest {
 		assertEquals("end time: ", "18.0", endTime);
 		
 		
-		
 		String userInput2 = "meeting with colleagues on monday from 12pm to 2pm at my house";
 		ParsedCommand pc2 = parser.parse(userInput2);
 		assertEquals("title", "meeting with colleagues", pc2.getTitle());
@@ -1308,6 +1327,26 @@ public class ParserTest {
 		String endTime2 = String.valueOf(hour4) + "." + String.valueOf(minute4);
 		assertEquals("end time: ", "18.0", endTime2);
 		*/
+		
+		String userInput3 = "complete 2103 V0.5 by friday";
+		ParsedCommand pc3 = parser.parse(userInput3);
+		assertEquals("title", "complete 2103 V0.5", pc3.getTitle());
+		
+		Calendar cal5 = pc3.getEndDateTime();
+		int year5 = cal5.get(Calendar.YEAR);
+		int month5 = cal5.get(Calendar.MONTH) + 1;
+		int day5 = cal5.get(Calendar.DAY_OF_MONTH);
+		String endDate3 = String.valueOf(year5) + "/" + String.valueOf(month5) + "/" + String.valueOf(day5);
+		
+		assertEquals("end date: ", "2015/11/6", endDate3);
+	}
+	
+	@Test
+	public void invalidCommand() {
+		Parser parser = new Parser();
+		String userInput = "blabla blablabla";
+		ParsedCommand pc = parser.parse(userInput);
+		assertEquals("command: ", null, pc.getCommand());
 	}
 }
 
