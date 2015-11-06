@@ -1,59 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- @@author A0126421U -->
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ListView?>
 
 <!-- @@author A0126421U -->
-<fx:root type="FlowPane" fx:id="flowPaneAllEvents" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" prefHeight="500.0"
-	maxWidth="850.0" maxHeight="500.0">
+<fx:root type="FlowPane" fx:id="flowPaneHomeEvents" xmlns="http://javafx.com/javafx/8.0.40"
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" prefHeight="600.0"
+	maxWidth="850.0" maxHeight="600.0">
 	<children>
 		<GridPane styleClass="gridPaneHelpScreen" xmlns="http://javafx.com/javafx/8.0.40"
-			xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" prefHeight="700.0"
-			maxWidth="1000.0" maxHeight="600.0" vgap="30" hgap="100">
+			xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" prefHeight="600.0"
+			maxWidth="1000.0" maxHeight="600.0" vgap="10" hgap="20">
+			<columnConstraints>
+				<ColumnConstraints percentWidth="30.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="35.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="35.0" halignment="CENTER" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="10.0" />
+			</rowConstraints>
 			<children>
 				<Label fx:id="lblCurrentEvent" text="Current Task"
-					GridPane.rowSpan="3" GridPane.rowIndex="1" GridPane.columnIndex="2"
-					GridPane.columnSpan="20" />
-				<Label fx:id="lblCurrent" GridPane.rowSpan="3"
-					GridPane.rowIndex="4" GridPane.columnIndex="2" GridPane.columnSpan="20" />
-				<!-- <Label fx:id="lblCurrent1" GridPane.rowSpan="3"
-					GridPane.rowIndex="4" GridPane.columnIndex="2" GridPane.columnSpan="20" />
-				<Label fx:id="lblCurrent2" GridPane.rowSpan="3"
-					GridPane.rowIndex="4" GridPane.columnIndex="2" GridPane.columnSpan="20" /> -->
-				<Label fx:id="lblCurrentEvent" text="Next Task"
-					GridPane.rowSpan="3" GridPane.rowIndex="10" GridPane.columnIndex="2"
-					GridPane.columnSpan="20" />
-				<Label fx:id="lblNext" GridPane.rowSpan="3" GridPane.rowIndex="13"
-					GridPane.columnIndex="2" GridPane.columnSpan="20" />
+					GridPane.rowIndex="0" GridPane.columnIndex="0" />
+
+				<FlowPane fx:id="flowPaneCurrentEvents" xmlns="http://javafx.com/javafx/8.0.40"
+					xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" vgap="5"
+					maxWidth="850.0" GridPane.rowIndex="1" GridPane.columnIndex="0"
+					GridPane.columnSpan="3">
+					<children>
+					</children>
+				</FlowPane>
+
+				<Label fx:id="lblCurrentEvent" text="Next Task       "
+					GridPane.rowIndex="2" GridPane.columnIndex="0" />
+
+				<FlowPane fx:id="flowPaneNextEvents" xmlns="http://javafx.com/javafx/8.0.40"
+					xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" vgap="5"
+					maxWidth="850.0" GridPane.rowIndex="3" GridPane.columnIndex="0"
+					GridPane.columnSpan="3">
+					<children>
+					</children>
+				</FlowPane>
+
 				<Label fx:id="lblCurrentEvent" text="Overdue Task"
-					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="2"
-					GridPane.columnSpan="20" />
-				<Label fx:id="lblPassed" GridPane.rowSpan="3"
-					GridPane.rowIndex="25" GridPane.columnIndex="10"
-					GridPane.columnSpan="3" />
+					GridPane.rowIndex="5" GridPane.columnIndex="0" />
 				<Label fx:id="lblCurrentEvent" text="Ongoing Task"
-					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="33"
-					GridPane.columnSpan="20" />
-				<Label fx:id="lblOngoing" GridPane.rowSpan="3"
-					GridPane.rowIndex="25" GridPane.columnIndex="41"
-					GridPane.columnSpan="3" />
-				<Label fx:id="lblCurrentEvent" text="Float Task"
-					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="65"
-					GridPane.columnSpan="20" />
-				<Label fx:id="lblFloat" GridPane.rowSpan="3"
-					GridPane.rowIndex="25" GridPane.columnIndex="70"
-					GridPane.columnSpan="5" />
-				<Label fx:id="lblCurrentEvent" text="Countdown to Next Event"
-					GridPane.rowSpan="3" GridPane.rowIndex="38" GridPane.columnIndex="55"
-					GridPane.columnSpan="40" />
-				<Label fx:id="lbltime" GridPane.rowIndex="40"
-					GridPane.rowSpan="3" GridPane.columnIndex="65" wrapText="true"
-					GridPane.columnSpan="25" />
+					GridPane.rowIndex="5" GridPane.columnIndex="1" />
+				<Label fx:id="lblCurrentEvent" text="Floating Task"
+					GridPane.rowIndex="5" GridPane.columnIndex="2" />
+
+				<Label fx:id="lblPassed" GridPane.rowIndex="6"
+					GridPane.columnIndex="0" />
+				<Label fx:id="lblOngoing" GridPane.rowIndex="6"
+					GridPane.columnIndex="1" />
+				<Label fx:id="lblFloat" GridPane.rowIndex="6"
+					GridPane.columnIndex="2" />
+
+				<Label fx:id="lblNextTask"
+					GridPane.rowIndex="8" GridPane.columnIndex="0" GridPane.columnSpan="3" />
+
+				<Label fx:id="lbltime" GridPane.rowIndex="9"
+					GridPane.columnIndex="0" GridPane.columnSpan="3" />
+
 			</children>
 		</GridPane>
-		<!-- <Label styleClass="storageMessage" text="* Create storage file first: 
-			'save in &#60;FOLDER_NAME&#62;'" StackPane.alignment="BOTTOM_CENTER" /> -->
 	</children>
 </fx:root>
+
+<!-- <fx:root type="FlowPane" fx:id="flowPaneAllEvents" xmlns="http://javafx.com/javafx/8.0.40" 
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" prefHeight="600.0" 
+	maxWidth="850.0" maxHeight="600.0"> <children> <GridPane fx:id="monthGridPane" 
+	xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml" 
+	hgap="4" vgap="4" prefWidth="850.0" prefHeight="600.0" maxWidth="850.0" maxHeight="600.0"> 
+	<children> <Label fx:id="lblCurrentEvent" text="Current Task" GridPane.rowIndex="0" 
+	GridPane.columnIndex="2" /> <FlowPane fx:id="flowPaneCurrentEvents" xmlns="http://javafx.com/javafx/8.0.40" 
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" vgap="5" maxWidth="1000.0" 
+	GridPane.rowIndex="1" GridPane.columnIndex="2"> <children> </children> </FlowPane> 
+	<Label fx:id="lblCurrentEvent" text="Next Task" GridPane.rowIndex="2" GridPane.columnIndex="2" 
+	/> <FlowPane fx:id="flowPaneNextEvents" xmlns="http://javafx.com/javafx/8.0.40" 
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" vgap="5" maxWidth="1000.0" 
+	GridPane.rowIndex="3" GridPane.columnIndex="2"> <children> </children> </FlowPane> 
+	<Label fx:id="lblCurrentEvent" text="Overdue Task" GridPane.rowIndex="4" 
+	GridPane.columnIndex="2" GridPane.columnSpan="2" /> <Label fx:id="lblCurrentEvent" 
+	text="Ongoing Task" GridPane.rowIndex="5" GridPane.columnIndex="4" GridPane.columnSpan="2" 
+	/> <Label fx:id="lblCurrentEvent" text="Ongoing Task" GridPane.rowIndex="4" 
+	GridPane.columnIndex="6"/> <Label fx:id="lblCurrentEvent" text="Floating 
+	Task" GridPane.rowIndex="4" GridPane.columnIndex="10"/> <Label fx:id="lblCurrentEvent" 
+	text="Countdown to Next Event" GridPane.rowIndex="6" GridPane.columnIndex="2"/> 
+	<Label fx:id="lblNext" GridPane.rowIndex="3" GridPane.columnIndex="2"/> <FlowPane 
+	fx:id="flowPaneNextEvents" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" 
+	prefWidth="850.0" vgap="5" maxWidth="850.0" GridPane.rowIndex="3" GridPane.columnIndex="0" 
+	GridPane.columnSpan="4"> <children> </children> </FlowPane> <Label fx:id="lblPassed" 
+	GridPane.rowIndex="5" GridPane.columnIndex="2"/> <Label fx:id="lblOngoing" 
+	GridPane.rowIndex="5" GridPane.columnIndex="6"/> <Label fx:id="lblFloat" 
+	GridPane.rowIndex="5" GridPane.columnIndex="10"/> <Label fx:id="lbltime" 
+	GridPane.rowIndex="7" GridPane.columnIndex="2"/> <Label styleClass="storageMessage" 
+	text="* Create storage file first: 'save in &#60;FOLDER_NAME&#62;'" StackPane.alignment="BOTTOM_CENTER" 
+	/> </children> </GridPane> </children> </fx:root> -->

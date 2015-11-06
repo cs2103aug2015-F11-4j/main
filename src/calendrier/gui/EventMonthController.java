@@ -86,6 +86,10 @@ public class EventMonthController extends StackPane {
 				lblEvent1.setText(events.get(0).getTitle());
 				lblEventID1.setText(Integer.toString(computeFakeId(idList,events.get(0).getId())));
 				changeTextColor(events.get(0).getPriority(), lblEvent1);
+				//lblEvent1.setStyle("-fx-font-decoration: line-through;");
+				// if(events.get(0).isDone()){
+				// lblEvent1.setStyle("-fx-strikethrough: true;");
+				// }
 				if (events.size() > 1) {
 					lblEvent2.setText(events.get(1).getTitle());
 					lblEventID2.setText(Integer.toString(computeFakeId(idList,events.get(1).getId())));

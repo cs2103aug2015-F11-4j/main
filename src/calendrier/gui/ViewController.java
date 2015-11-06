@@ -19,8 +19,8 @@ public class ViewController extends FlowPane {
 	private static final String VIEWMONTH_SCREEN_LAYOUT_FXML = "/calendrier/resources/ViewMonth.fxml";
 	private static final String VIEWHOME_SCREEN_LAYOUT_FXML = "/calendrier/resources/Home.fxml";
 	private static final int VALUE_ADD_TO_ARRAY = 15;
-	
-	//@@author A0126421U
+
+	// @@author A0126421U
 	@FXML
 	private Label lblmonth;
 	@FXML
@@ -39,24 +39,37 @@ public class ViewController extends FlowPane {
 	private Label lblOngoing;
 	@FXML
 	private Label lblFloat;
-	//@@author 
+	@FXML
+	private Label lblNextTask;
+	@FXML
+	private FlowPane flowPaneCurrentEvents;
+	@FXML
+	private FlowPane flowPaneNextEvents;
+	// @@author
 
 	public ViewController() {
 	}
-	
+
 	/**
-	 * @@author A0126421U
-	 * Constructor to initialize the main components of viewHome
+	 * @@author A0126421U Constructor to initialize the main components of
+	 *          viewHome
 	 * 
-	 * @param time - the remaining time for next event to happen
-	 * @param events - the events that happen today
-	 * @param nextEvents - the next event that going to happen
-	 * @param floatTask - total number of floating task
-	 * @param onGoingTask - total number of on going task 
-	 * @param passedTask - total number of passed task
+	 * @param time
+	 *            - the remaining time for next event to happen
+	 * @param events
+	 *            - the events that happen today
+	 * @param nextEvents
+	 *            - the next event that going to happen
+	 * @param floatTask
+	 *            - total number of floating task
+	 * @param onGoingTask
+	 *            - total number of on going task
+	 * @param passedTask
+	 *            - total number of passed task
 	 * 
 	 */
-	public ViewController(long time, List<Event> events, int floatTask, int onGoingTask, int passedTask) {
+	public ViewController(long time, List<Event> dayEvents, List<Event> allEvents, int floatTask, int onGoingTask,
+			int passedTask) {
 		long sec = 0, min = 0, hour = 0, day = 0;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWHOME_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
@@ -66,26 +79,41 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		Calendar cal= Calendar.getInstance();
-		for(int i=0;i<events.size();i++){
-			if(events.get(i).getStartDateTime()!=null){
-				if(events.get(i).getStartDateTime().before(cal)){
-					lblCurrent.setText(events.get(i).getTitle());
+		int count = 0;
+		Event nextEvent= new Event();
+		Calendar cal = Calendar.getInstance();
+		for (int i = 0; i < allEvents.size(); i++) {
+			if (allEvents.get(i).getStartDateTime() != null) {
+				if (allEvents.get(i).getStartDateTime().after(cal)) {
+					if(count==0){
+						nextEvent=allEvents.get(i);
+					}
+					flowPaneNextEvents.getChildren().add(new HomeEventBoxController(allEvents.get(i)));
+					count++;
+					if (count == 5) {
+						break;
+					}
 				}
-				else if(events.get(i).getStartDateTime().after(cal)){
-					lblNext.setText(events.get(i).getTitle());
+			}
+		}
+		count=0;
+		for (int i = 0; i < dayEvents.size(); i++) {
+			if (dayEvents.get(i).getStartDateTime() != null) {
+				flowPaneCurrentEvents.getChildren().add(new HomeEventBoxController(dayEvents.get(i)));// lblCurrent.setText(events.get(i).getTitle());
+				count++;
+				if (count == 5) {
 					break;
 				}
 			}
 		}
-//		lblCurrent1.setStyle("-fx-border-width: 3.0px");
-//		lblCurrent.setText(events);
-//		lblNext.setText(nextEvents);
+		// lblCurrent1.setStyle("-fx-border-width: 3.0px");
+		// lblCurrent.setText(events);
+		// lblNext.setText(nextEvents);
 		lblPassed.setText(Integer.toString(passedTask));
 		lblOngoing.setText(Integer.toString(onGoingTask));
 		lblFloat.setText(Integer.toString(floatTask));
-		if (time != -1){
+		lblNextTask.setText(String.format("Countdown to %s", nextEvent.getTitle()));
+		if (time != -1) {
 			sec = (time / 1000) % 60;
 			min = (time / 60000) % 60;
 			hour = (time / 3600000) % 24;
@@ -98,16 +126,20 @@ public class ViewController extends FlowPane {
 			lbltime.setText("-");
 		}
 	}
-	//@@author 
+	// @@author
 
 	/**
-	 * @@author A0126421U
-	 * Constructor to initialize the main components of viewMonth
+	 * @@author A0126421U Constructor to initialize the main components of
+	 *          viewMonth
 	 * 
-	 * @param events - List of events in the specific month
-	 * @param date - the date to be display for user
-	 * @param month - the month to display for user
-	 * @param year - the year to display for user
+	 * @param events
+	 *            - List of events in the specific month
+	 * @param date
+	 *            - the date to be display for user
+	 * @param month
+	 *            - the month to display for user
+	 * @param year
+	 *            - the year to display for user
 	 * 
 	 */
 	public ViewController(List<Event> events, int date, int month, int year) {
@@ -147,15 +179,15 @@ public class ViewController extends FlowPane {
 					.add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month, year), idList));
 		}
 	}
-	//@@author 
-	
+	// @@author
+
 	/**
-	 * @@author A0126421U
-	 * Map short id to the real id
+	 * @@author A0126421U Map short id to the real id
 	 * 
-	 * @param events - the events to be mapped
+	 * @param events
+	 *            - the events to be mapped
 	 * 
-	 * @return idList -  the list of id that map to the id
+	 * @return idList - the list of id that map to the id
 	 * 
 	 */
 	private List<String> setIdMapper(List<Event> events) {
@@ -168,14 +200,15 @@ public class ViewController extends FlowPane {
 		}
 		return idList;
 	}
-	//@@author 
-	
+	// @@author
+
 	/**
-	 * @@author A0126421U
-	 * to compute total number of day in month
+	 * @@author A0126421U to compute total number of day in month
 	 * 
-	 * @param month - the month to detect the total day
-	 * @param year - the year to display
+	 * @param month
+	 *            - the month to detect the total day
+	 * @param year
+	 *            - the year to display
 	 * 
 	 * @return numOfDay - number of day in particular month
 	 * 
@@ -191,13 +224,13 @@ public class ViewController extends FlowPane {
 		}
 		return end;
 	}
-	//@@author 
-	
+	// @@author
+
 	/**
-	 * @@author A0126421U
-	 * convert month from integer to string
+	 * @@author A0126421U convert month from integer to string
 	 * 
-	 * @param month - the month to be convert
+	 * @param month
+	 *            - the month to be convert
 	 * 
 	 * @return String of month
 	 * 
@@ -231,13 +264,13 @@ public class ViewController extends FlowPane {
 		}
 		return null;
 	}
-	//@@author 
-	
+	// @@author
+
 	/**
-	 * @@author A0126421U
-	 * determine for leap year
+	 * @@author A0126421U determine for leap year
 	 * 
-	 * @param year - the year to be determine for leap year
+	 * @param year
+	 *            - the year to be determine for leap year
 	 * 
 	 * @return numOfDay - number of day in February for that year
 	 * 
@@ -248,16 +281,19 @@ public class ViewController extends FlowPane {
 		}
 		return 28;
 	}
-	//@@author 
-	
+	// @@author
+
 	/**
-	 * @@author A0126421U
-	 * detect the number of events in particular date
+	 * @@author A0126421U detect the number of events in particular date
 	 * 
-	 * @param year - the year to display for user
-	 * @param month - the month to display for user
-	 * @param date - the date to display for user
-	 * @param events - the list of events for a month
+	 * @param year
+	 *            - the year to display for user
+	 * @param month
+	 *            - the month to display for user
+	 * @param date
+	 *            - the date to display for user
+	 * @param events
+	 *            - the list of events for a month
 	 * 
 	 * @return eventList -total event in a date
 	 * 
@@ -327,13 +363,13 @@ public class ViewController extends FlowPane {
 		}
 		return results;
 	}
-	//@@author
-	
+	// @@author
+
 	/**
-	 * @@author A0126421U
-	 * check for month
+	 * @@author A0126421U check for month
 	 * 
-	 * @param month - the month to be check
+	 * @param month
+	 *            - the month to be check
 	 * 
 	 * @return month -the checked month
 	 * 
@@ -344,10 +380,9 @@ public class ViewController extends FlowPane {
 		}
 		return month;
 	}
-	//@@author
-	
+	// @@author
 
-	//@@author A0126288X
+	// @@author A0126288X
 	public ViewController(List<Event> events, int startIndex) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
@@ -379,4 +414,4 @@ public class ViewController extends FlowPane {
 		getChildren().add(new EventBoxController(event, position));
 	}
 }
-//@@author
+// @@author
