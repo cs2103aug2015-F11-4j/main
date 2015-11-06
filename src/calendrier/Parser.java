@@ -462,8 +462,8 @@ public class Parser {
 				} else {
 					title = inputAfterCommand.substring(0, titleEndIndex);
 				}
-				pc.setTitle(title);
 			}
+			pc.setTitle(title);
 
 			determineDeadlineAndSettle(pc, inputAfterCommand);
 
