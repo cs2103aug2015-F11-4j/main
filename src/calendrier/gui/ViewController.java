@@ -30,6 +30,8 @@ public class ViewController extends FlowPane {
 	@FXML
 	private Label lblCurrent;
 	@FXML
+	private Label lblCurrent1;
+	@FXML
 	private Label lblNext;
 	@FXML
 	private Label lblPassed;
@@ -54,7 +56,7 @@ public class ViewController extends FlowPane {
 	 * @param passedTask - total number of passed task
 	 * 
 	 */
-	public ViewController(long time, String events, String nextEvents, int floatTask, int onGoingTask, int passedTask) {
+	public ViewController(long time, List<Event> events, int floatTask, int onGoingTask, int passedTask) {
 		long sec = 0, min = 0, hour = 0, day = 0;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWHOME_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
@@ -64,8 +66,22 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		lblCurrent.setText(events);
-		//lblNext.setText(nextEvents);
+		
+		Calendar cal= Calendar.getInstance();
+		for(int i=0;i<events.size();i++){
+			if(events.get(i).getStartDateTime()!=null){
+				if(events.get(i).getStartDateTime().before(cal)){
+					lblCurrent.setText(events.get(i).getTitle());
+				}
+				else if(events.get(i).getStartDateTime().after(cal)){
+					lblNext.setText(events.get(i).getTitle());
+					break;
+				}
+			}
+		}
+//		lblCurrent1.setStyle("-fx-border-width: 3.0px");
+//		lblCurrent.setText(events);
+//		lblNext.setText(nextEvents);
 		lblPassed.setText(Integer.toString(passedTask));
 		lblOngoing.setText(Integer.toString(onGoingTask));
 		lblFloat.setText(Integer.toString(floatTask));

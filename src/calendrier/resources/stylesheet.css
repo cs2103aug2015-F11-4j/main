@@ -137,6 +137,16 @@
 	-fx-font-size:13.0pt;
 	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
+#lblCurrent1, #lblCurrent2{
+	-fx-border-style: solid;
+	-fx-border-width: 0.0px;
+	-fx-padding: 10.0 100.0 10.0 10.0;
+	-fx-hgap: 5.0;
+	-fx-vgap: 5.0;
+	-fx-background-color: white;
+	-fx-font-size:13.0pt;
+	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
+}
 #lblPassed, #lblOngoing, #lblFloat{
 	-fx-border-style: solid;
 	-fx-border-width: 0.0px;

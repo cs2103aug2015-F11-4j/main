@@ -18,11 +18,15 @@
 					GridPane.columnSpan="20" />
 				<Label fx:id="lblCurrent" GridPane.rowSpan="3"
 					GridPane.rowIndex="4" GridPane.columnIndex="2" GridPane.columnSpan="20" />
-				<!-- <Label fx:id="lblCurrentEvent" text="Next Task"
+				<!-- <Label fx:id="lblCurrent1" GridPane.rowSpan="3"
+					GridPane.rowIndex="4" GridPane.columnIndex="2" GridPane.columnSpan="20" />
+				<Label fx:id="lblCurrent2" GridPane.rowSpan="3"
+					GridPane.rowIndex="4" GridPane.columnIndex="2" GridPane.columnSpan="20" /> -->
+				<Label fx:id="lblCurrentEvent" text="Next Task"
 					GridPane.rowSpan="3" GridPane.rowIndex="10" GridPane.columnIndex="2"
 					GridPane.columnSpan="20" />
 				<Label fx:id="lblNext" GridPane.rowSpan="3" GridPane.rowIndex="13"
-					GridPane.columnIndex="2" GridPane.columnSpan="20" /> -->
+					GridPane.columnIndex="2" GridPane.columnSpan="20" />
 				<Label fx:id="lblCurrentEvent" text="Overdue Task"
 					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="2"
 					GridPane.columnSpan="20" />
@@ -44,8 +48,9 @@
 				<Label fx:id="lblCurrentEvent" text="Countdown to Next Event"
 					GridPane.rowSpan="3" GridPane.rowIndex="38" GridPane.columnIndex="55"
 					GridPane.columnSpan="40" />
-				<Label fx:id="lbltime" GridPane.rowIndex="40" GridPane.rowSpan="3" 
-					GridPane.columnIndex="65" wrapText="true" GridPane.columnSpan="25" />
+				<Label fx:id="lbltime" GridPane.rowIndex="40"
+					GridPane.rowSpan="3" GridPane.columnIndex="65" wrapText="true"
+					GridPane.columnSpan="25" />
 			</children>
 		</GridPane>
 		<!-- <Label styleClass="storageMessage" text="* Create storage file first: 

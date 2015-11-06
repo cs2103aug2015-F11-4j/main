@@ -199,32 +199,32 @@ public class UserInterface extends Application implements OnRemindListener {
 	 */
 	@SuppressWarnings("deprecation")
 	private void viewHome(UserInterface userInterface, long timeToNextEvent) {
-		Calendar cal = Calendar.getInstance();
-		List<Event> currentTask = new ArrayList<Event>();
-		List<Event> nextTask = new ArrayList<Event>();
-		String name1, name2;
-		currentTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
-				cal.getTime().getDay() + 1);
-		cal.add(Calendar.DATE, 1);
-		nextTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
-				cal.getTime().getDay() + 1);
-		while (nextTask.size() == 0) {
-			cal.add(Calendar.DATE, 1);
-			nextTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
-					cal.getTime().getDay() + 1);
-		}
+//		Calendar cal = Calendar.getInstance();
+//		List<Event> currentTask = new ArrayList<Event>();
+//		List<Event> nextTask = new ArrayList<Event>();
+//		String name1, name2;
+//		currentTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
+//				cal.getTime().getDay() + 1);
+//		cal.add(Calendar.DATE, 1);
+//		nextTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
+//				cal.getTime().getDay() + 1);
+//		while (nextTask.size() == 0) {
+//			cal.add(Calendar.DATE, 1);
+//			nextTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
+//					cal.getTime().getDay() + 1);
+//		}
 		currentScreenState = VALUE_VIEW_HOME_SCREEN;
-		if (currentTask.size() != 0) {
-			name1 = currentTask.get(0).getTitle();
-		} else {
-			name1 = null;
-		}
-		name2 = nextTask.get(0).getTitle();
-		rootLayout.setCenter(new ViewController(timeToNextEvent, name1, name2,
+//		if (currentTask.size() != 0) {
+//			name1 = currentTask.get(0).getTitle();
+//		} else {
+//			name1 = null;
+//		}
+//		name2 = nextTask.get(0).getTitle();
+		rootLayout.setCenter(new ViewController(timeToNextEvent, mainLogic.getAllEvents(),
 				getNumOfFloatEvents(mainLogic.getAllEvents()), getNumOfOnGoingEvents(mainLogic.getAllEvents()),
 				getNumOfPassedEvents(mainLogic.getAllEvents())));
 
-		startCountDown(name1, name2);
+		startCountDown(mainLogic.getAllEvents());
 	}
 	//@@author 
 	
@@ -237,13 +237,13 @@ public class UserInterface extends Application implements OnRemindListener {
 	 * 
 	 * 
 	 */
-	private void startCountDown(String name1, String name2) {
+	private void startCountDown(List<Event> events) {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				Platform.runLater(new Runnable() {
 					public void run() {
-						rootLayout.setCenter(new ViewController(mainLogic.getTimeToNextEvent(), name1, name2,
+						rootLayout.setCenter(new ViewController(mainLogic.getTimeToNextEvent(), events,
 								getNumOfFloatEvents(mainLogic.getAllEvents()),
 								getNumOfOnGoingEvents(mainLogic.getAllEvents()),
 								getNumOfPassedEvents(mainLogic.getAllEvents())));
