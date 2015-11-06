@@ -60,11 +60,15 @@ public class Parser {
 			// e.g. view month
 			pc.setCommand(Command.VIEW_MONTH);
 			return pc;
-		} else if (userInput.equals("view home") || userInput.equals("view day")) {
+		} else if (userInput.equals("view home")) {
 			// e.g. view home
 			pc.setCommand(Command.VIEW_HOME);
 			return pc;
-		} else if (userInput.equals("next day")) {
+		} else if (userInput.equals("view day")) {
+			// e.g. view home
+			pc.setCommand(Command.VIEW_DAY);
+			return pc;
+		}else if (userInput.equals("next day")) {
 			// e.g. next day
 			pc.setCommand(Command.NEXT_DAY);
 			return pc;

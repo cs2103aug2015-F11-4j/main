@@ -14,6 +14,13 @@ import java.util.List;
 //import java.util.logging.Level;
 //import java.util.logging.FileHandler;
 
+/**
+ * @@author A0126421U
+ * For handling the main logic
+ * 
+ * @author hiumengxiong
+ *
+ */
 public class StorageManager {
 	
 	private static String fileName=null;
@@ -22,6 +29,10 @@ public class StorageManager {
 	//private static Logger theLogger = Logger.getLogger(StorageManager.class.getName());
 //	FileHandler logFile;
 	
+	/**
+	 * @@author A0126421U
+	 * Constructor to initialize the main components of Storage Manager
+	 */
 	public StorageManager(){
 		inputData=new ArrayList<String>();
 //		try {
@@ -35,11 +46,25 @@ public class StorageManager {
 //	    theLogger.setUseParentHandlers(false);
 	}
 	
+	/**
+	 * @@author A0126421U
+	 * return a list of String from text file
+	 * 
+	 * @return listOfString - a list of string capture from text file
+	 * 
+	 */
 	public List<String> load(){
 		inputData.clear();
 		processFile(fileName);
 		return inputData;
 	}
+	/**
+	 * @@author A0126421U
+	 * Convert the current list of event to string
+	 * 
+	 *  @return String - String the consist of all the events
+	 * 
+	 */
 	public String listToString(){
 		int i;
 		
@@ -52,8 +77,13 @@ public class StorageManager {
 		}
 		return result;
 	}
+	
 	/**
-	 * This method is to check for file location.
+	 * @@author A0126421U
+	 * Check for the file location
+	 * 
+	 * @param fileLocation
+	 *            the location that provided by event handler
 	 */
 	public void setStorageLocation(String fileLocation) {
 		if (fileLocation.length() == 0) {
@@ -75,7 +105,11 @@ public class StorageManager {
 	}
 
 	/**
-	 * This method is to print the arraylist into the specified file.
+	 * @@author A0126421U
+	 * Save the list of event into text file
+	 * 
+	 * @param data
+	 *            the list of events to be save in text file.
 	 */
 	public void save(List<Event> data) {
 		int i;
@@ -102,7 +136,11 @@ public class StorageManager {
 	}
 
 	/**
-	 * This method is to read input from file.
+	 * @@author A0126421U
+	 * Read data from text file
+	 * 
+	 * @param fileLocation
+	 *            location of the text file to be process
 	 */
 	public void processFile(String fileLocation) {
 

@@ -12,6 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+/**
+ * @@author A0126421U
+ * For generate the children object for viewMonth
+ * 
+ * @author hiumengxiong
+ *
+ */
 public class EventMonthController extends StackPane {
 
 	@FXML
@@ -33,6 +40,17 @@ public class EventMonthController extends StackPane {
 
 	private static final String VALUE_SHOW_EMPTY_DATA = " ";
 
+	/**
+	 * @@author A0126421U
+	 * Constructor to initialize the main components of EventMonthController
+	 * 
+	 * @param date - Date to be display
+	 * @param month - Month to be display
+	 * @param year - Year to be display
+	 * @param events - List of events for the this date 
+	 * @param idList - The id to be display to user user, which will link for idMapper
+	 * 
+	 */
 	public EventMonthController(int date, int month, int year, List<Event> events, List<String> idList) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_EVENT_LAYOUT_FXML));
 		loader.setController(this);
@@ -44,7 +62,18 @@ public class EventMonthController extends StackPane {
 		}
 		initEventValue(date, month, year, events, idList);
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * Fill in details for EventMonth
+	 * 
+	 * @param date - Date to be display
+	 * @param month - Month to be display
+	 * @param year - Year to be display
+	 * @param events - List of events for the this date 
+	 * @param idList - The id to be display to user user, which will link for idMapper
+	 * 
+	 */
 	@SuppressWarnings("deprecation")
 	public void initEventValue(int date, int month, int year, List<Event> events, List<String> idList) {
 		
@@ -95,6 +124,17 @@ public class EventMonthController extends StackPane {
 			lblEventID2.setStyle("-fx-text-fill: darkgray;");
 		}
 	}
+	
+	/**
+	 * @@author A0126421U
+	 * Compute the fake id that display to the user.
+	 * 
+	 * @param idList - The id to be display to user user, which will link for idMapper
+	 * @param id - the actual id of current event
+	 * 
+	 * @return fakedId - the short id to be display to the user.
+	 * 
+	 */
 	private int computeFakeId(List<String> idList, String id){
 		for(int i=0;i<idList.size();i++){
 			if(idList.get(i).equals(id)){
@@ -103,6 +143,16 @@ public class EventMonthController extends StackPane {
 		}
 		return -1;
 	}
+	
+	/**
+	 * @@author A0126421U
+	 * check the existence of date
+	 * 
+	 * @param date - Date to be check
+	 * 
+	 * @return String of Date
+	 * 
+	 */
 	private String checkDate(int date){
 		if(date!=0){
 			return String.format("%d", date);
@@ -110,6 +160,14 @@ public class EventMonthController extends StackPane {
 		return VALUE_SHOW_EMPTY_DATA;
 	}
 	
+	/**
+	 * @@author A0126421U
+	 * Change the text color based on priority
+	 * 
+	 * @param priority - the priority of the current event
+	 * @param lblEvent - the layout to be modified
+	 * 
+	 */
 	private void changeTextColor(Priority priority, Label lblEvent) {
 		if (priority == Priority.VERY_HIGH) {
 			lblEvent.setStyle("-fx-text-fill: red;");

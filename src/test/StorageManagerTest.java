@@ -13,8 +13,14 @@ import utils.Priority;
 
 import org.junit.Test;
 
+/**
+ * @@author A0126421U
+ * @author hiumengxiong
+ * 
+ */
 public class StorageManagerTest {
 	
+	/* @@author A0126421U */
 	@Test
 	public void loadFromFile(){
 		StorageManager rm= new StorageManager();
@@ -28,6 +34,7 @@ public class StorageManagerTest {
 				+ "recurrence: null, " + "subtasks: [], done: false, \n", rm.listToString());
 	}
 	
+	/* @@author A0126421U */
 	@Test
 	public void testSave() {
 		

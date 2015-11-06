@@ -494,4 +494,18 @@ public class MainLogic {
 
 		return time;
 	}
+	
+	/**
+	 * @@author A0088646M
+	 * Gets event based on its actual id
+	 * @param actualId	the actual id of the event
+	 * @return the event object
+	 */
+	public Event getEvent(String actualId){
+		Event event = null;
+		
+		event = eventHandler.getEvent(actualId);
+		
+		return event;
+	}
 }

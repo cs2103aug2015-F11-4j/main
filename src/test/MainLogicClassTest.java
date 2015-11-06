@@ -22,6 +22,72 @@ public class MainLogicClassTest {
 
 	/* @@author A0088646M */
 	@Test
+	public void testGetEvent(){
+		MainLogic mainLogic = loadEmptyTestCases();
+		String command = "add test event";
+		Command cmd = mainLogic.execute(command);
+		assertEquals(Command.ADD, cmd);
+		
+		List<Event> events = mainLogic.getAllEvents();
+		assertTrue(events.size() > 0);
+		assertTrue(events.get(0).getTitle().equals("test event"));
+		
+		String id = events.get(0).getId();
+		assertEquals(events.get(0).getId(), mainLogic.getEvent(id).getId());
+	}
+
+	/* @@author A0088646M */
+	@Test
+	public void testGetNullEvent(){
+		MainLogic mainLogic = loadEmptyTestCases();
+		String command = "add test event";
+		Command cmd = mainLogic.execute(command);
+		assertEquals(Command.ADD, cmd);
+		
+		List<Event> events = mainLogic.getAllEvents();
+		assertTrue(events.size() > 0);
+		assertTrue(events.get(0).getTitle().equals("test event"));
+		
+		String id = events.get(0).getId();
+		assertEquals(null, mainLogic.getEvent(null));
+	}
+	
+
+	/* @@author A0088646M */
+	@Test
+	public void testGetEmptyEvent(){
+		MainLogic mainLogic = loadEmptyTestCases();
+		String command = "add test event";
+		Command cmd = mainLogic.execute(command);
+		assertEquals(Command.ADD, cmd);
+		
+		List<Event> events = mainLogic.getAllEvents();
+		assertTrue(events.size() > 0);
+		assertTrue(events.get(0).getTitle().equals("test event"));
+		
+		String id = events.get(0).getId();
+		assertEquals(null, mainLogic.getEvent(""));
+	}
+	
+
+	/* @@author A0088646M */
+	@Test
+	public void testGetInvalidEvent(){
+		MainLogic mainLogic = loadEmptyTestCases();
+		String command = "add test event";
+		Command cmd = mainLogic.execute(command);
+		assertEquals(Command.ADD, cmd);
+		
+		List<Event> events = mainLogic.getAllEvents();
+		assertTrue(events.size() > 0);
+		assertTrue(events.get(0).getTitle().equals("test event"));
+		
+		String id = events.get(0).getId();
+		assertEquals(null, mainLogic.getEvent("bblabla"));
+	}
+	
+	/* @@author A0088646M */
+	@Test
 	public void testCountDown(){
 		MainLogic mainLogic = loadEmptyTestCases();
 		Calendar in10Minutes = Calendar.getInstance();

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- @@author A0126421U -->
+<fx:root type="FlowPane" fx:id="flowPaneAllEvents" xmlns="http://javafx.com/javafx/8.0.40"
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" prefHeight="500.0"
+	maxWidth="850.0" maxHeight="500.0">
+	<children>
+		<GridPane styleClass="gridPaneHelpScreen" xmlns="http://javafx.com/javafx/8.0.40"
+			xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" prefHeight="700.0"
+			maxWidth="1000.0" maxHeight="600.0" vgap="30" hgap="100">
+			<children>
+				<Label fx:id="lblCurrentEvent" text="Current Task"
+					GridPane.rowSpan="3" GridPane.rowIndex="1" GridPane.columnIndex="2"
+					GridPane.columnSpan="20" />
+				<Label fx:id="lblCurrent" GridPane.rowSpan="3"
+					GridPane.rowIndex="4" GridPane.columnIndex="2" GridPane.columnSpan="20" />
+				<!-- <Label fx:id="lblCurrentEvent" text="Next Task"
+					GridPane.rowSpan="3" GridPane.rowIndex="10" GridPane.columnIndex="2"
+					GridPane.columnSpan="20" />
+				<Label fx:id="lblNext" GridPane.rowSpan="3" GridPane.rowIndex="13"
+					GridPane.columnIndex="2" GridPane.columnSpan="20" /> -->
+				<Label fx:id="lblCurrentEvent" text="Overdue Task"
+					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="2"
+					GridPane.columnSpan="20" />
+				<Label fx:id="lblPassed" GridPane.rowSpan="3"
+					GridPane.rowIndex="25" GridPane.columnIndex="10"
+					GridPane.columnSpan="3" />
+				<Label fx:id="lblCurrentEvent" text="Ongoing Task"
+					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="33"
+					GridPane.columnSpan="20" />
+				<Label fx:id="lblOngoing" GridPane.rowSpan="3"
+					GridPane.rowIndex="25" GridPane.columnIndex="41"
+					GridPane.columnSpan="3" />
+				<Label fx:id="lblCurrentEvent" text="Float Task"
+					GridPane.rowSpan="3" GridPane.rowIndex="20" GridPane.columnIndex="65"
+					GridPane.columnSpan="20" />
+				<Label fx:id="lblFloat" GridPane.rowSpan="3"
+					GridPane.rowIndex="25" GridPane.columnIndex="70"
+					GridPane.columnSpan="5" />
+				<Label fx:id="lblCurrentEvent" text="Countdown to Next Event"
+					GridPane.rowSpan="3" GridPane.rowIndex="38" GridPane.columnIndex="55"
+					GridPane.columnSpan="40" />
+				<Label fx:id="lbltime" GridPane.rowIndex="40" GridPane.rowSpan="3" 
+					GridPane.columnIndex="65" wrapText="true" GridPane.columnSpan="25" />
+			</children>
+		</GridPane>
+		<!-- <Label styleClass="storageMessage" text="* Create storage file first: 
+			'save in &#60;FOLDER_NAME&#62;'" StackPane.alignment="BOTTOM_CENTER" /> -->
+	</children>
+</fx:root>

@@ -49,6 +49,22 @@ public class EventHandler {
 	public void setOnRemindListener(OnRemindListener listen) {
 		reminders.setOnRemindListener(listen);
 	}
+	
+	/**
+	 * returns an event that has a specific id
+	 * @param id
+	 * @return event that has the id specified
+	 */
+	public Event getEvent(String id) {
+		Event returnedEvent = null;
+		for (Event e : events) {
+			if (e.getId().equals(id)) {
+				returnedEvent = e;
+				break;
+			}
+		}
+		return returnedEvent;
+	}
 
 	/**
 	 * Method called by external classes Determines the type of command to
@@ -66,6 +82,8 @@ public class EventHandler {
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
 			assert (newEvent != null);
+//			String Id = IdMapper.getInstance().getActualId(pc.getId());
+//			newEvent.setId(Id);
 			add(newEvent);
 			eventsReturned.add(newEvent);
 		} else if (pc.getCommand() == Command.DELETE) {
@@ -162,6 +180,7 @@ public class EventHandler {
 			history.pop();
 			events = history.peek();
 		}
+		manage.save(events);
 	}
 
 	/**
@@ -346,6 +365,9 @@ public class EventHandler {
 			for (String s : oldEvent.getSubtasks()) {
 				newEvent.addSubtask(s);
 			}
+		}
+		if (newEvent.getRecurrence() == null) {
+			newEvent.setRecurrence(oldEvent.getRecurrence());
 		}
 	}
 

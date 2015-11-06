@@ -15,6 +15,8 @@ public class SortedEvents {
 	private static ArrayList<Event> arrLow;
 	private static ArrayList<Event> arrVeryLow;
 	private static ArrayList<Event> arrNoPriority;
+	private static ArrayList<Event> arrNotDone;
+	private static ArrayList<Event> arrDone;
 
 	private SortedEvents() {
 		reinitiateArray();
@@ -22,7 +24,8 @@ public class SortedEvents {
 
 	public static ArrayList<Event> sortEvents(List<Event> parsedInEvents) {
 		reinitiateArray();
-		doSorting(parsedInEvents);
+		doStatusSorting(parsedInEvents);
+		doSorting();
 		return events;
 	}
 
@@ -34,11 +37,29 @@ public class SortedEvents {
 		arrLow = new ArrayList<Event>();
 		arrVeryLow = new ArrayList<Event>();
 		arrNoPriority = new ArrayList<Event>();
+		arrNotDone = new ArrayList<Event>();
+		arrDone = new ArrayList<Event>();
 	}
-
-	private static void doSorting(List<Event> parsedInEvents) {
+	
+	private static void doStatusSorting(List<Event> parsedInEvents) {
 		for (int i = 0; i < parsedInEvents.size(); i++) {
 			Event currentEvent = parsedInEvents.get(i);
+			boolean isDone = currentEvent.isDone();
+			addToDoneArray(currentEvent, isDone);
+		}
+	}
+	
+	private static void addToDoneArray(Event event, boolean isDone) {
+		if(isDone) {
+			arrDone.add(event);
+		} else {
+			arrNotDone.add(event);
+		}
+	}
+
+	private static void doSorting() {
+		for (int i = 0; i < arrNotDone.size(); i++) {
+			Event currentEvent = arrNotDone.get(i);
 			Priority priority = currentEvent.getPriority();
 			addToArray(currentEvent, priority);
 		}
@@ -52,6 +73,7 @@ public class SortedEvents {
 		events.addAll(arrLow);
 		events.addAll(arrVeryLow);
 		events.addAll(arrNoPriority);
+		events.addAll(arrDone);
 	}
 
 	private static void addToArray(Event currentEvent, Priority priority) {

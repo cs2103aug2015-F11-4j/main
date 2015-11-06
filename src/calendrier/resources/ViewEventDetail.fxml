@@ -10,18 +10,19 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 
 <fx:root type="StackPane" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="600.0"
-	maxWidth="500.0" maxHeight="600.0">
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="800.0" prefHeight="650.0"
+	maxWidth="800.0" maxHeight="650.0">
 	<children>
 		<GridPane fx:id="gridPaneDetail" xmlns="http://javafx.com/javafx/8.0.40"
-			xmlns:fx="http://javafx.com/fxml/1" prefWidth="480.0" prefHeight="500.0"
-			maxWidth="500.0" maxHeight="500.0" vgap="10" hgap="10">
+			xmlns:fx="http://javafx.com/fxml/1" prefWidth="800.0" prefHeight="650.0"
+			maxWidth="800.0" maxHeight="650.0" vgap="10" hgap="10">
 			<columnConstraints>
-				<ColumnConstraints percentWidth="10.0" />
-				<ColumnConstraints percentWidth="10.0" />
-				<ColumnConstraints percentWidth="25.0" />
-				<ColumnConstraints percentWidth="20.0" halignment="CENTER" />
-				<ColumnConstraints percentWidth="35.0" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="25.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="20.0" halignment="RIGHT" />
+				<ColumnConstraints percentWidth="25.0" halignment="CENTER" />
 			</columnConstraints>
 			<rowConstraints>
 				<RowConstraints percentHeight="14.0" />
@@ -37,38 +38,35 @@
 				</ImageView>
 
 				<Label text="ID: " GridPane.columnIndex="1" GridPane.rowIndex="0"
-					wrapText="true" GridPane.valignment="BOTTOM" />
+					wrapText="true" GridPane.valignment="BOTTOM" GridPane.halignment="RIGHT" />
 				<Label fx:id="lblID" GridPane.columnIndex="2"
-					GridPane.rowIndex="0" wrapText="true" GridPane.valignment="BOTTOM" />
-
-				<Label text="Sub-ID: " GridPane.columnIndex="1"
-					GridPane.columnSpan="2" GridPane.rowIndex="1" wrapText="true"
-					GridPane.valignment="TOP" />
-				<Label fx:id="lblSUBID" GridPane.columnIndex="2"
-					GridPane.rowIndex="1" wrapText="true" GridPane.valignment="TOP" />
-
+					GridPane.rowIndex="0" wrapText="true" GridPane.valignment="BOTTOM" GridPane.halignment="CENTER" />
+				<CheckBox fx:id="checkBoxDone" GridPane.rowIndex="0" 
+					GridPane.columnIndex="3" GridPane.valignment="BOTTOM" />
+				
+				
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
-					preserveRatio="true" visible="true" GridPane.columnIndex="3"
+					preserveRatio="true" visible="true" GridPane.columnIndex="4"
 					GridPane.rowIndex="0">
 					<image>
 						<Image url="/calendrier/resources/priority.png" />
 					</image>
 				</ImageView>
-				<Label fx:id="lblPriority" GridPane.columnIndex="4"
+				<Label fx:id="lblPriority" GridPane.columnIndex="5"
 					GridPane.rowIndex="0" wrapText="true" />
 
 				<Label fx:id="lblTitle" GridPane.columnIndex="1" underline="true"
 					GridPane.rowIndex="1" GridPane.columnSpan="2" wrapText="true"
-					GridPane.valignment="BOTTOM" />
+					GridPane.valignment="TOP" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
-					preserveRatio="true" visible="true" GridPane.columnIndex="3"
+					preserveRatio="true" visible="true" GridPane.columnIndex="4"
 					GridPane.rowIndex="1">
 					<image>
 						<Image url="/calendrier/resources/group.png" />
 					</image>
 				</ImageView>
-				<Label fx:id="lblGroup" GridPane.columnIndex="4"
+				<Label fx:id="lblGroup" GridPane.columnIndex="5"
 					GridPane.rowIndex="1" wrapText="true" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
@@ -79,16 +77,16 @@
 					</image>
 				</ImageView>
 				<Label fx:id="lblDate" GridPane.columnIndex="1"
-					GridPane.rowIndex="2" GridPane.columnSpan="2" wrapText="true" />
+					GridPane.rowIndex="2" GridPane.columnSpan="3" wrapText="true" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
-					preserveRatio="true" visible="true" GridPane.columnIndex="3"
+					preserveRatio="true" visible="true" GridPane.columnIndex="4"
 					GridPane.rowIndex="2">
 					<image>
 						<Image url="/calendrier/resources/recurrence.png" />
 					</image>
 				</ImageView>
-				<Label fx:id="lblRecurrence" GridPane.columnIndex="4"
+				<Label fx:id="lblRecurrence" GridPane.columnIndex="5"
 					GridPane.rowIndex="2" wrapText="true" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
@@ -99,16 +97,16 @@
 					</image>
 				</ImageView>
 				<Label fx:id="lblLocation" GridPane.columnIndex="1"
-					GridPane.rowIndex="3" GridPane.columnSpan="2" wrapText="true" />
+					GridPane.rowIndex="3" GridPane.columnSpan="3" wrapText="true" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
-					preserveRatio="true" visible="true" GridPane.columnIndex="3"
+					preserveRatio="true" visible="true" GridPane.columnIndex="4"
 					GridPane.rowIndex="3">
 					<image>
 						<Image url="/calendrier/resources/notes.png" />
 					</image>
 				</ImageView>
-				<Label fx:id="lblNotes" GridPane.columnIndex="4"
+				<Label fx:id="lblNotes" GridPane.columnIndex="5"
 					GridPane.rowIndex="3" wrapText="true" />
 
 				<ImageView fitHeight="50" fitWidth="50" pickOnBounds="true"
@@ -119,10 +117,15 @@
 					</image>
 				</ImageView>
 				<Label fx:id="lblReminder" GridPane.columnIndex="1"
-					GridPane.rowIndex="4" GridPane.columnSpan="2" wrapText="true" />
-
-				<!-- <CheckBox fx:id="checkBoxDone" text="Done" GridPane.rowIndex="4" 
-					GridPane.columnIndex="3" /> -->
+					GridPane.rowIndex="4" GridPane.columnSpan="3" wrapText="true" />
+					
+				<Label text="Sub-Task: " GridPane.columnIndex="4"
+					 GridPane.rowIndex="4" wrapText="true" />
+				<Label fx:id="lblSUBID" GridPane.columnIndex="5"
+					GridPane.rowIndex="4" wrapText="true"/>
+				<Label fx:id="lblSUBID1" GridPane.columnIndex="5"
+					GridPane.rowIndex="4" wrapText="true" GridPane.valignment="BOTTOM"/>
+				
 			</children>
 		</GridPane>
 	</children>

@@ -10,6 +10,7 @@ import utils.Priority;
 import utils.Recurrence;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +28,8 @@ public class EventDetailController extends StackPane {
 	@FXML
 	private Label lblSUBID;
 	@FXML
+	private Label lblSUBID1;
+	@FXML
 	private Label lblTitle;
 	@FXML
 	private Label lblDate;
@@ -42,6 +45,8 @@ public class EventDetailController extends StackPane {
 	private Label lblGroup;
 	@FXML
 	private Label lblRecurrence;
+	@FXML
+	private CheckBox checkBoxDone;
 
 	private static final String EVENT_DETAIL_LAYOUT_FXML = "/calendrier/resources/ViewEventDetail.fxml";
 
@@ -64,13 +69,18 @@ public class EventDetailController extends StackPane {
 	private static final String VALUE_LOW_PRIORITY = "low";
 	private static final String VALUE_VERY_LOW_PRIORITY = "very_low";
 	
+	private static final boolean VALUE_TRUE = true;
+	private static final boolean VALUE_FALSE = false;
+	private static final String VALUE_DONE = "Done";
+	private static final String VALUE_NOT_DONE ="Undone";
+	
 	private static final int VALUE_EMPTY_SIZE = 0;
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	private static final String VALUE_SHOW_NULL = "null, ";
 	private static final String VALUE_ADD_COMMA = ", ";
 
-	public EventDetailController(Event event) {
+	public EventDetailController(Event event, List<Event> subEvents) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(EVENT_DETAIL_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -80,15 +90,14 @@ public class EventDetailController extends StackPane {
 			e.printStackTrace();
 		}
 
-		initEventValue(event);
+		initEventValue(event, subEvents);
 	}
 
-	public void initEventValue(Event event) {
+	public void initEventValue(Event event, List<Event> subEvents) {
 		IdMapper idMapper = IdMapper.getInstance();
 		idMapper.set(Integer.toString(0), checkExistValue(event.getId()));
 		
 		lblID.setText(Integer.toString(0));
-		lblSUBID.setText(" "+event.getMainId());
 		lblTitle.setText(checkExistValue(event.getTitle()));
 		lblDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 		lblLocation.setText(checkExistValue(event.getLocation()));
@@ -98,7 +107,14 @@ public class EventDetailController extends StackPane {
 		
 		String strPriority = checkExistPriority(event.getPriority());
 		lblPriority.setText(strPriority);
-
+		if(subEvents.size()!=0){
+			lblSUBID.setText(subEvents.get(0).getTitle());
+			if(event.getSubtasks().size()>1){
+				lblSUBID1.setText(subEvents.get(1).getTitle());
+			}
+		}else{
+			lblSUBID.setText(VALUE_SHOW_EMPTY_DATA);
+		}
 		if (event.isDone()) {
 			changeEventDesign();
 		} else {
@@ -116,6 +132,14 @@ public class EventDetailController extends StackPane {
 			img = new Image(strImage);
 		}
 		imgType.setImage(img);
+		
+		if(event.isDone()) {
+			checkBoxDone.setText(VALUE_DONE);
+			checkBoxDone.setSelected(VALUE_TRUE);
+		} else {
+			checkBoxDone.setText(VALUE_NOT_DONE);
+			checkBoxDone.setSelected(VALUE_FALSE);
+		}
 	}
 
 	private static String checkExistReminder(List<Calendar> reminders) {
@@ -202,9 +226,9 @@ public class EventDetailController extends StackPane {
 	}
 
 	private static String checkExistValue(String parseInValue) {
-		try {
+		if(parseInValue!=null){
 			return parseInValue;
-		} catch (NullPointerException e) {
+		}else{
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 	}

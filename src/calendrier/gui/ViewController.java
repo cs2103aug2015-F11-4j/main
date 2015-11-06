@@ -26,12 +26,34 @@ public class ViewController extends FlowPane {
 	private Label lblyear;
 	@FXML
 	private Label lbltime;
+	@FXML
+	private Label lblCurrent;
+	@FXML
+	private Label lblNext;
+	@FXML
+	private Label lblPassed;
+	@FXML
+	private Label lblOngoing;
+	@FXML
+	private Label lblFloat;
 
+	public ViewController() {
+	}
 	
-	public ViewController(){}
-	
-	public ViewController(long time){
-		
+	/**
+	 * @@author A0126421U
+	 * Constructor to initialize the main components of viewHome
+	 * 
+	 * @param time - the remaining time for next event to happen
+	 * @param events - the events that happen today
+	 * @param nextEvents - the next event that going to happen
+	 * @param floatTask - total number of floating task
+	 * @param onGoingTask - total number of on going task 
+	 * @param passedTask - total number of passed task
+	 * 
+	 */
+	public ViewController(long time, String events, String nextEvents, int floatTask, int onGoingTask, int passedTask) {
+		long sec = 0, min = 0, hour = 0, day = 0;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWHOME_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -40,10 +62,35 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		lbltime.setText(Long.toString(time));
-		
-	}
+		lblCurrent.setText(events);
+		//lblNext.setText(nextEvents);
+		lblPassed.setText(Integer.toString(passedTask));
+		lblOngoing.setText(Integer.toString(onGoingTask));
+		lblFloat.setText(Integer.toString(floatTask));
+		if (time != -1){
+			sec = (time / 1000) % 60;
+			min = (time / 60000) % 60;
+			hour = (time / 3600000) % 24;
+			day = (time / 3600000) / 24;
+			lbltime.setText(Long.toString(day) + "Day " + Long.toString(hour) + "Hour " + Long.toString(min) + "Min "
+					+ Long.toString(sec) + "Sec ");
+		} else
 
+		{
+			lbltime.setText("-");
+		}
+
+	}
+	/**
+	 * @@author A0126421U
+	 * Constructor to initialize the main components of viewMonth
+	 * 
+	 * @param events - List of events in the specific month
+	 * @param date - the date to be display for user
+	 * @param month - the month to display for user
+	 * @param year - the year to display for user
+	 * 
+	 */
 	public ViewController(List<Event> events, int date, int month, int year) {
 		int i, end;
 		List<String> idList = new ArrayList<String>();
@@ -62,7 +109,7 @@ public class ViewController extends FlowPane {
 
 		@SuppressWarnings("deprecation")
 		int day = cal.getTime().getDay();
-		
+
 		if (day != 7) {
 			date = 0;
 			while (date < day) {
@@ -81,21 +128,37 @@ public class ViewController extends FlowPane {
 					.add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month, year), idList));
 		}
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * Map short id to the real id
+	 * 
+	 * @param events - the events to be mapped
+	 * 
+	 * @return idList -  the list of id that map to the id
+	 * 
+	 */
 	private List<String> setIdMapper(List<Event> events) {
 		IdMapper idMapper = IdMapper.getInstance();
 		List<String> idList = new ArrayList<String>();
 		for (int i = 0; i < events.size(); i++) {
-			//System.out.println(events.get(i).toString());
+			// System.out.println(events.get(i).toString());
 			idMapper.set(Integer.toString(i), events.get(i).getId());
 			idList.add(events.get(i).getId());
 		}
 		return idList;
 	}
-//	public List<String> getIdMapper(){
-//		return idList;
-//	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * to compute total number of day in month
+	 * 
+	 * @param month - the month to detect the total day
+	 * @param year - the year to display
+	 * 
+	 * @return numOfDay - number of day in particular month
+	 * 
+	 */
 	private int detectLengthofMonth(int month, int year) {
 		int end;
 		if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
@@ -107,7 +170,16 @@ public class ViewController extends FlowPane {
 		}
 		return end;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * convert month from integer to string
+	 * 
+	 * @param month - the month to be convert
+	 * 
+	 * @return String of month
+	 * 
+	 */
 	private String detectMonth(int month) {
 		switch (month) {
 		case 0:
@@ -137,14 +209,35 @@ public class ViewController extends FlowPane {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * determine for leap year
+	 * 
+	 * @param year - the year to be determine for leap year
+	 * 
+	 * @return numOfDay - number of day in February for that year
+	 * 
+	 */
 	private int detectLeapYear(int year) {
 		if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
 			return 29;
 		}
 		return 28;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * detect the number of events in particular date
+	 * 
+	 * @param year - the year to display for user
+	 * @param month - the month to display for user
+	 * @param date - the date to display for user
+	 * @param events - the list of events for a month
+	 * 
+	 * @return eventList -total event in a date
+	 * 
+	 */
 	@SuppressWarnings("deprecation")
 	public List<Event> detectDate(List<Event> events, int date, int month, int year) {
 		int i;
@@ -152,10 +245,10 @@ public class ViewController extends FlowPane {
 
 		for (i = 0; i < events.size(); i++) {
 			if (events.get(i).getStartDateTime() != null && events.get(i).getEndDateTime() != null) {
-				//Start and end in same year
+				// Start and end in same year
 				if (events.get(i).getEndDateTime().getTime().getYear() + 1900 == year
 						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 == year) {
-					
+
 					if ((events.get(i).getEndDateTime().getTime().getDate() >= date
 							&& events.get(i).getEndDateTime().getTime().getMonth() == month)
 							&& (events.get(i).getStartDateTime().getTime().getDate() <= date
@@ -175,8 +268,8 @@ public class ViewController extends FlowPane {
 							&& events.get(i).getEndDateTime().getTime().getMonth() > month) {
 						results.add(events.get(i));
 					}
-				} 
-				//Start year < end year, set for start year
+				}
+				// Start year < end year, set for start year
 				else if (events.get(i).getEndDateTime().getTime().getYear() + 1900 > year
 						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 == year) {
 					if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
@@ -185,9 +278,9 @@ public class ViewController extends FlowPane {
 						}
 					} else if (events.get(i).getStartDateTime().getTime().getMonth() < month) {
 						results.add(events.get(i));
-					} 
+					}
 				}
-				//Start year < end year, set for end year
+				// Start year < end year, set for end year
 				else if (events.get(i).getEndDateTime().getTime().getYear() + 1900 == year
 						&& events.get(i).getStartDateTime().getTime().getYear() + 1900 < year) {
 					if (events.get(i).getEndDateTime().getTime().getMonth() == month) {
@@ -198,8 +291,8 @@ public class ViewController extends FlowPane {
 						results.add(events.get(i));
 					}
 				}
-			} 
-			//for task without enddate
+			}
+			// for task without enddate
 			else {
 				if (events.get(i).getStartDateTime().getTime().getDate() == date) {
 					if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
@@ -210,13 +303,23 @@ public class ViewController extends FlowPane {
 		}
 		return results;
 	}
-
+	
+	/**
+	 * @@author A0126421U
+	 * check for month
+	 * 
+	 * @param month - the month to be check
+	 * 
+	 * @return month -the checked month
+	 * 
+	 */
 	public int checkMonth(int month) {
 		if (month > 11) {
 			return 12;
 		}
 		return month;
 	}
+	
 
 	public ViewController(List<Event> events, int startIndex) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_SCREEN_LAYOUT_FXML));

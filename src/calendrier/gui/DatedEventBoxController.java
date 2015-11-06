@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -24,6 +25,8 @@ public class DatedEventBoxController extends StackPane {
 	private Label lblDatedEventTitle;
 	@FXML
 	private Label lblDatedEventDate;
+	@FXML 
+	private CheckBox checkBoxDone;
 
 	private static final String SINGLE_DATED_EVENT_LAYOUT_FXML = "/calendrier/resources/DatedEventBox.fxml";
 
@@ -32,11 +35,13 @@ public class DatedEventBoxController extends StackPane {
 	private static final String VALUE_MEDIUM_PRIORITY = "medium";
 	private static final String VALUE_LOW_PRIORITY = "low";
 	private static final String VALUE_VERY_LOW_PRIORITY = "very_low";
+	
+	private static final boolean VALUE_IS_DONE = true;
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
 
-	public DatedEventBoxController(Event event, int position) {
+	public DatedEventBoxController(Event event, int position, boolean isPast) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_DATED_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -46,18 +51,22 @@ public class DatedEventBoxController extends StackPane {
 			e.printStackTrace();
 		}
 
-		initEventValue(event, position);
+		initEventValue(event, position, isPast);
 	}
 
-	private void initEventValue(Event event, int position) {
+	private void initEventValue(Event event, int position, boolean isPast) {
 		IdMapper idMapper = IdMapper.getInstance();
 		idMapper.set(Integer.toString(position), checkExistValue(event.getId()));
 		lblDatedEventID.setText(Integer.toString(position));
 		lblDatedEventTitle.setText(checkExistValue(event.getTitle()));
-		lblDatedEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
+		String displayDate = constructEventDate(event.getStartDateTime(), event.getEndDateTime());
+		lblDatedEventDate.setText(displayDate);
 
-		if (event.isDone()) {
+		if(isPast) {
 			changeEventDesign();
+			if(event.isDone()) {
+				checkBoxDone.setSelected(VALUE_IS_DONE);
+			}
 		} else {
 			String strPriority = checkExistPriority(event.getPriority());
 			changeBorderColor(strPriority);
