@@ -135,7 +135,13 @@
 .lblIndication {
 	-fx-font-size: 10.0pt;
 }
-
+#lblMoreEvent, #lblMoreNextEvent{
+	-fx-border-style: solid;
+	-fx-border-width: 0.0px;
+	-fx-font-size:10.0pt;
+	-fx-text-fill: red;
+	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
+}
 #lblPassed, #lblOngoing, #lblFloat{
 	-fx-border-style: solid;
 	-fx-border-width: 0.0px;

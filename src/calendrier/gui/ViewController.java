@@ -34,6 +34,8 @@ public class ViewController extends FlowPane {
 	@FXML
 	private Label lbltimeSec;
 	@FXML
+	private Label lblMoreEvent;
+	@FXML
 	private Label lblPassed;
 	@FXML
 	private Label lblOngoing;
@@ -46,9 +48,6 @@ public class ViewController extends FlowPane {
 	@FXML
 	private FlowPane flowPaneNextEvents;
 	// @@author
-
-	public ViewController() {
-	}
 
 	/**
 	 * @@author A0126421U Constructor to initialize the main components of
@@ -70,7 +69,6 @@ public class ViewController extends FlowPane {
 	 */
 	public ViewController(long time, List<Event> dayEvents, List<Event> allEvents, int floatTask, int onGoingTask,
 			int passedTask) {
-		long sec = 0, min = 0, hour = 0, day = 0;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWHOME_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -79,41 +77,25 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int count = 0, id=0;
+		
+		initHomeView(time, dayEvents, allEvents, floatTask, onGoingTask, passedTask);
+	}
+
+	private void initHomeView(long time, List<Event> dayEvents, List<Event> allEvents, int floatTask, int onGoingTask,
+			int passedTask) {
+		
 		Event nextEvent = new Event();
 		Calendar cal = Calendar.getInstance();
 		IdMapper idMapper = IdMapper.getInstance();
 		
-		for (int i = 0; i < dayEvents.size(); i++) {
-			if (dayEvents.get(i).getStartDateTime() != null) {
-				idMapper.set(Integer.toString(id), allEvents.get(i).getId());
-				flowPaneCurrentEvents.getChildren().add(new HomeEventBoxController(dayEvents.get(i), id));// lblCurrent.setText(events.get(i).getTitle());
-				count++;
-				id++;
-				if (count == 5) {
-					break;
-				}
-			}
-		}
-		count = 0;
-		for (int i = 0; i < allEvents.size(); i++) {
-			if (allEvents.get(i).getStartDateTime() != null) {
-				if (allEvents.get(i).getStartDateTime().after(cal)) {
-					if (count == 0) {
-						nextEvent = allEvents.get(i);
-					}
-					idMapper.set(Integer.toString(id), allEvents.get(i).getId());
-					flowPaneNextEvents.getChildren().add(new HomeEventBoxController(allEvents.get(i), id));
-					count++;
-					id++;
-					if (count == 5) {
-						break;
-					}
-				}
-			}
-		}
-		
+		int id = generateCurrentEvent(dayEvents, allEvents, idMapper);
+		nextEvent = generateNextEvent(allEvents, nextEvent, cal, idMapper, id);
 
+		setForCountingTask(floatTask, onGoingTask, passedTask, nextEvent);
+		generateTimerSetting(time);
+	}
+
+	private void setForCountingTask(int floatTask, int onGoingTask, int passedTask, Event nextEvent) {
 		lblPassed.setText(Integer.toString(passedTask));
 		lblOngoing.setText(Integer.toString(onGoingTask));
 		lblFloat.setText(Integer.toString(floatTask));
@@ -123,6 +105,13 @@ public class ViewController extends FlowPane {
 		else{
 			lblNextTask.setText(String.format("Countdown Not Avaliable"));
 		}
+	}
+
+	private void generateTimerSetting(long time) {
+		long sec;
+		long min;
+		long hour;
+		long day;
 		if (time != -1) {
 			sec = (time / 1000) % 60;
 			min = (time / 60000) % 60;
@@ -141,6 +130,46 @@ public class ViewController extends FlowPane {
 		}
 	}
 
+	private Event generateNextEvent(List<Event> allEvents, Event nextEvent, Calendar cal, IdMapper idMapper, int id) {
+		int count;
+		count = 0;
+		for (int i = 0; i < allEvents.size(); i++) {
+			if (allEvents.get(i).getStartDateTime() != null) {
+				if (allEvents.get(i).getStartDateTime().after(cal)) {
+					if (count == 0) {
+						nextEvent = allEvents.get(i);
+					}
+					idMapper.set(Integer.toString(id), allEvents.get(i).getId());
+					flowPaneNextEvents.getChildren().add(new HomeEventBoxController(allEvents.get(i), id));
+					count++;
+					id++;
+					if (count == 5) {
+						//lblMoreNextEvent.setText(String.format("+%d more", allEvents.size()-count));
+						break;
+					}
+				}
+			}
+		}
+		return nextEvent;
+	}
+
+	private int generateCurrentEvent(List<Event> dayEvents, List<Event> allEvents, IdMapper idMapper) {
+		int count = 0, id=0;
+		for (int i = 0; i < dayEvents.size(); i++) {
+			if (dayEvents.get(i).getStartDateTime() != null) {
+				idMapper.set(Integer.toString(id), allEvents.get(i).getId());
+				flowPaneCurrentEvents.getChildren().add(new HomeEventBoxController(dayEvents.get(i), id));// lblCurrent.setText(events.get(i).getTitle());
+				count++;
+				id++;
+				if (count == 5) {
+					lblMoreEvent.setText(String.format("+%d more", dayEvents.size()-count));
+					break;
+				}
+			}
+		}
+		return id;
+	}
+
 	/**
 	 * @@author A0126421U Constructor to initialize the main components of
 	 *          viewMonth
@@ -156,9 +185,6 @@ public class ViewController extends FlowPane {
 	 * 
 	 */
 	public ViewController(List<Event> events, int date, int month, int year) {
-		int i, end;
-		List<String> idList = new ArrayList<String>();
-
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWMONTH_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -168,6 +194,38 @@ public class ViewController extends FlowPane {
 			e.printStackTrace();
 		}
 
+		initForMonthView(events, month, year);
+	}
+	// @@author
+
+	private void initForMonthView(List<Event> events, int month, int year) {
+
+		int end;
+		List<String> idList;
+		
+		generateEmptyDate(month, year);
+		end = detectLengthofMonth(month, year);
+		idList = setIdMapper(events);
+		
+		setHeaderForMonthView(month, year);
+		generateDay(events, month, year, end, idList);
+	}
+
+	private void generateDay(List<Event> events, int month, int year, int end, List<String> idList) {
+		int i;
+		for (i = 0; i < end; i++) {
+			getChildren()
+					.add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month, year), idList));
+		}
+	}
+
+	private void setHeaderForMonthView(int month, int year) {
+		lblmonth.setText(detectMonth(month));
+		lblyear.setText(String.format("%d", year));
+	}
+
+	private void generateEmptyDate(int month, int year) {
+		int date;
 		Calendar cal = Calendar.getInstance();
 		cal.set(year, month, 1);
 
@@ -181,18 +239,7 @@ public class ViewController extends FlowPane {
 				date++;
 			}
 		}
-
-		end = detectLengthofMonth(month, year);
-
-		lblmonth.setText(detectMonth(month));
-		lblyear.setText(String.format("%d", year));
-		idList = setIdMapper(events);
-		for (i = 0; i < end; i++) {
-			getChildren()
-					.add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month, year), idList));
-		}
 	}
-	// @@author
 
 	/**
 	 * @@author A0126421U Map short id to the real id

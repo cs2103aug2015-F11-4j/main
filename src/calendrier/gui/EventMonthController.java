@@ -13,8 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 /**
- * @@author A0126421U
- * For generate the children object for viewMonth
+ * @@author A0126421U For generate the children object for viewMonth
  * 
  * @author hiumengxiong
  *
@@ -41,14 +40,20 @@ public class EventMonthController extends StackPane {
 	private static final String VALUE_SHOW_EMPTY_DATA = " ";
 
 	/**
-	 * @@author A0126421U
-	 * Constructor to initialize the main components of EventMonthController
+	 * @@author A0126421U Constructor to initialize the main components of
+	 *          EventMonthController
 	 * 
-	 * @param date - Date to be display
-	 * @param month - Month to be display
-	 * @param year - Year to be display
-	 * @param events - List of events for the this date 
-	 * @param idList - The id to be display to user user, which will link for idMapper
+	 * @param date
+	 *            - Date to be display
+	 * @param month
+	 *            - Month to be display
+	 * @param year
+	 *            - Year to be display
+	 * @param events
+	 *            - List of events for the this date
+	 * @param idList
+	 *            - The id to be display to user user, which will link for
+	 *            idMapper
 	 * 
 	 */
 	public EventMonthController(int date, int month, int year, List<Event> events, List<String> idList) {
@@ -62,65 +67,135 @@ public class EventMonthController extends StackPane {
 		}
 		initEventValue(date, month, year, events, idList);
 	}
-	
+
 	/**
-	 * @@author A0126421U
-	 * Fill in details for EventMonth
+	 * @@author A0126421U Fill in details for EventMonth
 	 * 
-	 * @param date - Date to be display
-	 * @param month - Month to be display
-	 * @param year - Year to be display
-	 * @param events - List of events for the this date 
-	 * @param idList - The id to be display to user user, which will link for idMapper
+	 * @param date
+	 *            - Date to be display
+	 * @param month
+	 *            - Month to be display
+	 * @param year
+	 *            - Year to be display
+	 * @param events
+	 *            - List of events for the this date
+	 * @param idList
+	 *            - The id to be display to user user, which will link for
+	 *            idMapper
+	 * 
+	 */
+	public void initEventValue(int date, int month, int year, List<Event> events, List<String> idList) {
+
+		Calendar cal = Calendar.getInstance();
+
+		setContainForDate(date, events, idList);
+		setForToday(date, month, year, cal);
+		setForPassedEvents(date, month, year, cal);
+	}
+
+	/**
+	 * @@author A0126421U Set Detail for each date
+	 * 
+	 * @param date
+	 *            - Date to be display
+	 * @param events
+	 *            - List of events for the this date
+	 * @param idList
+	 *            - The id to be display to user user, which will link for
+	 *            idMapper
+	 * 
+	 */
+	private void setContainForDate(int date, List<Event> events, List<String> idList) {
+
+		lblDate.setText(checkDate(date));
+
+		if (events != null && events.size() > 0) {
+			setData(events, idList);
+		} else {
+			setEmptyData();
+		}
+	}
+
+	/**
+	 * @@author A0126421U Fill in details for each date
+	 * 
+	 * @param events
+	 *            - List of events for the this date
+	 * @param idList
+	 *            - The id to be display to user user, which will link for
+	 *            idMapper
+	 * 
+	 */
+	private void setData(List<Event> events, List<String> idList) {
+		if (events.get(0).getTitle() != null) {
+			lblEvent1.setText(events.get(0).getTitle());
+			lblEventID1.setText(Integer.toString(computeFakeId(idList, events.get(0).getId())));
+			changeTextColor(events.get(0).getPriority(), lblEvent1);
+			// lblEvent1.setStyle("-fx-font-decoration: line-through;");
+			// if(events.get(0).isDone()){
+			// lblEvent1.setStyle("-fx-strikethrough: true;");
+			// }
+			if (events.size() > 1) {
+				lblEvent2.setText(events.get(1).getTitle());
+				lblEventID2.setText(Integer.toString(computeFakeId(idList, events.get(1).getId())));
+				changeTextColor(events.get(1).getPriority(), lblEvent2);
+				if (events.size() > 2) {
+					lblEvent3.setText(String.format(" + %d more...", events.size() - 2));
+					changeTextColor(Priority.HIGH, lblEvent3);
+				}
+			}
+		} else {
+			setEmptyData();
+		}
+	}
+
+	/**
+	 * @@author A0126421U Set empty data
+	 * 
+	 * 
+	 */
+	private void setEmptyData() {
+		lblEvent1.setText(VALUE_SHOW_EMPTY_DATA);
+		lblEvent2.setText(VALUE_SHOW_EMPTY_DATA);
+		lblEvent3.setText(VALUE_SHOW_EMPTY_DATA);
+	}
+
+	/**
+	 * @@author A0126421U Set Color for Today
+	 * 
 	 * 
 	 */
 	@SuppressWarnings("deprecation")
-	public void initEventValue(int date, int month, int year, List<Event> events, List<String> idList) {
-		
-		Calendar cal = Calendar.getInstance();
-
-		lblDate.setText(checkDate(date));
-		
-		if (events != null && events.size() > 0) {
-			if (events.get(0).getTitle() != null) {
-				lblEvent1.setText(events.get(0).getTitle());
-				lblEventID1.setText(Integer.toString(computeFakeId(idList,events.get(0).getId())));
-				changeTextColor(events.get(0).getPriority(), lblEvent1);
-				//lblEvent1.setStyle("-fx-font-decoration: line-through;");
-				// if(events.get(0).isDone()){
-				// lblEvent1.setStyle("-fx-strikethrough: true;");
-				// }
-				if (events.size() > 1) {
-					lblEvent2.setText(events.get(1).getTitle());
-					lblEventID2.setText(Integer.toString(computeFakeId(idList,events.get(1).getId())));
-					changeTextColor(events.get(1).getPriority(), lblEvent2);
-					if (events.size() > 2) {
-						lblEvent3.setText(String.format(" + %d more...", events.size()-2));
-						changeTextColor(Priority.HIGH, lblEvent3);
-					}
-				}
-			} else {
-				lblEvent1.setText(VALUE_SHOW_EMPTY_DATA);
-				lblEvent2.setText(VALUE_SHOW_EMPTY_DATA);
-				lblEvent3.setText(VALUE_SHOW_EMPTY_DATA);
-			}
-		} else {
-			lblEvent1.setText(VALUE_SHOW_EMPTY_DATA);
-			lblEvent2.setText(VALUE_SHOW_EMPTY_DATA);
-			lblEvent3.setText(VALUE_SHOW_EMPTY_DATA);
-		}
-		
-		//cal.set(2015, 10, 18, 10, 55, 00);
-		if (cal.getTime().getDate() == date && cal.getTime().getMonth()==month && (cal.getTime().getYear()+1900)==year) {
+	private void setForToday(int date, int month, int year, Calendar cal) {
+		if (cal.getTime().getDate() == date && cal.getTime().getMonth() == month
+				&& (cal.getTime().getYear() + 1900) == year) {
 			eventGridPaneMonth.setStyle("-fx-border-color: red;-fx-border-width: 2.0px;");
 		}
-		if(cal.getTime().getDate() > date && cal.getTime().getMonth()>=month && (cal.getTime().getYear()+1900)>=year){
+	}
+
+	/**
+	 * @@author A0126421U Fill in details for EventMonth
+	 * 
+	 * @param date
+	 *            - Date to be display
+	 * @param month
+	 *            - Month to be display
+	 * @param year
+	 *            - Year to be display
+	 * @param cal
+	 *            - calendar of today
+	 * 
+	 */
+	@SuppressWarnings("deprecation")
+	private void setForPassedEvents(int date, int month, int year, Calendar cal) {
+		if (cal.getTime().getDate() > date && cal.getTime().getMonth() >= month
+				&& (cal.getTime().getYear() + 1900) >= year) {
 			lblEvent1.setStyle("-fx-text-fill: darkgray;");
 			lblEvent2.setStyle("-fx-text-fill: darkgray;");
 			lblEvent3.setStyle("-fx-text-fill: darkgray;");
 			lblEventID1.setStyle("-fx-text-fill: darkgray;");
 			lblEventID2.setStyle("-fx-text-fill: darkgray;");
-		}else if(cal.getTime().getMonth()>month && (cal.getTime().getYear()+1900)>=year){
+		} else if (cal.getTime().getMonth() > month && (cal.getTime().getYear() + 1900) >= year) {
 			lblEvent1.setStyle("-fx-text-fill: darkgray;");
 			lblEvent2.setStyle("-fx-text-fill: darkgray;");
 			lblEvent3.setStyle("-fx-text-fill: darkgray;");
@@ -128,48 +203,51 @@ public class EventMonthController extends StackPane {
 			lblEventID2.setStyle("-fx-text-fill: darkgray;");
 		}
 	}
-	
+
 	/**
-	 * @@author A0126421U
-	 * Compute the fake id that display to the user.
+	 * @@author A0126421U Compute the fake id that display to the user.
 	 * 
-	 * @param idList - The id to be display to user user, which will link for idMapper
-	 * @param id - the actual id of current event
+	 * @param idList
+	 *            - The id to be display to user user, which will link for
+	 *            idMapper
+	 * @param id
+	 *            - the actual id of current event
 	 * 
 	 * @return fakedId - the short id to be display to the user.
 	 * 
 	 */
-	private int computeFakeId(List<String> idList, String id){
-		for(int i=0;i<idList.size();i++){
-			if(idList.get(i).equals(id)){
+	private int computeFakeId(List<String> idList, String id) {
+		for (int i = 0; i < idList.size(); i++) {
+			if (idList.get(i).equals(id)) {
 				return i;
 			}
 		}
 		return -1;
 	}
-	
+
 	/**
-	 * @@author A0126421U
-	 * check the existence of date
+	 * @@author A0126421U check the existence of date
 	 * 
-	 * @param date - Date to be check
+	 * @param date
+	 *            - Date to be check
 	 * 
 	 * @return String of Date
 	 * 
 	 */
-	private String checkDate(int date){
-		if(date!=0){
+	private String checkDate(int date) {
+		if (date != 0) {
 			return String.format("%d", date);
 		}
 		return VALUE_SHOW_EMPTY_DATA;
 	}
-	
+
 	/**
-	 * @@author A0126421U
-	 * Change the text color based on priority
+	 * @@author A0126421U Change the text color based on priority
 	 * 
-	 * @param priority - the priority of the current event
-	 * @param lblEvent - the layout to be modified
+	 * @param priority
+	 *            - the priority of the current event
+	 * @param lblEvent
+	 *            - the layout to be modified
 	 * 
 	 */
 	private void changeTextColor(Priority priority, Label lblEvent) {

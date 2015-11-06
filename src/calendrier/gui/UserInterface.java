@@ -210,6 +210,11 @@ public class UserInterface extends Application implements OnRemindListener {
 						cal.getTime().getDay() + 1),
 				mainLogic.getAllEvents(), getNumOfFloatEvents(mainLogic.getAllEvents()),
 				getNumOfOnGoingEvents(mainLogic.getAllEvents()), getNumOfPassedEvents(mainLogic.getAllEvents())));
+		setTimer(timeToNextEvent, cal);
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void setTimer(long timeToNextEvent, Calendar cal) {
 		if (timeToNextEvent >= 0) {
 			timer = new Timer();
 			timerStatus = VALUE_TIMER_ENABLE;

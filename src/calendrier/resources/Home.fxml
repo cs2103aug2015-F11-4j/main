@@ -48,6 +48,8 @@
 					<children>
 					</children>
 				</FlowPane>
+				<Label fx:id="lblMoreEvent"
+					GridPane.rowIndex="1" GridPane.columnIndex="9"/>
 
 				<Label fx:id="lblCurrentEvent" text="Next Task       "
 					GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="3" />
@@ -59,6 +61,8 @@
 					<children>
 					</children>
 				</FlowPane>
+				<!-- <Label fx:id="lblMoreNextEvent"
+					GridPane.rowIndex="3" GridPane.columnIndex="9"/> -->
 
 				<Label fx:id="lblCurrentEvent" text="Overdue Task"
 					GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="3" />

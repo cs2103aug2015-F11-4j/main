@@ -60,7 +60,6 @@ public class HomeEventBoxController extends StackPane {
 	 * Change the text color based on priority
 	 * 
 	 * @param priority - the priority of the current event
-	 * @param lblEvent - the layout to be modified
 	 * 
 	 */
 	private void changeBorderColor(Priority priority) {
