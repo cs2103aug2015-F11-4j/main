@@ -103,7 +103,7 @@ public class ViewDayController extends GridPane {
 				startIndex++;
 			}
 		} else if (floatingEvents.size() == VALUE_ZERO) {
-			lblNoOfOpenEvent.setText(String.format(VALUE_FOR_NO_EVENT, startIndex, floatingEvents.size()));
+			lblNoOfOpenEvent.setText(String.format(VALUE_FOR_NO_EVENT, arrStartIndex, floatingEvents.size()));
 		}
 		
 	}
