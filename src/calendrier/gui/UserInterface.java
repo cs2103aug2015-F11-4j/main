@@ -347,7 +347,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			if (isValidScreen(PARAM_NAVIGATION_NEXT)) {
 				rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
 			}
-		} else {
+		} else if (currentScreenState != VALUE_VIEW_MONTH_SCREEN){
 			if ((arrStartIndex + VALUE_ADD_TO_ARRAY) <= (mainLogic.getAllEvents().size() - VALUE_TO_ADD_OR_MINUS)) {
 				arrStartIndex += VALUE_ADD_TO_ARRAY;
 				addView(userInterface);
@@ -415,7 +415,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			if (isValidScreen(PARAM_NAVIGATION_PREVIOUS)) {
 				rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
 			}
-		} else {
+		} else if (currentScreenState != VALUE_VIEW_MONTH_SCREEN){
 			if ((arrStartIndex - VALUE_ADD_TO_ARRAY) >= 0) {
 				arrStartIndex -= VALUE_ADD_TO_ARRAY;
 			} else if ((arrStartIndex - VALUE_ADD_TO_ARRAY) < 0) {
