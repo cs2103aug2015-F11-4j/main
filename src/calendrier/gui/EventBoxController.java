@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.sun.javafx.css.Style;
+
 import utils.Event;
 import utils.IdMapper;
 import utils.Priority;
@@ -16,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 public class EventBoxController extends StackPane {
 
@@ -24,17 +27,17 @@ public class EventBoxController extends StackPane {
 	@FXML
 	private ImageView imgType;
 	@FXML
-	private Label lblEventID;
+	private Text lblEventID;
 	@FXML
-	private Label lblEventTitle;
+	private Text lblEventTitle;
 	@FXML
-	private Label lblEventDate;
+	private Text lblEventDate;
 
 	private static final String SINGLE_EVENT_LAYOUT_FXML = "/calendrier/resources/EventBox.fxml";
 
 	private static final String DEFAULT_EVENT_TYPE_IMAGE = "/calendrier/resources/information.png";
 	private static final String REPORT_EVENT_TYPE_IMAGE = "/calendrier/resources/report.png";
-	private static final String DINNER_EVENT_TYPE_IMAGE = "/calendrier/resources/dinner.png.";
+	private static final String DINNER_EVENT_TYPE_IMAGE = "/calendrier/resources/dinner.png";
 	private static final String READING_EVENT_TYPE_IMAGE = "/calendrier/resources/reading.png";
 	private static final String MEETING_EVENT_TYPE_IMAGE = "/calendrier/resources/meeting.png";
 	private static final String BIRTHDAY_EVENT_TYPE_IMAGE = "/calendrier/resources/birthday.png";
@@ -52,8 +55,20 @@ public class EventBoxController extends StackPane {
 	private static final String VALUE_VERY_LOW_PRIORITY = "very_low";
 
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
-	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
+	private static DateFormat displayDateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
+	
+	private static final Calendar cal = Calendar.getInstance();
+	@SuppressWarnings("deprecation")
+	private static final int todayDate = cal.getTime().getDate(), todayMonth = cal.getTime().getMonth(), todayYear = cal.getTime().getYear() + 1900;
+	private static final DateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
+	private static final String VALUE_EMPTY_STRING = "";
+	private static final String VALUE_SPLIT_REGEX = " ";
 
+	private static final int PARAM_FOR_DATE = 0;
+	private static final int PARAM_FOR_MONTH = 1;
+	private static final int PARAM_FOR_YEAR = 2;
+	
+	
 	public EventBoxController(Event event, int position) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_EVENT_LAYOUT_FXML));
 		loader.setController(this);
@@ -74,8 +89,14 @@ public class EventBoxController extends StackPane {
 		lblEventTitle.setText(checkExistValue(event.getTitle()));
 		lblEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 
-		if (event.isDone()) {
-			changeEventDesign();
+		boolean isPast = checkDate(event.getStartDateTime(), event.getEndDateTime());
+		
+		if(event.isDone()) {
+			changeTextDecoration();
+		}
+		
+		if(isPast) {
+			changePastEventDesign();
 		} else {
 			String strPriority = checkExistPriority(event.getPriority());
 			changeBorderColor(strPriority);
@@ -99,11 +120,76 @@ public class EventBoxController extends StackPane {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 	}
+	
+	private static boolean checkDate(Calendar startDateTime, Calendar endDateTime) {
+		String startDate = checkExistDate(startDateTime);
+		String endDate = checkExistDate(startDateTime);
+		String[] arrStartDate = startDate.split(VALUE_SPLIT_REGEX);
+		String[] arrEndDate = endDate.split(VALUE_SPLIT_REGEX);
+
+		if (!startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && !endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
+
+			if (startDate.equalsIgnoreCase(endDate)) {
+				return checkBeforeToday(arrStartDate);
+			} else {
+				// check today is in outside dates
+				return checkBetweenToday(arrStartDate, arrEndDate);
+			}
+		} else if (!startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
+			return checkBeforeToday(arrStartDate);
+		} else if (startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && !endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
+			return checkAfterToday(arrEndDate);
+		} else {
+			return false;
+		}
+	}
+	
+	private static boolean checkBetweenToday(String[] arrStartDate, String[] arrEndDate) {
+		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE]) < todayDate)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH]) <= todayMonth)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR]) <= todayYear)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_DATE]) > todayDate)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH]) >= todayMonth)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR]) >= todayYear)) {
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean checkAfterToday(String[] arrEndDate) {
+		if ((convertToInteger(arrEndDate[PARAM_FOR_DATE]) > todayDate)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH]) >= todayMonth)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR]) >= todayYear)) {
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean checkBeforeToday(String[] arrStartDate) {
+		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE]) < todayDate)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH]) <= todayMonth)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR]) <= todayYear)) {
+			return true;
+		}
+		return false;
+	}
+	
+	private static Integer convertToInteger(String value) {
+		return Integer.parseInt(value);
+	}
+	
+	private static String checkExistDate(Calendar calendar) {
+		try {
+			return dateFormat.format(calendar.getTime());
+		} catch (NullPointerException e) {
+			return VALUE_EMPTY_STRING;
+		}
+	}
 
 	private static String constructEventDate(Calendar startDateTime, Calendar endDateTime) {
 
-		String startDate = checkExistDate(startDateTime);
-		String endDate = checkExistDate(endDateTime);
+		String startDate = checkDisplayExistDate(startDateTime);
+		String endDate = checkDisplayExistDate(endDateTime);
 
 		if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			if (startDate.equalsIgnoreCase(endDate)) {
@@ -121,9 +207,9 @@ public class EventBoxController extends StackPane {
 		}
 	}
 
-	private static String checkExistDate(Calendar calendar) {
+	private static String checkDisplayExistDate(Calendar calendar) {
 		try {
-			return dateFormat.format(calendar.getTime());
+			return displayDateFormat.format(calendar.getTime());
 		} catch (NullPointerException e) {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
@@ -169,10 +255,12 @@ public class EventBoxController extends StackPane {
 		}
 	}
 
-	private void changeEventDesign() {
-		eventGridPane.setStyle("-fx-border-color: lightgray");
-		lblEventID.setStyle("-fx-text-decoration: line-through");
-		lblEventTitle.setStyle("-fx-text-decoration: line-through");
-		lblEventDate.setStyle("-fx-text-decoration: line-through");
+	private void changePastEventDesign() {
+		eventGridPane.setStyle("-fx-border-color: lightgray;");
+	}
+	
+	private void changeTextDecoration() {
+		lblEventTitle.setStyle("-fx-strikethrough: true;");
+		lblEventDate.setStyle("-fx-strikethrough: true;");
 	}
 }

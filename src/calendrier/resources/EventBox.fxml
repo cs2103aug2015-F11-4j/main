@@ -20,10 +20,10 @@
 					pickOnBounds="true" preserveRatio="true" visible="true"
 					GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2">
 				</ImageView>
-				<Label fx:id="lblEventID" GridPane.rowIndex="0"
-					GridPane.columnIndex="2" wrapText="true" />
-				<Label fx:id="lblEventTitle" GridPane.rowIndex="0"
-					GridPane.columnIndex="3" wrapText="true" />
+				<Text fx:id="lblEventID" GridPane.rowIndex="0"
+					GridPane.columnIndex="2" />
+				<Text fx:id="lblEventTitle" GridPane.rowIndex="0"
+					GridPane.columnIndex="3" WrappingWidth="150" />
 				<ImageView fitHeight="20" fitWidth="20" pickOnBounds="true"
 					preserveRatio="true" visible="true" GridPane.columnIndex="2"
 					GridPane.rowIndex="1">
@@ -31,8 +31,8 @@
 						<Image url="/calendrier/resources/time.png" />
 					</image>
 				</ImageView>
-				<Label fx:id="lblEventDate" GridPane.rowIndex="1"
-					GridPane.columnIndex="3" wrapText="true" />
+				<Text fx:id="lblEventDate" GridPane.rowIndex="1"
+					GridPane.columnIndex="3" WrappingWidth="150" />
 			</children>
 		</GridPane>
 	</children>
