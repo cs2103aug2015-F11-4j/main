@@ -87,6 +87,7 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private int dayArrStartIndex = 0;
 	private int floatingArrStartIndex = 0;
+	private int filteredArrStartIndex = 0;
 	private int arrStartIndex = 0;
 	private int eventSize = 0;
 	private List<Event> events;
@@ -168,19 +169,24 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private void addView(UserInterface userInterface) {
 		currentScreenState = VALUE_VIEW_SCREEN;
+		List<Event> listEvents = null;
 
-		if (mainLogic.getAllEvents().size() == VALUE_NO_EVENT) {
-			rootLayout.setCenter(new NoEventController(userInterface));
-		} else {
-			List<Event> listEvents = null;
-			if (currentEventState == VALUE_GET_ALL_EVENTS) {
+		if(currentEventState == VALUE_GET_ALL_EVENTS) {
+			if(mainLogic.getAllEvents().size() != VALUE_NO_EVENT) {
 				listEvents = mainLogic.getAllEvents();
-			} else if (currentEventState == VALUE_GET_FILTERED_EVENTS) {
-				listEvents = mainLogic.getFilteredEvents();
+				rootLayout.setCenter(new ViewController(SortedEvents.sortEvents(listEvents), arrStartIndex));
+			} else {
+				rootLayout.setCenter(new NoEventController(userInterface));
 			}
-
-			rootLayout.setCenter(new ViewController(SortedEvents.sortEvents(listEvents), arrStartIndex));
+		} else if (currentEventState == VALUE_GET_FILTERED_EVENTS) {
+			if(mainLogic.getFilteredEvents().size() != VALUE_NO_EVENT) {
+				listEvents = mainLogic.getFilteredEvents();
+				rootLayout.setCenter(new ViewController(SortedEvents.sortEvents(listEvents), filteredArrStartIndex));
+			} else {
+				rootLayout.setCenter(new NoEventController(userInterface));
+			}
 		}
+			
 	}
 
 	/**
@@ -189,7 +195,6 @@ public class UserInterface extends Application implements OnRemindListener {
 	 * 
 	 * @param userInterface - the current userInterface
 	 * @param timeToNextEvent - time left for next event
-	 * 
 	 * 
 	 */
 	@SuppressWarnings("deprecation")
@@ -208,7 +213,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			nextTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
 					cal.getTime().getDay() + 1);
 		}
-		currentScreenState = VALUE_VIEW_DAY_SCREEN;
+		currentScreenState = VALUE_VIEW_HOME_SCREEN;
 		if (currentTask.size() != 0) {
 			name1 = currentTask.get(0).getTitle();
 		} else {
@@ -263,7 +268,7 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	private void viewDay(UserInterface userInterface, int date, int month, int year, int day, boolean isToday) {
-		currentScreenState = VALUE_VIEW_HOME_SCREEN;
+		currentScreenState = VALUE_VIEW_DAY_SCREEN;
 		List<Event> floatingEvents = getFloatingEvents(mainLogic.getDayEvents(year, month + 1, date),
 				mainLogic.getDayEvents(year, month + 1, date, PARAM_GET_FLOATING_TASK_TRUE));
 		rootLayout.setCenter(new ViewDayController(mainLogic.getDayEvents(year, month + 1, date), floatingEvents, date,
@@ -286,7 +291,7 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	private String getNextDay(UserInterface userInterface) {
-		if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+		if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 			dayArrStartIndex = VALUE_RESET;
 			floatingArrStartIndex = VALUE_RESET;
 
@@ -326,7 +331,7 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	private void getNextPage(UserInterface userInterface) {
-		if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+		if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 
 			List<Event> floatingEvents = getFloatingEvents(mainLogic.getDayEvents(viewYear, viewMonth + 1, viewDate),
 					mainLogic.getDayEvents(viewYear, viewMonth + 1, viewDate, PARAM_GET_FLOATING_TASK_TRUE));
@@ -348,16 +353,23 @@ public class UserInterface extends Application implements OnRemindListener {
 			if (isValidScreen(PARAM_NAVIGATION_NEXT)) {
 				rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
 			}
-		} else if (currentScreenState != VALUE_VIEW_MONTH_SCREEN && currentScreenState != VALUE_VIEW_DAY_SCREEN){
-			if ((arrStartIndex + VALUE_ADD_TO_ARRAY) <= (mainLogic.getAllEvents().size() - VALUE_TO_ADD_OR_MINUS)) {
-				arrStartIndex += VALUE_ADD_TO_ARRAY;
-				addView(userInterface);
+		} else if (currentScreenState == VALUE_VIEW_SCREEN){
+			if(currentEventState == VALUE_GET_ALL_EVENTS) {
+				if ((arrStartIndex + VALUE_ADD_TO_ARRAY) <= (mainLogic.getAllEvents().size() - VALUE_TO_ADD_OR_MINUS)) {
+					arrStartIndex += VALUE_ADD_TO_ARRAY;
+					addView(userInterface);
+				}
+			} else if(currentEventState == VALUE_GET_FILTERED_EVENTS) {
+				if ((filteredArrStartIndex + VALUE_ADD_TO_ARRAY) <= (mainLogic.getFilteredEvents().size() - VALUE_TO_ADD_OR_MINUS)) {
+					filteredArrStartIndex += VALUE_ADD_TO_ARRAY;
+					addView(userInterface);
+				}
 			}
 		}
 	}
 
 	private String getPreviousDay(UserInterface userInterface) {
-		if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+		if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 			dayArrStartIndex = VALUE_RESET;
 			floatingArrStartIndex = VALUE_RESET;
 			viewDate -= VALUE_TO_ADD_OR_MINUS;
@@ -395,7 +407,7 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	private void getPreviousPage(UserInterface userInterface) {
-		if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+		if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 
 			if ((dayArrStartIndex - VALUE_ADD_TO_DAY_ARRAY) >= 0) {
 				dayArrStartIndex -= VALUE_ADD_TO_DAY_ARRAY;
@@ -416,13 +428,22 @@ public class UserInterface extends Application implements OnRemindListener {
 			if (isValidScreen(PARAM_NAVIGATION_PREVIOUS)) {
 				rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
 			}
-		} else if (currentScreenState != VALUE_VIEW_MONTH_SCREEN && currentScreenState != VALUE_VIEW_DAY_SCREEN){
-			if ((arrStartIndex - VALUE_ADD_TO_ARRAY) >= 0) {
-				arrStartIndex -= VALUE_ADD_TO_ARRAY;
-			} else if ((arrStartIndex - VALUE_ADD_TO_ARRAY) < 0) {
-				arrStartIndex = 0;
+		} else if (currentScreenState == VALUE_VIEW_SCREEN){
+			if(currentEventState == VALUE_GET_ALL_EVENTS) {
+				if ((arrStartIndex - VALUE_ADD_TO_ARRAY) >= 0) {
+					arrStartIndex -= VALUE_ADD_TO_ARRAY;
+				} else if ((arrStartIndex - VALUE_ADD_TO_ARRAY) < 0) {
+					arrStartIndex = 0;
+				}
+				addView(userInterface);
+			} else if(currentEventState == VALUE_GET_FILTERED_EVENTS) {
+				if ((filteredArrStartIndex - VALUE_ADD_TO_ARRAY) >= 0) {
+					filteredArrStartIndex -= VALUE_ADD_TO_ARRAY;
+				} else if ((filteredArrStartIndex - VALUE_ADD_TO_ARRAY) < 0) {
+					filteredArrStartIndex = 0;
+				}
+				addView(userInterface);
 			}
-			addView(userInterface);
 		}
 	}
 
@@ -455,7 +476,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 
 		if (key == KeyCode.UP && userInput.length() == 0) {
-			if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+			if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 				setMessage = getPreviousDay(this);
 				commandBarController.setMessage(setMessage);
 				commandBarController.clear();
@@ -466,7 +487,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		}
 		if (key == KeyCode.DOWN && userInput.length() == 0) {
-			if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+			if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 				setMessage = getNextDay(this);
 				commandBarController.setMessage(setMessage);
 				commandBarController.clear();
@@ -489,8 +510,6 @@ public class UserInterface extends Application implements OnRemindListener {
 				addView(this);
 			} else {
 				viewHome(this, mainLogic.getTimeToNextEvent());
-				// viewDay(this, date, month, year, getDay(date, month, year),
-				// boolIsToday(date, month, year));
 			}
 			break;
 		case VIEW_HOME:
@@ -527,6 +546,7 @@ public class UserInterface extends Application implements OnRemindListener {
 				setMessage = MESSAGE_EMPTY;
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
+				arrStartIndex = VALUE_RESET;
 				addView(this);
 				break;
 			}
@@ -545,6 +565,7 @@ public class UserInterface extends Application implements OnRemindListener {
 				setMessage = MESSAGE_EMPTY;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
 				currentEventState = VALUE_GET_FILTERED_EVENTS;
+				filteredArrStartIndex = VALUE_RESET;
 				addView(this);
 				break;
 			}
