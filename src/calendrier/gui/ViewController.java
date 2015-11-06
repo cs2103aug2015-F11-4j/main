@@ -26,13 +26,13 @@ public class ViewController extends FlowPane {
 	@FXML
 	private Label lblyear;
 	@FXML
-	private Label lbltime;
+	private Label lbltimeDay;
 	@FXML
-	private Label lblCurrent;
+	private Label lbltimeHour;
 	@FXML
-	private Label lblCurrent1;
+	private Label lbltimeMin;
 	@FXML
-	private Label lblNext;
+	private Label lbltimeSec;
 	@FXML
 	private Label lblPassed;
 	@FXML
@@ -79,54 +79,67 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int count = 0;
-		Event nextEvent= new Event();
+		int count = 0, id=0;
+		Event nextEvent = new Event();
 		Calendar cal = Calendar.getInstance();
+		IdMapper idMapper = IdMapper.getInstance();
+		
+		for (int i = 0; i < dayEvents.size(); i++) {
+			if (dayEvents.get(i).getStartDateTime() != null) {
+				idMapper.set(Integer.toString(id), allEvents.get(i).getId());
+				flowPaneCurrentEvents.getChildren().add(new HomeEventBoxController(dayEvents.get(i), id));// lblCurrent.setText(events.get(i).getTitle());
+				count++;
+				id++;
+				if (count == 5) {
+					break;
+				}
+			}
+		}
+		count = 0;
 		for (int i = 0; i < allEvents.size(); i++) {
 			if (allEvents.get(i).getStartDateTime() != null) {
 				if (allEvents.get(i).getStartDateTime().after(cal)) {
-					if(count==0){
-						nextEvent=allEvents.get(i);
+					if (count == 0) {
+						nextEvent = allEvents.get(i);
 					}
-					flowPaneNextEvents.getChildren().add(new HomeEventBoxController(allEvents.get(i)));
+					idMapper.set(Integer.toString(id), allEvents.get(i).getId());
+					flowPaneNextEvents.getChildren().add(new HomeEventBoxController(allEvents.get(i), id));
 					count++;
+					id++;
 					if (count == 5) {
 						break;
 					}
 				}
 			}
 		}
-		count=0;
-		for (int i = 0; i < dayEvents.size(); i++) {
-			if (dayEvents.get(i).getStartDateTime() != null) {
-				flowPaneCurrentEvents.getChildren().add(new HomeEventBoxController(dayEvents.get(i)));// lblCurrent.setText(events.get(i).getTitle());
-				count++;
-				if (count == 5) {
-					break;
-				}
-			}
-		}
-		// lblCurrent1.setStyle("-fx-border-width: 3.0px");
-		// lblCurrent.setText(events);
-		// lblNext.setText(nextEvents);
+		
+
 		lblPassed.setText(Integer.toString(passedTask));
 		lblOngoing.setText(Integer.toString(onGoingTask));
 		lblFloat.setText(Integer.toString(floatTask));
-		lblNextTask.setText(String.format("Countdown to %s", nextEvent.getTitle()));
+		if (nextEvent.getTitle() != null) {
+			lblNextTask.setText(String.format("Countdown to %s", nextEvent.getTitle()));
+		}
+		else{
+			lblNextTask.setText(String.format("Countdown Not Avaliable"));
+		}
 		if (time != -1) {
 			sec = (time / 1000) % 60;
 			min = (time / 60000) % 60;
 			hour = (time / 3600000) % 24;
 			day = (time / 3600000) / 24;
-			lbltime.setText(Long.toString(day) + "Day " + Long.toString(hour) + "Hour " + Long.toString(min) + "Min "
-					+ Long.toString(sec) + "Sec ");
-		} else
 
-		{
-			lbltime.setText("-");
+			lbltimeDay.setText(String.format("%d", day));
+			lbltimeHour.setText(String.format("%d",hour));
+			lbltimeMin.setText(String.format("%d",min));
+			lbltimeSec.setText(String.format("%d",sec));
+		} else {
+			lbltimeDay.setText("-");
+			lbltimeHour.setText("-");
+			lbltimeMin.setText("-");
+			lbltimeSec.setText("-");
 		}
 	}
-	// @@author
 
 	/**
 	 * @@author A0126421U Constructor to initialize the main components of

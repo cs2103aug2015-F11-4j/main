@@ -6,72 +6,94 @@
 
 <!-- @@author A0126421U -->
 <fx:root type="FlowPane" fx:id="flowPaneHomeEvents" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" prefHeight="600.0"
-	maxWidth="850.0" maxHeight="600.0">
+	xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" prefHeight="600.0"
+	maxWidth="1000.0" maxHeight="600.0">
 	<children>
 		<GridPane styleClass="gridPaneHelpScreen" xmlns="http://javafx.com/javafx/8.0.40"
 			xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" prefHeight="600.0"
 			maxWidth="1000.0" maxHeight="600.0" vgap="10" hgap="20">
 			<columnConstraints>
-				<ColumnConstraints percentWidth="30.0" halignment="CENTER" />
-				<ColumnConstraints percentWidth="35.0" halignment="CENTER" />
-				<ColumnConstraints percentWidth="35.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
+				<ColumnConstraints percentWidth="10.0" halignment="CENTER" />
 			</columnConstraints>
 			<rowConstraints>
 				<RowConstraints percentHeight="10.0" />
 				<RowConstraints percentHeight="10.0" />
 				<RowConstraints percentHeight="10.0" />
 				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="5.0" />
 				<RowConstraints percentHeight="10.0" />
 				<RowConstraints percentHeight="10.0" />
-				<RowConstraints percentHeight="10.0" />
+				<RowConstraints percentHeight="5.0" />
 				<RowConstraints percentHeight="10.0" />
 				<RowConstraints percentHeight="10.0" />
 				<RowConstraints percentHeight="10.0" />
 			</rowConstraints>
 			<children>
 				<Label fx:id="lblCurrentEvent" text="Current Task"
-					GridPane.rowIndex="0" GridPane.columnIndex="0" />
+					GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="3" />
 
 				<FlowPane fx:id="flowPaneCurrentEvents" xmlns="http://javafx.com/javafx/8.0.40"
 					xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" vgap="5"
 					maxWidth="850.0" GridPane.rowIndex="1" GridPane.columnIndex="0"
-					GridPane.columnSpan="3">
+					GridPane.columnSpan="10">
 					<children>
 					</children>
 				</FlowPane>
 
 				<Label fx:id="lblCurrentEvent" text="Next Task       "
-					GridPane.rowIndex="2" GridPane.columnIndex="0" />
+					GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="3" />
 
 				<FlowPane fx:id="flowPaneNextEvents" xmlns="http://javafx.com/javafx/8.0.40"
 					xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" vgap="5"
 					maxWidth="850.0" GridPane.rowIndex="3" GridPane.columnIndex="0"
-					GridPane.columnSpan="3">
+					GridPane.columnSpan="10">
 					<children>
 					</children>
 				</FlowPane>
 
 				<Label fx:id="lblCurrentEvent" text="Overdue Task"
-					GridPane.rowIndex="5" GridPane.columnIndex="0" />
-				<Label fx:id="lblCurrentEvent" text="Ongoing Task"
-					GridPane.rowIndex="5" GridPane.columnIndex="1" />
+					GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="3" />
+				<Label fx:id="lblCurrentEvent" text="Ongoing Task  "
+					GridPane.rowIndex="5" GridPane.columnIndex="3" GridPane.columnSpan="4" />
 				<Label fx:id="lblCurrentEvent" text="Floating Task"
-					GridPane.rowIndex="5" GridPane.columnIndex="2" />
+					GridPane.rowIndex="5" GridPane.columnIndex="7" GridPane.columnSpan="3" />
 
 				<Label fx:id="lblPassed" GridPane.rowIndex="6"
-					GridPane.columnIndex="0" />
-				<Label fx:id="lblOngoing" GridPane.rowIndex="6"
-					GridPane.columnIndex="1" />
-				<Label fx:id="lblFloat" GridPane.rowIndex="6"
-					GridPane.columnIndex="2" />
-
-				<Label fx:id="lblNextTask"
-					GridPane.rowIndex="8" GridPane.columnIndex="0" GridPane.columnSpan="3" />
-
-				<Label fx:id="lbltime" GridPane.rowIndex="9"
 					GridPane.columnIndex="0" GridPane.columnSpan="3" />
+				<Label fx:id="lblOngoing" GridPane.rowIndex="6"
+					GridPane.columnIndex="3" GridPane.columnSpan="4" />
+				<Label fx:id="lblFloat" GridPane.rowIndex="6"
+					GridPane.columnIndex="7" GridPane.columnSpan="3" />
 
+				<Label fx:id="lblNextTask" GridPane.rowIndex="8"
+					GridPane.columnIndex="0" GridPane.columnSpan="10" />
+
+				<Label fx:id="lbltimeDay" GridPane.rowIndex="9"
+					GridPane.columnIndex="3" />
+				<Label fx:id="lbltimeHour" GridPane.rowIndex="9"
+					GridPane.columnIndex="4" />
+				<Label fx:id="lbltimeMin" GridPane.rowIndex="9"
+					GridPane.columnIndex="5" />
+				<Label fx:id="lbltimeSec" GridPane.rowIndex="9"
+					GridPane.columnIndex="6" />
+
+				<Label fx:id="lbltimeTitle" text="Day" GridPane.rowIndex="10"
+					GridPane.columnIndex="3" />
+				<Label fx:id="lbltimeTitle" text="Hour" GridPane.rowIndex="10"
+					GridPane.columnIndex="4" />
+				<Label fx:id="lbltimeTitle" text="Min" GridPane.rowIndex="10"
+					GridPane.columnIndex="5" />
+				<Label fx:id="lbltimeTitle" text="Sec" GridPane.rowIndex="10"
+					GridPane.columnIndex="6" />
 			</children>
 		</GridPane>
 	</children>

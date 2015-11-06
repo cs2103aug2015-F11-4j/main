@@ -16,11 +16,20 @@ public class HomeEventBoxController extends StackPane {
 	@FXML
 	private Label lblHomeEventTitle;
 	@FXML
+	private Label lblHomeEventID;
+	@FXML
 	private GridPane homeEventGridPane;
 
 	private static final String SINGLE_DATED_EVENT_LAYOUT_FXML = "/calendrier/resources/HomeEventBox.fxml";
-
-	public HomeEventBoxController(Event event) {
+	
+	/**
+	 * @@author A0126421U
+	 * Constructor to initialize the main components of homeEventBox
+	 * 
+	 * @param event - event to be display
+	 * 
+	 */
+	public HomeEventBoxController(Event event, int id) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_DATED_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -30,10 +39,18 @@ public class HomeEventBoxController extends StackPane {
 			e.printStackTrace();
 		}
 
-		initEventValue(event);
+		initEventValue(event, id);
 	}
-
-	private void initEventValue(Event event) {
+	
+	/**
+	 * @@author A0126421U
+	 * Set the detail in the homeEventBox
+	 * 
+	 * @param event - the event to be show
+	 * 
+	 */
+	private void initEventValue(Event event, int id) {
+		lblHomeEventID.setText(String.format("%d.", id));
 		lblHomeEventTitle.setText(event.getTitle());
 		changeBorderColor(event.getPriority());
 	}

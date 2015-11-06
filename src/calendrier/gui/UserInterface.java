@@ -67,6 +67,8 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private static final int VALUE_RESET = 0;
 	private static final int VALUE_NO_EVENT = 0;
+	private static final int VALUE_TIMER_DISABLE = 0;
+	private static final int VALUE_TIMER_ENABLE = 1;
 
 	private static final String PARAM_NAVIGATION_NEXT = "next";
 	private static final String PARAM_NAVIGATION_PREVIOUS = "previous";
@@ -91,8 +93,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	private int filteredArrStartIndex = 0;
 	private int arrStartIndex = 0;
 	private int eventSize = 0;
+	private int timerStatus = 0;
 	private List<Event> events;
-	final Timer timer = new Timer();
+	private Timer timer;
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 
@@ -201,39 +204,19 @@ public class UserInterface extends Application implements OnRemindListener {
 	@SuppressWarnings("deprecation")
 	private void viewHome(UserInterface userInterface, long timeToNextEvent) {
 		Calendar cal = Calendar.getInstance();
-		List<Event> currentTask = new ArrayList<Event>();
-		// List<Event> nextTask = new ArrayList<Event>();
-		// String name1, name2;
-		// currentTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900,
-		// cal.getTime().getMonth() + 1,
-		// cal.getTime().getDay() + 1);
-		// cal.add(Calendar.DATE, 1);
-		// nextTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900,
-		// cal.getTime().getMonth() + 1,
-		// cal.getTime().getDay() + 1);
-		// while (nextTask.size() == 0) {
-		// cal.add(Calendar.DATE, 1);
-		// nextTask = mainLogic.getDayEvents(cal.getTime().getYear() + 1900,
-		// cal.getTime().getMonth() + 1,
-		// cal.getTime().getDay() + 1);
-		// }
 		currentScreenState = VALUE_VIEW_HOME_SCREEN;
-		// if (currentTask.size() != 0) {
-		// name1 = currentTask.get(0).getTitle();
-		// } else {
-		// name1 = null;
-		// }
-		// name2 = nextTask.get(0).getTitle();
 		rootLayout.setCenter(new ViewController(timeToNextEvent,
 				mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
 						cal.getTime().getDay() + 1),
 				mainLogic.getAllEvents(), getNumOfFloatEvents(mainLogic.getAllEvents()),
 				getNumOfOnGoingEvents(mainLogic.getAllEvents()), getNumOfPassedEvents(mainLogic.getAllEvents())));
-
-		startCountDown(mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
-				cal.getTime().getDay() + 1), mainLogic.getAllEvents());
+		if (timeToNextEvent >= 0) {
+			timer = new Timer();
+			timerStatus = VALUE_TIMER_ENABLE;
+			startCountDown(mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
+					cal.getTime().getDay() + 1), mainLogic.getAllEvents());
+		}
 	}
-	// @@author
 
 	/**
 	 * @@author A0126421U Start count down for the next event
@@ -528,7 +511,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			break;
 		case VIEW_HOME:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = MESSAGE_EMPTY;
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
@@ -537,7 +520,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		case ADD:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = checkAdding();
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
@@ -546,17 +529,19 @@ public class UserInterface extends Application implements OnRemindListener {
 					if (eventSize > VALUE_ADD_TO_ARRAY) {
 						getNextPage(this);
 					}
-				} else if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+				} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 					resetViewDateInfo();
 					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-				} else {
+				} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
 					viewMonth(this, currentMonth, currentYear);
+				} else{
+					viewHome(this, mainLogic.getTimeToNextEvent());
 				}
 				break;
 			}
 		case VIEW_ALL:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = MESSAGE_EMPTY;
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
@@ -566,7 +551,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		case VIEW:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = checkEventExist();
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_TRUE;
 				currentEventState = VALUE_GET_ALL_EVENTS;
@@ -575,7 +560,7 @@ public class UserInterface extends Application implements OnRemindListener {
 
 		case FILTER:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = MESSAGE_EMPTY;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
 				currentEventState = VALUE_GET_FILTERED_EVENTS;
@@ -585,7 +570,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		case UPDATE:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = checkUpdate();
 				currentEventState = VALUE_GET_ALL_EVENTS;
 
@@ -595,11 +580,13 @@ public class UserInterface extends Application implements OnRemindListener {
 						addView(this);
 					} else if (currentScreenState == VALUE_VIEW_DETAIL_SCREEN) {
 						addEventView(this);
-					} else if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
 						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-					} else {
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
 						viewMonth(this, currentMonth, currentYear);
+					} else{
+						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
 				} else {
 					checkEventExist();
@@ -610,7 +597,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		case DELETE:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = checkDeleting();
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
 				currentEventState = VALUE_GET_ALL_EVENTS;
@@ -619,67 +606,75 @@ public class UserInterface extends Application implements OnRemindListener {
 					if (eventSize <= VALUE_ADD_TO_ARRAY) {
 						getPreviousPage(this);
 					}
-				} else if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+				} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 					resetViewDateInfo();
 					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-				} else {
+				} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
 					viewMonth(this, currentMonth, currentYear);
+				} else{
+					viewHome(this, mainLogic.getTimeToNextEvent());
 				}
 				break;
 			}
 		case UNDO:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = checkUndo();
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				if (currentScreenState == VALUE_VIEW_SCREEN) {
 					addView(this);
-				} else if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+				} else if (currentScreenState == VALUE_VIEW_DETAIL_SCREEN) {
+					addEventView(this);
+				} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 					resetViewDateInfo();
 					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-				} else {
+				} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
 					viewMonth(this, currentMonth, currentYear);
+				} else{
+					viewHome(this, mainLogic.getTimeToNextEvent());
 				}
 				break;
 			}
 		case UNDELETE:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = checkUndelete();
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				if (currentScreenState == VALUE_VIEW_SCREEN) {
 					addView(this);
-				} else if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+				} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 					resetViewDateInfo();
 					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-				} else {
+				} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
 					viewMonth(this, currentMonth, currentYear);
+				} else{
+					viewHome(this, mainLogic.getTimeToNextEvent());
 				}
 				break;
 			}
 		case EXIT:
 			System.exit(0);
 		case PREVIOUS:
-			timer.cancel();
+			checkTimer();
 			setMessage = MESSAGE_EMPTY;
 			getPreviousPage(this);
 			break;
 		case NEXT:
-			timer.cancel();
+			checkTimer();
 			setMessage = MESSAGE_EMPTY;
 			getNextPage(this);
 			break;
 		case HELP:
-			timer.cancel();
+			checkTimer();
 			setMessage = MESSAGE_EMPTY;
 			currentEventState = VALUE_GET_ALL_EVENTS;
 			getHelp(this);
 			break;
 		case VIEW_MONTH:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = MESSAGE_EMPTY;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
 				currentEventState = VALUE_GET_ALL_EVENTS;
@@ -688,7 +683,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		case VIEW_DAY:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				setMessage = MESSAGE_EMPTY;
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
@@ -698,35 +693,42 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		case NEXT_DAY:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				setMessage = getNextDay(this);
 			}
 		case PREVIOUS_DAY:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				setMessage = getPreviousDay(this);
 			}
 		case NEXT_MONTH:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				setMessage = getNextMonth(this);
 			}
 		case PREVIOUS_MONTH:
 			if (setStorage) {
-				timer.cancel();
+				checkTimer();
 				currentEventState = VALUE_GET_ALL_EVENTS;
 				setMessage = getPreviousMonth(this);
 			}
 		default:
-			timer.cancel();
+			checkTimer();
 			setMessage = MESSAGE_INVALID_COMMAND;
 		}
 		commandBarController.setMessage(setMessage);
 		commandBarController.clear();
 
+	}
+
+	private void checkTimer() {
+		if (timerStatus == VALUE_TIMER_ENABLE) {
+			timer.cancel();
+			timerStatus = VALUE_TIMER_DISABLE;
+		}
 	}
 
 	private boolean checkPassedDay() {
@@ -898,7 +900,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		if (mainLogic.getEvent().getId() == null) {
 			if (currentScreenState == VALUE_VIEW_SCREEN) {
 				addView(this);
-			} else if (currentScreenState == VALUE_VIEW_HOME_SCREEN) {
+			} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 				viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
 			} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 				viewMonth(this, currentMonth, currentYear);
