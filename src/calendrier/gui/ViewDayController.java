@@ -83,29 +83,27 @@ public class ViewDayController extends GridPane {
 	}
 
 	private void setFloating(List<Event> floatingEvents, int startIndex, int arrStartIndex) {
-		if(floatingEvents.size() != VALUE_ZERO) {
+		if (floatingEvents.size() != VALUE_ZERO) {
 			int endingIndex = arrStartIndex + VALUE_ADD_TO_ARRAY;
 			if ((endingIndex) > floatingEvents.size()) {
 				endingIndex = floatingEvents.size();
 			}
 			int end = endingIndex - arrStartIndex;
 
-			
 			if (endingIndex == (startIndex + 1)) {
-				lblNoOfOpenEvent.setText(String.format(VALUE_FOR_NO_EVENT, startIndex+1, floatingEvents.size()));
+				lblNoOfOpenEvent.setText(String.format(VALUE_FOR_NO_EVENT, startIndex + 1, floatingEvents.size()));
 			} else {
-				lblNoOfOpenEvent.setText(
-						String.format(VALUE_FOR_DISPLAY_NUMBER_EVENT, arrStartIndex + 1, endingIndex, floatingEvents.size()));
-	}
-			
+				lblNoOfOpenEvent.setText(String.format(VALUE_FOR_DISPLAY_NUMBER_EVENT, arrStartIndex + 1, endingIndex,
+						floatingEvents.size()));
+			}
+
 			for (int i = 0; i < end; i++) {
-				addFloatingEvent(floatingEvents.get(i), startIndex);
+				addFloatingEvent(floatingEvents.get(i+arrStartIndex), startIndex);
 				startIndex++;
 			}
-		}else if (floatingEvents.size() == VALUE_ZERO) {
+		} else if (floatingEvents.size() == VALUE_ZERO) {
 			lblNoOfOpenEvent.setText(String.format(VALUE_FOR_NO_EVENT, startIndex, floatingEvents.size()));
 		}
-		
 		
 	}
 
@@ -126,7 +124,7 @@ public class ViewDayController extends GridPane {
 			int end = endingIndex - startIndex;
 
 			if (endingIndex == (startIndex + 1)) {
-				lblNoOfDatedEvent.setText(String.format(VALUE_FOR_NO_EVENT, startIndex+1, events.size()));
+				lblNoOfDatedEvent.setText(String.format(VALUE_FOR_NO_EVENT, startIndex + 1, events.size()));
 			} else {
 				lblNoOfDatedEvent.setText(
 						String.format(VALUE_FOR_DISPLAY_NUMBER_EVENT, startIndex + 1, endingIndex, events.size()));
