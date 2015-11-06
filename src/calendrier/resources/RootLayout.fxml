@@ -1,6 +1,5 @@
-<!-- @@author A0126288X -->
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!-- @@author A0126288X -->
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
