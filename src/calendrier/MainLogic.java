@@ -142,6 +142,9 @@ public class MainLogic {
 			Event event = savedEvents.get(i);
 			this.events.add(event.getRecurredEvent());
 		}
+		
+		// Sort
+		sortByStartDateTime(this.events);
 
 		return this.events;
 	}
