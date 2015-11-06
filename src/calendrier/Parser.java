@@ -435,6 +435,8 @@ public class Parser {
 			StringTokenizer st = new StringTokenizer(inputAfterCommand);
 			String wordAfterCommand = st.nextToken();
 			if (wordAfterCommand.equals("subtask")) {
+				String mainId;
+				
 				int wordAfterCommandIndex = inputAfterCommand.indexOf(wordAfterCommand);
 				titleIndex = inputAfterCommand.indexOf(" ", wordAfterCommandIndex) + 1;
 				titleEndIndex = inputAfterCommand.indexOf("to")-1;
@@ -443,7 +445,11 @@ public class Parser {
 				int toIndex = inputAfterCommand.indexOf("to");
 				int idIndex = inputAfterCommand.indexOf(" ", toIndex) + 1;
 				int idEndIndex = inputAfterCommand.indexOf(",", idIndex);
-				String mainId = inputAfterCommand.substring(idIndex, idEndIndex);
+				if (idEndIndex == SPACE_NOT_FOUND) {
+					mainId = inputAfterCommand.substring(idIndex);
+				} else {
+					mainId = inputAfterCommand.substring(idIndex, idEndIndex);
+				}
 				pc.setMainId(mainId);
 			} else {
 				int numCurrentTask = ParsedCommand.getNumCurrentTask();
