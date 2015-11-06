@@ -1,9 +1,8 @@
+/* @@author A0126288X */
 package calendrier.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-//import java.text.DateFormat;
-//import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,6 +19,8 @@ public class ViewController extends FlowPane {
 	private static final String VIEWMONTH_SCREEN_LAYOUT_FXML = "/calendrier/resources/ViewMonth.fxml";
 	private static final String VIEWHOME_SCREEN_LAYOUT_FXML = "/calendrier/resources/Home.fxml";
 	private static final int VALUE_ADD_TO_ARRAY = 15;
+	
+	//@@author A0126421U
 	@FXML
 	private Label lblmonth;
 	@FXML
@@ -36,6 +37,7 @@ public class ViewController extends FlowPane {
 	private Label lblOngoing;
 	@FXML
 	private Label lblFloat;
+	//@@author 
 
 	public ViewController() {
 	}
@@ -79,8 +81,9 @@ public class ViewController extends FlowPane {
 		{
 			lbltime.setText("-");
 		}
-
 	}
+	//@@author 
+
 	/**
 	 * @@author A0126421U
 	 * Constructor to initialize the main components of viewMonth
@@ -128,6 +131,7 @@ public class ViewController extends FlowPane {
 					.add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month, year), idList));
 		}
 	}
+	//@@author 
 	
 	/**
 	 * @@author A0126421U
@@ -148,6 +152,7 @@ public class ViewController extends FlowPane {
 		}
 		return idList;
 	}
+	//@@author 
 	
 	/**
 	 * @@author A0126421U
@@ -170,6 +175,7 @@ public class ViewController extends FlowPane {
 		}
 		return end;
 	}
+	//@@author 
 	
 	/**
 	 * @@author A0126421U
@@ -209,6 +215,7 @@ public class ViewController extends FlowPane {
 		}
 		return null;
 	}
+	//@@author 
 	
 	/**
 	 * @@author A0126421U
@@ -225,6 +232,7 @@ public class ViewController extends FlowPane {
 		}
 		return 28;
 	}
+	//@@author 
 	
 	/**
 	 * @@author A0126421U
@@ -303,6 +311,7 @@ public class ViewController extends FlowPane {
 		}
 		return results;
 	}
+	//@@author
 	
 	/**
 	 * @@author A0126421U
@@ -319,8 +328,10 @@ public class ViewController extends FlowPane {
 		}
 		return month;
 	}
+	//@@author
 	
 
+	//@@author A0126288X
 	public ViewController(List<Event> events, int startIndex) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
@@ -352,3 +363,4 @@ public class ViewController extends FlowPane {
 		getChildren().add(new EventBoxController(event, position));
 	}
 }
+//@@author

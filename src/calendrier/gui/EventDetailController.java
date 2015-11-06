@@ -1,3 +1,4 @@
+/* @@author A0126288X */
 package calendrier.gui;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import utils.Priority;
 import utils.Recurrence;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,6 +46,8 @@ public class EventDetailController extends StackPane {
 	private Label lblGroup;
 	@FXML
 	private Label lblRecurrence;
+	@FXML
+	private CheckBox checkBoxDone;
 
 	private static final String EVENT_DETAIL_LAYOUT_FXML = "/calendrier/resources/ViewEventDetail.fxml";
 
@@ -65,6 +69,11 @@ public class EventDetailController extends StackPane {
 	private static final String VALUE_MEDIUM_PRIORITY = "medium";
 	private static final String VALUE_LOW_PRIORITY = "low";
 	private static final String VALUE_VERY_LOW_PRIORITY = "very_low";
+	
+	private static final boolean VALUE_TRUE = true;
+	private static final boolean VALUE_FALSE = false;
+	private static final String VALUE_DONE = "Done";
+	private static final String VALUE_NOT_DONE ="Undone";
 	
 	private static final int VALUE_EMPTY_SIZE = 0;
 
@@ -99,6 +108,8 @@ public class EventDetailController extends StackPane {
 		
 		String strPriority = checkExistPriority(event.getPriority());
 		lblPriority.setText(strPriority);
+
+		//@@author A0126421U
 		if(subEvents.size()!=0){
 			lblSUBID.setText(subEvents.get(0).getTitle());
 			if(event.getSubtasks().size()>1){
@@ -107,6 +118,8 @@ public class EventDetailController extends StackPane {
 		}else{
 			lblSUBID.setText(VALUE_SHOW_EMPTY_DATA);
 		}
+		//@@author
+
 		if (event.isDone()) {
 			changeEventDesign();
 		} else {
@@ -124,6 +137,14 @@ public class EventDetailController extends StackPane {
 			img = new Image(strImage);
 		}
 		imgType.setImage(img);
+		
+		if(event.isDone()) {
+			checkBoxDone.setText(VALUE_DONE);
+			checkBoxDone.setSelected(VALUE_TRUE);
+		} else {
+			checkBoxDone.setText(VALUE_NOT_DONE);
+			checkBoxDone.setSelected(VALUE_FALSE);
+		}
 	}
 
 	private static String checkExistReminder(List<Calendar> reminders) {
@@ -133,11 +154,9 @@ public class EventDetailController extends StackPane {
 				strReminder += reminders.get(i).getTime().toString() + VALUE_ADD_COMMA;
 			}
 		}
-
 		if (strReminder.equalsIgnoreCase(VALUE_SHOW_NULL)) {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
-
 		return strReminder;
 	}
 
@@ -176,22 +195,6 @@ public class EventDetailController extends StackPane {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 	}
-
-//	private void changeBorderColor(Priority priority) {
-//		if (priority == Priority.VERY_HIGH) {
-//			gridPaneDetail.setStyle("-fx-border-color: red;");
-//		} else if (priority == Priority.HIGH) {
-//			gridPaneDetail.setStyle("-fx-border-color: #FFA07A;");
-//		} else if (priority == Priority.MEDIUM) {
-//			gridPaneDetail.setStyle("-fx-border-color: #FFFF00;");
-//		} else if (priority == Priority.LOW) {
-//			gridPaneDetail.setStyle("-fx-border-color: #00FF7F;");
-//		} else if (priority == Priority.VERY_LOW) {
-//			gridPaneDetail.setStyle("-fx-border-color: #2E8B57;");
-//		} else {
-//			gridPaneDetail.setStyle("-fx-border-color: black;");
-//		}
-//	}
 	
 	private void changeBorderColor(String priority) {
 		if (priority.equalsIgnoreCase(VALUE_VERY_HIGH_PRIORITY)) {
@@ -243,6 +246,5 @@ public class EventDetailController extends StackPane {
 	
 	private void changeEventDesign() {
 		gridPaneDetail.setStyle("-fx-border-color: lightgray");
-		// checkbox
 	}
 }

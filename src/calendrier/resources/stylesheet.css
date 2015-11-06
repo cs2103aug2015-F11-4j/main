@@ -101,7 +101,7 @@
 	-fx-font-family: 'herculanum', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
 
-#lblPageDate, #lblOpenEvent, #lblDayOfWeek , #lblCurrentEvent{
+#lblPageDate, #lblOpenEvent, #lblDayOfWeek , #lblCurrentEvent, #lblNoOfDatedEvent, #lblNoOfOpenEvent{
 	-fx-font-size:20.0pt;
 	-fx-font-family: 'herculanum', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
@@ -144,10 +144,9 @@
 	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
 
-/* #checkBoxDone {
+#checkBoxDone {
 	-fx-opacity: 1;
 }
-*/
 
 /*
  * Copyright (c) 2013 by Gerrit Grunwald
