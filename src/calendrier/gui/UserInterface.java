@@ -1,3 +1,4 @@
+/* @@author A0126288X */
 package calendrier.gui;
 
 import java.io.IOException;
@@ -156,7 +157,6 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	private void addEventView(UserInterface userInterface) {
-		// currentScreenState = VALUE_VIEW_SCREEN;
 		List<Event> subEvents = new ArrayList<Event>();
 		if (mainLogic.getEvent().getSubtasks().size() != 0) {
 			for (int i = 0; i < mainLogic.getEvent().getSubtasks().size(); i++) {
@@ -226,6 +226,7 @@ public class UserInterface extends Application implements OnRemindListener {
 
 		startCountDown(name1, name2);
 	}
+	//@@author 
 	
 	/**
 	 * @@author A0126421U
@@ -251,6 +252,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		}, 1, 1000);
 	}
+	//@@author 
 	
 	/**
 	 * @@author A0126421U
@@ -266,6 +268,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		rootLayout.setCenter(new ViewController(mainLogic.getMonthEvents(currentYear, currentMonth + 1), date,
 				currentMonth, currentYear));
 	}
+	//@@author 
 
 	private void viewDay(UserInterface userInterface, int date, int month, int year, int day, boolean isToday) {
 		currentScreenState = VALUE_VIEW_DAY_SCREEN;
@@ -758,6 +761,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 		return num;
 	}
+	//@@author 
 
 	/**
 	 * @@author A0126421U
@@ -782,6 +786,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 		return num;
 	}
+	//@@author 
 
 	/**
 	 * @@author A0126421U
@@ -801,6 +806,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 		return num;
 	}
+	//@@author 
 
 	private boolean boolIsToday(int intDate, int intMonth, int intYear) {
 		if (intDate == date && intMonth == month && intYear == year) {

@@ -1,3 +1,4 @@
+/* @@author A0126288X */
 package calendrier.gui;
 
 import java.io.IOException;
@@ -67,7 +68,6 @@ public class EventBoxController extends StackPane {
 	}
 
 	public void initEventValue(Event event, int position) {
-		// Calendar cal = Calendar.getInstance();
 		IdMapper idMapper = IdMapper.getInstance();
 		idMapper.set(Integer.toString(position), checkExistValue(event.getId()));
 		lblEventID.setText(Integer.toString(position));
@@ -78,7 +78,6 @@ public class EventBoxController extends StackPane {
 			changeEventDesign();
 		} else {
 			String strPriority = checkExistPriority(event.getPriority());
-			// changeBoarderColour(event, cal, strPriority);
 			changeBorderColor(strPriority);
 		}
 
@@ -93,43 +92,12 @@ public class EventBoxController extends StackPane {
 		imgType.setImage(img);
 	}
 
-	// private void changeBoarderColour(Event event, Calendar cal, String
-	// strPriority) {
-	// if (!strPriority.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
-	// if ((event.getStartDateTime()!=null &&
-	// (cal.compareTo(event.getStartDateTime())<0))
-	// || (event.getEndDateTime()!=null &&
-	// (cal.compareTo(event.getEndDateTime())<0))) {
-	// changeBorderColor(event.getPriority());
-	// } else if (event.getStartDateTime()==null &&
-	// event.getEndDateTime()==null) {
-	// changeBorderColor(event.getPriority());
-	// }
-	// else{
-	// eventGridPane.setStyle("-fx-border-color: lightgray;");
-	// }
-	// }
-	// else{
-	// if ((event.getStartDateTime()!=null &&
-	// (cal.compareTo(event.getStartDateTime())>0))
-	// ||(event.getEndDateTime()!=null &&
-	// (cal.compareTo(event.getEndDateTime())>0))) {
-	// eventGridPane.setStyle("-fx-border-color: lightgray;");
-	// }
-	// }
-	// }
-
 	public String checkExistValue(String parseInValue) {
 		if(parseInValue!=null){
 			return parseInValue;
 		} else{
 			return VALUE_SHOW_EMPTY_DATA;
 		}
-//		try {
-//			return parseInValue;
-//		} catch (NullPointerException e) {
-//			return VALUE_SHOW_EMPTY_DATA;
-//		}
 	}
 
 	private static String constructEventDate(Calendar startDateTime, Calendar endDateTime) {
@@ -184,22 +152,6 @@ public class EventBoxController extends StackPane {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 	}
-
-	// private void changeBorderColor(Priority priority) {
-	// if (priority == Priority.VERY_HIGH) {
-	// eventGridPane.setStyle("-fx-border-color: red;");
-	// } else if (priority == Priority.HIGH) {
-	// eventGridPane.setStyle("-fx-border-color: #FFA07A;");
-	// } else if (priority == Priority.MEDIUM) {
-	// eventGridPane.setStyle("-fx-border-color: #FFFF00;");
-	// } else if (priority == Priority.LOW) {
-	// eventGridPane.setStyle("-fx-border-color: #00FF7F;");
-	// } else if (priority == Priority.VERY_LOW) {
-	// eventGridPane.setStyle("-fx-border-color: #2E8B57;");
-	// } else {
-	// eventGridPane.setStyle("-fx-border-color: black;");
-	// }
-	// }
 
 	private void changeBorderColor(String priority) {
 		if (priority.equalsIgnoreCase(VALUE_VERY_HIGH_PRIORITY)) {

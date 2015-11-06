@@ -1,3 +1,4 @@
+/* @@author A0126288X */
 package calendrier.gui;
 
 import java.io.IOException;
@@ -107,6 +108,8 @@ public class EventDetailController extends StackPane {
 		
 		String strPriority = checkExistPriority(event.getPriority());
 		lblPriority.setText(strPriority);
+
+		//@@author A0126421U
 		if(subEvents.size()!=0){
 			lblSUBID.setText(subEvents.get(0).getTitle());
 			if(event.getSubtasks().size()>1){
@@ -115,6 +118,8 @@ public class EventDetailController extends StackPane {
 		}else{
 			lblSUBID.setText(VALUE_SHOW_EMPTY_DATA);
 		}
+		//@@author
+
 		if (event.isDone()) {
 			changeEventDesign();
 		} else {
@@ -149,11 +154,9 @@ public class EventDetailController extends StackPane {
 				strReminder += reminders.get(i).getTime().toString() + VALUE_ADD_COMMA;
 			}
 		}
-
 		if (strReminder.equalsIgnoreCase(VALUE_SHOW_NULL)) {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
-
 		return strReminder;
 	}
 
@@ -192,22 +195,6 @@ public class EventDetailController extends StackPane {
 			return VALUE_SHOW_EMPTY_DATA;
 		}
 	}
-
-//	private void changeBorderColor(Priority priority) {
-//		if (priority == Priority.VERY_HIGH) {
-//			gridPaneDetail.setStyle("-fx-border-color: red;");
-//		} else if (priority == Priority.HIGH) {
-//			gridPaneDetail.setStyle("-fx-border-color: #FFA07A;");
-//		} else if (priority == Priority.MEDIUM) {
-//			gridPaneDetail.setStyle("-fx-border-color: #FFFF00;");
-//		} else if (priority == Priority.LOW) {
-//			gridPaneDetail.setStyle("-fx-border-color: #00FF7F;");
-//		} else if (priority == Priority.VERY_LOW) {
-//			gridPaneDetail.setStyle("-fx-border-color: #2E8B57;");
-//		} else {
-//			gridPaneDetail.setStyle("-fx-border-color: black;");
-//		}
-//	}
 	
 	private void changeBorderColor(String priority) {
 		if (priority.equalsIgnoreCase(VALUE_VERY_HIGH_PRIORITY)) {
@@ -259,6 +246,5 @@ public class EventDetailController extends StackPane {
 	
 	private void changeEventDesign() {
 		gridPaneDetail.setStyle("-fx-border-color: lightgray");
-		// checkbox
 	}
 }
