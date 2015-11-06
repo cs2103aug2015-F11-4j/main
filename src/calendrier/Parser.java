@@ -11,6 +11,12 @@ import utils.ParsedCommand;
 import utils.Priority;
 import utils.Recurrence;
 
+/**
+ * 
+ * @@author A0125168E
+ * 
+ */
+
 public class Parser {
 	/*
 	 * Only view, delete, filter, storage has a title. Other commands(add,
@@ -206,6 +212,7 @@ public class Parser {
 			StringTokenizer st = new StringTokenizer(inputAfterCommand);
 			String wordAfterCommand = st.nextToken();
 			if (wordAfterCommand.equals("subtask")) {
+				String mainId;
 				int wordAfterCommandIndex = inputAfterCommand.indexOf(wordAfterCommand);
 				titleIndex = inputAfterCommand.indexOf(" ", wordAfterCommandIndex) + 1;
 				titleEndIndex = inputAfterCommand.indexOf("to")-1;
@@ -214,7 +221,11 @@ public class Parser {
 				int toIndex = inputAfterCommand.indexOf("to");
 				int idIndex = inputAfterCommand.indexOf(" ", toIndex) + 1;
 				int idEndIndex = inputAfterCommand.indexOf(",", idIndex);
-				String mainId = inputAfterCommand.substring(idIndex, idEndIndex);
+				if (idEndIndex == SPACE_NOT_FOUND) {
+					mainId = inputAfterCommand.substring(idIndex);
+				} else {
+					mainId = inputAfterCommand.substring(idIndex, idEndIndex);
+				}
 				pc.setMainId(mainId);
 			} else {
 				titleEndIndex = inputAfterCommand.indexOf(",");
@@ -441,8 +452,8 @@ public class Parser {
 				} else {
 					title = inputAfterCommand.substring(0, titleEndIndex);
 				}
+				pc.setTitle(title);
 			}
-			pc.setTitle(title);
 
 			determineDeadlineAndSettle(pc, inputAfterCommand);
 
@@ -540,8 +551,8 @@ public class Parser {
 			// keyword 'from': for date and time
 			// e.g. from 2015/11/12 to 2015/11/15, from 12.50pm to 9.33pm
 			
-			System.out.println("Before: " + resultingString);
-			System.out.println("keyword: " + keyword);
+			// System.out.println("Before: " + resultingString);
+			// System.out.println("keyword: " + keyword);
 			
 			if (keyword.equals("from")) {
 				nextToken = tokens.nextToken();
@@ -584,14 +595,14 @@ public class Parser {
 				inputAfterKeyword = resultingString.substring(afterKeywordIndex);
 				
 				nextKeywordIndex = getFirstKeywordIndex(inputAfterKeyword, keywords);
-				System.out.println("nextkeywordindex: " + nextKeywordIndex);
+				// System.out.println("nextkeywordindex: " + nextKeywordIndex);
 				// there are no more keyword, this is the last token of the line
 				if (nextKeywordIndex == -1) {
 					location = resultingString.substring(afterKeywordIndex);
 					resultingString = "";
 				}
 				else {
-					System.out.println("inputafterkeyword: " + inputAfterKeyword);
+					// System.out.println("inputafterkeyword: " + inputAfterKeyword);
 					location = inputAfterKeyword.substring(0, nextKeywordIndex-1);
 					// System.out.println("nextkeywordindex: " + nextKeywordIndex);
 					resultingString = resultingString.substring(nextKeywordIndex);
@@ -634,7 +645,7 @@ public class Parser {
 				resultingString = getResultingString(nextKeywordIndex, resultingString);
 			}
 			
-			System.out.println("After: " + resultingString);
+			// System.out.println("After: " + resultingString);
 			
 			if (!resultingString.equals("")) {
 				tokens = new StringTokenizer(resultingString);
@@ -697,10 +708,10 @@ public class Parser {
 			}
 		}
 		if (!found) {
-			System.out.println("NOT FOUND");
+			// System.out.println("NOT FOUND");
 			return -1;
 		}
-		System.out.println("result: " + result);
+		// System.out.println("result: " + result);
 		return result;
 	}
 	

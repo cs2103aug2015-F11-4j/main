@@ -3,6 +3,12 @@ package utils;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * 
+ * @@author A0125168E
+ * 
+ */
+
 public class ParsedCommand {
 	private Command command = null;
 	private String id = null;
@@ -16,7 +22,6 @@ public class ParsedCommand {
 	private Priority priority = null;
 	private String location = null;
 	private String notes = null;
-	// private boolean isRecurring = false;
 	private Recurrence recurFreq = null;
 	private ArrayList<Calendar> reminder = null;
 	private boolean done = false;
@@ -53,11 +58,6 @@ public class ParsedCommand {
 	
 	public String getNotes() { return notes; }
 	public void setNotes(String notes) { this.notes = notes; }
-	
-	/*
-	public boolean getIsRecurring() { return isRecurring; }
-	public void setIsRecurring(boolean isRecurring) { this.isRecurring = isRecurring; }
-	*/
 	
 	public Recurrence getRecurFreq() { return recurFreq; }
 	public void setRecurFreq(Recurrence recurFreq) { this.recurFreq = recurFreq; }
