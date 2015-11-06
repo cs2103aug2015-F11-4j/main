@@ -56,10 +56,10 @@ public class ViewController extends FlowPane {
 	 * 
 	 * @param time
 	 *            - the remaining time for next event to happen
-	 * @param events
+	 * @param dayEvents
 	 *            - the events that happen today
-	 * @param nextEvents
-	 *            - the next event that going to happen
+	 * @param allEvents
+	 *            - the list of all events
 	 * @param floatTask
 	 *            - total number of floating task
 	 * @param onGoingTask

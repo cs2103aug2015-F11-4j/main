@@ -76,34 +76,3 @@
 		</GridPane>
 	</children>
 </fx:root>
-
-<!-- <fx:root type="FlowPane" fx:id="flowPaneAllEvents" xmlns="http://javafx.com/javafx/8.0.40" 
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="850.0" prefHeight="600.0" 
-	maxWidth="850.0" maxHeight="600.0"> <children> <GridPane fx:id="monthGridPane" 
-	xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml" 
-	hgap="4" vgap="4" prefWidth="850.0" prefHeight="600.0" maxWidth="850.0" maxHeight="600.0"> 
-	<children> <Label fx:id="lblCurrentEvent" text="Current Task" GridPane.rowIndex="0" 
-	GridPane.columnIndex="2" /> <FlowPane fx:id="flowPaneCurrentEvents" xmlns="http://javafx.com/javafx/8.0.40" 
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" vgap="5" maxWidth="1000.0" 
-	GridPane.rowIndex="1" GridPane.columnIndex="2"> <children> </children> </FlowPane> 
-	<Label fx:id="lblCurrentEvent" text="Next Task" GridPane.rowIndex="2" GridPane.columnIndex="2" 
-	/> <FlowPane fx:id="flowPaneNextEvents" xmlns="http://javafx.com/javafx/8.0.40" 
-	xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000.0" vgap="5" maxWidth="1000.0" 
-	GridPane.rowIndex="3" GridPane.columnIndex="2"> <children> </children> </FlowPane> 
-	<Label fx:id="lblCurrentEvent" text="Overdue Task" GridPane.rowIndex="4" 
-	GridPane.columnIndex="2" GridPane.columnSpan="2" /> <Label fx:id="lblCurrentEvent" 
-	text="Ongoing Task" GridPane.rowIndex="5" GridPane.columnIndex="4" GridPane.columnSpan="2" 
-	/> <Label fx:id="lblCurrentEvent" text="Ongoing Task" GridPane.rowIndex="4" 
-	GridPane.columnIndex="6"/> <Label fx:id="lblCurrentEvent" text="Floating 
-	Task" GridPane.rowIndex="4" GridPane.columnIndex="10"/> <Label fx:id="lblCurrentEvent" 
-	text="Countdown to Next Event" GridPane.rowIndex="6" GridPane.columnIndex="2"/> 
-	<Label fx:id="lblNext" GridPane.rowIndex="3" GridPane.columnIndex="2"/> <FlowPane 
-	fx:id="flowPaneNextEvents" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" 
-	prefWidth="850.0" vgap="5" maxWidth="850.0" GridPane.rowIndex="3" GridPane.columnIndex="0" 
-	GridPane.columnSpan="4"> <children> </children> </FlowPane> <Label fx:id="lblPassed" 
-	GridPane.rowIndex="5" GridPane.columnIndex="2"/> <Label fx:id="lblOngoing" 
-	GridPane.rowIndex="5" GridPane.columnIndex="6"/> <Label fx:id="lblFloat" 
-	GridPane.rowIndex="5" GridPane.columnIndex="10"/> <Label fx:id="lbltime" 
-	GridPane.rowIndex="7" GridPane.columnIndex="2"/> <Label styleClass="storageMessage" 
-	text="* Create storage file first: 'save in &#60;FOLDER_NAME&#62;'" StackPane.alignment="BOTTOM_CENTER" 
-	/> </children> </GridPane> </children> </fx:root> -->
