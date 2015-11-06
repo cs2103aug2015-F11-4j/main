@@ -91,7 +91,7 @@ public class EventMonthController extends StackPane {
 					lblEventID2.setText(Integer.toString(computeFakeId(idList,events.get(1).getId())));
 					changeTextColor(events.get(1).getPriority(), lblEvent2);
 					if (events.size() > 2) {
-						lblEvent3.setText("...");
+						lblEvent3.setText(String.format(" + %d more...", events.size()-2));
 						changeTextColor(Priority.HIGH, lblEvent3);
 					}
 				}
