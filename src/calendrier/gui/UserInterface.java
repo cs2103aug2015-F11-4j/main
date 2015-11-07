@@ -213,7 +213,7 @@ public class UserInterface extends Application implements OnRemindListener {
 				getNumOfOnGoingEvents(mainLogic.getAllEvents()), getNumOfPassedEvents(mainLogic.getAllEvents())));
 		setTimer(timeToNextEvent, cal);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void setTimer(long timeToNextEvent, Calendar cal) {
 		if (timeToNextEvent >= 0) {
@@ -467,7 +467,13 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	public void handleKeyPress(CommandBarController commandBarController, KeyCode key, String userInput) {
 		if (key == KeyCode.ENTER) {
-			handleEnterPress(commandBarController, userInput);
+			if (userInput.length() != 0) {
+				handleEnterPress(commandBarController, userInput);
+			} else {
+				setMessage = MESSAGE_INVALID_COMMAND;
+				commandBarController.setMessage(setMessage);
+				commandBarController.clear();
+			}
 		}
 
 		if (key == KeyCode.LEFT && userInput.length() == 0) {
@@ -539,9 +545,9 @@ public class UserInterface extends Application implements OnRemindListener {
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
 						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 						viewMonth(this, currentMonth, currentYear);
-					} else{
+					} else {
 						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
 					break;
@@ -590,9 +596,9 @@ public class UserInterface extends Application implements OnRemindListener {
 						} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 							resetViewDateInfo();
 							viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-						} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+						} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 							viewMonth(this, currentMonth, currentYear);
-						} else{
+						} else {
 							viewHome(this, mainLogic.getTimeToNextEvent());
 						}
 					} else {
@@ -616,9 +622,9 @@ public class UserInterface extends Application implements OnRemindListener {
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
 						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 						viewMonth(this, currentMonth, currentYear);
-					} else{
+					} else {
 						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
 					break;
@@ -636,9 +642,9 @@ public class UserInterface extends Application implements OnRemindListener {
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
 						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 						viewMonth(this, currentMonth, currentYear);
-					} else{
+					} else {
 						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
 					break;
@@ -654,9 +660,9 @@ public class UserInterface extends Application implements OnRemindListener {
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
 						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 						viewMonth(this, currentMonth, currentYear);
-					} else{
+					} else {
 						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
 					break;
@@ -728,7 +734,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		} catch (UserCommandException userCommandException) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			setMessage = userCommandException.getCommand();
 		}
 		commandBarController.setMessage(setMessage);
