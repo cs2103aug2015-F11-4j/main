@@ -15,7 +15,7 @@ public class Event implements Comparable<Event> {
 	private static final String NULL = "null";
 	private static final String NUMBER_REGEX = "\\d+";
 	private static final String FULL_TIMESTAMP_REGEX = "(\\d+)/(\\d+)/(\\d+)-(\\d+):(\\d+)";
-	private static final String DATETIME_FORMAT = "%d/%d/%d-%d:%d";
+	private static final String DATETIME_FORMAT = "%d/%d/%d-%02d:%02d";
 
 	private static final String ID_STRING = "id: %s, ";
 	private static final String MAIN_ID_STRING = "mainId: %s, ";
