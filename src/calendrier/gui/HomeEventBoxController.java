@@ -52,9 +52,24 @@ public class HomeEventBoxController extends StackPane {
 	private void initEventValue(Event event, int id) {
 		lblHomeEventID.setText(String.format("%d.", id));
 		lblHomeEventTitle.setText(event.getTitle());
+		if(event.isDone()){
+			changeTextDecoration(lblHomeEventTitle);
+		}
 		changeBorderColor(event.getPriority());
 	}
-
+	
+	/**
+	 * @@author A0126421U Strike through the event if is done
+	 * 
+	 * @param lblEvent
+	 *            - the layout to be modified
+	 * 
+	 */
+	private void changeTextDecoration(Label lblEvent) {
+		lblEvent.getStyleClass().remove(lblEvent.styleProperty());
+		lblEvent.getStyleClass().add("lblEventStrikeThrough");
+	}
+	
 	/**
 	 * @@author A0126421U
 	 * Change the text color based on priority

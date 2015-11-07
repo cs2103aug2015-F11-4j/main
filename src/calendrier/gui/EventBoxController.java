@@ -60,9 +60,12 @@ public class EventBoxController extends StackPane {
 	private static final Calendar cal = Calendar.getInstance();
 	@SuppressWarnings("deprecation")
 	private static final int todayDate = cal.getTime().getDate(), todayMonth = cal.getTime().getMonth(), todayYear = cal.getTime().getYear() + 1900;
-	private static final DateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
+	private static final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private static final String VALUE_EMPTY_STRING = "";
-	private static final String VALUE_SPLIT_REGEX = " ";
+	private static final String VALUE_SPLIT_REGEX = "/";
+	
+	private static final boolean VALUE_TRUE = true;
+	private static final boolean VALUE_FALSE = false;
 
 	private static final int PARAM_FOR_DATE = 0;
 	private static final int PARAM_FOR_MONTH = 1;
@@ -145,37 +148,41 @@ public class EventBoxController extends StackPane {
 	}
 	
 	private static boolean checkBetweenToday(String[] arrStartDate, String[] arrEndDate) {
-		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE]) < todayDate)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH]) <= todayMonth)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR]) <= todayYear)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_DATE]) > todayDate)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH]) >= todayMonth)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR]) >= todayYear)) {
+		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE) < todayDate)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE) <= todayMonth)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE) <= todayYear)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE) > todayDate)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE) >= todayMonth)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE) >= todayYear)) {
 			return false;
 		}
 		return true;
 	}
 
 	private static boolean checkAfterToday(String[] arrEndDate) {
-		if ((convertToInteger(arrEndDate[PARAM_FOR_DATE]) > todayDate)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH]) >= todayMonth)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR]) >= todayYear)) {
+		if ((convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE) > todayDate)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE) >= todayMonth)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE) >= todayYear)) {
 			return false;
 		}
 		return true;
 	}
 
 	private static boolean checkBeforeToday(String[] arrStartDate) {
-		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE]) < todayDate)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH]) <= todayMonth)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR]) <= todayYear)) {
+		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE) < todayDate)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE) <= todayMonth)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE) <= todayYear)) {
 			return true;
 		}
 		return false;
 	}
-	
-	private static Integer convertToInteger(String value) {
-		return Integer.parseInt(value);
+
+	private static Integer convertToInteger(String value, boolean isMonth) {
+		int currentMonth = Integer.parseInt(value);
+		if(isMonth) {
+			currentMonth = currentMonth - 1;
+		}
+		return currentMonth;
 	}
 	
 	private static String checkExistDate(Calendar calendar) {

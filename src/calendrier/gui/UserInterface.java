@@ -178,21 +178,43 @@ public class UserInterface extends Application implements OnRemindListener {
 		if (currentEventState == VALUE_GET_ALL_EVENTS) {
 			if (mainLogic.getAllEvents().size() != VALUE_NO_EVENT) {
 				listEvents = mainLogic.getAllEvents();
-				rootLayout.setCenter(new ViewController(SortedEvents.sortEvents(listEvents), arrStartIndex));
+				rootLayout.setCenter(new ViewController(rearrangeEvents(listEvents), arrStartIndex));
 			} else {
 				rootLayout.setCenter(new NoEventController(userInterface));
 			}
 		} else if (currentEventState == VALUE_GET_FILTERED_EVENTS) {
 			if (mainLogic.getFilteredEvents().size() != VALUE_NO_EVENT) {
 				listEvents = mainLogic.getFilteredEvents();
-				rootLayout.setCenter(new ViewController(SortedEvents.sortEvents(listEvents), filteredArrStartIndex));
+				rootLayout.setCenter(new ViewController(rearrangeEvents(listEvents), filteredArrStartIndex));
 			} else {
 				rootLayout.setCenter(new NoEventController(userInterface));
 			}
 		}
 
 	}
-
+	
+	private List<Event> rearrangeEvents(List<Event> events){
+		Calendar today= Calendar.getInstance();
+		List<Event> ongoingEvents = new ArrayList<Event>();
+		List<Event> passedEvents = new ArrayList<Event>();
+		List<Event> results = new ArrayList<Event>();
+		
+		for(int i=0; i<events.size();i++){
+			if(events.get(i).getEndDateTime()!=null){
+				if(events.get(i).getEndDateTime().before(today)){
+					passedEvents.add(events.get(i));
+				}else{
+					ongoingEvents.add(events.get(i));
+				}
+			} else {
+				ongoingEvents.add(events.get(i));
+			}
+		}
+		results.addAll(SortedEvents.sortEvents(ongoingEvents));
+		results.addAll(SortedEvents.sortEvents(passedEvents));
+		return results;
+	}
+	
 	/**
 	 * @@author A0126421U generate home view
 	 * 
@@ -213,7 +235,7 @@ public class UserInterface extends Application implements OnRemindListener {
 				getNumOfOnGoingEvents(mainLogic.getAllEvents()), getNumOfPassedEvents(mainLogic.getAllEvents())));
 		setTimer(timeToNextEvent, cal);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void setTimer(long timeToNextEvent, Calendar cal) {
 		if (timeToNextEvent >= 0) {
@@ -467,7 +489,13 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	public void handleKeyPress(CommandBarController commandBarController, KeyCode key, String userInput) {
 		if (key == KeyCode.ENTER) {
-			handleEnterPress(commandBarController, userInput);
+			if (userInput.length() != 0) {
+				handleEnterPress(commandBarController, userInput);
+			} else {
+				setMessage = MESSAGE_INVALID_COMMAND;
+				commandBarController.setMessage(setMessage);
+				commandBarController.clear();
+			}
 		}
 
 		if (key == KeyCode.LEFT && userInput.length() == 0) {
@@ -506,6 +534,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		try {
 			switch (mainLogic.execute(userInput)) {
 			case STORAGE_LOCATION:
+				checkTimer();
 				setMessage = MESSAGE_WELCOME;
 				setStorage = PARAM_SET_STORAGE_TRUE;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
@@ -539,9 +568,9 @@ public class UserInterface extends Application implements OnRemindListener {
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
 						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 						viewMonth(this, currentMonth, currentYear);
-					} else{
+					} else {
 						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
 					break;
@@ -590,9 +619,9 @@ public class UserInterface extends Application implements OnRemindListener {
 						} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 							resetViewDateInfo();
 							viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-						} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+						} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 							viewMonth(this, currentMonth, currentYear);
-						} else{
+						} else {
 							viewHome(this, mainLogic.getTimeToNextEvent());
 						}
 					} else {
@@ -616,9 +645,9 @@ public class UserInterface extends Application implements OnRemindListener {
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
 						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 						viewMonth(this, currentMonth, currentYear);
-					} else{
+					} else {
 						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
 					break;
@@ -636,9 +665,9 @@ public class UserInterface extends Application implements OnRemindListener {
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
 						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 						viewMonth(this, currentMonth, currentYear);
-					} else{
+					} else {
 						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
 					break;
@@ -654,9 +683,9 @@ public class UserInterface extends Application implements OnRemindListener {
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
 						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN) {
 						viewMonth(this, currentMonth, currentYear);
-					} else{
+					} else {
 						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
 					break;
@@ -728,8 +757,10 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		} catch (UserCommandException userCommandException) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			setMessage = userCommandException.getCommand();
+		} catch(NullPointerException nullPointerException) {
+			setMessage = MESSAGE_INVALID_COMMAND;
 		}
 		commandBarController.setMessage(setMessage);
 		commandBarController.clear();

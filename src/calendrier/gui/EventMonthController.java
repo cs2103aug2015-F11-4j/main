@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 
 /**
  * @@author A0126421U For generate the children object for viewMonth
@@ -143,7 +142,12 @@ public class EventMonthController extends StackPane {
 			setEmptyData();
 		}
 	}
-
+	
+	/**
+	 * @@author A0126421U Set parameter for date
+	 * 
+	 * 
+	 */
 	private void setTaskInDate(Event events, String Id, Label lblEvent, Label lblEventId) {
 		lblEvent.setText(events.getTitle());
 		lblEventId.setText(Id);
