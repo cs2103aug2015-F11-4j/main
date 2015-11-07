@@ -12,6 +12,23 @@ public class UserCommandException extends Exception {
 
 	/**
 	 * @@author A0088646M
+	 * Contructor with message
+	 * @param message	message of the exception
+	 */
+	public UserCommandException(String message){
+		this.message = message;
+	}
+	
+	/**
+	 * @@author A0088646M
+	 * Empty Constructor
+	 */
+	public UserCommandException(){
+		
+	}
+	
+	/**
+	 * @@author A0088646M
 	 * Getter for message returned along with the exception
 	 * @return message returned along with the exception
 	 */

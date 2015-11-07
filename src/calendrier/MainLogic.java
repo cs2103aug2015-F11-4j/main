@@ -75,6 +75,8 @@ public class MainLogic {
 			} catch (UserCommandException exception) {
 				exception.setCommand(command);
 				throw exception;
+			} catch (Exception e){
+				throw e;
 			}
 		}
 
@@ -96,7 +98,7 @@ public class MainLogic {
 				filteredEvents = eventList;
 			}
 		} catch (UserCommandException e) {
-			e.printStackTrace();
+			throw e;
 		} catch (Exception e) {
 			// Just in case it is not UserCommandException
 			e.printStackTrace();
