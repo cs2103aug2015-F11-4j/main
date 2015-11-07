@@ -62,11 +62,18 @@ public class MainLogic {
 	 * @param command
 	 *            Command string input from user
 	 * @return command action
-	 * @throws UserCommandException 
+	 * @throws UserCommandException
 	 */
 	public Command execute(String command) throws UserCommandException {
 
-		ParsedCommand parsedCommand = parser.parse(command);
+		ParsedCommand parsedCommand = null;
+		try {
+			parsedCommand = parser.parse(command);
+		} catch (NumberFormatException exception) {
+			UserCommandException e = new UserCommandException("Invalid command.");
+			e.setCommand(command);
+			throw e;
+		}
 
 		assert (parsedCommand != null);
 		if (parsedCommand.getCommand() != null) {
@@ -75,7 +82,7 @@ public class MainLogic {
 			} catch (UserCommandException exception) {
 				exception.setCommand(command);
 				throw exception;
-			} catch (Exception e){
+			} catch (Exception e) {
 				throw e;
 			}
 		}
