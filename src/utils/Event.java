@@ -57,7 +57,7 @@ public class Event implements Comparable<Event> {
 	private String group;
 	private Recurrence recurrence;
 	private List<String> subtasks; // List of Subtask ID
-	private boolean done;
+	private Boolean done;
 
 	/* @@author A0088646M */
 	public Event() {
@@ -384,12 +384,12 @@ public class Event implements Comparable<Event> {
 	}
 
 	/* @@author A0088646M */
-	public boolean isDone() {
+	public Boolean isDone() {
 		return done;
 	}
 
 	/* @@author A0088646M */
-	public void setDone(boolean done) {
+	public void setDone(Boolean done) {
 		this.done = done;
 	}
 

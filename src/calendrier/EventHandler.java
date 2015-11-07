@@ -216,6 +216,9 @@ public class EventHandler {
 	public Event add(Event event) throws Exception {
 		previousEvent = event;
 
+		if(event.isDone() == null){
+			event.setDone(false);
+		}
 		events.add(event);
 		reminders.addReminder(event);
 		manage.save(events);
@@ -393,6 +396,10 @@ public class EventHandler {
 		}
 		if (newEvent.getRecurrence() == null) {
 			newEvent.setRecurrence(oldEvent.getRecurrence());
+		}
+		
+		if (newEvent.isDone() == null) {
+			newEvent.setDone(oldEvent.isDone());
 		}
 	}
 

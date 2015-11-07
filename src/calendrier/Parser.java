@@ -197,7 +197,19 @@ public class Parser {
 			
 			String done = getAttributeFromInput(inputAfterCommand, "done", 4);
 			if (done != null) {
-				pc.setDone(done.equalsIgnoreCase("yes"));
+				if(done.equals("yes")){
+					pc.setDone(true);
+				}
+				else if(done.equals("true")){
+					pc.setDone(true);
+				}
+				else if(done.equals("no")){
+					pc.setDone(false);
+				}
+				else if(done.equals("false")){
+					pc.setDone(false);
+				}
+//				pc.setDone(done.equalsIgnoreCase("yes"));
 			}
 
 			setReminder(pc, inputAfterCommand, "reminderdate", "remindertime", 12);
@@ -288,7 +300,19 @@ public class Parser {
 			
 			String done = getAttributeFromInput(inputAfterCommand, "done", 4);
 			if (done != null) {
-				pc.setDone(done.equalsIgnoreCase("yes"));
+				if(done.equals("yes")){
+					pc.setDone(true);
+				}
+				else if(done.equals("true")){
+					pc.setDone(true);
+				}
+				else if(done.equals("no")){
+					pc.setDone(false);
+				}
+				else if(done.equals("false")){
+					pc.setDone(false);
+				}
+//				pc.setDone(done.equalsIgnoreCase("yes"));
 			}
 			
 			setReminder(pc, inputAfterCommand, "reminderdate", "remindertime", 12);
@@ -424,7 +448,19 @@ public class Parser {
 			
 			String done = getAttributeFromInput(inputAfterCommand, "-dne", 4);
 			if (done != null) {
-				pc.setDone(done.equalsIgnoreCase("yes"));
+				if(done.equals("yes")){
+					pc.setDone(true);
+				}
+				else if(done.equals("true")){
+					pc.setDone(true);
+				}
+				else if(done.equals("no")){
+					pc.setDone(false);
+				}
+				else if(done.equals("false")){
+					pc.setDone(false);
+				}
+//				pc.setDone(done.equalsIgnoreCase("yes"));
 			}
 
 			setReminder(pc, inputAfterCommand, "-rd", "-rt", 3);	
@@ -512,7 +548,19 @@ public class Parser {
 			
 			String done = getAttributeFromInput(inputAfterCommand, "-dne", 4);
 			if (done != null) {
-				pc.setDone(done.equalsIgnoreCase("yes"));
+				if(done.equals("yes")){
+					pc.setDone(true);
+				}
+				else if(done.equals("true")){
+					pc.setDone(true);
+				}
+				else if(done.equals("no")){
+					pc.setDone(false);
+				}
+				else if(done.equals("false")){
+					pc.setDone(false);
+				}
+//				pc.setDone(done.equalsIgnoreCase("yes"));
 			}
 
 			setReminder(pc, inputAfterCommand, "-rd", "-rt", 3);
