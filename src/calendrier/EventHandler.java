@@ -14,6 +14,7 @@ import utils.Event;
 import utils.IdMapper;
 import utils.OnRemindListener;
 import utils.ParsedCommand;
+import utils.UserCommandException;
 
 /**
  * This class is used to manage event objects using data passed in from
@@ -115,7 +116,7 @@ public class EventHandler {
 		return eventsReturned;
 	}
 
-	private void setStorageAndLoadEvents(ParsedCommand pc) {
+	private void setStorageAndLoadEvents(ParsedCommand pc) throws UserCommandException {
 		assert(manage != null);
 		manage.setStorageLocation(pc.getStorageLocation());
 
@@ -215,8 +216,9 @@ public class EventHandler {
 	 * 
 	 * @param pc
 	 * @return eventToBeRemoved
+	 * @throws UserCommandException 
 	 */
-	public Event remove(ParsedCommand pc) {
+	public Event remove(ParsedCommand pc) throws UserCommandException {
 		Event eventToBeRemoved = findEventToRemove(pc);
 
 		removeFromSubtasksAndMaintask(eventToBeRemoved);
