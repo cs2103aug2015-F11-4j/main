@@ -50,7 +50,8 @@ public class UserInterface extends Application implements OnRemindListener {
 	private static final String MESSAGE_EMPTY = "";
 	private static final String MESSAGE_REMINDER = "Reminder";
 
-	private static final int VALUE_START_SCREEN_MIN = 1;
+	private static final int VALUE_START_SCREEN_MIN_WITH_HOME = 1;
+	private static final int VALUE_START_SCREEN_MIN = 2;
 	private static final int VALUE_START_SCREEN_MAX = 5;
 
 	private static final int VALUE_TO_ADD_OR_MINUS = 1;
@@ -161,7 +162,7 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	private void addStartScreen(UserInterface userInterface) {
-		rootLayout.setCenter(new StartScreenController(userInterface, VALUE_START_SCREEN_MIN));
+		rootLayout.setCenter(new StartScreenController(userInterface, VALUE_START_SCREEN_MIN_WITH_HOME));
 	}
 
 	private void addEventView(UserInterface userInterface) {
@@ -491,9 +492,16 @@ public class UserInterface extends Application implements OnRemindListener {
 				return true;
 			}
 		} else {
-			if (startScreenPage - VALUE_TO_ADD_OR_MINUS >= VALUE_START_SCREEN_MIN) {
-				startScreenPage -= VALUE_TO_ADD_OR_MINUS;
-				return true;
+			if(setStorage) {
+				if (startScreenPage - VALUE_TO_ADD_OR_MINUS >= VALUE_START_SCREEN_MIN) {
+					startScreenPage -= VALUE_TO_ADD_OR_MINUS;
+					return true;
+				}
+			} else {
+				if (startScreenPage - VALUE_TO_ADD_OR_MINUS >= VALUE_START_SCREEN_MIN_WITH_HOME) {
+					startScreenPage -= VALUE_TO_ADD_OR_MINUS;
+					return true;
+				}
 			}
 		}
 		return false;
@@ -629,7 +637,6 @@ public class UserInterface extends Application implements OnRemindListener {
 					currentEventState = VALUE_GET_ALL_EVENTS;
 
 					if (atDetailView != PARAM_SET_AT_DETAIL_VIEW_TRUE) {
-
 						if (currentScreenState == VALUE_VIEW_SCREEN) {
 							addView(this);
 						} else if (currentScreenState == VALUE_VIEW_DETAIL_SCREEN) {
@@ -933,7 +940,7 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private String checkUpdate() {
 		List<Event> currentEvents = mainLogic.getAllEvents();
-		if (checkSameEvents(currentEvents)) {
+		if (!checkSameEvents(currentEvents)) {
 			isErrorMessage = PARAM_TRUE_VALUE;
 			return MESSAGE_FAIL_UPDATE;
 		} else {
