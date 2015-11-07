@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import utils.Event;
+import utils.UserCommandException;
 
 /**
  * @@author A0088646M
@@ -34,7 +35,13 @@ public class Calendrier {
 		String input = getInput(bufferedReader);
 
 		while (input != null) {
-			mainLogic.execute(input);
+			try {
+				mainLogic.execute(input);
+			} catch (UserCommandException userCommandException) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				System.out.println(userCommandException.getMessage());
+			}
 			showEventListToUser(mainLogic.getAllEvents());
 			input = getInput(bufferedReader);
 		}

@@ -13,6 +13,7 @@ import java.util.TimerTask;
 import utils.Event;
 import utils.Notification;
 import utils.OnRemindListener;
+import utils.UserCommandException;
 import calendrier.MainLogic;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -502,85 +503,132 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	private void handleEnterPress(CommandBarController commandBarController, String userInput) {
-		switch (mainLogic.execute(userInput)) {
-		case STORAGE_LOCATION:
-			setMessage = MESSAGE_WELCOME;
-			setStorage = PARAM_SET_STORAGE_TRUE;
-			atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-			eventSize = mainLogic.getAllEvents().size();
-			if (eventSize == 0) {
-				addView(this);
-			} else {
-				viewHome(this, mainLogic.getTimeToNextEvent());
-			}
-			break;
-		case VIEW_HOME:
-			if (setStorage) {
-				checkTimer();
-				setMessage = MESSAGE_EMPTY;
-				currentEventState = VALUE_GET_ALL_EVENTS;
+		try {
+			switch (mainLogic.execute(userInput)) {
+			case STORAGE_LOCATION:
+				setMessage = MESSAGE_WELCOME;
+				setStorage = PARAM_SET_STORAGE_TRUE;
 				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-				viewHome(this, mainLogic.getTimeToNextEvent());
-				break;
-			}
-		case ADD:
-			if (setStorage) {
-				checkTimer();
-				setMessage = checkAdding();
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-				if (currentScreenState == VALUE_VIEW_SCREEN) {
+				eventSize = mainLogic.getAllEvents().size();
+				if (eventSize == 0) {
 					addView(this);
-					if (eventSize > VALUE_ADD_TO_ARRAY) {
-						getNextPage(this);
-					}
-				} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
-					resetViewDateInfo();
-					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-				} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
-					viewMonth(this, currentMonth, currentYear);
-				} else{
+				} else {
 					viewHome(this, mainLogic.getTimeToNextEvent());
 				}
 				break;
-			}
-		case VIEW_ALL:
-			if (setStorage) {
-				checkTimer();
-				setMessage = MESSAGE_EMPTY;
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-				arrStartIndex = VALUE_RESET;
-				addView(this);
-				break;
-			}
-		case VIEW:
-			if (setStorage) {
-				checkTimer();
-				setMessage = checkEventExist();
-				atDetailView = PARAM_SET_AT_DETAIL_VIEW_TRUE;
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				break;
-			}
+			case VIEW_HOME:
+				if (setStorage) {
+					checkTimer();
+					setMessage = MESSAGE_EMPTY;
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
+					viewHome(this, mainLogic.getTimeToNextEvent());
+					break;
+				}
+			case ADD:
+				if (setStorage) {
+					checkTimer();
+					setMessage = checkAdding();
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
+					if (currentScreenState == VALUE_VIEW_SCREEN) {
+						addView(this);
+						if (eventSize > VALUE_ADD_TO_ARRAY) {
+							getNextPage(this);
+						}
+					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
+						resetViewDateInfo();
+						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+						viewMonth(this, currentMonth, currentYear);
+					} else{
+						viewHome(this, mainLogic.getTimeToNextEvent());
+					}
+					break;
+				}
+			case VIEW_ALL:
+				if (setStorage) {
+					checkTimer();
+					setMessage = MESSAGE_EMPTY;
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
+					arrStartIndex = VALUE_RESET;
+					addView(this);
+					break;
+				}
+			case VIEW:
+				if (setStorage) {
+					checkTimer();
+					setMessage = checkEventExist();
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_TRUE;
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					break;
+				}
 
-		case FILTER:
-			if (setStorage) {
-				checkTimer();
-				setMessage = MESSAGE_EMPTY;
-				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-				currentEventState = VALUE_GET_FILTERED_EVENTS;
-				filteredArrStartIndex = VALUE_RESET;
-				addView(this);
-				break;
-			}
-		case UPDATE:
-			if (setStorage) {
-				checkTimer();
-				setMessage = checkUpdate();
-				currentEventState = VALUE_GET_ALL_EVENTS;
+			case FILTER:
+				if (setStorage) {
+					checkTimer();
+					setMessage = MESSAGE_EMPTY;
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
+					currentEventState = VALUE_GET_FILTERED_EVENTS;
+					filteredArrStartIndex = VALUE_RESET;
+					addView(this);
+					break;
+				}
+			case UPDATE:
+				if (setStorage) {
+					checkTimer();
+					setMessage = checkUpdate();
+					currentEventState = VALUE_GET_ALL_EVENTS;
 
-				if (atDetailView != PARAM_SET_AT_DETAIL_VIEW_TRUE) {
+					if (atDetailView != PARAM_SET_AT_DETAIL_VIEW_TRUE) {
 
+						if (currentScreenState == VALUE_VIEW_SCREEN) {
+							addView(this);
+						} else if (currentScreenState == VALUE_VIEW_DETAIL_SCREEN) {
+							addEventView(this);
+						} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
+							resetViewDateInfo();
+							viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
+						} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+							viewMonth(this, currentMonth, currentYear);
+						} else{
+							viewHome(this, mainLogic.getTimeToNextEvent());
+						}
+					} else {
+						checkEventExist();
+						atDetailView = PARAM_SET_AT_DETAIL_VIEW_TRUE;
+						currentEventState = VALUE_GET_ALL_EVENTS;
+					}
+					break;
+				}
+			case DELETE:
+				if (setStorage) {
+					checkTimer();
+					setMessage = checkDeleting();
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					if (currentScreenState == VALUE_VIEW_SCREEN) {
+						addView(this);
+						if (eventSize <= VALUE_ADD_TO_ARRAY) {
+							getPreviousPage(this);
+						}
+					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
+						resetViewDateInfo();
+						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+						viewMonth(this, currentMonth, currentYear);
+					} else{
+						viewHome(this, mainLogic.getTimeToNextEvent());
+					}
+					break;
+				}
+			case UNDO:
+				if (setStorage) {
+					checkTimer();
+					setMessage = checkUndo();
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
+					currentEventState = VALUE_GET_ALL_EVENTS;
 					if (currentScreenState == VALUE_VIEW_SCREEN) {
 						addView(this);
 					} else if (currentScreenState == VALUE_VIEW_DETAIL_SCREEN) {
@@ -593,136 +641,95 @@ public class UserInterface extends Application implements OnRemindListener {
 					} else{
 						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
-				} else {
-					checkEventExist();
-					atDetailView = PARAM_SET_AT_DETAIL_VIEW_TRUE;
+					break;
+				}
+			case UNDELETE:
+				if (setStorage) {
+					checkTimer();
+					setMessage = checkUndelete();
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
 					currentEventState = VALUE_GET_ALL_EVENTS;
-				}
-				break;
-			}
-		case DELETE:
-			if (setStorage) {
-				checkTimer();
-				setMessage = checkDeleting();
-				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				if (currentScreenState == VALUE_VIEW_SCREEN) {
-					addView(this);
-					if (eventSize <= VALUE_ADD_TO_ARRAY) {
-						getPreviousPage(this);
+					if (currentScreenState == VALUE_VIEW_SCREEN) {
+						addView(this);
+					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
+						resetViewDateInfo();
+						viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
+					} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
+						viewMonth(this, currentMonth, currentYear);
+					} else{
+						viewHome(this, mainLogic.getTimeToNextEvent());
 					}
-				} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
-					resetViewDateInfo();
-					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-				} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
-					viewMonth(this, currentMonth, currentYear);
-				} else{
-					viewHome(this, mainLogic.getTimeToNextEvent());
+					break;
 				}
-				break;
-			}
-		case UNDO:
-			if (setStorage) {
-				checkTimer();
-				setMessage = checkUndo();
-				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				if (currentScreenState == VALUE_VIEW_SCREEN) {
-					addView(this);
-				} else if (currentScreenState == VALUE_VIEW_DETAIL_SCREEN) {
-					addEventView(this);
-				} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
-					resetViewDateInfo();
-					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-				} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
-					viewMonth(this, currentMonth, currentYear);
-				} else{
-					viewHome(this, mainLogic.getTimeToNextEvent());
-				}
-				break;
-			}
-		case UNDELETE:
-			if (setStorage) {
-				checkTimer();
-				setMessage = checkUndelete();
-				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				if (currentScreenState == VALUE_VIEW_SCREEN) {
-					addView(this);
-				} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
-					resetViewDateInfo();
-					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
-				} else if (currentScreenState == VALUE_VIEW_MONTH_SCREEN){
-					viewMonth(this, currentMonth, currentYear);
-				} else{
-					viewHome(this, mainLogic.getTimeToNextEvent());
-				}
-				break;
-			}
-		case EXIT:
-			System.exit(0);
-		case PREVIOUS:
-			checkTimer();
-			setMessage = MESSAGE_EMPTY;
-			getPreviousPage(this);
-			break;
-		case NEXT:
-			checkTimer();
-			setMessage = MESSAGE_EMPTY;
-			getNextPage(this);
-			break;
-		case HELP:
-			checkTimer();
-			setMessage = MESSAGE_EMPTY;
-			currentEventState = VALUE_GET_ALL_EVENTS;
-			getHelp(this);
-			break;
-		case VIEW_MONTH:
-			if (setStorage) {
+			case EXIT:
+				System.exit(0);
+			case PREVIOUS:
 				checkTimer();
 				setMessage = MESSAGE_EMPTY;
-				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				viewMonth(this, month, year);
+				getPreviousPage(this);
 				break;
-			}
-		case VIEW_DAY:
-			if (setStorage) {
+			case NEXT:
+				checkTimer();
+				setMessage = MESSAGE_EMPTY;
+				getNextPage(this);
+				break;
+			case HELP:
 				checkTimer();
 				setMessage = MESSAGE_EMPTY;
 				currentEventState = VALUE_GET_ALL_EVENTS;
-				atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
-				resetViewDateInfo();
-				viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
+				getHelp(this);
 				break;
-			}
-		case NEXT_DAY:
-			if (setStorage) {
+			case VIEW_MONTH:
+				if (setStorage) {
+					checkTimer();
+					setMessage = MESSAGE_EMPTY;
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					viewMonth(this, month, year);
+					break;
+				}
+			case VIEW_DAY:
+				if (setStorage) {
+					checkTimer();
+					setMessage = MESSAGE_EMPTY;
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					atDetailView = PARAM_SET_AT_DETAIL_VIEW_FALSE;
+					resetViewDateInfo();
+					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
+					break;
+				}
+			case NEXT_DAY:
+				if (setStorage) {
+					checkTimer();
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					setMessage = getNextDay(this);
+				}
+			case PREVIOUS_DAY:
+				if (setStorage) {
+					checkTimer();
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					setMessage = getPreviousDay(this);
+				}
+			case NEXT_MONTH:
+				if (setStorage) {
+					checkTimer();
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					setMessage = getNextMonth(this);
+				}
+			case PREVIOUS_MONTH:
+				if (setStorage) {
+					checkTimer();
+					currentEventState = VALUE_GET_ALL_EVENTS;
+					setMessage = getPreviousMonth(this);
+				}
+			default:
 				checkTimer();
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				setMessage = getNextDay(this);
+				setMessage = MESSAGE_INVALID_COMMAND;
 			}
-		case PREVIOUS_DAY:
-			if (setStorage) {
-				checkTimer();
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				setMessage = getPreviousDay(this);
-			}
-		case NEXT_MONTH:
-			if (setStorage) {
-				checkTimer();
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				setMessage = getNextMonth(this);
-			}
-		case PREVIOUS_MONTH:
-			if (setStorage) {
-				checkTimer();
-				currentEventState = VALUE_GET_ALL_EVENTS;
-				setMessage = getPreviousMonth(this);
-			}
-		default:
-			checkTimer();
-			setMessage = MESSAGE_INVALID_COMMAND;
+		} catch (UserCommandException userCommandException) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			setMessage = userCommandException.getCommand();
 		}
 		commandBarController.setMessage(setMessage);
 		commandBarController.clear();
