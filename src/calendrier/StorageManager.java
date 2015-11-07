@@ -10,9 +10,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import utils.Event;
 import java.util.List;
-//import java.util.logging.Logger;
-//import java.util.logging.Level;
-//import java.util.logging.FileHandler;
+import utils.UserCommandException;
 
 /**
  * @@author A0126421U
@@ -51,21 +49,24 @@ public class StorageManager {
 	 * return a list of String from text file
 	 * 
 	 * @return listOfString - a list of string capture from text file
+	 * @throws UserCommandException 
 	 * 
 	 */
-	public List<String> load(){
+	public List<String> load() throws UserCommandException{
 		inputData.clear();
 		processFile(fileName);
 		return inputData;
 	}
+	
 	/**
 	 * @@author A0126421U
 	 * Convert the current list of event to string
 	 * 
 	 *  @return String - String the consist of all the events
+	 * @throws UserCommandException 
 	 * 
 	 */
-	public String listToString(){
+	public String listToString() throws UserCommandException{
 		int i;
 		
 		String result="";
@@ -84,8 +85,11 @@ public class StorageManager {
 	 * 
 	 * @param fileLocation
 	 *            the location that provided by event handler
+	 *            
+	 * @throws Exception
+	 * 
 	 */
-	public void setStorageLocation(String fileLocation) {
+	public void setStorageLocation(String fileLocation) throws UserCommandException{
 		if (fileLocation.length() == 0) {
 			System.out.println("Cannot detect the specific file!");
 		}
@@ -100,7 +104,11 @@ public class StorageManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-		}
+			
+			UserCommandException error= new UserCommandException();
+			error.setCommand("Error! File Path detected. Please enter file name!");
+			throw error;
+		} 
 		//theLogger.log(Level.INFO, "set file location!");
 	}
 
@@ -110,8 +118,9 @@ public class StorageManager {
 	 * 
 	 * @param data
 	 *            the list of events to be save in text file.
+	 * @throws Exception 
 	 */
-	public void save(List<Event> data) {
+	public void save(List<Event> data) throws UserCommandException {
 		int i;
 		assert(data !=  null);  
 		
@@ -131,6 +140,10 @@ public class StorageManager {
 			fileOut.close();
 		} catch (Exception e) {
 			System.out.println(e.toString());
+			
+			UserCommandException error= new UserCommandException();
+			error.setCommand("Error! Cannot be saved! " + e.getMessage());
+			throw error;
 		}
 		//theLogger.log(Level.INFO, "Successfully save data into file!");
 	}
@@ -142,7 +155,7 @@ public class StorageManager {
 	 * @param fileLocation
 	 *            location of the text file to be process
 	 */
-	public void processFile(String fileLocation) {
+	public void processFile(String fileLocation) throws UserCommandException {
 
 		fileName = fileLocation;
 		inputData = new ArrayList<String>();
@@ -158,6 +171,10 @@ public class StorageManager {
 			bufferReader.close();
 		} catch (Exception e) {
 			System.out.println("Error while reading file: " + e.getMessage());
+			
+			UserCommandException error= new UserCommandException();
+			error.setCommand("Error! File cannot be read! " + e.getMessage());
+			throw error;
 		}
 		//theLogger.log(Level.INFO, "Successfully load data from file!");
 	}

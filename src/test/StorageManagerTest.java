@@ -10,7 +10,7 @@ import java.util.TimeZone;
 import calendrier.StorageManager;
 import utils.Event;
 import utils.Priority;
-
+import utils.UserCommandException;
 import org.junit.Test;
 
 /**
@@ -22,7 +22,7 @@ public class StorageManagerTest {
 	
 	/* @@author A0126421U */
 	@Test
-	public void loadFromFile(){
+	public void loadFromFile() throws UserCommandException{
 		StorageManager rm= new StorageManager();
 		rm.setStorageLocation("storageFile.txt") ;
 		assertEquals("id: testId, " + "mainId: null, " + "title: testTitle, " + "startDateTime: 2015/10/20-10:33, "
@@ -36,7 +36,7 @@ public class StorageManagerTest {
 	
 	/* @@author A0126421U */
 	@Test
-	public void testSave() {
+	public void testSave() throws UserCommandException {
 		
 		StorageManager rm= new StorageManager();
 		List<Event> data= new ArrayList<Event>();
