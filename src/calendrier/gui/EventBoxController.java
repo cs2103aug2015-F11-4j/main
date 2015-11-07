@@ -125,33 +125,33 @@ public class EventBoxController extends StackPane {
 	}
 
 	private static boolean checkDate(Calendar startDateTime, Calendar endDateTime) {
-		Calendar today = Calendar.getInstance();
-		if (endDateTime != null) {
-			if (endDateTime.before(today)) {
-				return true;
-			}
-		}
-		return false;
-//		String startDate = checkExistDate(startDateTime);
-//		String endDate = checkExistDate(startDateTime);
-//		String[] arrStartDate = startDate.split(VALUE_SPLIT_REGEX);
-//		String[] arrEndDate = endDate.split(VALUE_SPLIT_REGEX);
-//
-//		if (!startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && !endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
-//
-//			if (startDate.equalsIgnoreCase(endDate)) {
-//				return checkBeforeToday(arrStartDate);
-//			} else {
-//				// check today is in outside dates
-//				return checkBetweenToday(arrStartDate, arrEndDate);
+//		Calendar today = Calendar.getInstance();
+//		if (endDateTime != null) {
+//			if (endDateTime.before(today)) {
+//				return true;
 //			}
-//		} else if (!startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
-//			return checkBeforeToday(arrStartDate);
-//		} else if (startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && !endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
-//			return checkAfterToday(arrEndDate);
-//		} else {
-//			return false;
 //		}
+//		return false;
+		String startDate = checkExistDate(startDateTime);
+		String endDate = checkExistDate(startDateTime);
+		String[] arrStartDate = startDate.split(VALUE_SPLIT_REGEX);
+		String[] arrEndDate = endDate.split(VALUE_SPLIT_REGEX);
+
+		if (!startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && !endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
+
+			if (startDate.equalsIgnoreCase(endDate)) {
+				return checkBeforeToday(arrStartDate);
+			} else {
+				// check today is in outside dates
+				return checkBetweenToday(arrStartDate, arrEndDate);
+			}
+		} else if (!startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
+			return checkBeforeToday(arrStartDate);
+		} else if (startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && !endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
+			return checkAfterToday(arrEndDate);
+		} else {
+			return false;
+		}
 	}
 
 	private static boolean checkBetweenToday(String[] arrStartDate, String[] arrEndDate) {

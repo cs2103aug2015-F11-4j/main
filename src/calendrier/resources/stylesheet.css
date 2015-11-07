@@ -35,6 +35,18 @@
 	-fx-background-radius: 5.0;
 }
 
+.gridPaneHomeScreen {
+	-fx-font-size: 16.0px;
+	-fx-padding: 10.0;
+	-fx-background-color: white;
+	-fx-border-color: gray;
+	-fx-border-style: solid;
+	-fx-border-width: 5.0px;
+	-fx-hgap: 10.0;
+	-fx-vgap: 10.0;
+	-fx-background-radius: 5.0;
+}
+
 #viewAllTable {
 	-fx-border-width: 0.0 0.0 1.0 0.0;
 }
@@ -98,6 +110,7 @@
 }
 #lbltimeTitle{
 	-fx-font-size:18.0pt;
+	-fx-text-fill: slategray;
 	-fx-font-family: 'Montserrat', 'papyrus', 'Goudy Bookletter 1911', sans-serif;
 }
 #lbltimeDay, #lbltimeHour, #lbltimeMin, #lbltimeSec{

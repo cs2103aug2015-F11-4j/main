@@ -839,10 +839,10 @@ public class UserInterface extends Application implements OnRemindListener {
 	 */
 	private int getNumOfPassedEvents(List<Event> events) {
 		int num = 0;
-		Calendar thisCal = Calendar.getInstance();
+		Calendar today = Calendar.getInstance();
 		for (int i = 0; i < events.size(); i++) {
 			if (events.get(i).getEndDateTime() != null) {
-				if (events.get(i).getEndDateTime().compareTo(thisCal) < 0) {
+				if (events.get(i).getEndDateTime().before(today)) {
 					num++;
 				}
 			}
@@ -862,10 +862,10 @@ public class UserInterface extends Application implements OnRemindListener {
 	 */
 	private int getNumOfOnGoingEvents(List<Event> events) {
 		int num = 0;
-		Calendar thisCal = Calendar.getInstance();
+		Calendar today = Calendar.getInstance();
 		for (int i = 0; i < events.size(); i++) {
 			if (events.get(i).getStartDateTime() != null && events.get(i).getEndDateTime() != null) {
-				if (events.get(i).getEndDateTime().compareTo(thisCal) > 0) {
+				if (events.get(i).getEndDateTime().after(today)) {
 					num++;
 				}
 			} else if (events.get(i).getStartDateTime() != null) {
