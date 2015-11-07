@@ -430,18 +430,27 @@ public class Event implements Comparable<Event> {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String subtasksString = matcher.group(1);
-			subtasksString = subtasksString.replace("[", "");
-			subtasksString = subtasksString.replace("]", "");
-			subtasksString = subtasksString.replace(", ", ",");
-			String[] subtasks = subtasksString.split(",");
+			String[] subtasks = splitStringList(subtasksString);
 
-			for (int i = 0; i < subtasks.length; i++) {
-				if (subtasks[i].length() > 0) {
-					this.addSubtask(subtasks[i]);
-				}
-			}
+			addAllSubtasks(subtasks);
 		}
 
+	}
+
+	private String[] splitStringList(String subtasksString) {
+		subtasksString = subtasksString.replace("[", "");
+		subtasksString = subtasksString.replace("]", "");
+		subtasksString = subtasksString.replace(", ", ",");
+		String[] subtasks = subtasksString.split(",");
+		return subtasks;
+	}
+
+	private void addAllSubtasks(String[] subtasks) {
+		for (int i = 0; i < subtasks.length; i++) {
+			if (subtasks[i].length() > 0) {
+				this.addSubtask(subtasks[i]);
+			}
+		}
 	}
 
 	/* @@author A0088646M */
@@ -510,10 +519,7 @@ public class Event implements Comparable<Event> {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String reminderString = matcher.group(1);
-			reminderString = reminderString.replace("[", "");
-			reminderString = reminderString.replace("]", "");
-			reminderString = reminderString.replace(", ", ",");
-			String[] reminders = reminderString.split(",");
+			String[] reminders = splitStringList(reminderString);
 
 			for (int i = 0; i < reminders.length; i++) {
 				if (reminders[i].length() > 0) {
@@ -799,8 +805,8 @@ public class Event implements Comparable<Event> {
 		// Set to start of month
 		current.setTimeInMillis(0);
 		end.setTimeInMillis(0);
-		current.set(year, (month + 11) % 12, 1, 0, 0);
-		end.set(year, (month + 11) % 12, 1, 0, 0);
+		current.set(year, convertMonth(month), 1, 0, 0);
+		end.set(year, convertMonth(month), 1, 0, 0);
 		
 		// Set to next month
 		end.add(Calendar.MONTH, 1);
@@ -830,6 +836,10 @@ public class Event implements Comparable<Event> {
 		}
 		
 		return checkedEvents;
+	}
+
+	private int convertMonth(int month) {
+		return (month + 11) % 12;
 	}
 
 	/* @@author A0088646M */

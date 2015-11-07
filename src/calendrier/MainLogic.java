@@ -20,6 +20,7 @@ import utils.UserCommandException;
  *
  */
 public class MainLogic {
+	private static final String MESSAGE_INVALID_COMMAND = "Invalid command.";
 	private Parser parser = null;
 	private EventHandler eventHandler = null;
 	private Event event = null;
@@ -70,9 +71,9 @@ public class MainLogic {
 		try {
 			parsedCommand = parser.parse(command);
 		} catch (NumberFormatException exception) {
-			UserCommandException e = new UserCommandException("Invalid command.");
-			e.setCommand(command);
-			throw e;
+			UserCommandException userCommandException = new UserCommandException(MESSAGE_INVALID_COMMAND);
+			userCommandException.setCommand(command);
+			throw userCommandException;
 		}
 
 		assert (parsedCommand != null);
@@ -101,9 +102,7 @@ public class MainLogic {
 
 		try {
 			eventList = eventHandler.execute(parsedCommand);
-			if (parsedCommand.getCommand() == Command.FILTER) {
-				filteredEvents = eventList;
-			}
+			updateFilteredList(parsedCommand, eventList);
 		} catch (UserCommandException e) {
 			throw e;
 		} catch (Exception e) {
@@ -112,6 +111,12 @@ public class MainLogic {
 		}
 
 		updateEvent(eventList);
+	}
+
+	private void updateFilteredList(ParsedCommand parsedCommand, List<Event> eventList) {
+		if (parsedCommand.getCommand() == Command.FILTER) {
+			filteredEvents = eventList;
+		}
 	}
 
 	/**
@@ -149,15 +154,19 @@ public class MainLogic {
 		this.events.clear();
 
 		// Perform recurrence check
-		for (int i = 0; i < savedEvents.size(); i++) {
-			Event event = savedEvents.get(i);
-			this.events.add(event.getRecurredEvent());
-		}
+		getRecurrence(savedEvents);
 
 		// Sort
 		sortByStartDateTime(this.events);
 
 		return this.events;
+	}
+
+	private void getRecurrence(List<Event> savedEvents) {
+		for (int i = 0; i < savedEvents.size(); i++) {
+			Event event = savedEvents.get(i);
+			this.events.add(event.getRecurredEvent());
+		}
 	}
 
 	/* @@author A0088646M */
@@ -168,12 +177,16 @@ public class MainLogic {
 		this.events.clear();
 
 		// Perform recurrence check
+		getRecurrence(year, month, savedEvents);
+
+		return this.events;
+	}
+
+	private void getRecurrence(int year, int month, List<Event> savedEvents) {
 		for (int i = 0; i < savedEvents.size(); i++) {
 			Event event = savedEvents.get(i);
 			this.events.addAll(event.getRecurredEvents(year, month));
 		}
-
-		return this.events;
 	}
 
 	/**
@@ -494,12 +507,16 @@ public class MainLogic {
 			Calendar now = Calendar.getInstance();
 
 			if (startTime != null && startTime.after(now)) {
-				time = startTime.getTimeInMillis() - now.getTimeInMillis();
+				time = getTimeDifference(startTime, now);
 				break;
 			}
 		}
 
 		return time;
+	}
+
+	private long getTimeDifference(Calendar startTime, Calendar now) {
+		return startTime.getTimeInMillis() - now.getTimeInMillis();
 	}
 
 	/**
