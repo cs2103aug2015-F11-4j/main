@@ -50,9 +50,10 @@ public class EventHandler {
 	public void setOnRemindListener(OnRemindListener listen) {
 		reminders.setOnRemindListener(listen);
 	}
-	
+
 	/**
 	 * returns an event that has a specific id
+	 * 
 	 * @param id
 	 * @return event that has the id specified
 	 */
@@ -83,8 +84,8 @@ public class EventHandler {
 		if (pc.getCommand() == Command.ADD) {
 			Event newEvent = generator.createEvent(pc);
 			assert (newEvent != null);
-//			String Id = IdMapper.getInstance().getActualId(pc.getId());
-//			newEvent.setId(Id);
+			// String Id = IdMapper.getInstance().getActualId(pc.getId());
+			// newEvent.setId(Id);
 			add(newEvent);
 			eventsReturned.add(newEvent);
 		} else if (pc.getCommand() == Command.DELETE) {
@@ -117,7 +118,7 @@ public class EventHandler {
 	}
 
 	private void setStorageAndLoadEvents(ParsedCommand pc) throws UserCommandException {
-		assert(manage != null);
+		assert (manage != null);
 		manage.setStorageLocation(pc.getStorageLocation());
 
 		ArrayList<String> eventsFromStorage = (ArrayList<String>) manage.load();
@@ -138,14 +139,37 @@ public class EventHandler {
 		for (Event e : events) {
 			if (e.getGroup().equals(pc.getGroup())) {
 				searchedEvents.add(e);
-			} else if (pc.getPriority() != null && e.getPriority() != null && e.getPriority().equals(pc.getPriority())) {
+			} else if (pc.getPriority() != null && e.getPriority() != null
+					&& e.getPriority().equals(pc.getPriority())) {
 				searchedEvents.add(e);
 			} else if (pc.getGroup() != null && e.getGroup().contains(pc.getGroup())) {
 				searchedEvents.add(e);
-			} else if (pc.getStartDateTime() != null && e.getStartDateTime() != null && e.getStartDateTime().equals(pc.getStartDateTime())) {
-				searchedEvents.add(e);
-			} else if (pc.getEndDateTime() != null && e.getEndDateTime() != null && e.getEndDateTime().equals(pc.getEndDateTime())) {
-				searchedEvents.add(e);
+			} else if (pc.getStartDateTime() != null && e.getStartDateTime() != null) {
+				Calendar pcDateTime = pc.getStartDateTime();
+				Calendar eDateTime = e.getStartDateTime();
+
+				if (pcDateTime.get(Calendar.YEAR) != eDateTime.get(Calendar.YEAR)) {
+					continue;
+				} else if (pcDateTime.get(Calendar.MONTH) != eDateTime.get(Calendar.MONTH)) {
+					continue;
+				} else if (pcDateTime.get(Calendar.DATE) != eDateTime.get(Calendar.DATE)) {
+					continue;
+				} else {
+					searchedEvents.add(e);
+				}
+			} else if (pc.getEndDateTime() != null && e.getEndDateTime() != null) {
+				Calendar pcDateTime = pc.getEndDateTime();
+				Calendar eDateTime = e.getEndDateTime();
+
+				if (pcDateTime.get(Calendar.YEAR) != eDateTime.get(Calendar.YEAR)) {
+					continue;
+				} else if (pcDateTime.get(Calendar.MONTH) != eDateTime.get(Calendar.MONTH)) {
+					continue;
+				} else if (pcDateTime.get(Calendar.DATE) != eDateTime.get(Calendar.DATE)) {
+					continue;
+				} else {
+					searchedEvents.add(e);
+				}
 			}
 		}
 		return searchedEvents;
@@ -166,7 +190,6 @@ public class EventHandler {
 		}
 		return eventToBeViewed;
 	}
-
 
 	public void undo() throws Exception {
 		if (history.isEmpty()) {
@@ -216,7 +239,7 @@ public class EventHandler {
 	 * 
 	 * @param pc
 	 * @return eventToBeRemoved
-	 * @throws UserCommandException 
+	 * @throws UserCommandException
 	 */
 	public Event remove(ParsedCommand pc) throws UserCommandException {
 		Event eventToBeRemoved = findEventToRemove(pc);
@@ -228,8 +251,6 @@ public class EventHandler {
 		manage.save(events);
 		return eventToBeRemoved;
 	}
-
-	
 
 	/**
 	 * Updates an event identified by the ParsedCommand pc
@@ -253,7 +274,8 @@ public class EventHandler {
 			}
 		}
 		if (oldEvent == null) {
-//			throw new UserCommandException("ERROR - That event does not exist!");
+			// throw new UserCommandException("ERROR - That event does not
+			// exist!");
 			throw new UserCommandException("Failed to update event");
 
 		} else {
@@ -285,7 +307,7 @@ public class EventHandler {
 	/*
 	 * ============== Private Methods ==============
 	 */
-	
+
 	/**
 	 * 
 	 * @param pc
@@ -303,8 +325,8 @@ public class EventHandler {
 	}
 
 	/**
-	 * removes the event from any list of subtasks it may belong to
-	 * also removes any subtasks that this even may have
+	 * removes the event from any list of subtasks it may belong to also removes
+	 * any subtasks that this even may have
 	 * 
 	 * @param eventToBeRemoved
 	 */
@@ -315,7 +337,7 @@ public class EventHandler {
 				e.removeSubtask(eventToBeRemoved.getId());
 			}
 		}
-		
+
 		// remove subtasks of this event
 		for (String s : eventToBeRemoved.getSubtasks()) {
 			for (Event e : events) {
@@ -327,7 +349,7 @@ public class EventHandler {
 			}
 		}
 	}
-	
+
 	/**
 	 * Used to copy information from the old event over to the new event
 	 * 
