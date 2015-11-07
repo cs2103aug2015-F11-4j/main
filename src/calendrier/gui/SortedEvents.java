@@ -24,16 +24,22 @@ public class SortedEvents {
 	private static ArrayList<Event> arrPastEvent;
 
 	private static final Calendar cal = Calendar.getInstance();
+	@SuppressWarnings("deprecation")
 	private static final int todayDate = cal.getTime().getDate();
+	@SuppressWarnings("deprecation")
 	private static final int todayMonth = cal.getTime().getMonth();
-	private static final int todayYear = cal.getTime().getYear();
-	private static final DateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
+	@SuppressWarnings("deprecation")
+	private static final int todayYear = cal.getTime().getYear() + 1900;
+	private static final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private static final String VALUE_EMPTY_STRING = "";
-	private static final String VALUE_SPLIT_REGEX = " ";
+	private static final String VALUE_SPLIT_REGEX = "/";
 
 	private static final int PARAM_FOR_DATE = 0;
 	private static final int PARAM_FOR_MONTH = 1;
 	private static final int PARAM_FOR_YEAR = 2;
+	
+	private static final boolean VALUE_TRUE = true;
+	private static final boolean VALUE_FALSE = false;
 
 	private SortedEvents() {
 		reinitiateArray();
@@ -90,7 +96,7 @@ public class SortedEvents {
 		String endDate = checkExistDate(endDateTime);
 		String[] arrStartDate = startDate.split(VALUE_SPLIT_REGEX);
 		String[] arrEndDate = endDate.split(VALUE_SPLIT_REGEX);
-
+		
 		if (!startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && !endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
 			if (startDate.equalsIgnoreCase(endDate)) {
 				return checkBeforeToday(arrStartDate);
@@ -108,37 +114,41 @@ public class SortedEvents {
 	}
 
 	private static boolean checkBetweenToday(String[] arrStartDate, String[] arrEndDate) {
-		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE]) < todayDate)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH]) <= todayMonth)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR]) <= todayYear)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_DATE]) > todayDate)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH]) >= todayMonth)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR]) >= todayYear)) {
+		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE) < todayDate)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE) <= todayMonth)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE) <= todayYear)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE) > todayDate)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE) >= todayMonth)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE) >= todayYear)) {
 			return false;
 		}
 		return true;
 	}
 
 	private static boolean checkAfterToday(String[] arrEndDate) {
-		if ((convertToInteger(arrEndDate[PARAM_FOR_DATE]) > todayDate)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH]) >= todayMonth)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR]) >= todayYear)) {
+		if ((convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE) > todayDate)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE) >= todayMonth)
+				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE) >= todayYear)) {
 			return false;
 		}
 		return true;
 	}
 
 	private static boolean checkBeforeToday(String[] arrStartDate) {
-		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE]) < todayDate)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH]) <= todayMonth)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR]) <= todayYear)) {
+		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE) < todayDate)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE) <= todayMonth)
+				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE) <= todayYear)) {
 			return true;
 		}
 		return false;
 	}
 
-	private static Integer convertToInteger(String value) {
-		return Integer.parseInt(value);
+	private static Integer convertToInteger(String value, boolean isMonth) {
+		int currentMonth = Integer.parseInt(value);
+		if(isMonth) {
+			currentMonth = currentMonth - 1;
+		}
+		return currentMonth;
 	}
 
 	private static String checkExistDate(Calendar calendar) {
@@ -152,10 +162,8 @@ public class SortedEvents {
 	private static void addToDoneArray(Event event, boolean isDone) {
 		if (isDone) {
 			arrDone.add(event);
-			System.out.println("Done");
 		} else {
 			arrNotDone.add(event);
-			System.out.println("Not Done");
 		}
 	}
 
@@ -168,6 +176,16 @@ public class SortedEvents {
 		events.addAll(arrVeryLow);
 		events.addAll(arrNoPriority);
 		events.addAll(arrDone);
+		
+		System.out.println("past event: " + arrPastEvent.size());
+		System.out.println("very high: " + arrVeryHigh.size());
+		System.out.println("high: " + arrHigh.size());
+		System.out.println("medium: " + arrMedium.size());
+		System.out.println("low: " + arrLow.size());
+		System.out.println("very low: " + arrVeryLow.size());
+		System.out.println("no priority: " + arrNoPriority.size());
+		System.out.println("done event: " + arrDone.size());
+		
 	}
 
 	private static void addToArray(Event currentEvent, Priority priority) {
