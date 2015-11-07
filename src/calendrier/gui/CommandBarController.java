@@ -51,7 +51,12 @@ public class CommandBarController extends BorderPane {
 		tfCommandBar.clear();
 	}
 
-	public void setMessage(String messageText) {
+	public void setMessage(String messageText, boolean isError) {
 		lblMessage.setText(messageText);
+		if(isError) {
+			lblMessage.setStyle("-fx-text-fill: red;");
+		} else {
+			lblMessage.setStyle("-fx-text-fill: black;");
+		}
 	}
 }
