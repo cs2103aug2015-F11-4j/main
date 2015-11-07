@@ -25,7 +25,25 @@ public class Parser {
 	 */
 	private static int KEYWORD_NOT_FOUND = -2;
 	private static int SPACE_NOT_FOUND = -1;
-
+	
+	private static ArrayList<String> dayKeyword = new ArrayList<>();
+	private static ArrayList<String> keywords = new ArrayList<>();
+	
+	public Parser() {
+		keywords.add("on");
+		keywords.add("at");
+		keywords.add("by");
+		keywords.add("from");
+		
+		dayKeyword.add("monday");
+		dayKeyword.add("tuesday");
+		dayKeyword.add("wednesday");
+		dayKeyword.add("thursday");
+		dayKeyword.add("friday");
+		dayKeyword.add("saturday");
+		dayKeyword.add("sunday");
+	}
+	
 	public ParsedCommand parse(String userInput) {
 		ParsedCommand pc = new ParsedCommand();
 		
@@ -173,9 +191,9 @@ public class Parser {
 			}
 
 			String recur = getAttributeFromInput(inputAfterCommand, "recur", 5);
-			if (recur != null) {
+			// if (recur != null) {
 				setRecur(pc, recur);
-			}
+			// }
 			
 			String done = getAttributeFromInput(inputAfterCommand, "done", 4);
 			if (done != null) {
@@ -264,9 +282,9 @@ public class Parser {
 			}
 
 			String recur = getAttributeFromInput(inputAfterCommand, "recur", 5);
-			if (recur != null) {
+			// if (recur != null) {
 				setRecur(pc, recur);
-			}
+			// }
 			
 			String done = getAttributeFromInput(inputAfterCommand, "done", 4);
 			if (done != null) {
@@ -400,9 +418,9 @@ public class Parser {
 			}
 
 			String recur = getAttributeFromInput(inputAfterCommand, "-r", 2);
-			if (recur != null) {
+			// if (recur != null) {
 				setRecur(pc, recur);
-			}
+			//}
 			
 			String done = getAttributeFromInput(inputAfterCommand, "-dne", 4);
 			if (done != null) {
@@ -488,9 +506,9 @@ public class Parser {
 			}
 
 			String recur = getAttributeFromInput(inputAfterCommand, "-r", 2);
-			if (recur != null) {
+			// if (recur != null) {
 				setRecur(pc, recur);
-			}
+			// }
 			
 			String done = getAttributeFromInput(inputAfterCommand, "-dne", 4);
 			if (done != null) {
@@ -517,27 +535,10 @@ public class Parser {
 	 * 2. part time job from 2015/11/12 to 2015/11/15 from 9am to 6pm at orchard road
 	 */
 	public static ParsedCommand parseFlexibleCommand(ParsedCommand pc, String userInput) {
-		ArrayList<String> dayKeyword = new ArrayList<>();
-		ArrayList<String> keywords = new ArrayList<>();
-		
 		String title = null, inputAfterKeyword = null, day = null;
 		String resultingString = null, nextToken = null, keyword = null;
 		String startTime = null, endTime = null, startDate = null, endDate = null, location = null;
 		StringTokenizer tokens = null;
-		
-		keywords.add("on");
-		keywords.add("at");
-		keywords.add("by");
-		keywords.add("from");
-		
-		dayKeyword.add("monday");
-		dayKeyword.add("tuesday");
-		dayKeyword.add("wednesday");
-		dayKeyword.add("thursday");
-		dayKeyword.add("friday");
-		dayKeyword.add("saturday");
-		dayKeyword.add("sunday");
-		
 		
 		// String userInput2 = "part time job from 2015/11/12 to 2015/11/15 from 9am to 6pm at orchard road";
 		// String userInput = "meeting with colleagues on monday from 12pm to 2pm at my house";
@@ -699,6 +700,8 @@ public class Parser {
 		return pc;
 	}
 	
+	
+	
 	/*
 	 * FUNCTIONS FOR FLEXIBLE COMMANDS
 	 * 
@@ -773,7 +776,7 @@ public class Parser {
 		
 		// today is not sunday
 		if (dayOfWeek != 0) {
-			if (projectedDay > dayOfWeek) {
+			if (projectedDay >= dayOfWeek) {
 				diffInDay = projectedDay - dayOfWeek;
 			} else if (projectedDay < dayOfWeek) {
 				diffInDay = NUM_DAYS_IN_WEEK - dayOfWeek + projectedDay;
@@ -855,7 +858,7 @@ public class Parser {
 			Calendar cal = dateAndTimeToCalendar(startDate, startTime);
 			pc.setStartDateTime(cal);
 		} else if (startDate != null) {
-			Calendar cal = dateToCalendar(startDate);
+			Calendar cal = dateAndTimeToCalendar(startDate, "00.00");
 			pc.setStartDateTime(cal);
 		} else if (startTime != null) {
 			Calendar cal = timeToCalendar(startTime);
@@ -868,7 +871,7 @@ public class Parser {
 			Calendar cal = dateAndTimeToCalendar(endDate, endTime);
 			pc.setEndDateTime(cal);
 		} else if (endDate != null) {
-			Calendar cal = dateToCalendar(endDate);
+			Calendar cal = dateAndTimeToCalendar(endDate, "00.00");
 			pc.setEndDateTime(cal);
 		} else if (endTime != null) {
 			Calendar cal = timeToCalendar(endTime);
@@ -883,7 +886,7 @@ public class Parser {
 			Calendar cal = dateAndTimeToCalendar(startDate, startTime);
 			pc.setStartDateTime(cal);
 		} else if (startDate != null) {
-			Calendar cal = dateToCalendar(startDate);
+			Calendar cal = dateAndTimeToCalendar(startDate, "00.00");
 			pc.setStartDateTime(cal);
 		} else if (startTime != null) {
 			Calendar cal = timeToCalendar(startTime);
@@ -896,7 +899,7 @@ public class Parser {
 			Calendar cal = dateAndTimeToCalendar(endDate, endTime);
 			pc.setEndDateTime(cal);
 		} else if (endDate != null) {
-			Calendar cal = dateToCalendar(endDate);
+			Calendar cal = dateAndTimeToCalendar(endDate, "00.00");
 			pc.setEndDateTime(cal);
 		} else if (endTime != null) {
 			Calendar cal = timeToCalendar(endTime);
@@ -911,7 +914,11 @@ public class Parser {
 			Calendar cal = dateAndTimeToCalendar(deadlineDate, deadlineTime);
 			pc.setStartDateTime(cal);
 			pc.setEndDateTime(cal);
-		} 
+		} else if (deadlineDate != null) {
+			Calendar cal = dateAndTimeToCalendar(deadlineDate, "00.00");
+			pc.setStartDateTime(cal);
+			pc.setEndDateTime(cal);
+		}
 	}
 	
 	public void deadlineAndSettleShortened(ParsedCommand pc, String inputAfterCommand) {
@@ -919,6 +926,10 @@ public class Parser {
 		String deadlineTime = getAttributeFromInput(inputAfterCommand, "-dt", 3);
 		if (deadlineDate != null && deadlineTime != null) {
 			Calendar cal = dateAndTimeToCalendar(deadlineDate, deadlineTime);
+			pc.setStartDateTime(cal);
+			pc.setEndDateTime(cal);
+		} else if (deadlineDate != null) {
+			Calendar cal = dateAndTimeToCalendar(deadlineDate, "00.00");
 			pc.setStartDateTime(cal);
 			pc.setEndDateTime(cal);
 		}
@@ -937,7 +948,7 @@ public class Parser {
 			pc.setReminder(calList);
 		} else if (reminderDate != null) {
 			for (int i = 0; i < reminderDate.size(); i++) {
-				calList.add(dateToCalendar(reminderDate.get(i)));
+				calList.add(dateAndTimeToCalendar(reminderDate.get(i), "00.00"));
 			}
 			pc.setReminder(calList);
 		} else if (reminderTime != null) {
@@ -1085,7 +1096,9 @@ public class Parser {
 	}
 	
 	public static void setRecur(ParsedCommand pc, String recur) {
-		if (recur.equals("daily")) {
+		if (recur == null) {
+			pc.setRecurFreq(null);
+		} else if (recur.equals("daily")) {
 			pc.setRecurFreq(Recurrence.DAILY);
 		} else if (recur.equals("weekly")) {
 			pc.setRecurFreq(Recurrence.WEEKLY);
