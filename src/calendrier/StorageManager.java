@@ -96,9 +96,7 @@ public class StorageManager {
 		File file = new File(fileLocation);
 		try {
 			if (!file.exists()) {
-
 				file.createNewFile();
-
 			}
 			processFile(fileLocation);
 		} catch (IOException e) {
@@ -106,7 +104,7 @@ public class StorageManager {
 			System.out.println(e.getMessage());
 			
 			UserCommandException error= new UserCommandException();
-			error.setCommand("Error! File Path detected. Please enter file name!");
+			error.setMessage("Error! File Path detected. Please enter file name!");
 			throw error;
 		} 
 		//theLogger.log(Level.INFO, "set file location!");
@@ -142,7 +140,7 @@ public class StorageManager {
 			System.out.println(e.toString());
 			
 			UserCommandException error= new UserCommandException();
-			error.setCommand("Error! Cannot be saved! " + e.getMessage());
+			error.setMessage("Error! Cannot be saved! " + e.getMessage());
 			throw error;
 		}
 		//theLogger.log(Level.INFO, "Successfully save data into file!");
@@ -173,7 +171,7 @@ public class StorageManager {
 			System.out.println("Error while reading file: " + e.getMessage());
 			
 			UserCommandException error= new UserCommandException();
-			error.setCommand("Error! File cannot be read! " + e.getMessage());
+			error.setMessage("Error! File cannot be read! " + e.getMessage());
 			throw error;
 		}
 		//theLogger.log(Level.INFO, "Successfully load data from file!");
