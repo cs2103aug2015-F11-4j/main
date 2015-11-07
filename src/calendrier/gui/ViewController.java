@@ -77,7 +77,7 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		initHomeView(time, dayEvents, allEvents, floatTask, onGoingTask, passedTask);
 	}
 
@@ -88,7 +88,7 @@ public class ViewController extends FlowPane {
 		Calendar cal = Calendar.getInstance();
 		IdMapper idMapper = IdMapper.getInstance();
 		
-		int id = generateCurrentEvent(dayEvents, allEvents, idMapper);
+		int id = generateCurrentEvent(dayEvents, idMapper);
 		nextEvent = generateNextEvent(allEvents, nextEvent, cal, idMapper, id);
 
 		setForCountingTask(floatTask, onGoingTask, passedTask, nextEvent);
@@ -131,8 +131,9 @@ public class ViewController extends FlowPane {
 	}
 
 	private Event generateNextEvent(List<Event> allEvents, Event nextEvent, Calendar cal, IdMapper idMapper, int id) {
-		int count;
-		count = 0;
+		int count = 0;
+		
+		rearrangeEvent(allEvents);
 		for (int i = 0; i < allEvents.size(); i++) {
 			if (allEvents.get(i).getStartDateTime() != null) {
 				if (allEvents.get(i).getStartDateTime().after(cal)) {
@@ -153,23 +154,63 @@ public class ViewController extends FlowPane {
 		return nextEvent;
 	}
 
-	private int generateCurrentEvent(List<Event> dayEvents, List<Event> allEvents, IdMapper idMapper) {
+	private int generateCurrentEvent(List<Event> dayEvents, IdMapper idMapper) {
 		int count = 0, id=0;
+		
+		rearrangeEvent(dayEvents);
 		for (int i = 0; i < dayEvents.size(); i++) {
 			if (dayEvents.get(i).getStartDateTime() != null) {
-				idMapper.set(Integer.toString(id), allEvents.get(i).getId());
-				flowPaneCurrentEvents.getChildren().add(new HomeEventBoxController(dayEvents.get(i), id));// lblCurrent.setText(events.get(i).getTitle());
+				idMapper.set(Integer.toString(id), dayEvents.get(i).getId());
+				flowPaneCurrentEvents.getChildren().add(new HomeEventBoxController(dayEvents.get(i), id));
 				count++;
 				id++;
 				if (count == 5) {
 					lblMoreEvent.setText(String.format("+%d more", dayEvents.size()-count));
+					if(dayEvents.get(5).isDone()){
+						changeTextDecoration(lblMoreEvent);
+					}
 					break;
 				}
 			}
 		}
 		return id;
 	}
+	
+	/**
+	 * @@author A0126421U Strike through the event if is done
+	 * 
+	 * @param lblEvent
+	 *            - the layout to be modified
+	 * 
+	 */
+	private void changeTextDecoration(Label lblEvent) {
+		lblEvent.getStyleClass().remove(lblEvent.styleProperty());
+		lblEvent.getStyleClass().add("lblEventStrikeThrough");
+	}
 
+	/**
+	 * @@author A0126421U Sort the events based on done and undone
+	 * 
+	 * @param events
+	 *            - List of events for the this date
+	 * 
+	 */
+	private void rearrangeEvent(List<Event> events) {
+		if (events.size() > 0) {
+			List<Event> results = new ArrayList<Event>();
+			List<Event> empty = new ArrayList<Event>();
+			for (int i = 0; i < events.size(); i++) {
+				if (!events.get(i).isDone()) {
+					results.add(events.get(i));
+				} else {
+					empty.add(events.get(i));
+				}
+			}
+			events.clear();
+			events.addAll(results);
+			events.addAll(empty);
+		}
+	}
 	/**
 	 * @@author A0126421U Constructor to initialize the main components of
 	 *          viewMonth

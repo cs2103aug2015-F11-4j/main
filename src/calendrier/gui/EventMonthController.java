@@ -1,6 +1,7 @@
 package calendrier.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class EventMonthController extends StackPane {
 	private Label lblEventID1;
 	@FXML
 	private Label lblEventID2;
+	@FXML
+	private Label lblEventID3;
 	@FXML
 	private Label lblEvent1;
 	@FXML
@@ -108,11 +111,35 @@ public class EventMonthController extends StackPane {
 	private void setContainerForDate(int date, List<Event> events, List<String> idList) {
 
 		lblDate.setText(checkDate(date));
-
 		if (events != null && events.size() > 0) {
+			rearrangeEvent(events);
 			setData(events, idList);
 		} else {
 			setEmptyData();
+		}
+	}
+	
+	/**
+	 * @@author A0126421U Sort the events based on done and undone
+	 * 
+	 * @param events
+	 *            - List of events for the this date
+	 * 
+	 */
+	private void rearrangeEvent(List<Event> events) {
+		if (events.size() > 2) {
+			List<Event> results = new ArrayList<Event>();
+			List<Event> empty = new ArrayList<Event>();
+			for (int i = 0; i < events.size(); i++) {
+				if (!events.get(i).isDone()) {
+					results.add(events.get(i));
+				} else {
+					empty.add(events.get(i));
+				}
+			}
+			events.clear();
+			events.addAll(results);
+			events.addAll(empty);
 		}
 	}
 
@@ -134,15 +161,23 @@ public class EventMonthController extends StackPane {
 				setTaskInDate(events.get(1), Integer.toString(computeFakeId(idList, events.get(1).getId())), lblEvent2,
 						lblEventID2);
 				if (events.size() > 2) {
-					lblEvent3.setText(String.format(" + %d more...", events.size() - 2));
-					changeTextColor(Priority.VERY_HIGH, lblEvent3);
+					if(events.size()==3){
+						setTaskInDate(events.get(2), Integer.toString(computeFakeId(idList, events.get(2).getId())), lblEvent3,
+								lblEventID3);
+					}else{
+						lblEvent3.setText(String.format(" + %d more...", events.size() - 2));
+						changeTextColor(Priority.VERY_HIGH, lblEvent3);
+						if(events.get(2).isDone()){
+							changeTextDecoration(lblEvent3);
+						}
+					}
 				}
 			}
 		} else {
 			setEmptyData();
 		}
 	}
-	
+
 	/**
 	 * @@author A0126421U Set parameter for date
 	 * 

@@ -236,7 +236,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		currentScreenState = VALUE_VIEW_HOME_SCREEN;
 		rootLayout.setCenter(new ViewController(timeToNextEvent,
 				mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
-						cal.getTime().getDay() + 1),
+						cal.getTime().getDate()),
 				mainLogic.getAllEvents(), getNumOfFloatEvents(mainLogic.getAllEvents()),
 				getNumOfOnGoingEvents(mainLogic.getAllEvents()), getNumOfPassedEvents(mainLogic.getAllEvents())));
 		setTimer(timeToNextEvent, cal);
@@ -248,7 +248,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			timer = new Timer();
 			timerStatus = VALUE_TIMER_ENABLE;
 			startCountDown(mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
-					cal.getTime().getDay() + 1), mainLogic.getAllEvents());
+					cal.getTime().getDate()), mainLogic.getAllEvents());
 		}
 	}
 
