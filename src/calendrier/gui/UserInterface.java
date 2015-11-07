@@ -736,6 +736,8 @@ public class UserInterface extends Application implements OnRemindListener {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			setMessage = userCommandException.getCommand();
+		} catch(NullPointerException nullPointerException) {
+			setMessage = MESSAGE_INVALID_COMMAND;
 		}
 		commandBarController.setMessage(setMessage);
 		commandBarController.clear();
