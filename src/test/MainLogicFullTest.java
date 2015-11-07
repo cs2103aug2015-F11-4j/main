@@ -1,11 +1,8 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,8 +11,8 @@ import calendrier.MainLogic;
 import utils.Command;
 import utils.Event;
 import utils.IdMapper;
-import utils.OnRemindListener;
 import utils.Priority;
+import utils.UserCommandException;
 
 /**
  * @@author A0088646M
@@ -26,7 +23,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeShouldNotReturnNull() {
+	public void executeShouldNotReturnNull() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String command = "add addTitle, " + "startdate 2015/09/23, " + "starttime 10.55, " + "enddate 2015/09/23, "
@@ -39,7 +36,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeAdd() {
+	public void executeAdd() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		addDummyEvents(mainLogic);
@@ -47,7 +44,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeAddOnlyTitle() {
+	public void executeAddOnlyTitle() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String command = "add addTitle";
@@ -76,7 +73,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeDelete() {
+	public void executeDelete() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
@@ -109,7 +106,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeUpdate() {
+	public void executeUpdate() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
@@ -145,7 +142,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeView() {
+	public void executeView() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
@@ -166,7 +163,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeViewAll() {
+	public void executeViewAll() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		addDummyEvents(mainLogic);
@@ -186,7 +183,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void getAllEvents() {
+	public void getAllEvents() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		addDummyEvents(mainLogic);
@@ -197,7 +194,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeUndelete() {
+	public void executeUndelete() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
@@ -244,7 +241,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeUndoAdd() {
+	public void executeUndoAdd() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
@@ -270,7 +267,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeUndoDelete() {
+	public void executeUndoDelete() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
@@ -317,7 +314,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeUndoUpdate() {
+	public void executeUndoUpdate() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String id = addDummyEvents(mainLogic);
@@ -378,7 +375,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeSaveIn() {
+	public void executeSaveIn() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String command = "save in ggFile.txt";
@@ -388,7 +385,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executePrevious() {
+	public void executePrevious() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String command = "previous";
@@ -398,7 +395,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeNext() {
+	public void executeNext() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String command = "next";
@@ -408,7 +405,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeExit() {
+	public void executeExit() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String command = "exit";
@@ -418,7 +415,7 @@ public class MainLogicFullTest {
 
 	/* @@author A0088646M */
 	@Test
-	public void executeHelp() {
+	public void executeHelp() throws UserCommandException {
 		MainLogic mainLogic = new MainLogic();
 
 		String command = "help";
@@ -427,7 +424,7 @@ public class MainLogicFullTest {
 	}
 
 	/* @@author A0088646M */
-	public String addDummyEvents(MainLogic mainLogic) {
+	public String addDummyEvents(MainLogic mainLogic) throws UserCommandException {
 		String command = "add addTitle, " + "startdate 2015/09/23, " + "starttime 10.55, " + "enddate 2015/09/23, "
 				+ "endtime 10.56, " + "priority very high, " + "location addLocation, " + "notes addNotes, "
 				+ "recurring yes, " + "reminderdate 2015/09/19, " + "remindertime 10.33";
