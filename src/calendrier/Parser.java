@@ -51,54 +51,54 @@ public class Parser {
 			return pc;
 		
 		// Commands without additional arguments
-		if (userInput.equals("view all")) {
+		if (userInput.equalsIgnoreCase("view all")) {
 			pc.setCommand(Command.VIEW_ALL);
 			return pc;
-		} else if (userInput.equals("help")) {
+		} else if (userInput.equalsIgnoreCase("help")) {
 			pc.setCommand(Command.HELP);
 			return pc;
-		} else if (userInput.equals("exit")) {
+		} else if (userInput.equalsIgnoreCase("exit")) {
 			pc.setCommand(Command.EXIT);
 			return pc;
-		} else if (userInput.equals("previous")) {
+		} else if (userInput.equalsIgnoreCase("previous")) {
 			pc.setCommand(Command.PREVIOUS);
 			return pc;
-		} else if (userInput.equals("next")) {
+		} else if (userInput.equalsIgnoreCase("next")) {
 			pc.setCommand(Command.NEXT);
 			return pc;
-		} else if (userInput.equals("undo")) {
+		} else if (userInput.equalsIgnoreCase("undo")) {
 			// e.g. undo
 			pc.setCommand(Command.UNDO);
 			return pc;
-		} else if (userInput.equals("undelete")) {
+		} else if (userInput.equalsIgnoreCase("undelete")) {
 			// e.g. undelete
 			pc.setCommand(Command.UNDELETE);
 			return pc;
-		} else if (userInput.equals("view month")) {
+		} else if (userInput.equalsIgnoreCase("view month")) {
 			// e.g. view month
 			pc.setCommand(Command.VIEW_MONTH);
 			return pc;
-		} else if (userInput.equals("view home")) {
+		} else if (userInput.equalsIgnoreCase("view home")) {
 			// e.g. view home
 			pc.setCommand(Command.VIEW_HOME);
 			return pc;
-		} else if (userInput.equals("view day")) {
+		} else if (userInput.equalsIgnoreCase("view day")) {
 			// e.g. view home
 			pc.setCommand(Command.VIEW_DAY);
 			return pc;
-		}else if (userInput.equals("next day")) {
+		}else if (userInput.equalsIgnoreCase("next day")) {
 			// e.g. next day
 			pc.setCommand(Command.NEXT_DAY);
 			return pc;
-		} else if (userInput.equals("next month")) {
+		} else if (userInput.equalsIgnoreCase("next month")) {
 			// e.g. next month
 			pc.setCommand(Command.NEXT_MONTH);
 			return pc;
-		} else if (userInput.equals("previous day")) {
+		} else if (userInput.equalsIgnoreCase("previous day")) {
 			// e.g. previous day
 			pc.setCommand(Command.PREVIOUS_DAY);
 			return pc;
-		} else if (userInput.equals("previous month")) {
+		} else if (userInput.equalsIgnoreCase("previous month")) {
 			// e.g. previous month
 			pc.setCommand(Command.PREVIOUS_MONTH);
 			return pc;
@@ -107,10 +107,10 @@ public class Parser {
 		Scanner lineTokens = new Scanner(userInput);
 		String command = lineTokens.next();
 
-		if (command.equals("save")) {
+		if (command.equalsIgnoreCase("save")) {
 			// save in my desktop
 			String nextWord = lineTokens.next();
-			if (nextWord.equals("in")) {
+			if (nextWord.equalsIgnoreCase("in")) {
 				String saveLocation = lineTokens.nextLine().trim();
 				pc.setCommand(Command.STORAGE_LOCATION);
 				pc.setStorageLocation(saveLocation);
@@ -124,20 +124,20 @@ public class Parser {
 		if (userInput.indexOf(" ") != SPACE_NOT_FOUND)
 			inputAfterCommand = userInput.substring(userInput.indexOf(" ") + 1);
 
-		if (command.equals("view")) {
+		if (command.equalsIgnoreCase("view")) {
 			// e.g. view 2
 			pc.setCommand(Command.VIEW);
 			pc.setId(inputAfterCommand);
-		} else if (command.equals("delete")) {
+		} else if (command.equalsIgnoreCase("delete")) {
 			// e.g. delete 2
 			pc.setCommand(Command.DELETE);
 			pc.setId(inputAfterCommand);
-		} else if (command.equals("filter") || command.equals("search")) {
+		} else if (command.equalsIgnoreCase("filter") || command.equalsIgnoreCase("search")) {
 			// e.g. filter group personal OR filter priority very high OR
 			// filter startdate yyyy/mm/dd OR filter enddate yyyy/mm/dd
 			pc.setCommand(Command.FILTER);
 			setFilterParameters(new Scanner(inputAfterCommand), pc);
-		} else if (command.equals("update")) {
+		} else if (command.equalsIgnoreCase("update")) {
 			/*
 			 * Case 1: not a deadline No. of parameters: 12 e.g. update 3, title
 			 * repeat sleep drink eat, startdate 2015/12/29, starttime 13.37,
@@ -197,12 +197,12 @@ public class Parser {
 			
 			String done = getAttributeFromInput(inputAfterCommand, "done", 4);
 			if (done != null) {
-				pc.setDone(done.equals("yes"));
+				pc.setDone(done.equalsIgnoreCase("yes"));
 			}
 
 			setReminder(pc, inputAfterCommand, "reminderdate", "remindertime", 12);
 
-		} else if (command.equals("add")) {
+		} else if (command.equalsIgnoreCase("add")) {
 			pc.setCommand(Command.ADD);
 			
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
@@ -233,7 +233,7 @@ public class Parser {
 			
 			StringTokenizer st = new StringTokenizer(inputAfterCommand);
 			String wordAfterCommand = st.nextToken();
-			if (wordAfterCommand.equals("subtask")) {
+			if (wordAfterCommand.equalsIgnoreCase("subtask")) {
 				String mainId;
 				int wordAfterCommandIndex = inputAfterCommand.indexOf(wordAfterCommand);
 				titleIndex = inputAfterCommand.indexOf(" ", wordAfterCommandIndex) + 1;
@@ -288,7 +288,7 @@ public class Parser {
 			
 			String done = getAttributeFromInput(inputAfterCommand, "done", 4);
 			if (done != null) {
-				pc.setDone(done.equals("yes"));
+				pc.setDone(done.equalsIgnoreCase("yes"));
 			}
 			
 			setReminder(pc, inputAfterCommand, "reminderdate", "remindertime", 12);
@@ -313,60 +313,60 @@ public class Parser {
 			command = userInput;
 		}
 		
-		if (command.equals("-all")) {
+		if (command.equalsIgnoreCase("-all")) {
 			// e.g. view all: -all
 			pc.setCommand(Command.VIEW_ALL);
 			return pc;
-		} else if (command.equals("-h")) {
+		} else if (command.equalsIgnoreCase("-h")) {
 			// e.g help: -h
 			pc.setCommand(Command.HELP);
 			return pc;
-		} else if (command.equals("-e")) {
+		} else if (command.equalsIgnoreCase("-e")) {
 			// e.g. exit: -e
 			pc.setCommand(Command.EXIT);
 			return pc;
-		} else if (command.equals("-prev")) {
+		} else if (command.equalsIgnoreCase("-prev")) {
 			// e.g. previous: -prev
 			pc.setCommand(Command.PREVIOUS);
 			return pc;
-		} else if (command.equals("-nxt")) {
+		} else if (command.equalsIgnoreCase("-nxt")) {
 			// e.g. next: -nxt
 			pc.setCommand(Command.NEXT);
 			return pc;
-		} else if (command.equals("-u")) {
+		} else if (command.equalsIgnoreCase("-u")) {
 			// e.g. undo: -u
 			pc.setCommand(Command.UNDO);
 			return pc;
-		} else if (command.equals("-vm")) {
+		} else if (command.equalsIgnoreCase("-vm")) {
 			// e.g. view month: -vm
 			pc.setCommand(Command.VIEW_MONTH);
 			return pc;
-		} else if (command.equals("-vd") || command.equals("-vh")) {
+		} else if (command.equalsIgnoreCase("-vd") || command.equalsIgnoreCase("-vh")) {
 			pc.setCommand(Command.VIEW_HOME);
 			return pc;
 		}
 		
-		if (command.equals("-s")) {
+		if (command.equalsIgnoreCase("-s")) {
 			// e.g. save in desktop: -s desktop			
 			pc.setCommand(Command.STORAGE_LOCATION);
 			pc.setStorageLocation(inputAfterCommand);
-		}  else if (command.equals("-undel")) {
+		}  else if (command.equalsIgnoreCase("-undel")) {
 			// e.g. undelete 4: -undel
 			pc.setCommand(Command.UNDELETE);
-		} else if (command.equals("-v")) {
+		} else if (command.equalsIgnoreCase("-v")) {
 			// e.g. view 2: -v 2
 			pc.setCommand(Command.VIEW);
 			pc.setId(inputAfterCommand);
-		} else if (command.equals("-d")) {
+		} else if (command.equalsIgnoreCase("-d")) {
 			// e.g. delete 1: -d 1
 			pc.setCommand(Command.DELETE);
 			pc.setId(inputAfterCommand);
-		} else if (command.equals("-f")) {
+		} else if (command.equalsIgnoreCase("-f")) {
 			// e.g. -f -g personal stuff OR -f -p very high OR
 			// -f -sd yyyy/mm/dd OR -f -ed yyyy/mm/dd
 			pc.setCommand(Command.FILTER);
 			setShortenedFilterParameters(new Scanner(inputAfterCommand), pc);
-		} else if (command.equals("-up")) {
+		} else if (command.equalsIgnoreCase("-up")) {
 			// Case 1: Not deadline
 			// e.g. -up 2, -t do homework, -sd 2015/10/30, -st 12.34, -ed 2015/11/12, 
 			// -et 13.37, -g personal circle, -l my home, -p very high,  
@@ -424,7 +424,7 @@ public class Parser {
 			
 			String done = getAttributeFromInput(inputAfterCommand, "-dne", 4);
 			if (done != null) {
-				pc.setDone(done.equals("yes"));
+				pc.setDone(done.equalsIgnoreCase("yes"));
 			}
 
 			setReminder(pc, inputAfterCommand, "-rd", "-rt", 3);	
@@ -452,7 +452,7 @@ public class Parser {
 			
 			StringTokenizer st = new StringTokenizer(inputAfterCommand);
 			String wordAfterCommand = st.nextToken();
-			if (wordAfterCommand.equals("subtask")) {
+			if (wordAfterCommand.equalsIgnoreCase("subtask")) {
 				String mainId;
 				
 				int wordAfterCommandIndex = inputAfterCommand.indexOf(wordAfterCommand);
@@ -512,7 +512,7 @@ public class Parser {
 			
 			String done = getAttributeFromInput(inputAfterCommand, "-dne", 4);
 			if (done != null) {
-				pc.setDone(done.equals("yes"));
+				pc.setDone(done.equalsIgnoreCase("yes"));
 			}
 
 			setReminder(pc, inputAfterCommand, "-rd", "-rt", 3);
@@ -565,13 +565,13 @@ public class Parser {
 			// System.out.println("Before: " + resultingString);
 			// System.out.println("keyword: " + keyword);
 			
-			if (keyword.equals("from")) {
+			if (keyword.equalsIgnoreCase("from")) {
 				nextToken = tokens.nextToken();
 				// token is time
 				if (nextToken.contains("am") || nextToken.contains("pm")) {
 					startTime = nextToken;
 					nextToken = tokens.nextToken();
-					if (nextToken.equals("to")) {
+					if (nextToken.equalsIgnoreCase("to")) {
 						nextToken = tokens.nextToken();
 						endTime = nextToken;
 						
@@ -586,7 +586,7 @@ public class Parser {
 				} else if (nextToken.contains("/")) {
 					startDate = nextToken;
 					nextToken = tokens.nextToken();
-					if (nextToken.equals("to")) {
+					if (nextToken.equalsIgnoreCase("to")) {
 						nextToken = tokens.nextToken();
 						endDate = nextToken;
 						// System.out.println("startDate: " + startDate);
@@ -601,7 +601,7 @@ public class Parser {
 			} 
 			// keyword 'at': for location
 			// e.g. at nus soc
-			else if (keyword.equals("at")) {
+			else if (keyword.equalsIgnoreCase("at")) {
 				int afterKeywordIndex = resultingString.indexOf(" ")+1;
 				inputAfterKeyword = resultingString.substring(afterKeywordIndex);
 				
@@ -622,7 +622,7 @@ public class Parser {
 			} 
 			// keyword 'on': for day of the week, or date
 			// e.g. meeting on monday, meeting on 2015/11/22
-			else if (keyword.equals("on")) {
+			else if (keyword.equalsIgnoreCase("on")) {
 				nextToken = tokens.nextToken();
 				
 				// token is date
@@ -642,7 +642,7 @@ public class Parser {
 			}
 			// keyword 'by': for end date, end time
 			// e.g. by tuesday, by 10.35am
-			else if (keyword.equals("by")) {
+			else if (keyword.equalsIgnoreCase("by")) {
 				nextToken = tokens.nextToken();
 				// token is a day
 				if (dayKeyword.contains(nextToken)) {
@@ -758,19 +758,19 @@ public class Parser {
 		// System.out.println("curr month: " + month);
 		// System.out.println("curr day: " + dayOfMonth);
 		
-		if (nextToken.equals("monday")) {
+		if (nextToken.equalsIgnoreCase("monday")) {
 			projectedDay = 1;
-		} else if (nextToken.equals("tuesday")) {
+		} else if (nextToken.equalsIgnoreCase("tuesday")) {
 			projectedDay = 2;
-		} else if (nextToken.equals("wednesday")) {
+		} else if (nextToken.equalsIgnoreCase("wednesday")) {
 			projectedDay = 3;
-		} else if (nextToken.equals("thursday")) {
+		} else if (nextToken.equalsIgnoreCase("thursday")) {
 			projectedDay = 4;
-		} else if (nextToken.equals("friday")) {
+		} else if (nextToken.equalsIgnoreCase("friday")) {
 			projectedDay = 5;
-		} else if (nextToken.equals("saturday")) {
+		} else if (nextToken.equalsIgnoreCase("saturday")) {
 			projectedDay = 6;
-		} else if (nextToken.equals("sunday")) {
+		} else if (nextToken.equalsIgnoreCase("sunday")) {
 			projectedDay = 7;
 		}
 		
@@ -1029,15 +1029,15 @@ public class Parser {
 
 		Calendar cal;
 
-		if (filterParameter.equals("group")) {
+		if (filterParameter.equalsIgnoreCase("group")) {
 			pc.setGroup(filterValue);
-		} else if (filterParameter.equals("startdate")) {
+		} else if (filterParameter.equalsIgnoreCase("startdate")) {
 			cal = dateToCalendar(filterValue);
 			pc.setStartDateTime(cal);
-		} else if (filterParameter.equals("enddate")) {
+		} else if (filterParameter.equalsIgnoreCase("enddate")) {
 			cal = dateToCalendar(filterValue);
 			pc.setEndDateTime(cal);
-		} else if (filterParameter.equals("priority")) {
+		} else if (filterParameter.equalsIgnoreCase("priority")) {
 			setPriority(pc, filterValue);
 		}
 	}
@@ -1082,15 +1082,15 @@ public class Parser {
 	}
 
 	public static void setPriority(ParsedCommand pc, String priority) {
-		if (priority.equals("very low")) {
+		if (priority.equalsIgnoreCase("very low")) {
 			pc.setPriority(Priority.VERY_LOW);
-		} else if (priority.equals("low")) {
+		} else if (priority.equalsIgnoreCase("low")) {
 			pc.setPriority(Priority.LOW);
-		} else if (priority.equals("medium")) {
+		} else if (priority.equalsIgnoreCase("medium")) {
 			pc.setPriority(Priority.MEDIUM);
-		} else if (priority.equals("high")) {
+		} else if (priority.equalsIgnoreCase("high")) {
 			pc.setPriority(Priority.HIGH);
-		} else if (priority.equals("very high")) {
+		} else if (priority.equalsIgnoreCase("very high")) {
 			pc.setPriority(Priority.VERY_HIGH);
 		}
 	}
@@ -1098,13 +1098,13 @@ public class Parser {
 	public static void setRecur(ParsedCommand pc, String recur) {
 		if (recur == null) {
 			pc.setRecurFreq(null);
-		} else if (recur.equals("daily")) {
+		} else if (recur.equalsIgnoreCase("daily")) {
 			pc.setRecurFreq(Recurrence.DAILY);
-		} else if (recur.equals("weekly")) {
+		} else if (recur.equalsIgnoreCase("weekly")) {
 			pc.setRecurFreq(Recurrence.WEEKLY);
-		} else if (recur.equals("monthly")) {
+		} else if (recur.equalsIgnoreCase("monthly")) {
 			pc.setRecurFreq(Recurrence.MONTHLY);
-		} else if (recur.equals("yearly")) {
+		} else if (recur.equalsIgnoreCase("yearly")) {
 			pc.setRecurFreq(Recurrence.YEARLY);
 		}
 	}
