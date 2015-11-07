@@ -138,13 +138,13 @@ public class EventHandler {
 		for (Event e : events) {
 			if (e.getGroup().equals(pc.getGroup())) {
 				searchedEvents.add(e);
-			} else if (pc.getPriority() != null && e.getPriority().equals(pc.getPriority())) {
+			} else if (pc.getPriority() != null && e.getPriority() != null && e.getPriority().equals(pc.getPriority())) {
 				searchedEvents.add(e);
 			} else if (pc.getGroup() != null && e.getGroup().contains(pc.getGroup())) {
 				searchedEvents.add(e);
-			} else if (pc.getStartDateTime() != null && e.getStartDateTime().equals(pc.getStartDateTime())) {
+			} else if (pc.getStartDateTime() != null && e.getStartDateTime() != null && e.getStartDateTime().equals(pc.getStartDateTime())) {
 				searchedEvents.add(e);
-			} else if (pc.getEndDateTime() != null && e.getEndDateTime().equals(pc.getEndDateTime())) {
+			} else if (pc.getEndDateTime() != null && e.getEndDateTime() != null && e.getEndDateTime().equals(pc.getEndDateTime())) {
 				searchedEvents.add(e);
 			}
 		}
@@ -238,7 +238,7 @@ public class EventHandler {
 	 * @return eventToBeUpdated
 	 * @throws Exception
 	 */
-	public Event update(ParsedCommand pc) throws Exception {
+	public Event update(ParsedCommand pc) throws UserCommandException {
 		String Id = IdMapper.getInstance().getActualId(pc.getId());
 		Event newEvent = generator.createEvent(pc);
 		newEvent.setId(Id);
@@ -253,7 +253,8 @@ public class EventHandler {
 			}
 		}
 		if (oldEvent == null) {
-			throw new Exception("ERROR - That event does not exist!");
+//			throw new UserCommandException("ERROR - That event does not exist!");
+			throw new UserCommandException("Failed to update event");
 
 		} else {
 			// ensure updatedEvent contains all relevant info from oldEvent
