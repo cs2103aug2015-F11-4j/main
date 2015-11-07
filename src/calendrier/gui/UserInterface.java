@@ -4,12 +4,13 @@ package calendrier.gui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+
+//import java.util.Collections;
+//import java.util.HashSet;
+//import java.util.Set;
 
 import utils.Event;
 import utils.Notification;
@@ -197,18 +198,18 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 
 	}
-	
-	private List<Event> rearrangeEvents(List<Event> events){
-		Calendar today= Calendar.getInstance();
+
+	private List<Event> rearrangeEvents(List<Event> events) {
+		Calendar today = Calendar.getInstance();
 		List<Event> ongoingEvents = new ArrayList<Event>();
 		List<Event> passedEvents = new ArrayList<Event>();
 		List<Event> results = new ArrayList<Event>();
-		
-		for(int i=0; i<events.size();i++){
-			if(events.get(i).getEndDateTime()!=null){
-				if(events.get(i).getEndDateTime().before(today)){
+
+		for (int i = 0; i < events.size(); i++) {
+			if (events.get(i).getEndDateTime() != null) {
+				if (events.get(i).getEndDateTime().before(today)) {
 					passedEvents.add(events.get(i));
-				}else{
+				} else {
 					ongoingEvents.add(events.get(i));
 				}
 			} else {
@@ -219,7 +220,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		results.addAll(SortedEvents.sortEvents(passedEvents));
 		return results;
 	}
-	
+
 	/**
 	 * @@author A0126421U generate home view
 	 * 
@@ -235,7 +236,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		currentScreenState = VALUE_VIEW_HOME_SCREEN;
 		rootLayout.setCenter(new ViewController(timeToNextEvent,
 				mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
-						cal.getTime().getDay() + 1),
+						cal.getTime().getDate()),
 				mainLogic.getAllEvents(), getNumOfFloatEvents(mainLogic.getAllEvents()),
 				getNumOfOnGoingEvents(mainLogic.getAllEvents()), getNumOfPassedEvents(mainLogic.getAllEvents())));
 		setTimer(timeToNextEvent, cal);
@@ -247,7 +248,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			timer = new Timer();
 			timerStatus = VALUE_TIMER_ENABLE;
 			startCountDown(mainLogic.getDayEvents(cal.getTime().getYear() + 1900, cal.getTime().getMonth() + 1,
-					cal.getTime().getDay() + 1), mainLogic.getAllEvents());
+					cal.getTime().getDate()), mainLogic.getAllEvents());
 		}
 	}
 
@@ -492,7 +493,7 @@ public class UserInterface extends Application implements OnRemindListener {
 				return true;
 			}
 		} else {
-			if(setStorage) {
+			if (setStorage) {
 				if (startScreenPage - VALUE_TO_ADD_OR_MINUS >= VALUE_START_SCREEN_MIN) {
 					startScreenPage -= VALUE_TO_ADD_OR_MINUS;
 					return true;
@@ -633,8 +634,6 @@ public class UserInterface extends Application implements OnRemindListener {
 			case UPDATE:
 				if (setStorage) {
 					checkTimer();
-					setMessage = checkUpdate();
-					currentEventState = VALUE_GET_ALL_EVENTS;
 
 					if (atDetailView != PARAM_SET_AT_DETAIL_VIEW_TRUE) {
 						if (currentScreenState == VALUE_VIEW_SCREEN) {
@@ -654,6 +653,7 @@ public class UserInterface extends Application implements OnRemindListener {
 						atDetailView = PARAM_SET_AT_DETAIL_VIEW_TRUE;
 						currentEventState = VALUE_GET_ALL_EVENTS;
 					}
+					setMessage = checkUpdate();
 					break;
 				}
 			case DELETE:
@@ -787,11 +787,10 @@ public class UserInterface extends Application implements OnRemindListener {
 				setMessage = MESSAGE_INVALID_COMMAND;
 			}
 		} catch (UserCommandException userCommandException) {
-			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			isErrorMessage = PARAM_TRUE_VALUE;
 			setMessage = userCommandException.getMessage();
-		} catch(NullPointerException nullPointerException) {
+		} catch (NullPointerException nullPointerException) {
 			isErrorMessage = PARAM_TRUE_VALUE;
 			setMessage = MESSAGE_INVALID_COMMAND;
 		}
@@ -940,32 +939,32 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private String checkUpdate() {
 		List<Event> currentEvents = mainLogic.getAllEvents();
-		if (!checkSameEvents(currentEvents)) {
-			isErrorMessage = PARAM_TRUE_VALUE;
-			return MESSAGE_FAIL_UPDATE;
-		} else {
+		if (checkSameEvents(currentEvents)) {
 			events = currentEvents;
-			isErrorMessage = PARAM_FALSE_VALUE;
 			return MESSAGE_SUCCESSFUL_UPDATE;
+		} else {
+			return MESSAGE_FAIL_UPDATE;
 		}
 	}
 
 	private boolean checkSameEvents(List<Event> currentEvents) {
-//		Set<Event> currentSet = new HashSet<Event>();
-//		currentSet.addAll(currentEvents);
-//		Set<Event> eventsSet = new HashSet<Event>();
-//		eventsSet.addAll(events);
-//		return currentSet.equals(eventsSet);
-//		boolean gotsame = !Collections.disjoint(currentEvents, events);
-//		System.out.println(gotsame);
-//		return (!Collections.disjoint(currentEvents, events));
-		
-		//Set<Event> keys = new HashSet<Event>(events);
-		for(Event event : currentEvents) {
-			if(!events.contains(event)) {
+		// Set<Event> currentSet = new HashSet<Event>();
+		// currentSet.addAll(currentEvents);
+		// Set<Event> eventsSet = new HashSet<Event>();
+		// eventsSet.addAll(events);
+		// return currentSet.equals(eventsSet);
+		// boolean gotsame = !Collections.disjoint(currentEvents, events);
+		// System.out.println(gotsame);
+		// return (!Collections.disjoint(currentEvents, events));
+		// Set<Event> keys = new HashSet<Event>(events);
+
+		for (Event event : currentEvents) {
+			if (!events.contains(event)) {
+				isErrorMessage = PARAM_TRUE_VALUE;
 				return PARAM_FALSE_VALUE;
 			}
 		}
+		isErrorMessage = PARAM_FALSE_VALUE;
 		return PARAM_TRUE_VALUE;
 	}
 
@@ -1008,7 +1007,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			return MESSAGE_FAIL_VIEW_DETAIL;
 		}
 		addEventView(this);
-		isErrorMessage = PARAM_TRUE_VALUE;
+		isErrorMessage = PARAM_FALSE_VALUE;
 		return MESSAGE_EMPTY;
 	}
 
