@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 /**
  * @@author A0126421U For generate the children object for viewMonth
@@ -88,7 +89,7 @@ public class EventMonthController extends StackPane {
 
 		Calendar cal = Calendar.getInstance();
 
-		setContainForDate(date, events, idList);
+		setContainerForDate(date, events, idList);
 		setForToday(date, month, year, cal);
 		setForPassedEvents(date, month, year, cal);
 	}
@@ -105,7 +106,7 @@ public class EventMonthController extends StackPane {
 	 *            idMapper
 	 * 
 	 */
-	private void setContainForDate(int date, List<Event> events, List<String> idList) {
+	private void setContainerForDate(int date, List<Event> events, List<String> idList) {
 
 		lblDate.setText(checkDate(date));
 
@@ -128,25 +129,28 @@ public class EventMonthController extends StackPane {
 	 */
 	private void setData(List<Event> events, List<String> idList) {
 		if (events.get(0).getTitle() != null) {
-			lblEvent1.setText(events.get(0).getTitle());
-			lblEventID1.setText(Integer.toString(computeFakeId(idList, events.get(0).getId())));
-			changeTextColor(events.get(0).getPriority(), lblEvent1);
-			// lblEvent1.setStyle("-fx-font-decoration: line-through;");
-			// if(events.get(0).isDone()){
-			// lblEvent1.setStyle("-fx-strikethrough: true;");
-			// }
+			setTaskInDate(events.get(0), Integer.toString(computeFakeId(idList, events.get(0).getId())), lblEvent1,
+					lblEventID1);
 			if (events.size() > 1) {
-				lblEvent2.setText(events.get(1).getTitle());
-				lblEventID2.setText(Integer.toString(computeFakeId(idList, events.get(1).getId())));
-				changeTextColor(events.get(1).getPriority(), lblEvent2);
+				setTaskInDate(events.get(1), Integer.toString(computeFakeId(idList, events.get(1).getId())), lblEvent2,
+						lblEventID2);
 				if (events.size() > 2) {
 					lblEvent3.setText(String.format(" + %d more...", events.size() - 2));
-					changeTextColor(Priority.HIGH, lblEvent3);
+					changeTextColor(Priority.VERY_HIGH, lblEvent3);
 				}
 			}
 		} else {
 			setEmptyData();
 		}
+	}
+
+	private void setTaskInDate(Event events, String Id, Label lblEvent, Label lblEventId) {
+		lblEvent.setText(events.getTitle());
+		lblEventId.setText(Id);
+		if (events.isDone()) {
+			changeTextDecoration(lblEvent);
+		}
+		changeTextColor(events.getPriority(), lblEvent);
 	}
 
 	/**
@@ -242,7 +246,20 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Change the text color based on priority
+	 * @@author A0126421U Strike through the event if is done
+	 * 
+	 * @param lblEvent
+	 *            - the layout to be modified
+	 * 
+	 */
+	private void changeTextDecoration(Label lblEvent) {
+		lblEvent.getStyleClass().remove(lblEvent.styleProperty());
+		lblEvent.getStyleClass().add("lblEventStrikeThrough");
+	}
+
+	/**
+	 * @@author A0126421U Change the text style for undone task based on
+	 *          priority
 	 * 
 	 * @param priority
 	 *            - the priority of the current event

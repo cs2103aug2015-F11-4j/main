@@ -152,6 +152,7 @@
 #checkBoxDone {
 	-fx-opacity: 1;
 }
+.lblEventStrikeThrough .text { -fx-strikethrough: true; }
 
 /*
  * Copyright (c) 2013 by Gerrit Grunwald
