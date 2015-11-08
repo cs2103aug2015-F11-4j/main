@@ -1,3 +1,4 @@
+/* @@author A0126421U */
 package calendrier;
 
 import java.util.ArrayList;
@@ -13,7 +14,9 @@ import java.util.List;
 import utils.UserCommandException;
 
 /**
- * @@author A0126421U For handling the main logic
+ * @@author A0126421U 
+ * 
+ * For handling the main logic
  * 
  * @author hiumengxiong
  *
@@ -28,8 +31,9 @@ public class StorageManager {
 	// FileHandler logFile;
 
 	/**
-	 * @@author A0126421U Constructor to initialize the main components of
-	 *          Storage Manager
+	 * @@author A0126421U 
+	 * 
+	 * Constructor to initialize the main components of Storage Manager
 	 */
 	public StorageManager() {
 		inputData = new ArrayList<String>();
@@ -45,7 +49,9 @@ public class StorageManager {
 	}
 
 	/**
-	 * @@author A0126421U return a list of String from text file
+	 * @@author A0126421U 
+	 * 
+	 * return a list of String from text file
 	 * 
 	 * @return listOfString - a list of string capture from text file
 	 * @throws UserCommandException
@@ -58,7 +64,9 @@ public class StorageManager {
 	}
 
 	/**
-	 * @@author A0126421U Convert the current list of event to string
+	 * @@author A0126421U 
+	 * 
+	 * Convert the current list of event to string
 	 * 
 	 * @return String - String the consist of all the events
 	 * @throws UserCommandException
@@ -78,7 +86,9 @@ public class StorageManager {
 	}
 
 	/**
-	 * @@author A0126421U Check for the file location
+	 * @@author A0126421U 
+	 * 
+	 * Check for the file location
 	 * 
 	 * @param fileLocation
 	 *            the location that provided by event handler
@@ -108,7 +118,9 @@ public class StorageManager {
 	}
 
 	/**
-	 * @@author A0126421U Save the list of event into text file
+	 * @@author A0126421U 
+	 * 
+	 * Save the list of event into text file
 	 * 
 	 * @param data
 	 *            the list of events to be save in text file.
@@ -143,7 +155,9 @@ public class StorageManager {
 	}
 
 	/**
-	 * @@author A0126421U Read data from text file
+	 * @@author A0126421U 
+	 * 
+	 * Read data from text file
 	 * 
 	 * @param fileLocation
 	 *            location of the text file to be process

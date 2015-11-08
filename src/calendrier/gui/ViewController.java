@@ -50,8 +50,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U Constructor to initialize the main components of
-	 *          viewHome
+	 * @@author A0126421U 
+	 * 
+	 * Constructor to initialize the main components of viewHome
 	 * 
 	 * @param time
 	 *            - the remaining time for next event to happen
@@ -82,7 +83,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U initialize the main components of viewHome
+	 * @@author A0126421U 
+	 * 
+	 * initialize the main components of viewHome
 	 * 
 	 * @param time
 	 *            - the remaining time for next event to happen
@@ -113,7 +116,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Set detail for the task
+	 * @@author A0126421U 
+	 * 
+	 * Set detail for the task
 	 * 
 	 * @param floatTask
 	 *            - total number of floating task
@@ -137,7 +142,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Set the timer setting
+	 * @@author A0126421U 
+	 * 
+	 * Set the timer setting
 	 * 
 	 * @param time
 	 *            - time left for next event
@@ -167,7 +174,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Set the next task to display in home page
+	 * @@author A0126421U 
+	 * 
+	 * Set the next task to display in home page
 	 * 
 	 * @param allEvents
 	 *            - the list of all events
@@ -205,7 +214,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Set the current task to display in home page
+	 * @@author A0126421U 
+	 * 
+	 * Set the current task to display in home page
 	 * 
 	 * @param dayEvents
 	 *            - the list of today's events
@@ -236,7 +247,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Strike through the event if is done
+	 * @@author A0126421U 
+	 * 
+	 * Strike through the event if is done
 	 * 
 	 * @param lblEvent
 	 *            - the layout to be modified
@@ -248,7 +261,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Sort the events based on done and undone
+	 * @@author A0126421U 
+	 * 
+	 * Sort the events based on done and undone
 	 * 
 	 * @param events
 	 *            - List of events for the this date
@@ -272,8 +287,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Constructor to initialize the main components of
-	 *          viewMonth
+	 * @@author A0126421U 
+	 * 
+	 * Constructor to initialize the main components of viewMonth
 	 * 
 	 * @param events
 	 *            - List of events in the specific month
@@ -300,7 +316,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U initialize the main components of viewMonth
+	 * @@author A0126421U 
+	 * 
+	 * initialize the main components of viewMonth
 	 * 
 	 * @param events
 	 *            - List of events in the specific month
@@ -324,7 +342,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U add a date component
+	 * @@author A0126421U 
+	 * 
+	 * add a date component
 	 * 
 	 * @param events
 	 *            - List of events in the specific month
@@ -347,7 +367,9 @@ public class ViewController extends FlowPane {
 	}
 	
 	/**
-	 * @@author A0126421U set the current month and year 
+	 * @@author A0126421U 
+	 * 
+	 * set the current month and year 
 	 * 
 	 * @param month
 	 *            - the month to display for user
@@ -361,7 +383,9 @@ public class ViewController extends FlowPane {
 	}
 	
 	/**
-	 * @@author A0126421U generate empty date component 
+	 * @@author A0126421U 
+	 * 
+	 * generate empty date component 
 	 * 
 	 * @param month
 	 *            - the month to display for user
@@ -387,7 +411,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Map short id to the real id
+	 * @@author A0126421U 
+	 * 
+	 * Map short id to the real id
 	 * 
 	 * @param events
 	 *            - the events to be mapped
@@ -408,7 +434,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U to compute total number of day in month
+	 * @@author A0126421U 
+	 * 
+	 * to compute total number of day in month
 	 * 
 	 * @param month
 	 *            - the month to detect the total day
@@ -432,7 +460,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U convert month from integer to string
+	 * @@author A0126421U 
+	 * 
+	 * convert month from integer to string
 	 * 
 	 * @param month
 	 *            - the month to be convert
@@ -472,7 +502,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U determine for leap year
+	 * @@author A0126421U 
+	 * 
+	 * determine for leap year
 	 * 
 	 * @param year
 	 *            - the year to be determine for leap year
@@ -489,7 +521,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U detect the number of events in particular date
+	 * @@author A0126421U 
+	 * 
+	 * detect the number of events in particular date
 	 * 
 	 * @param year
 	 *            - the year to display for user
@@ -571,7 +605,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U check for month
+	 * @@author A0126421U 
+	 * 
+	 * check for month
 	 * 
 	 * @param month
 	 *            - the month to be check

@@ -194,9 +194,12 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 
 	}
-
+	// @@author 
+	
 	/**
-	 * @@author A0126421U rearrange the order of events in view all
+	 * @@author A0126421U 
+	 * 
+	 * rearrange the order of events in view all
 	 * 
 	 * @param events
 	 *            - the list of events
@@ -227,7 +230,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U generate home view
+	 * @@author A0126421U 
+	 * 
+	 * generate home view
 	 * 
 	 * @param userInterface
 	 *            - the current userInterface
@@ -249,7 +254,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U start timer counting in home page
+	 * @@author A0126421U 
+	 * 
+	 * start timer counting in home page
 	 * 
 	 * @param timeToNextEvent
 	 *            - time left for next event
@@ -269,7 +276,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U Start count down for the next event
+	 * @@author A0126421U 
+	 * 
+	 * Start count down for the next event
 	 * 
 	 * @param dayEvents
 	 *            - the events of the day
@@ -296,7 +305,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U generate month view
+	 * @@author A0126421U 
+	 * 
+	 * generate month view
 	 * 
 	 * @param userInterface
 	 *            - the current userInterface
@@ -820,7 +831,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 	
 	/**
-	 * @@author A0126421U disable timer
+	 * @@author A0126421U 
+	 * 
+	 * disable timer
 	 */
 	private void checkTimer() {
 		if (timerStatus == VALUE_TIMER_ENABLE) {
@@ -853,7 +866,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	/**
-	 * @@author A0126421U get number of events that are passed
+	 * @@author A0126421U 
+	 * 
+	 * get number of events that are passed
 	 * 
 	 * @param events
 	 *            - whole list of event
@@ -876,7 +891,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U get number of events that are still active
+	 * @@author A0126421U 
+	 * 
+	 * get number of events that are still active
 	 * 
 	 * @param events
 	 *            - whole list of event
@@ -901,7 +918,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U get number of events that does not have deadline
+	 * @@author A0126421U 
+	 * 
+	 * get number of events that does not have deadline
 	 * 
 	 * @param events
 	 *            - whole list of event

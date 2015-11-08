@@ -1,3 +1,4 @@
+/* @@author A0126421U */
 package calendrier.gui;
 
 import java.io.IOException;
@@ -14,7 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 /**
- * @@author A0126421U For generate the children object for viewMonth
+ * @@author A0126421U 
+ * 
+ * For generate the children object for viewMonth
  * 
  * @author hiumengxiong
  *
@@ -43,8 +46,9 @@ public class EventMonthController extends StackPane {
 	private static final String VALUE_SHOW_EMPTY_DATA = " ";
 
 	/**
-	 * @@author A0126421U Constructor to initialize the main components of
-	 *          EventMonthController
+	 * @@author A0126421U 
+	 * 
+	 * Constructor to initialize the main components of EventMonthController
 	 * 
 	 * @param date
 	 *            - Date to be display
@@ -72,7 +76,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Fill in details for EventMonth
+	 * @@author A0126421U 
+	 * 
+	 * Fill in details for EventMonth
 	 * 
 	 * @param date
 	 *            - Date to be display
@@ -97,7 +103,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Set Detail for each date
+	 * @@author A0126421U 
+	 * 
+	 * Set Detail for each date
 	 * 
 	 * @param date
 	 *            - Date to be display
@@ -120,7 +128,9 @@ public class EventMonthController extends StackPane {
 	}
 	
 	/**
-	 * @@author A0126421U Sort the events based on done and undone
+	 * @@author A0126421U 
+	 * 
+	 * Sort the events based on done and undone
 	 * 
 	 * @param events
 	 *            - List of events for the this date
@@ -144,7 +154,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Fill in details for each date
+	 * @@author A0126421U 
+	 * 
+	 * Fill in details for each date
 	 * 
 	 * @param events
 	 *            - List of events for the this date
@@ -179,8 +191,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Set parameter for date
+	 * @@author A0126421U 
 	 * 
+	 * Set parameter for date
 	 * 
 	 */
 	private void setTaskInDate(Event events, String Id, Label lblEvent, Label lblEventId) {
@@ -193,8 +206,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Set empty data
+	 * @@author A0126421U
 	 * 
+	 * Set empty data
 	 * 
 	 */
 	private void setEmptyData() {
@@ -204,8 +218,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Set Color for Today
+	 * @@author A0126421U 
 	 * 
+	 * Set Color for Today
 	 * 
 	 */
 	@SuppressWarnings("deprecation")
@@ -217,7 +232,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Fill in details for EventMonth
+	 * @@author A0126421U 
+	 * 
+	 * Fill in details for EventMonth
 	 * 
 	 * @param date
 	 *            - Date to be display
@@ -248,7 +265,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Compute the fake id that display to the user.
+	 * @@author A0126421U 
+	 * 
+	 * Compute the fake id that display to the user.
 	 * 
 	 * @param idList
 	 *            - The id to be display to user user, which will link for
@@ -269,7 +288,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U check the existence of date
+	 * @@author A0126421U 
+	 * 
+	 * check the existence of date
 	 * 
 	 * @param date
 	 *            - Date to be check
@@ -285,7 +306,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Strike through the event if is done
+	 * @@author A0126421U 
+	 * 
+	 * Strike through the event if is done
 	 * 
 	 * @param lblEvent
 	 *            - the layout to be modified
@@ -297,8 +320,9 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U Change the text style for undone task based on
-	 *          priority
+	 * @@author A0126421U 
+	 * 
+	 * Change the text style for undone task based on priority
 	 * 
 	 * @param priority
 	 *            - the priority of the current event
