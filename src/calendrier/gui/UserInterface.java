@@ -551,7 +551,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		}
 	}
-
+	
 	private void handleEnterPress(CommandBarController commandBarController, String userInput) {
 		try {
 			switch (mainLogic.execute(userInput)) {
@@ -587,7 +587,12 @@ public class UserInterface extends Application implements OnRemindListener {
 					if (currentScreenState == VALUE_VIEW_SCREEN) {
 						addView(this);
 						if (eventSize > VALUE_ADD_TO_ARRAY) {
-							getNextPage(this);
+							int i = 0, numPage=eventSize % (VALUE_ADD_TO_ARRAY-1);
+							System.out.println(numPage + " Size: "+ eventSize);
+							while (i != numPage) {
+								getNextPage(this);
+								i++;
+							}
 						}
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
 						resetViewDateInfo();
@@ -664,7 +669,7 @@ public class UserInterface extends Application implements OnRemindListener {
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					if (currentScreenState == VALUE_VIEW_SCREEN) {
 						addView(this);
-						if (eventSize <= VALUE_ADD_TO_ARRAY) {
+						if (eventSize%(VALUE_ADD_TO_ARRAY)==0) {
 							getPreviousPage(this);
 						}
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
@@ -983,6 +988,7 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private String checkAdding() {
 		int currentEventsSize = mainLogic.getAllEvents().size();
+
 		if ((currentEventsSize - eventSize) == VALUE_TO_ADD_OR_MINUS) {
 			eventSize = currentEventsSize;
 			events = mainLogic.getAllEvents();
