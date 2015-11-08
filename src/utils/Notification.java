@@ -1,5 +1,11 @@
 package utils;
 
+
+/**
+ * @@author A0126288X-reused
+ *
+ */
+
 /*
  * Copyright (c) 2013 by Gerrit Grunwald
  *
