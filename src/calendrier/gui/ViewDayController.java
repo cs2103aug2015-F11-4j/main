@@ -40,6 +40,24 @@ public class ViewDayController extends GridPane {
 
 	public ViewDayController(List<Event> datedEvents, List<Event> floatingEvents, int viewDate, int viewMonth,
 			int viewYear, int day, boolean isToday, boolean isPast, int startArrIndex, int floatingArrStartIndex) {
+		setLoader();
+
+		initDayValue(viewDate, viewMonth, viewYear, day, isToday);
+		setHand(datedEvents, isPast, startArrIndex);
+		setFloating(floatingEvents, VALUE_START_FLOATING_POSITION, floatingArrStartIndex);
+	}
+
+	private void initDayValue(int viewDate, int viewMonth, int viewYear, int day, boolean isToday) {
+		String currentDate = viewDate + VALUE_EMPTY_SPACE + detectMonth(viewMonth) + VALUE_EMPTY_SPACE + viewYear;
+		lblPageDate.setText(currentDate);
+		lblDayOfWeek.setText(String.format(VALUE_FOR_DAY, getDay(day)));
+
+		if (isToday) {
+			lblToday.setText(VALUE_TODAY);
+		}
+	}
+
+	private void setLoader() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWDAY_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -48,18 +66,6 @@ public class ViewDayController extends GridPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		String currentDate = viewDate + VALUE_EMPTY_SPACE + detectMonth(viewMonth) + VALUE_EMPTY_SPACE + viewYear;
-		lblPageDate.setText(currentDate);
-
-		lblDayOfWeek.setText(String.format(VALUE_FOR_DAY, getDay(day)));
-
-		if (isToday) {
-			lblToday.setText(VALUE_TODAY);
-		}
-
-		setHand(datedEvents, isPast, startArrIndex);
-		setFloating(floatingEvents, VALUE_START_FLOATING_POSITION, floatingArrStartIndex);
 	}
 
 	private String getDay(int day) {
@@ -99,13 +105,13 @@ public class ViewDayController extends GridPane {
 			}
 
 			for (int i = 0; i < end; i++) {
-				addFloatingEvent(floatingEvents.get(i+arrStartIndex), startIndex);
+				addFloatingEvent(floatingEvents.get(i + arrStartIndex), startIndex);
 				startIndex++;
 			}
 		} else if (floatingEvents.size() == VALUE_ZERO) {
 			lblNoOfOpenEvent.setText(String.format(VALUE_FOR_NO_EVENT, arrStartIndex, floatingEvents.size()));
 		}
-		
+
 	}
 
 	private void addFloatingEvent(Event event, int position) {
@@ -115,13 +121,10 @@ public class ViewDayController extends GridPane {
 	private void setHand(List<Event> events, boolean isPast, int startIndex) {
 
 		if (events.size() != VALUE_ZERO) {
-
 			int endingIndex = startIndex + VALUE_ADD_TO_ARRAY;
-
 			if ((endingIndex) > events.size()) {
 				endingIndex = events.size();
 			}
-
 			int end = endingIndex - startIndex;
 
 			if (endingIndex == (startIndex + 1)) {
@@ -130,6 +133,7 @@ public class ViewDayController extends GridPane {
 				lblNoOfDatedEvent.setText(
 						String.format(VALUE_FOR_DISPLAY_NUMBER_EVENT, startIndex + 1, endingIndex, events.size()));
 			}
+			
 			for (int i = 0; i < end; i++) {
 				addEvent(events.get(i), i, isPast);
 			}

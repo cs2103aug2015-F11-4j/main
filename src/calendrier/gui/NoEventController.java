@@ -13,6 +13,11 @@ public class NoEventController extends BorderPane{
 	private UserInterface userInterface;
 	
 	public NoEventController(UserInterface userInterface) {
+		setLoader();
+		this.userInterface = userInterface;
+	}
+
+	private void setLoader() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(NO_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -21,7 +26,5 @@ public class NoEventController extends BorderPane{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		this.userInterface = userInterface;
 	}
 }

@@ -18,8 +18,7 @@ public class EventBean {
 		this.event = event;
 		this.id = new SimpleStringProperty(checkExistValue(event.getId()));
 		this.title = new SimpleStringProperty(checkExistValue(event.getTitle()));
-		this.eventDate = new SimpleStringProperty(
-				checkExistDate(event.getStartDateTime()));
+		this.eventDate = new SimpleStringProperty(checkExistDate(event.getStartDateTime()));
 	}
 
 	public String getId() {

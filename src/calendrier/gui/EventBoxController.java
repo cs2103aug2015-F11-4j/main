@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import com.sun.javafx.css.Style;
 
 import utils.Event;
@@ -13,12 +12,12 @@ import utils.IdMapper;
 import utils.Priority;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+//import javafx.scene.control.Label;
 
 public class EventBoxController extends StackPane {
 
@@ -73,6 +72,11 @@ public class EventBoxController extends StackPane {
 	private static final int PARAM_FOR_YEAR = 2;
 
 	public EventBoxController(Event event, int position) {
+		setLoader();
+		initEventValue(event, position);
+	}
+
+	private void setLoader() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -81,8 +85,6 @@ public class EventBoxController extends StackPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		initEventValue(event, position);
 	}
 
 	public void initEventValue(Event event, int position) {
@@ -93,18 +95,12 @@ public class EventBoxController extends StackPane {
 		lblEventDate.setText(constructEventDate(event.getStartDateTime(), event.getEndDateTime()));
 
 		boolean isPast = checkDate(event.getStartDateTime(), event.getEndDateTime());
+		checkDoneEvent(event);
+		checkPastEvent(event, isPast);
+		initImage(event);
+	}
 
-		if (event.isDone()) {
-			changeTextDecoration();
-		}
-
-		if (isPast) {
-			changePastEventDesign();
-		} else {
-			String strPriority = checkExistPriority(event.getPriority());
-			changeBorderColor(strPriority);
-		}
-
+	private void initImage(Event event) {
 		Image img;
 		if (checkExistValue(event.getGroup()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			img = new Image(DEFAULT_EVENT_TYPE_IMAGE);
@@ -116,6 +112,21 @@ public class EventBoxController extends StackPane {
 		imgType.setImage(img);
 	}
 
+	private void checkPastEvent(Event event, boolean isPast) {
+		if (isPast) {
+			changePastEventDesign();
+		} else {
+			String strPriority = checkExistPriority(event.getPriority());
+			changeBorderColor(strPriority);
+		}
+	}
+
+	private void checkDoneEvent(Event event) {
+		if (event.isDone()) {
+			changeTextDecoration();
+		}
+	}
+
 	public String checkExistValue(String parseInValue) {
 		if (parseInValue != null) {
 			return parseInValue;
@@ -125,18 +136,23 @@ public class EventBoxController extends StackPane {
 	}
 
 	private static boolean checkDate(Calendar startDateTime, Calendar endDateTime) {
-//		Calendar today = Calendar.getInstance();
-//		if (endDateTime != null) {
-//			if (endDateTime.before(today)) {
-//				return true;
-//			}
-//		}
-//		return false;
+		// Calendar today = Calendar.getInstance();
+		// if (endDateTime != null) {
+		// if (endDateTime.before(today)) {
+		// return true;
+		// }
+		// }
+		// return false;
+		
 		String startDate = checkExistDate(startDateTime);
 		String endDate = checkExistDate(startDateTime);
 		String[] arrStartDate = startDate.split(VALUE_SPLIT_REGEX);
 		String[] arrEndDate = endDate.split(VALUE_SPLIT_REGEX);
+		return determineDateType(startDate, endDate, arrStartDate, arrEndDate);
+	}
 
+	private static boolean determineDateType(String startDate, String endDate, String[] arrStartDate,
+			String[] arrEndDate) {
 		if (!startDate.equalsIgnoreCase(VALUE_EMPTY_STRING) && !endDate.equalsIgnoreCase(VALUE_EMPTY_STRING)) {
 
 			if (startDate.equalsIgnoreCase(endDate)) {
@@ -155,33 +171,124 @@ public class EventBoxController extends StackPane {
 	}
 
 	private static boolean checkBetweenToday(String[] arrStartDate, String[] arrEndDate) {
-		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE) < todayDate)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE) <= todayMonth)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE) <= todayYear)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE) > todayDate)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE) >= todayMonth)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE) >= todayYear)) {
-			return false;
-		}
-		return true;
+
+		int startYear = convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE);
+		int startMonth = convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE);
+		int startDate = convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE);
+
+		int endYear = convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE);
+		int endMonth = convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE);
+		int endDate = convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE);
+		
+		return isInBtwToday(startYear, startMonth, startDate, endYear, endMonth, endDate);
+
+		// if ((convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE) <
+		// todayDate)
+		// && (convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE) <=
+		// todayMonth)
+		// && (convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE) <=
+		// todayYear)
+		// && (convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE) >
+		// todayDate)
+		// && (convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE) >=
+		// todayMonth)
+		// && (convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE) >=
+		// todayYear)) {
+		// return false;
+		// }
+		// return true;
 	}
 
-	private static boolean checkAfterToday(String[] arrEndDate) {
-		if ((convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE) > todayDate)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE) >= todayMonth)
-				&& (convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE) >= todayYear)) {
-			return false;
-		}
-		return true;
-	}
-
-	private static boolean checkBeforeToday(String[] arrStartDate) {
-		if ((convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE) < todayDate)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE) <= todayMonth)
-				&& (convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE) <= todayYear)) {
+	private static boolean isInBtwToday(int startYear, int startMonth, int startDate, int endYear, int endMonth,
+			int endDate) {
+		if (startYear <= todayYear && todayYear <= endYear) {
+			if (startMonth <= todayMonth && todayMonth <= endMonth) {
+				return false;
+			} else if (startMonth == todayMonth && todayMonth == endMonth) {
+				if (startDate <= todayDate && todayDate <= endDate) {
+					return false;
+				}
+			} else {
+				return true;
+			}
+		} else {
 			return true;
 		}
 		return false;
+	}
+
+	private static boolean checkAfterToday(String[] arrEndDate) {
+
+		int currentYear = convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE);
+		int currentMonth = convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE);
+		int currentDate = convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE);
+		return isAfterToday(currentYear, currentMonth, currentDate);
+
+		// if ((convertToInteger(arrEndDate[PARAM_FOR_DATE], VALUE_FALSE) >
+		// todayDate)
+		// && (convertToInteger(arrEndDate[PARAM_FOR_MONTH], VALUE_TRUE) >=
+		// todayMonth)
+		// && (convertToInteger(arrEndDate[PARAM_FOR_YEAR], VALUE_FALSE) >=
+		// todayYear)) {
+		// return false;
+		// }
+		// return true;
+	}
+
+	private static boolean isAfterToday(int currentYear, int currentMonth, int currentDate) {
+		if (currentYear == todayYear) {
+			if (currentMonth > todayMonth) {
+				return false;
+			} else if (currentMonth == todayMonth) {
+				if (currentDate >= todayDate) {
+					return false;
+				}
+				return true;
+			} else {
+				return true;
+			}
+		} else if (currentYear > todayYear) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	private static boolean checkBeforeToday(String[] arrStartDate) {
+
+		int currentYear = convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE);
+		int currentMonth = convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE);
+		int currentDate = convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE);
+		return isBeforeToday(currentYear, currentMonth, currentDate);
+
+		// if ((convertToInteger(arrStartDate[PARAM_FOR_DATE], VALUE_FALSE) <
+		// todayDate)
+		// && (convertToInteger(arrStartDate[PARAM_FOR_MONTH], VALUE_TRUE) <=
+		// todayMonth)
+		// && (convertToInteger(arrStartDate[PARAM_FOR_YEAR], VALUE_FALSE) <=
+		// todayYear)) {
+		// return true;
+		// }
+		// return false;
+	}
+
+	private static boolean isBeforeToday(int currentYear, int currentMonth, int currentDate) {
+		if (currentYear == todayYear) {
+			if (currentMonth < todayMonth) {
+				return true;
+			} else if (currentMonth == todayMonth) {
+				if (currentDate < todayDate) {
+					return true;
+				}
+				return false;
+			} else {
+				return false;
+			}
+		} else if (currentYear < todayYear) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private static Integer convertToInteger(String value, boolean isMonth) {
@@ -204,14 +311,17 @@ public class EventBoxController extends StackPane {
 
 		String startDate = checkDisplayExistDate(startDateTime);
 		String endDate = checkDisplayExistDate(endDateTime);
+		return checkDateValue(startDate, endDate);
+	}
 
+	private static String checkDateValue(String startDate, String endDate) {
 		if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			if (startDate.equalsIgnoreCase(endDate)) {
 				return startDate;
 			}
 			return startDate + " - " + endDate;
-		} else
-			if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
+		} else if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
+				&& endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			return startDate;
 		} else if (startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)
 				&& !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {

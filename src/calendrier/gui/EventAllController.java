@@ -28,8 +28,12 @@ public class EventAllController extends StackPane {
 	private static final String EVENT_ALL_LAYOUT_FXML = "/calendrier/resources/ViewAll.fxml";
 
 	public EventAllController(Collection<Event> inputAllEvents) {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(
-				EVENT_ALL_LAYOUT_FXML));
+		setLoader();
+		drawTable(inputAllEvents);
+	}
+
+	private void setLoader() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(EVENT_ALL_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
 		try {
@@ -37,28 +41,16 @@ public class EventAllController extends StackPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		drawTable(inputAllEvents);
 	}
 
 	private void drawTable(Collection<Event> inputAllEvents) {
-		ObservableList<EventBean> allEvents = FXCollections
-				.observableArrayList();
+		ObservableList<EventBean> allEvents = FXCollections.observableArrayList();
 		for (Event event : inputAllEvents) {
 			allEvents.add(new EventBean(event));
 		}
-
-		eventIdColumn
-				.setCellValueFactory(new PropertyValueFactory<EventBean, String>(
-						"id"));
-
-		eventTitleColumn
-				.setCellValueFactory(new PropertyValueFactory<EventBean, String>(
-						"title"));
-
-		eventDateColumn
-				.setCellValueFactory(new PropertyValueFactory<EventBean, String>(
-						"eventDate"));
-
+		eventIdColumn.setCellValueFactory(new PropertyValueFactory<EventBean, String>("id"));
+		eventTitleColumn.setCellValueFactory(new PropertyValueFactory<EventBean, String>("title"));
+		eventDateColumn.setCellValueFactory(new PropertyValueFactory<EventBean, String>("eventDate"));
 		viewAllTable.setItems(allEvents);
 	}
 }

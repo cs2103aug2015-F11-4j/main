@@ -83,11 +83,11 @@ public class ViewController extends FlowPane {
 
 	private void initHomeView(long time, List<Event> dayEvents, List<Event> allEvents, int floatTask, int onGoingTask,
 			int passedTask) {
-		
+
 		Event nextEvent = new Event();
 		Calendar cal = Calendar.getInstance();
 		IdMapper idMapper = IdMapper.getInstance();
-		
+
 		int id = generateCurrentEvent(dayEvents, idMapper);
 		nextEvent = generateNextEvent(allEvents, nextEvent, cal, idMapper, id);
 
@@ -101,8 +101,7 @@ public class ViewController extends FlowPane {
 		lblFloat.setText(Integer.toString(floatTask));
 		if (nextEvent.getTitle() != null) {
 			lblNextTask.setText(String.format("Countdown to %s", nextEvent.getTitle()));
-		}
-		else{
+		} else {
 			lblNextTask.setText(String.format("Countdown Not Avaliable"));
 		}
 	}
@@ -119,9 +118,9 @@ public class ViewController extends FlowPane {
 			day = (time / 3600000) / 24;
 
 			lbltimeDay.setText(String.format("%d", day));
-			lbltimeHour.setText(String.format("%d",hour));
-			lbltimeMin.setText(String.format("%d",min));
-			lbltimeSec.setText(String.format("%d",sec));
+			lbltimeHour.setText(String.format("%d", hour));
+			lbltimeMin.setText(String.format("%d", min));
+			lbltimeSec.setText(String.format("%d", sec));
 		} else {
 			lbltimeDay.setText("-");
 			lbltimeHour.setText("-");
@@ -132,7 +131,7 @@ public class ViewController extends FlowPane {
 
 	private Event generateNextEvent(List<Event> allEvents, Event nextEvent, Calendar cal, IdMapper idMapper, int id) {
 		int count = 0;
-		
+
 		rearrangeEvent(allEvents);
 		for (int i = 0; i < allEvents.size(); i++) {
 			if (allEvents.get(i).getStartDateTime() != null) {
@@ -145,7 +144,8 @@ public class ViewController extends FlowPane {
 					count++;
 					id++;
 					if (count == 5) {
-						//lblMoreNextEvent.setText(String.format("+%d more", allEvents.size()-count));
+						// lblMoreNextEvent.setText(String.format("+%d more",
+						// allEvents.size()-count));
 						break;
 					}
 				}
@@ -155,8 +155,8 @@ public class ViewController extends FlowPane {
 	}
 
 	private int generateCurrentEvent(List<Event> dayEvents, IdMapper idMapper) {
-		int count = 0, id=0;
-		
+		int count = 0, id = 0;
+
 		rearrangeEvent(dayEvents);
 		for (int i = 0; i < dayEvents.size(); i++) {
 			if (dayEvents.get(i).getStartDateTime() != null) {
@@ -165,8 +165,8 @@ public class ViewController extends FlowPane {
 				count++;
 				id++;
 				if (count == 5) {
-					lblMoreEvent.setText(String.format("+%d more", dayEvents.size()-count));
-					if(dayEvents.get(5).isDone()){
+					lblMoreEvent.setText(String.format("+%d more", dayEvents.size() - count));
+					if (dayEvents.get(5).isDone()) {
 						changeTextDecoration(lblMoreEvent);
 					}
 					break;
@@ -175,7 +175,7 @@ public class ViewController extends FlowPane {
 		}
 		return id;
 	}
-	
+
 	/**
 	 * @@author A0126421U Strike through the event if is done
 	 * 
@@ -211,6 +211,7 @@ public class ViewController extends FlowPane {
 			events.addAll(empty);
 		}
 	}
+
 	/**
 	 * @@author A0126421U Constructor to initialize the main components of
 	 *          viewMonth
@@ -243,11 +244,11 @@ public class ViewController extends FlowPane {
 
 		int end;
 		List<String> idList;
-		
+
 		generateEmptyDate(month, year);
 		end = detectLengthofMonth(month, year);
 		idList = setIdMapper(events);
-		
+
 		setHeaderForMonthView(month, year);
 		generateDay(events, month, year, end, idList);
 	}
@@ -485,6 +486,11 @@ public class ViewController extends FlowPane {
 
 	// @@author A0126288X
 	public ViewController(List<Event> events, int startIndex) {
+		setLoader();
+		setHand(events, startIndex);
+	}
+
+	private void setLoader() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -493,11 +499,16 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		setHand(events, startIndex);
 	}
 
 	public void setHand(List<Event> events, int startIndex) {
+		int end = getEndIndex(events, startIndex);
+		for (int i = 0; i < end; i++) {
+			addEvent(events.get(startIndex + i), i);
+		}
+	}
 
+	private int getEndIndex(List<Event> events, int startIndex) {
 		int endingIndex = startIndex + VALUE_ADD_TO_ARRAY;
 
 		if ((endingIndex) > events.size()) {
@@ -505,10 +516,7 @@ public class ViewController extends FlowPane {
 		}
 
 		int end = endingIndex - startIndex;
-
-		for (int i = 0; i < end; i++) {
-			addEvent(events.get(startIndex + i), i);
-		}
+		return end;
 	}
 
 	public void addEvent(Event event, int position) {
