@@ -358,7 +358,10 @@ public class Parser {
 			// e.g. view month: -vm
 			pc.setCommand(Command.VIEW_MONTH);
 			return pc;
-		} else if (command.equalsIgnoreCase("-vd") || command.equalsIgnoreCase("-vh")) {
+		} else if (command.equalsIgnoreCase("-vd")) {
+			pc.setCommand(Command.VIEW_DAY);
+			return pc;
+		} else if (command.equalsIgnoreCase("-vh")) {
 			pc.setCommand(Command.VIEW_HOME);
 			return pc;
 		}
