@@ -37,9 +37,9 @@
 
 				<Label text="Save in folder" GridPane.columnIndex="0"
 					GridPane.rowIndex="1" wrapText="true" />
-				<Label styleClass="commandText" text="save in &#60;FOLDER_NAME&#62;"
+				<Label styleClass="commandText" text="save in &#60;FILE_NAME&#62;"
 					GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true" />
-					<Label styleClass="commandText" text="-s &#60;FOLDER_NAME&#62;"
+					<Label styleClass="commandText" text="-s &#60;FILE_NAME&#62;"
 					GridPane.columnIndex="2" GridPane.rowIndex="1" wrapText="true" />
 
 				<Label text="Exit program" GridPane.columnIndex="0"
