@@ -1,3 +1,7 @@
+/**
+ * @@author A0126288X
+ *
+ */
 #root {
 	-fx-background-color: #E8F2F2;
 }
@@ -166,6 +170,11 @@
 	-fx-opacity: 1;
 }
 .lblEventStrikeThrough .text { -fx-strikethrough: true; }
+
+/**
+ * @@author A0126288X-reused
+ *
+ */
 
 /*
  * Copyright (c) 2013 by Gerrit Grunwald
