@@ -343,7 +343,7 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	private void getHelp(UserInterface userInterface) {
 		currentScreenState = VALUE_START_SCREEN;
-		startScreenPage = VALUE_START_SCREEN_MIN + VALUE_TO_ADD_OR_MINUS;
+		startScreenPage = VALUE_START_SCREEN_MIN;
 		rootLayout.setCenter(new StartScreenController(userInterface, startScreenPage));
 	}
 
