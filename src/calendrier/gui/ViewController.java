@@ -333,11 +333,11 @@ public class ViewController extends FlowPane {
 		int end;
 		List<String> idList;
 
-		generateEmptyDate(month, year);
 		end = detectLengthofMonth(month, year);
 		idList = setIdMapper(events);
-
+		
 		setHeaderForMonthView(month, year);
+		generateEmptyDate(month, year);
 		generateDay(events, month, year, end, idList);
 	}
 
@@ -425,7 +425,6 @@ public class ViewController extends FlowPane {
 		IdMapper idMapper = IdMapper.getInstance();
 		List<String> idList = new ArrayList<String>();
 		for (int i = 0; i < events.size(); i++) {
-			// System.out.println(events.get(i).toString());
 			idMapper.set(Integer.toString(i), events.get(i).getId());
 			idList.add(events.get(i).getId());
 		}
@@ -593,9 +592,11 @@ public class ViewController extends FlowPane {
 			}
 			// for task without enddate
 			else {
-				if (events.get(i).getStartDateTime().getTime().getDate() == date) {
-					if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
-						results.add(events.get(i));
+				if(events.get(i).getStartDateTime()!=null){
+					if (events.get(i).getStartDateTime().getTime().getDate() == date) {
+						if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
+							results.add(events.get(i));
+						}
 					}
 				}
 			}
