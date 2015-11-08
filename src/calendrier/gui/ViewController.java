@@ -81,6 +81,23 @@ public class ViewController extends FlowPane {
 		initHomeView(time, dayEvents, allEvents, floatTask, onGoingTask, passedTask);
 	}
 
+	/**
+	 * @@author A0126421U initialize the main components of viewHome
+	 * 
+	 * @param time
+	 *            - the remaining time for next event to happen
+	 * @param dayEvents
+	 *            - the events that happen today
+	 * @param allEvents
+	 *            - the list of all events
+	 * @param floatTask
+	 *            - total number of floating task
+	 * @param onGoingTask
+	 *            - total number of on going task
+	 * @param passedTask
+	 *            - total number of passed task
+	 * 
+	 */
 	private void initHomeView(long time, List<Event> dayEvents, List<Event> allEvents, int floatTask, int onGoingTask,
 			int passedTask) {
 
@@ -95,6 +112,19 @@ public class ViewController extends FlowPane {
 		generateTimerSetting(time);
 	}
 
+	/**
+	 * @@author A0126421U Set detail for the task
+	 * 
+	 * @param floatTask
+	 *            - total number of floating task
+	 * @param onGoingTask
+	 *            - total number of on going task
+	 * @param passedTask
+	 *            - total number of passed task
+	 * @param nextEvent
+	 *            - Set the title for next event
+	 * 
+	 */
 	private void setForCountingTask(int floatTask, int onGoingTask, int passedTask, Event nextEvent) {
 		lblPassed.setText(Integer.toString(passedTask));
 		lblOngoing.setText(Integer.toString(onGoingTask));
@@ -106,6 +136,13 @@ public class ViewController extends FlowPane {
 		}
 	}
 
+	/**
+	 * @@author A0126421U Set the timer setting
+	 * 
+	 * @param time
+	 *            - time left for next event
+	 * 
+	 */
 	private void generateTimerSetting(long time) {
 		long sec;
 		long min;
@@ -129,6 +166,21 @@ public class ViewController extends FlowPane {
 		}
 	}
 
+	/**
+	 * @@author A0126421U Set the next task to display in home page
+	 * 
+	 * @param allEvents
+	 *            - the list of all events
+	 * @param nextEvent
+	 *            - next event
+	 * @param cal
+	 *            - today's date
+	 * @param idMapper
+	 *            - the link for short id to actual id
+	 * @param id
+	 *            - the id to be display
+	 * 
+	 */
 	private Event generateNextEvent(List<Event> allEvents, Event nextEvent, Calendar cal, IdMapper idMapper, int id) {
 		int count = 0;
 
@@ -144,8 +196,6 @@ public class ViewController extends FlowPane {
 					count++;
 					id++;
 					if (count == 5) {
-						// lblMoreNextEvent.setText(String.format("+%d more",
-						// allEvents.size()-count));
 						break;
 					}
 				}
@@ -154,6 +204,15 @@ public class ViewController extends FlowPane {
 		return nextEvent;
 	}
 
+	/**
+	 * @@author A0126421U Set the current task to display in home page
+	 * 
+	 * @param dayEvents
+	 *            - the list of today's events
+	 * @param idMapper
+	 *            - the link for short id to actual id
+	 * 
+	 */
 	private int generateCurrentEvent(List<Event> dayEvents, IdMapper idMapper) {
 		int count = 0, id = 0;
 
@@ -240,6 +299,17 @@ public class ViewController extends FlowPane {
 	}
 	// @@author
 
+	/**
+	 * @@author A0126421U initialize the main components of viewMonth
+	 * 
+	 * @param events
+	 *            - List of events in the specific month
+	 * @param month
+	 *            - the month to display for user
+	 * @param year
+	 *            - the year to display for user
+	 * 
+	 */
 	private void initForMonthView(List<Event> events, int month, int year) {
 
 		int end;
@@ -253,6 +323,21 @@ public class ViewController extends FlowPane {
 		generateDay(events, month, year, end, idList);
 	}
 
+	/**
+	 * @@author A0126421U add a date component
+	 * 
+	 * @param events
+	 *            - List of events in the specific month
+	 * @param month
+	 *            - the month to display for user
+	 * @param year
+	 *            - the year to display for user
+	 * @param end
+	 *            - today day in month
+	 * @param idList
+	 *            - list of id to be display
+	 * 
+	 */
 	private void generateDay(List<Event> events, int month, int year, int end, List<String> idList) {
 		int i;
 		for (i = 0; i < end; i++) {
@@ -260,12 +345,30 @@ public class ViewController extends FlowPane {
 					.add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month, year), idList));
 		}
 	}
-
+	
+	/**
+	 * @@author A0126421U set the current month and year 
+	 * 
+	 * @param month
+	 *            - the month to display for user
+	 * @param year
+	 *            - the year to display for user
+	 * 
+	 */
 	private void setHeaderForMonthView(int month, int year) {
 		lblmonth.setText(detectMonth(month));
 		lblyear.setText(String.format("%d", year));
 	}
-
+	
+	/**
+	 * @@author A0126421U generate empty date component 
+	 * 
+	 * @param month
+	 *            - the month to display for user
+	 * @param year
+	 *            - the year to display for user
+	 * 
+	 */
 	private void generateEmptyDate(int month, int year) {
 		int date;
 		Calendar cal = Calendar.getInstance();

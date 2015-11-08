@@ -8,10 +8,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//import java.util.Collections;
-//import java.util.HashSet;
-//import java.util.Set;
-
 import utils.Event;
 import utils.Notification;
 import utils.OnRemindListener;
@@ -199,6 +195,14 @@ public class UserInterface extends Application implements OnRemindListener {
 
 	}
 
+	/**
+	 * @@author A0126421U rearrange the order of events in view all
+	 * 
+	 * @param events
+	 *            - the list of events
+	 * @return sortedEvents - the rearranged list of events
+	 * 
+	 */
 	private List<Event> rearrangeEvents(List<Event> events) {
 		Calendar today = Calendar.getInstance();
 		List<Event> ongoingEvents = new ArrayList<Event>();
@@ -220,6 +224,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		results.addAll(SortedEvents.sortEvents(passedEvents));
 		return results;
 	}
+	// @@author
 
 	/**
 	 * @@author A0126421U generate home view
@@ -241,7 +246,17 @@ public class UserInterface extends Application implements OnRemindListener {
 				getNumOfOnGoingEvents(mainLogic.getAllEvents()), getNumOfPassedEvents(mainLogic.getAllEvents())));
 		setTimer(timeToNextEvent, cal);
 	}
+	// @@author
 
+	/**
+	 * @@author A0126421U start timer counting in home page
+	 * 
+	 * @param timeToNextEvent
+	 *            - time left for next event
+	 * @param cal
+	 *            - the current date
+	 * 
+	 */
 	@SuppressWarnings("deprecation")
 	private void setTimer(long timeToNextEvent, Calendar cal) {
 		if (timeToNextEvent >= 0) {
@@ -251,14 +266,15 @@ public class UserInterface extends Application implements OnRemindListener {
 					cal.getTime().getDate()), mainLogic.getAllEvents());
 		}
 	}
+	// @@author
 
 	/**
 	 * @@author A0126421U Start count down for the next event
 	 * 
-	 * @param name1
-	 *            - the title for current event
-	 * @param name2
-	 *            - the title for next event
+	 * @param dayEvents
+	 *            - the events of the day
+	 * @param allEvents
+	 *            - the list of all events 
 	 * 
 	 * 
 	 */
@@ -551,7 +567,7 @@ public class UserInterface extends Application implements OnRemindListener {
 			}
 		}
 	}
-	
+
 	private void handleEnterPress(CommandBarController commandBarController, String userInput) {
 		try {
 			switch (mainLogic.execute(userInput)) {
@@ -587,8 +603,7 @@ public class UserInterface extends Application implements OnRemindListener {
 					if (currentScreenState == VALUE_VIEW_SCREEN) {
 						addView(this);
 						if (eventSize > VALUE_ADD_TO_ARRAY) {
-							int i = 0, numPage=eventSize % (VALUE_ADD_TO_ARRAY-1);
-							System.out.println(numPage + " Size: "+ eventSize);
+							int i = 0, numPage = eventSize % (VALUE_ADD_TO_ARRAY - 1);
 							while (i != numPage) {
 								getNextPage(this);
 								i++;
@@ -669,7 +684,7 @@ public class UserInterface extends Application implements OnRemindListener {
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					if (currentScreenState == VALUE_VIEW_SCREEN) {
 						addView(this);
-						if (eventSize%(VALUE_ADD_TO_ARRAY)==0) {
+						if (eventSize % (VALUE_ADD_TO_ARRAY) == 0) {
 							getPreviousPage(this);
 						}
 					} else if (currentScreenState == VALUE_VIEW_DAY_SCREEN) {
@@ -803,13 +818,17 @@ public class UserInterface extends Application implements OnRemindListener {
 		commandBarController.clear();
 
 	}
-
+	
+	/**
+	 * @@author A0126421U disable timer
+	 */
 	private void checkTimer() {
 		if (timerStatus == VALUE_TIMER_ENABLE) {
 			timer.cancel();
 			timerStatus = VALUE_TIMER_DISABLE;
 		}
 	}
+	// @@author
 
 	private boolean checkPassedDay() {
 		if (viewDate < date && viewMonth <= month && viewYear <= year) {

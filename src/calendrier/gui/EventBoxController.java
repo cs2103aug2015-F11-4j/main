@@ -136,14 +136,6 @@ public class EventBoxController extends StackPane {
 	}
 
 	private static boolean checkDate(Calendar startDateTime, Calendar endDateTime) {
-		// Calendar today = Calendar.getInstance();
-		// if (endDateTime != null) {
-		// if (endDateTime.before(today)) {
-		// return true;
-		// }
-		// }
-		// return false;
-		
 		String startDate = checkExistDate(startDateTime);
 		String endDate = checkExistDate(startDateTime);
 		String[] arrStartDate = startDate.split(VALUE_SPLIT_REGEX);
