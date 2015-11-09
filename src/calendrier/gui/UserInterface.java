@@ -216,7 +216,8 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 	
 	/**
-	 * @@author A0126421U generate home view
+	 * @@author A0126421U 
+	 * generate home view
 	 * 
 	 * @param userInterface
 	 *            - the current userInterface
@@ -247,7 +248,8 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	/**
-	 * @@author A0126421U Start count down for the next event
+	 * @@author A0126421U 
+	 * Start count down for the next event
 	 * 
 	 * @param name1
 	 *            - the title for current event
@@ -274,7 +276,8 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U generate month view
+	 * @@author A0126421U 
+	 * generate month view
 	 * 
 	 * @param userInterface
 	 *            - the current userInterface
@@ -801,7 +804,8 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	/**
-	 * @@author A0126421U get number of events that are passed
+	 * @@author A0126421U 
+	 * get number of events that are passed
 	 * 
 	 * @param events
 	 *            - whole list of event
@@ -824,7 +828,8 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U get number of events that are still active
+	 * @@author A0126421U 
+	 * get number of events that are still active
 	 * 
 	 * @param events
 	 *            - whole list of event
@@ -849,7 +854,8 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U get number of events that does not have deadline
+	 * @@author A0126421U 
+	 * get number of events that does not have deadline
 	 * 
 	 * @param events
 	 *            - whole list of event

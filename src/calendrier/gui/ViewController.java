@@ -50,7 +50,8 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U Constructor to initialize the main components of
+	 * @@author A0126421U 
+	 * Constructor to initialize the main components of
 	 *          viewHome
 	 * 
 	 * @param time
@@ -171,7 +172,8 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Constructor to initialize the main components of
+	 * @@author A0126421U 
+	 * Constructor to initialize the main components of
 	 *          viewMonth
 	 * 
 	 * @param events
@@ -242,7 +244,8 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U Map short id to the real id
+	 * @@author A0126421U 
+	 * Map short id to the real id
 	 * 
 	 * @param events
 	 *            - the events to be mapped
@@ -263,7 +266,8 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U to compute total number of day in month
+	 * @@author A0126421U 
+	 * to compute total number of day in month
 	 * 
 	 * @param month
 	 *            - the month to detect the total day
@@ -287,7 +291,8 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U convert month from integer to string
+	 * @@author A0126421U 
+	 * convert month from integer to string
 	 * 
 	 * @param month
 	 *            - the month to be convert
@@ -327,7 +332,8 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U determine for leap year
+	 * @@author A0126421U 
+	 * determine for leap year
 	 * 
 	 * @param year
 	 *            - the year to be determine for leap year
@@ -344,7 +350,8 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U detect the number of events in particular date
+	 * @@author A0126421U 
+	 * detect the number of events in particular date
 	 * 
 	 * @param year
 	 *            - the year to display for user
@@ -426,7 +433,8 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U check for month
+	 * @@author A0126421U 
+	 * check for month
 	 * 
 	 * @param month
 	 *            - the month to be check

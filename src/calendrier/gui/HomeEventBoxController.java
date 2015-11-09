@@ -59,7 +59,8 @@ public class HomeEventBoxController extends StackPane {
 	}
 	
 	/**
-	 * @@author A0126421U Strike through the event if is done
+	 * @@author A0126421U 
+	 * Strike through the event if is done
 	 * 
 	 * @param lblEvent
 	 *            - the layout to be modified
