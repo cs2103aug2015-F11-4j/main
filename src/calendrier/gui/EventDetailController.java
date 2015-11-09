@@ -82,6 +82,11 @@ public class EventDetailController extends StackPane {
 	private static final String VALUE_ADD_COMMA = ", ";
 
 	public EventDetailController(Event event, List<Event> subEvents) {
+		setLoader();
+		initEventValue(event, subEvents);
+	}
+
+	private void setLoader() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(EVENT_DETAIL_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -90,8 +95,6 @@ public class EventDetailController extends StackPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		initEventValue(event, subEvents);
 	}
 
 	public void initEventValue(Event event, List<Event> subEvents) {
@@ -109,23 +112,24 @@ public class EventDetailController extends StackPane {
 		String strPriority = checkExistPriority(event.getPriority());
 		lblPriority.setText(strPriority);
 
-		//@@author A0126421U
-		if(subEvents.size()!=0){
-			lblSUBID.setText(subEvents.get(0).getTitle());
-			if(event.getSubtasks().size()>1){
-				lblSUBID1.setText(subEvents.get(1).getTitle());
-			}
-		}else{
-			lblSUBID.setText(VALUE_SHOW_EMPTY_DATA);
-		}
-		//@@author
+		initSubTask(event, subEvents);
+		initImage(event);
+		checkDoneEvent(event, strPriority);
+	}
 
-		if (event.isDone()) {
+	private void checkDoneEvent(Event event, String strPriority) {
+		if(event.isDone()) {
 			changeEventDesign();
+			checkBoxDone.setText(VALUE_DONE);
+			checkBoxDone.setSelected(VALUE_TRUE);
 		} else {
 			changeBorderColor(strPriority);
+			checkBoxDone.setText(VALUE_NOT_DONE);
+			checkBoxDone.setSelected(VALUE_FALSE);
 		}
+	}
 
+	private void initImage(Event event) {
 		Image img;
 		if (checkExistValue(event.getGroup()).equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			lblGroup.setText(VALUE_SHOW_EMPTY_DATA);
@@ -137,14 +141,19 @@ public class EventDetailController extends StackPane {
 			img = new Image(strImage);
 		}
 		imgType.setImage(img);
-		
-		if(event.isDone()) {
-			checkBoxDone.setText(VALUE_DONE);
-			checkBoxDone.setSelected(VALUE_TRUE);
-		} else {
-			checkBoxDone.setText(VALUE_NOT_DONE);
-			checkBoxDone.setSelected(VALUE_FALSE);
+	}
+
+	private void initSubTask(Event event, List<Event> subEvents) {
+		//@@author A0126421U
+		if(subEvents.size()!=0){
+			lblSUBID.setText(subEvents.get(0).getTitle());
+			if(event.getSubtasks().size()>1){
+				lblSUBID1.setText(subEvents.get(1).getTitle());
+			}
+		}else{
+			lblSUBID.setText(VALUE_SHOW_EMPTY_DATA);
 		}
+		//@@author
 	}
 
 	private static String checkExistReminder(List<Calendar> reminders) {
@@ -164,6 +173,10 @@ public class EventDetailController extends StackPane {
 		String startDate = checkExistDate(startDateTime);
 		String endDate = checkExistDate(endDateTime);
 
+		return checkDateValue(startDate, endDate);
+	}
+
+	private static String checkDateValue(String startDate, String endDate) {
 		if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			if (startDate.equalsIgnoreCase(endDate)) {
 				return startDate;

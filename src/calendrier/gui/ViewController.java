@@ -50,9 +50,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U
+	 * @@author A0126421U 
 	 * 
-	 *          Constructor to initialize the main components of viewHome
+	 * Constructor to initialize the main components of viewHome
 	 * 
 	 * @param time
 	 *            - the remaining time for next event to happen
@@ -82,6 +82,25 @@ public class ViewController extends FlowPane {
 		initHomeView(time, dayEvents, allEvents, floatTask, onGoingTask, passedTask);
 	}
 
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * initialize the main components of viewHome
+	 * 
+	 * @param time
+	 *            - the remaining time for next event to happen
+	 * @param dayEvents
+	 *            - the events that happen today
+	 * @param allEvents
+	 *            - the list of all events
+	 * @param floatTask
+	 *            - total number of floating task
+	 * @param onGoingTask
+	 *            - total number of on going task
+	 * @param passedTask
+	 *            - total number of passed task
+	 * 
+	 */
 	private void initHomeView(long time, List<Event> dayEvents, List<Event> allEvents, int floatTask, int onGoingTask,
 			int passedTask) {
 
@@ -89,13 +108,28 @@ public class ViewController extends FlowPane {
 		Calendar cal = Calendar.getInstance();
 		IdMapper idMapper = IdMapper.getInstance();
 
-		int id = generateCurrentEvent(dayEvents, allEvents, idMapper);
+		int id = generateCurrentEvent(dayEvents, idMapper);
 		nextEvent = generateNextEvent(allEvents, nextEvent, cal, idMapper, id);
 
 		setForCountingTask(floatTask, onGoingTask, passedTask, nextEvent);
 		generateTimerSetting(time);
 	}
 
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * Set detail for the task
+	 * 
+	 * @param floatTask
+	 *            - total number of floating task
+	 * @param onGoingTask
+	 *            - total number of on going task
+	 * @param passedTask
+	 *            - total number of passed task
+	 * @param nextEvent
+	 *            - Set the title for next event
+	 * 
+	 */
 	private void setForCountingTask(int floatTask, int onGoingTask, int passedTask, Event nextEvent) {
 		lblPassed.setText(Integer.toString(passedTask));
 		lblOngoing.setText(Integer.toString(onGoingTask));
@@ -107,6 +141,15 @@ public class ViewController extends FlowPane {
 		}
 	}
 
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * Set the timer setting
+	 * 
+	 * @param time
+	 *            - time left for next event
+	 * 
+	 */
 	private void generateTimerSetting(long time) {
 		long sec;
 		long min;
@@ -130,9 +173,27 @@ public class ViewController extends FlowPane {
 		}
 	}
 
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * Set the next task to display in home page
+	 * 
+	 * @param allEvents
+	 *            - the list of all events
+	 * @param nextEvent
+	 *            - next event
+	 * @param cal
+	 *            - today's date
+	 * @param idMapper
+	 *            - the link for short id to actual id
+	 * @param id
+	 *            - the id to be display
+	 * 
+	 */
 	private Event generateNextEvent(List<Event> allEvents, Event nextEvent, Calendar cal, IdMapper idMapper, int id) {
-		int count;
-		count = 0;
+		int count = 0;
+
+		rearrangeEvent(allEvents);
 		for (int i = 0; i < allEvents.size(); i++) {
 			if (allEvents.get(i).getStartDateTime() != null) {
 				if (allEvents.get(i).getStartDateTime().after(cal)) {
@@ -144,8 +205,6 @@ public class ViewController extends FlowPane {
 					count++;
 					id++;
 					if (count == 5) {
-						// lblMoreNextEvent.setText(String.format("+%d more",
-						// allEvents.size()-count));
 						break;
 					}
 				}
@@ -154,16 +213,32 @@ public class ViewController extends FlowPane {
 		return nextEvent;
 	}
 
-	private int generateCurrentEvent(List<Event> dayEvents, List<Event> allEvents, IdMapper idMapper) {
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * Set the current task to display in home page
+	 * 
+	 * @param dayEvents
+	 *            - the list of today's events
+	 * @param idMapper
+	 *            - the link for short id to actual id
+	 * 
+	 */
+	private int generateCurrentEvent(List<Event> dayEvents, IdMapper idMapper) {
 		int count = 0, id = 0;
+
+		rearrangeEvent(dayEvents);
 		for (int i = 0; i < dayEvents.size(); i++) {
 			if (dayEvents.get(i).getStartDateTime() != null) {
-				idMapper.set(Integer.toString(id), allEvents.get(i).getId());
-				flowPaneCurrentEvents.getChildren().add(new HomeEventBoxController(dayEvents.get(i), id));// lblCurrent.setText(events.get(i).getTitle());
+				idMapper.set(Integer.toString(id), dayEvents.get(i).getId());
+				flowPaneCurrentEvents.getChildren().add(new HomeEventBoxController(dayEvents.get(i), id));
 				count++;
 				id++;
 				if (count == 5) {
 					lblMoreEvent.setText(String.format("+%d more", dayEvents.size() - count));
+					if (dayEvents.get(5).isDone()) {
+						changeTextDecoration(lblMoreEvent);
+					}
 					break;
 				}
 			}
@@ -172,9 +247,49 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U
+	 * @@author A0126421U 
 	 * 
-	 *          Constructor to initialize the main components of viewMonth
+	 * Strike through the event if is done
+	 * 
+	 * @param lblEvent
+	 *            - the layout to be modified
+	 * 
+	 */
+	private void changeTextDecoration(Label lblEvent) {
+		lblEvent.getStyleClass().remove(lblEvent.styleProperty());
+		lblEvent.getStyleClass().add("lblEventStrikeThrough");
+	}
+
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * Sort the events based on done and undone
+	 * 
+	 * @param events
+	 *            - List of events for the this date
+	 * 
+	 */
+	private void rearrangeEvent(List<Event> events) {
+		if (events.size() > 0) {
+			List<Event> results = new ArrayList<Event>();
+			List<Event> empty = new ArrayList<Event>();
+			for (int i = 0; i < events.size(); i++) {
+				if (!events.get(i).isDone()) {
+					results.add(events.get(i));
+				} else {
+					empty.add(events.get(i));
+				}
+			}
+			events.clear();
+			events.addAll(results);
+			events.addAll(empty);
+		}
+	}
+
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * Constructor to initialize the main components of viewMonth
 	 * 
 	 * @param events
 	 *            - List of events in the specific month
@@ -200,6 +315,19 @@ public class ViewController extends FlowPane {
 	}
 	// @@author
 
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * initialize the main components of viewMonth
+	 * 
+	 * @param events
+	 *            - List of events in the specific month
+	 * @param month
+	 *            - the month to display for user
+	 * @param year
+	 *            - the year to display for user
+	 * 
+	 */
 	private void initForMonthView(List<Event> events, int month, int year) {
 
 		int end;
@@ -213,6 +341,23 @@ public class ViewController extends FlowPane {
 		generateDay(events, month, year, end, idList);
 	}
 
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * add a date component
+	 * 
+	 * @param events
+	 *            - List of events in the specific month
+	 * @param month
+	 *            - the month to display for user
+	 * @param year
+	 *            - the year to display for user
+	 * @param end
+	 *            - today day in month
+	 * @param idList
+	 *            - list of id to be display
+	 * 
+	 */
 	private void generateDay(List<Event> events, int month, int year, int end, List<String> idList) {
 		int i;
 		for (i = 0; i < end; i++) {
@@ -220,12 +365,34 @@ public class ViewController extends FlowPane {
 					.add(new EventMonthController(i + 1, month, year, detectDate(events, i + 1, month, year), idList));
 		}
 	}
-
+	
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * set the current month and year 
+	 * 
+	 * @param month
+	 *            - the month to display for user
+	 * @param year
+	 *            - the year to display for user
+	 * 
+	 */
 	private void setHeaderForMonthView(int month, int year) {
 		lblmonth.setText(detectMonth(month));
 		lblyear.setText(String.format("%d", year));
 	}
-
+	
+	/**
+	 * @@author A0126421U 
+	 * 
+	 * generate empty date component 
+	 * 
+	 * @param month
+	 *            - the month to display for user
+	 * @param year
+	 *            - the year to display for user
+	 * 
+	 */
 	private void generateEmptyDate(int month, int year) {
 		int date;
 		Calendar cal = Calendar.getInstance();
@@ -244,9 +411,9 @@ public class ViewController extends FlowPane {
 	}
 
 	/**
-	 * @@author A0126421U
+	 * @@author A0126421U 
 	 * 
-	 *          Map short id to the real id
+	 * Map short id to the real id
 	 * 
 	 * @param events
 	 *            - the events to be mapped
@@ -267,9 +434,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U
+	 * @@author A0126421U 
 	 * 
-	 *          to compute total number of day in month
+	 * to compute total number of day in month
 	 * 
 	 * @param month
 	 *            - the month to detect the total day
@@ -293,9 +460,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U
+	 * @@author A0126421U 
 	 * 
-	 *          convert month from integer to string
+	 * convert month from integer to string
 	 * 
 	 * @param month
 	 *            - the month to be convert
@@ -335,9 +502,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U
+	 * @@author A0126421U 
 	 * 
-	 *          determine for leap year
+	 * determine for leap year
 	 * 
 	 * @param year
 	 *            - the year to be determine for leap year
@@ -354,9 +521,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U
+	 * @@author A0126421U 
 	 * 
-	 *          detect the number of events in particular date
+	 * detect the number of events in particular date
 	 * 
 	 * @param year
 	 *            - the year to display for user
@@ -440,9 +607,9 @@ public class ViewController extends FlowPane {
 	// @@author
 
 	/**
-	 * @@author A0126421U
+	 * @@author A0126421U 
 	 * 
-	 *          check for month
+	 * check for month
 	 * 
 	 * @param month
 	 *            - the month to be check
@@ -460,6 +627,11 @@ public class ViewController extends FlowPane {
 
 	// @@author A0126288X
 	public ViewController(List<Event> events, int startIndex) {
+		setLoader();
+		setHand(events, startIndex);
+	}
+
+	private void setLoader() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_SCREEN_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -468,11 +640,16 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		setHand(events, startIndex);
 	}
 
 	public void setHand(List<Event> events, int startIndex) {
+		int end = getEndIndex(events, startIndex);
+		for (int i = 0; i < end; i++) {
+			addEvent(events.get(startIndex + i), i);
+		}
+	}
 
+	private int getEndIndex(List<Event> events, int startIndex) {
 		int endingIndex = startIndex + VALUE_ADD_TO_ARRAY;
 
 		if ((endingIndex) > events.size()) {
@@ -480,10 +657,7 @@ public class ViewController extends FlowPane {
 		}
 
 		int end = endingIndex - startIndex;
-
-		for (int i = 0; i < end; i++) {
-			addEvent(events.get(startIndex + i), i);
-		}
+		return end;
 	}
 
 	public void addEvent(Event event, int position) {
