@@ -192,18 +192,18 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 
 	}
-	
-	private List<Event> rearrangeEvents(List<Event> events){
-		Calendar today= Calendar.getInstance();
+
+	private List<Event> rearrangeEvents(List<Event> events) {
+		Calendar today = Calendar.getInstance();
 		List<Event> ongoingEvents = new ArrayList<Event>();
 		List<Event> passedEvents = new ArrayList<Event>();
 		List<Event> results = new ArrayList<Event>();
-		
-		for(int i=0; i<events.size();i++){
-			if(events.get(i).getEndDateTime()!=null){
-				if(events.get(i).getEndDateTime().before(today)){
+
+		for (int i = 0; i < events.size(); i++) {
+			if (events.get(i).getEndDateTime() != null) {
+				if (events.get(i).getEndDateTime().before(today)) {
 					passedEvents.add(events.get(i));
-				}else{
+				} else {
 					ongoingEvents.add(events.get(i));
 				}
 			} else {
@@ -214,9 +214,11 @@ public class UserInterface extends Application implements OnRemindListener {
 		results.addAll(SortedEvents.sortEvents(passedEvents));
 		return results;
 	}
-	
+
 	/**
-	 * @@author A0126421U generate home view
+	 * @@author A0126421U
+	 * 
+	 *          generate home view
 	 * 
 	 * @param userInterface
 	 *            - the current userInterface
@@ -247,7 +249,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	/**
-	 * @@author A0126421U Start count down for the next event
+	 * @@author A0126421U
+	 * 
+	 *          Start count down for the next event
 	 * 
 	 * @param name1
 	 *            - the title for current event
@@ -274,7 +278,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U generate month view
+	 * @@author A0126421U
+	 * 
+	 *          generate month view
 	 * 
 	 * @param userInterface
 	 *            - the current userInterface
@@ -760,10 +766,8 @@ public class UserInterface extends Application implements OnRemindListener {
 				setMessage = MESSAGE_INVALID_COMMAND;
 			}
 		} catch (UserCommandException userCommandException) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			setMessage = userCommandException.getMessage();
-		} catch(NullPointerException nullPointerException) {
+		} catch (NullPointerException nullPointerException) {
 			setMessage = MESSAGE_INVALID_COMMAND;
 		}
 		commandBarController.setMessage(setMessage);
@@ -801,7 +805,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	}
 
 	/**
-	 * @@author A0126421U get number of events that are passed
+	 * @@author A0126421U
+	 * 
+	 *          get number of events that are passed
 	 * 
 	 * @param events
 	 *            - whole list of event
@@ -824,7 +830,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U get number of events that are still active
+	 * @@author A0126421U
+	 * 
+	 *          get number of events that are still active
 	 * 
 	 * @param events
 	 *            - whole list of event
@@ -849,7 +857,9 @@ public class UserInterface extends Application implements OnRemindListener {
 	// @@author
 
 	/**
-	 * @@author A0126421U get number of events that does not have deadline
+	 * @@author A0126421U
+	 * 
+	 *          get number of events that does not have deadline
 	 * 
 	 * @param events
 	 *            - whole list of event
