@@ -426,9 +426,11 @@ public class ViewController extends FlowPane {
 			}
 			// for task without enddate
 			else {
-				if (events.get(i).getStartDateTime().getTime().getDate() == date) {
-					if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
-						results.add(events.get(i));
+				if (events.get(i).getStartDateTime() != null) {
+					if (events.get(i).getStartDateTime().getTime().getDate() == date) {
+						if (events.get(i).getStartDateTime().getTime().getMonth() == month) {
+							results.add(events.get(i));
+						}
 					}
 				}
 			}
