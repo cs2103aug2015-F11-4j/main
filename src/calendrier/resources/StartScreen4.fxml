@@ -55,7 +55,7 @@
 				<Label styleClass="commandText" text="-d &#60;TASK_ID&#62;"
 					GridPane.columnIndex="2" GridPane.rowIndex="3" wrapText="true" />
 					
-				<Label styleClass="lblIndication" text="&#35; indication of field is not in order ; all field not required to specify"
+				<Label styleClass="lblIndication" text="&#35; indication of field is not in order"
 					GridPane.columnIndex="0" GridPane.rowIndex="4" wrapText="true"
 					GridPane.columnSpan="3" />
 			</children>

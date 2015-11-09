@@ -21,6 +21,7 @@ public class CommandBarController extends BorderPane {
 
 	@FXML
 	private Label lblMessage;
+
 	@FXML
 	private TextField tfCommandBar;
 
@@ -29,11 +30,6 @@ public class CommandBarController extends BorderPane {
 	private UserInterface userInterface;
 
 	public CommandBarController(UserInterface userInterface) {
-		setLoader();
-		this.userInterface = userInterface;
-	}
-
-	private void setLoader() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(COMMAND_BAR_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -42,6 +38,8 @@ public class CommandBarController extends BorderPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		this.userInterface = userInterface;
 	}
 
 	@FXML
@@ -53,12 +51,7 @@ public class CommandBarController extends BorderPane {
 		tfCommandBar.clear();
 	}
 
-	public void setMessage(String messageText, boolean isError) {
+	public void setMessage(String messageText) {
 		lblMessage.setText(messageText);
-		if(isError) {
-			lblMessage.setStyle("-fx-text-fill: red;");
-		} else {
-			lblMessage.setStyle("-fx-text-fill: black;");
-		}
 	}
 }

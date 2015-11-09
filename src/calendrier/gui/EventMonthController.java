@@ -1,8 +1,6 @@
-/* @@author A0126421U */
 package calendrier.gui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,9 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 /**
- * @@author A0126421U 
- * 
- * For generate the children object for viewMonth
+ * @@author A0126421U For generate the children object for viewMonth
  * 
  * @author hiumengxiong
  *
@@ -33,8 +29,6 @@ public class EventMonthController extends StackPane {
 	@FXML
 	private Label lblEventID2;
 	@FXML
-	private Label lblEventID3;
-	@FXML
 	private Label lblEvent1;
 	@FXML
 	private Label lblEvent2;
@@ -46,9 +40,8 @@ public class EventMonthController extends StackPane {
 	private static final String VALUE_SHOW_EMPTY_DATA = " ";
 
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * Constructor to initialize the main components of EventMonthController
+	 * @@author A0126421U Constructor to initialize the main components of
+	 *          EventMonthController
 	 * 
 	 * @param date
 	 *            - Date to be display
@@ -76,9 +69,7 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * Fill in details for EventMonth
+	 * @@author A0126421U Fill in details for EventMonth
 	 * 
 	 * @param date
 	 *            - Date to be display
@@ -103,9 +94,7 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * Set Detail for each date
+	 * @@author A0126421U Set Detail for each date
 	 * 
 	 * @param date
 	 *            - Date to be display
@@ -119,44 +108,16 @@ public class EventMonthController extends StackPane {
 	private void setContainerForDate(int date, List<Event> events, List<String> idList) {
 
 		lblDate.setText(checkDate(date));
+
 		if (events != null && events.size() > 0) {
-			rearrangeEvent(events);
 			setData(events, idList);
 		} else {
 			setEmptyData();
 		}
 	}
-	
-	/**
-	 * @@author A0126421U 
-	 * 
-	 * Sort the events based on done and undone
-	 * 
-	 * @param events
-	 *            - List of events for the this date
-	 * 
-	 */
-	private void rearrangeEvent(List<Event> events) {
-		if (events.size() > 2) {
-			List<Event> results = new ArrayList<Event>();
-			List<Event> empty = new ArrayList<Event>();
-			for (int i = 0; i < events.size(); i++) {
-				if (!events.get(i).isDone()) {
-					results.add(events.get(i));
-				} else {
-					empty.add(events.get(i));
-				}
-			}
-			events.clear();
-			events.addAll(results);
-			events.addAll(empty);
-		}
-	}
 
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * Fill in details for each date
+	 * @@author A0126421U Fill in details for each date
 	 * 
 	 * @param events
 	 *            - List of events for the this date
@@ -173,27 +134,18 @@ public class EventMonthController extends StackPane {
 				setTaskInDate(events.get(1), Integer.toString(computeFakeId(idList, events.get(1).getId())), lblEvent2,
 						lblEventID2);
 				if (events.size() > 2) {
-					if(events.size()==3){
-						setTaskInDate(events.get(2), Integer.toString(computeFakeId(idList, events.get(2).getId())), lblEvent3,
-								lblEventID3);
-					}else{
-						lblEvent3.setText(String.format(" + %d more...", events.size() - 2));
-						changeTextColor(Priority.VERY_HIGH, lblEvent3);
-						if(events.get(2).isDone()){
-							changeTextDecoration(lblEvent3);
-						}
-					}
+					lblEvent3.setText(String.format(" + %d more...", events.size() - 2));
+					changeTextColor(Priority.VERY_HIGH, lblEvent3);
 				}
 			}
 		} else {
 			setEmptyData();
 		}
 	}
-
+	
 	/**
-	 * @@author A0126421U 
+	 * @@author A0126421U Set parameter for date
 	 * 
-	 * Set parameter for date
 	 * 
 	 */
 	private void setTaskInDate(Event events, String Id, Label lblEvent, Label lblEventId) {
@@ -206,9 +158,8 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U
+	 * @@author A0126421U Set empty data
 	 * 
-	 * Set empty data
 	 * 
 	 */
 	private void setEmptyData() {
@@ -218,9 +169,8 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U 
+	 * @@author A0126421U Set Color for Today
 	 * 
-	 * Set Color for Today
 	 * 
 	 */
 	@SuppressWarnings("deprecation")
@@ -232,9 +182,7 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * Fill in details for EventMonth
+	 * @@author A0126421U Fill in details for EventMonth
 	 * 
 	 * @param date
 	 *            - Date to be display
@@ -265,9 +213,7 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * Compute the fake id that display to the user.
+	 * @@author A0126421U Compute the fake id that display to the user.
 	 * 
 	 * @param idList
 	 *            - The id to be display to user user, which will link for
@@ -288,9 +234,7 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * check the existence of date
+	 * @@author A0126421U check the existence of date
 	 * 
 	 * @param date
 	 *            - Date to be check
@@ -306,9 +250,7 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * Strike through the event if is done
+	 * @@author A0126421U Strike through the event if is done
 	 * 
 	 * @param lblEvent
 	 *            - the layout to be modified
@@ -320,9 +262,8 @@ public class EventMonthController extends StackPane {
 	}
 
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * Change the text style for undone task based on priority
+	 * @@author A0126421U Change the text style for undone task based on
+	 *          priority
 	 * 
 	 * @param priority
 	 *            - the priority of the current event

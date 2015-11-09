@@ -24,7 +24,6 @@ public class HomeEventBoxController extends StackPane {
 	
 	/**
 	 * @@author A0126421U
-	 * 
 	 * Constructor to initialize the main components of homeEventBox
 	 * 
 	 * @param event - event to be display
@@ -45,7 +44,6 @@ public class HomeEventBoxController extends StackPane {
 	
 	/**
 	 * @@author A0126421U
-	 * 
 	 * Set the detail in the homeEventBox
 	 * 
 	 * @param event - the event to be show
@@ -61,9 +59,7 @@ public class HomeEventBoxController extends StackPane {
 	}
 	
 	/**
-	 * @@author A0126421U 
-	 * 
-	 * Strike through the event if is done
+	 * @@author A0126421U Strike through the event if is done
 	 * 
 	 * @param lblEvent
 	 *            - the layout to be modified
@@ -76,7 +72,6 @@ public class HomeEventBoxController extends StackPane {
 	
 	/**
 	 * @@author A0126421U
-	 * 
 	 * Change the text color based on priority
 	 * 
 	 * @param priority - the priority of the current event

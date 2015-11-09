@@ -57,7 +57,7 @@ public class Event implements Comparable<Event> {
 	private String group;
 	private Recurrence recurrence;
 	private List<String> subtasks; // List of Subtask ID
-	private Boolean done;
+	private boolean done;
 
 	/* @@author A0088646M */
 	public Event() {
@@ -384,12 +384,12 @@ public class Event implements Comparable<Event> {
 	}
 
 	/* @@author A0088646M */
-	public Boolean isDone() {
+	public boolean isDone() {
 		return done;
 	}
 
 	/* @@author A0088646M */
-	public void setDone(Boolean done) {
+	public void setDone(boolean done) {
 		this.done = done;
 	}
 
@@ -430,27 +430,18 @@ public class Event implements Comparable<Event> {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String subtasksString = matcher.group(1);
-			String[] subtasks = splitStringList(subtasksString);
+			subtasksString = subtasksString.replace("[", "");
+			subtasksString = subtasksString.replace("]", "");
+			subtasksString = subtasksString.replace(", ", ",");
+			String[] subtasks = subtasksString.split(",");
 
-			addAllSubtasks(subtasks);
-		}
-
-	}
-
-	private String[] splitStringList(String subtasksString) {
-		subtasksString = subtasksString.replace("[", "");
-		subtasksString = subtasksString.replace("]", "");
-		subtasksString = subtasksString.replace(", ", ",");
-		String[] subtasks = subtasksString.split(",");
-		return subtasks;
-	}
-
-	private void addAllSubtasks(String[] subtasks) {
-		for (int i = 0; i < subtasks.length; i++) {
-			if (subtasks[i].length() > 0) {
-				this.addSubtask(subtasks[i]);
+			for (int i = 0; i < subtasks.length; i++) {
+				if (subtasks[i].length() > 0) {
+					this.addSubtask(subtasks[i]);
+				}
 			}
 		}
+
 	}
 
 	/* @@author A0088646M */
@@ -519,7 +510,10 @@ public class Event implements Comparable<Event> {
 		matcher = pattern.matcher(eventString);
 		if (matcher.find()) {
 			String reminderString = matcher.group(1);
-			String[] reminders = splitStringList(reminderString);
+			reminderString = reminderString.replace("[", "");
+			reminderString = reminderString.replace("]", "");
+			reminderString = reminderString.replace(", ", ",");
+			String[] reminders = reminderString.split(",");
 
 			for (int i = 0; i < reminders.length; i++) {
 				if (reminders[i].length() > 0) {
@@ -805,8 +799,8 @@ public class Event implements Comparable<Event> {
 		// Set to start of month
 		current.setTimeInMillis(0);
 		end.setTimeInMillis(0);
-		current.set(year, convertMonth(month), 1, 0, 0);
-		end.set(year, convertMonth(month), 1, 0, 0);
+		current.set(year, (month + 11) % 12, 1, 0, 0);
+		end.set(year, (month + 11) % 12, 1, 0, 0);
 		
 		// Set to next month
 		end.add(Calendar.MONTH, 1);
@@ -836,10 +830,6 @@ public class Event implements Comparable<Event> {
 		}
 		
 		return checkedEvents;
-	}
-
-	private int convertMonth(int month) {
-		return (month + 11) % 12;
 	}
 
 	/* @@author A0088646M */

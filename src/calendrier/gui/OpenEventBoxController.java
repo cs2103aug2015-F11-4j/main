@@ -31,11 +31,6 @@ public class OpenEventBoxController extends StackPane {
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	
 	public OpenEventBoxController(Event event, int position) {
-		setLoader();
-		initEventValue(event, position);
-	}
-
-	private void setLoader() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_DATED_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -44,6 +39,8 @@ public class OpenEventBoxController extends StackPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		initEventValue(event, position);
 	}
 	
 	private void initEventValue(Event event, int position) {

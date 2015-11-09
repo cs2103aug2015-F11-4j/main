@@ -26,7 +26,7 @@ public class DatedEventBoxController extends StackPane {
 	private Label lblDatedEventTitle;
 	@FXML
 	private Label lblDatedEventDate;
-	@FXML
+	@FXML 
 	private CheckBox checkBoxDone;
 
 	private static final String SINGLE_DATED_EVENT_LAYOUT_FXML = "/calendrier/resources/DatedEventBox.fxml";
@@ -36,17 +36,13 @@ public class DatedEventBoxController extends StackPane {
 	private static final String VALUE_MEDIUM_PRIORITY = "medium";
 	private static final String VALUE_LOW_PRIORITY = "low";
 	private static final String VALUE_VERY_LOW_PRIORITY = "very_low";
-
+	
 	private static final boolean VALUE_IS_DONE = true;
+
 	private static final String VALUE_SHOW_EMPTY_DATA = "-";
 	private static DateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yy HH:mm");
 
 	public DatedEventBoxController(Event event, int position, boolean isPast) {
-		setLoader();
-		initEventValue(event, position, isPast);
-	}
-
-	private void setLoader() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(SINGLE_DATED_EVENT_LAYOUT_FXML));
 		loader.setController(this);
 		loader.setRoot(this);
@@ -55,6 +51,8 @@ public class DatedEventBoxController extends StackPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		initEventValue(event, position, isPast);
 	}
 
 	private void initEventValue(Event event, int position, boolean isPast) {
@@ -65,19 +63,11 @@ public class DatedEventBoxController extends StackPane {
 		String displayDate = constructEventDate(event.getStartDateTime(), event.getEndDateTime());
 		lblDatedEventDate.setText(displayDate);
 
-		checkPastEvent(event, isPast);
-		checkDoneEvent(event);
-	}
-
-	private void checkDoneEvent(Event event) {
-		if (event.isDone()) {
-			checkBoxDone.setSelected(VALUE_IS_DONE);
-		}
-	}
-
-	private void checkPastEvent(Event event, boolean isPast) {
-		if (isPast) {
+		if(isPast) {
 			changeEventDesign();
+			if(event.isDone()) {
+				checkBoxDone.setSelected(VALUE_IS_DONE);
+			}
 		} else {
 			String strPriority = checkExistPriority(event.getPriority());
 			changeBorderColor(strPriority);
@@ -97,10 +87,6 @@ public class DatedEventBoxController extends StackPane {
 		String startDate = checkExistDate(startDateTime);
 		String endDate = checkExistDate(endDateTime);
 
-		return checkDateValue(startDate, endDate);
-	}
-
-	private static String checkDateValue(String startDate, String endDate) {
 		if (!startDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA) && !endDate.equalsIgnoreCase(VALUE_SHOW_EMPTY_DATA)) {
 			if (startDate.equalsIgnoreCase(endDate)) {
 				return startDate;
@@ -148,7 +134,7 @@ public class DatedEventBoxController extends StackPane {
 			datedEventGridPane.setStyle("-fx-border-color: black;");
 		}
 	}
-
+	
 	private void changeEventDesign() {
 		datedEventGridPane.setStyle("-fx-text-decoration: line-through");
 		datedEventGridPane.setStyle("-fx-border-color: lightgray");
