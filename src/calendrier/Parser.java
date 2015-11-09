@@ -643,6 +643,7 @@ public class Parser {
 				// token is date
 				if (nextToken.contains("/")) {
 					startDate = nextToken;
+					endDate = startDate;
 					int endDateIndex = resultingString.indexOf(startDate);
 					nextKeywordIndex = resultingString.indexOf(" ", endDateIndex) + 1;
 				} else if (dayKeyword.contains(nextToken)) {
