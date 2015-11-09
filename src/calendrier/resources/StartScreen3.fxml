@@ -19,13 +19,16 @@
 			</columnConstraints>
 			<rowConstraints>
 				<RowConstraints percentHeight="8.0" />
+				<RowConstraints percentHeight="8.0" />
+				<RowConstraints percentHeight="8.0" />
+				<RowConstraints percentHeight="8.0" />
+				<RowConstraints percentHeight="8.0" />
+				<RowConstraints percentHeight="8.0" />
+				<RowConstraints percentHeight="8.0" />
+				<RowConstraints percentHeight="8.0" />
 				<RowConstraints percentHeight="9.0" />
 				<RowConstraints percentHeight="9.0" />
-				<RowConstraints percentHeight="9.0" />
-				<RowConstraints percentHeight="9.0" />
-				<RowConstraints percentHeight="9.0" />
-				<RowConstraints percentHeight="9.0" />
-				<RowConstraints percentHeight="30.0" />
+				<RowConstraints percentHeight="10.0" />
 				<RowConstraints percentHeight="8.0" />
 			</rowConstraints>
 			<children>
@@ -71,19 +74,32 @@
 
 				<Label text="Get Day View" GridPane.columnIndex="0"
 					GridPane.rowIndex="6" wrapText="true" />
-				<Label styleClass="commandText" text="view day / view home"
+				<Label styleClass="commandText" text="view day"
 					GridPane.columnIndex="1" GridPane.rowIndex="6" wrapText="true" />
-				<Label styleClass="commandText" text="-vd / -vh"
+				<Label styleClass="commandText" text="-vd"
 					GridPane.columnIndex="2" GridPane.rowIndex="6" wrapText="true" />
+					
+				<Label text="Get Home View" GridPane.columnIndex="0"
+					GridPane.rowIndex="7" wrapText="true" />
+				<Label styleClass="commandText" text="view home"
+					GridPane.columnIndex="1" GridPane.rowIndex="7" wrapText="true" />
+				<Label styleClass="commandText" text="-vh"
+					GridPane.columnIndex="2" GridPane.rowIndex="7" wrapText="true" />
 
 				<Label text="&#35; Adding Task" GridPane.columnIndex="0"
-					GridPane.rowIndex="7" wrapText="true" />
-				<Label styleClass="commandText" text="flexible command // to be done"
-					GridPane.columnIndex="1" GridPane.rowIndex="7" wrapText="true"
+					GridPane.rowIndex="8" wrapText="true" GridPane.rowSpan="3" />
+				<Label styleClass="commandText" text="&#60;TITLE&#62; from &#60;DATE&#62; to &#60;DATE&#62; from &#60;TIME&#62; to &#60;TIME&#62; at &#60;LOCATION&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="8" wrapText="true"
+					GridPane.columnSpan="2" />
+				<Label styleClass="commandText" text="&#60;TITLE&#62; on &#60;DAY&#62; from &#60;TIME&#62; to &#60;TIME&#62; at &#60;LOCATION&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="9" wrapText="true"
+					GridPane.columnSpan="2" />
+				<Label styleClass="commandText" text="&#60;TITLE&#62; by &#60;DAY|TIME&#62; at &#60;LOCATION&#62;"
+					GridPane.columnIndex="1" GridPane.rowIndex="10" wrapText="true"
 					GridPane.columnSpan="2" />
 
-				<Label styleClass="lblIndication" text="&#35; indication of field is not in order"
-					GridPane.columnIndex="0" GridPane.rowIndex="8" wrapText="true"
+				<Label styleClass="lblIndication" text="&#35; indication of field is not in order ; all field not required to specify"
+					GridPane.columnIndex="0" GridPane.rowIndex="11" wrapText="true"
 					GridPane.columnSpan="3" />
 			</children>
 		</GridPane>
