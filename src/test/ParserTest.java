@@ -942,7 +942,7 @@ public class ParserTest {
 		String input = "-up 2, -t do homework, -sd 2015/10/30, -st 12.34, -ed 2015/11/12, "
 				+ "-et 13.37, -g personal circle, -l my home, -p very high, "
 				+ "-n remember to do, -r no, -rd 2015/12/29 2015/12/29 2015/12/30, "
-				+ "-rt 14.44 15.55 12.00, -d no";
+				+ "-rt 14.44 15.55 12.00, -dne no";
 		ParsedCommand pc = parser.parse(input);
 		
 		assertEquals("command: ", "UPDATE", pc.getCommand().toString());
