@@ -36,7 +36,7 @@
 					text="update &#60;TASK_ID&#62;, startdate &#60;YYYY/MM/DD&#62;, starttime &#60;HH.MM&#62;, enddate &#60;YYYY/MM/DD&#62;, endtime &#60;HH.MM&#62;, priority &#60;PRIORITY&#62;, location &#60;LOCATION&#62;, notes &#60;NOTES&#62;, recur &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, reminderDate &#60;YYYY/MM/DD&#62;, reminderTime &#60;HH.MM&#62;, group &#60;GROUP&#62;, done &#60;YES/NO&#62;"
 					GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true" />
 				<Label styleClass="commandText"
-					text="-up &#60;TASK_ID&#62;, -sd &#60;YYYY/MM/DD&#62;, -st &#60;HH.MM&#62;, -ed &#60;YYYY/MM/DD&#62;, -et &#60;HH.MM&#62;, -p &#60;PRIORITY&#62;, -l &#60;LOCATION&#62;, -n &#60;NOTES&#62;, -r &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, -rd &#60;YYYY/MM/DD&#62;, -rt &#60;HH.MM&#62;, -g &#60;GROUP&#62;, -d &#60;YES/NO&#62;"
+					text="-up &#60;TASK_ID&#62;, -sd &#60;YYYY/MM/DD&#62;, -st &#60;HH.MM&#62;, -ed &#60;YYYY/MM/DD&#62;, -et &#60;HH.MM&#62;, -p &#60;PRIORITY&#62;, -l &#60;LOCATION&#62;, -n &#60;NOTES&#62;, -r &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, -rd &#60;YYYY/MM/DD&#62;, -rt &#60;HH.MM&#62;, -g &#60;GROUP&#62;, -dne &#60;YES/NO&#62;"
 					GridPane.columnIndex="2" GridPane.rowIndex="1" wrapText="true" />
 
 				<Label text="&#35; Updating Deadline Task"
@@ -45,7 +45,7 @@
 					text="update &#60;TASK_ID&#62;, deadlinedate &#60;YYYY/MM/DD&#62;, deadlinetime &#60;HH.MM&#62;, priority &#60;PRIORITY&#62;, location &#60;LOCATION&#62;, notes &#60;NOTES&#62;, recur &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, reminderDate &#60;YYYY/MM/DD&#62;, reminderTime &#60;HH.MM&#62;, group &#60;GROUP&#62;, done &#60;YES/NO&#62;"
 					GridPane.columnIndex="1" GridPane.rowIndex="2" wrapText="true" />
 				<Label styleClass="commandText"
-					text="-up &#60;TASK_ID&#62;, -dd &#60;YYYY/MM/DD&#62;, -dt &#60;HH.MM&#62;, -p &#60;PRIORITY&#62;, -l &#60;LOCATION&#62;, -n &#60;NOTES&#62;, -r &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, -rd &#60;YYYY/MM/DD&#62;, -rt &#60;HH.MM&#62;, -g &#60;GROUP&#62;, -d &#60;YES/NO&#62;"
+					text="-up &#60;TASK_ID&#62;, -dd &#60;YYYY/MM/DD&#62;, -dt &#60;HH.MM&#62;, -p &#60;PRIORITY&#62;, -l &#60;LOCATION&#62;, -n &#60;NOTES&#62;, -r &#60;DAILY|WEEKLY|MONTHLY|YEARLY&#62;, -rd &#60;YYYY/MM/DD&#62;, -rt &#60;HH.MM&#62;, -g &#60;GROUP&#62;, -dne &#60;YES/NO&#62;"
 					GridPane.columnIndex="2" GridPane.rowIndex="2" wrapText="true" />
 
 				<Label text="&#35; Filtering Tasks" GridPane.columnIndex="0"
