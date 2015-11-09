@@ -211,10 +211,6 @@ public class Parser {
 			pc.setCommand(Command.ADD);
 
 			int numCurrentTask = ParsedCommand.getNumCurrentTask();
-<<<<<<< HEAD
-=======
-			// pc.setId(String.valueOf(numCurrentTask + 1));
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 			pc.setId(UUID.randomUUID().toString());
 			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
 
@@ -361,12 +357,9 @@ public class Parser {
 		} else if (command.equalsIgnoreCase("-vm")) {
 			pc.setCommand(Command.VIEW_MONTH);
 			return pc;
-<<<<<<< HEAD
-=======
 		} else if (command.equalsIgnoreCase("-vd")) {
 			pc.setCommand(Command.VIEW_DAY);
 			return pc;
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 		} else if (command.equalsIgnoreCase("-vh")) {
 			pc.setCommand(Command.VIEW_HOME);
 			return pc;
@@ -484,13 +477,7 @@ public class Parser {
 			// -rt 13.37 11.11, -dne yes
 
 			// Case 3: Subtask
-<<<<<<< HEAD
 			// e.g. -a subtask drink repeat to 1, -st 2015/10/12, .......
-			
-=======
-			// e.g. -a subtask drink repeat to 1, .......
-
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 			pc.setCommand(Command.ADD);
 
 			int titleEndIndex, titleIndex;
@@ -577,28 +564,9 @@ public class Parser {
 		}
 		return pc;
 	}
-<<<<<<< HEAD
 	
-	
-	public static ParsedCommand parseFlexibleCommand(ParsedCommand pc, String userInput) {
-		String title = null, inputAfterKeyword = null;
-=======
-
-	/*
-	 * Tell user format of flexible command, e.g <command> <title> <location>
-	 * <priority> ... <reminderdate> <remindertime>
-	 * 
-	 * Assumption: Title must come first!!!
-	 * 
-	 * FOR NOW NO PRIORITY, GROUP, NOTES, RECURRING, REMINDER
-	 * 
-	 * e.g. 1. meeting with colleagues on monday from 12pm to 2pm at my house 2.
-	 * part time job from 2015/11/12 to 2015/11/15 from 9am to 6pm at orchard
-	 * road
-	 */
 	public static ParsedCommand parseFlexibleCommand(ParsedCommand pc, String userInput) throws NumberFormatException {
-		String title = null, inputAfterKeyword = null, day = null;
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
+		String title = null, inputAfterKeyword = null;
 		String resultingString = null, nextToken = null, keyword = null;
 		String startTime = null, endTime = null, startDate = null, endDate = null, location = null;
 		StringTokenizer tokens = null;
@@ -621,23 +589,11 @@ public class Parser {
 		keyword = tokens.nextToken();
 
 		int nextKeywordIndex = SPACE_NOT_FOUND;
-<<<<<<< HEAD
 		
-		while(!resultingString.equals("")) {
-			// keyword 'from': for date and time
-			// e.g. from 2015/11/12 to 2015/11/15, from 12.50pm to 9.33pm
-			
-=======
-		int runCount = 0;
-
 		while (!resultingString.equals("")) {
 			// keyword 'from': for date and time
 			// e.g. from 2015/11/12 to 2015/11/15, from 12.50pm to 9.33pm
 
-			// System.out.println("Before: " + resultingString);
-			// System.out.println("keyword: " + keyword);
-
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 			if (keyword.equalsIgnoreCase("from")) {
 				nextToken = tokens.nextToken();
 				// token is time
@@ -647,19 +603,7 @@ public class Parser {
 					if (nextToken.equalsIgnoreCase("to")) {
 						nextToken = tokens.nextToken();
 						endTime = nextToken;
-<<<<<<< HEAD
 						nextKeywordIndex = getNextKeywordIndex(resultingString, endTime);
-=======
-
-						// System.out.println("startTime: " + startTime);
-						// System.out.println("endTime: " + endTime);
-						// System.out.println("endTimeIndex: " + endTimeIndex);
-
-						nextKeywordIndex = getNextKeywordIndex(resultingString, endTime);
-
-						// System.out.println("nextkeywordindex: " +
-						// nextKeywordIndex);
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 					}
 				} else if (nextToken.contains("/")) {
 					startDate = nextToken;
@@ -667,18 +611,10 @@ public class Parser {
 					if (nextToken.equalsIgnoreCase("to")) {
 						nextToken = tokens.nextToken();
 						endDate = nextToken;
-<<<<<<< HEAD
-=======
-						// System.out.println("startDate: " + startDate);
-						// System.out.println("endDate: " + endDate);
-
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 						nextKeywordIndex = getNextKeywordIndex(resultingString, endDate);
 					}
 				}
-
 				resultingString = getResultingString(nextKeywordIndex, resultingString);
-
 			}
 			// keyword 'at': for location
 			// e.g. at nus soc
@@ -691,21 +627,10 @@ public class Parser {
 				if (nextKeywordIndex == -1) {
 					location = resultingString.substring(afterKeywordIndex);
 					resultingString = "";
-<<<<<<< HEAD
-				}
-				else {
-					location = inputAfterKeyword.substring(0, nextKeywordIndex-1);
-=======
 				} else {
-					// System.out.println("inputafterkeyword: " +
-					// inputAfterKeyword);
 					location = inputAfterKeyword.substring(0, nextKeywordIndex - 1);
-					// System.out.println("nextkeywordindex: " +
-					// nextKeywordIndex);
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 					resultingString = resultingString.substring(nextKeywordIndex);
 				}
-
 			}
 			// keyword 'on': for day of the week, or date
 			// e.g. meeting on monday, meeting on 2015/11/22
@@ -719,7 +644,6 @@ public class Parser {
 					nextKeywordIndex = resultingString.indexOf(" ", endDateIndex) + 1;
 				} else if (dayKeyword.contains(nextToken)) {
 					startDate = getFlexibleDateFromDay(nextToken);
-					// System.out.println("resultant day: " + resultantDay);
 
 					nextKeywordIndex = getNextKeywordIndex(resultingString, nextToken);
 				}
@@ -741,13 +665,7 @@ public class Parser {
 				}
 				resultingString = getResultingString(nextKeywordIndex, resultingString);
 			}
-<<<<<<< HEAD
-			
-=======
 
-			// System.out.println("After: " + resultingString);
-
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 			if (!resultingString.equals("")) {
 				tokens = new StringTokenizer(resultingString);
 				keyword = tokens.nextToken();
@@ -839,15 +757,7 @@ public class Parser {
 		int year = today.get(Calendar.YEAR);
 		int month = today.get(Calendar.MONTH) + 1;
 		int dayOfMonth = today.get(Calendar.DAY_OF_MONTH);
-<<<<<<< HEAD
-		
-=======
 
-		// System.out.println("curr year: " + year);
-		// System.out.println("curr month: " + month);
-		// System.out.println("curr day: " + dayOfMonth);
-
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 		if (nextToken.equalsIgnoreCase("monday")) {
 			projectedDay = 1;
 		} else if (nextToken.equalsIgnoreCase("tuesday")) {
@@ -1053,15 +963,7 @@ public class Parser {
 		if (inputAfterCommand.contains(attr)) {
 			int index = inputAfterCommand.indexOf(attr) + attrLength + 1;
 			int endIndex = inputAfterCommand.indexOf(",", index);
-<<<<<<< HEAD
-			
-=======
 
-			// String userInput2 = "add eat sleep, reminderdate 2015/11/12
-			// 2015/11/13, "
-			// + "remindertime 12.34 23.45";
-
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 			// Last list of user input
 			if (endIndex == -1) {
 				reminder = inputAfterCommand.substring(index);
@@ -1201,12 +1103,6 @@ public class Parser {
 		if (inputAfterCommand.contains(attr)) {
 			int index = inputAfterCommand.indexOf(attr) + attrLength + 1;
 			int endIndex = inputAfterCommand.indexOf(",", index);
-<<<<<<< HEAD
-=======
-
-			// System.out.println("index of " + attr + ": " + index);
-			// System.out.println("endIndex: " + attr + ": " + endIndex);
->>>>>>> 94e9b290276475987e5c08861fe3fa43e0944f16
 
 			// last attribute input of the line
 			if (endIndex == -1) {
