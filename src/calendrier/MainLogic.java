@@ -14,7 +14,8 @@ import utils.Recurrence;
 import utils.UserCommandException;
 
 /**
- * @@author A0088646M For handling the main logic
+ * @@author A0088646M
+ *  For handling the main logic
  * 
  * @author yeehuipoh
  *
@@ -27,7 +28,8 @@ public class MainLogic {
 	private List<Event> filteredEvents = null;
 
 	/**
-	 * @@author A0088646M Constructor to initialize the main components of Main
+	 * @@author A0088646M
+	 *  Constructor to initialize the main components of Main
 	 *          Logic
 	 */
 	public MainLogic() {
@@ -37,7 +39,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Inject a stub event handler
+	 * @@author A0088646M
+	 *  Inject a stub event handler
 	 * 
 	 * @param eventHandler
 	 *            stub event handler to be injected
@@ -47,7 +50,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Inject a stub parser
+	 * @@author A0088646M
+	 *  Inject a stub parser
 	 * 
 	 * @param parser
 	 *            stub parser to be injected
@@ -57,7 +61,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Execute command
+	 * @@author A0088646M
+	 *  Execute command
 	 * 
 	 * @param command
 	 *            Command string input from user
@@ -84,7 +89,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Perform the parsed command
+	 * @@author A0088646M
+	 *  Perform the parsed command
 	 * 
 	 * @param parsedCommand
 	 *            parsedCommand from the parser
@@ -108,7 +114,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Update event of the last action
+	 * @@author A0088646M
+	 *  Update event of the last action
 	 * 
 	 * @param eventList
 	 *            events returned from event handler after execution
@@ -122,7 +129,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Gets the event of the last action performed
+	 * @@author A0088646M
+	 *  Gets the event of the last action performed
 	 * 
 	 * @return event which the last action has performed on
 	 */
@@ -131,7 +139,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Gets all available events
+	 * @@author A0088646M
+	 *  Gets all available events
 	 * 
 	 * @return all events
 	 */
@@ -170,7 +179,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Gets a list of filtered events
+	 * @@author A0088646M
+	 *  Gets a list of filtered events
 	 * 
 	 * @return list of filtered events
 	 */
@@ -179,7 +189,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Gets all events within a specific month excluding
+	 * @@author A0088646M
+	 *  Gets all events within a specific month excluding
 	 *          Floating tasks
 	 * 
 	 * @param year
@@ -193,7 +204,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Gets all events within a specific month
+	 * @@author A0088646M
+	 *  Gets all events within a specific month
 	 * 
 	 * @param year
 	 *            year of event (e.g. 2015)
@@ -214,7 +226,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Gets all events within a specific day excluding
+	 * @@author A0088646M
+	 *  Gets all events within a specific day excluding
 	 *          Floating tasks
 	 * 
 	 * @param year
@@ -230,7 +243,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Gets all events within a specific day
+	 * @@author A0088646M
+	 *  Gets all events within a specific day
 	 * 
 	 * @param year
 	 *            year of event (e.g. 2015)
@@ -458,7 +472,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Set OnRemindListener
+	 * @@author A0088646M
+	 *  Set OnRemindListener
 	 * 
 	 * @param listener
 	 *            listener for reminder
@@ -471,7 +486,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Gets number of milliseconds until the next event
+	 * @@author A0088646M
+	 *  Gets number of milliseconds until the next event
 	 * 
 	 * @return number of milliseconds until next event. If no next event, -1
 	 *         will be returned.
@@ -496,7 +512,8 @@ public class MainLogic {
 	}
 
 	/**
-	 * @@author A0088646M Gets event based on its actual id
+	 * @@author A0088646M
+	 *  Gets event based on its actual id
 	 * @param actualId
 	 *            the actual id of the event
 	 * @return the event object
