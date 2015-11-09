@@ -732,24 +732,28 @@ public class UserInterface extends Application implements OnRemindListener {
 					checkTimer();
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					setMessage = getNextDay(this);
+					break;
 				}
 			case PREVIOUS_DAY:
 				if (setStorage) {
 					checkTimer();
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					setMessage = getPreviousDay(this);
+					break;
 				}
 			case NEXT_MONTH:
 				if (setStorage) {
 					checkTimer();
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					setMessage = getNextMonth(this);
+					break;
 				}
 			case PREVIOUS_MONTH:
 				if (setStorage) {
 					checkTimer();
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					setMessage = getPreviousMonth(this);
+					break;
 				}
 			default:
 				checkTimer();
