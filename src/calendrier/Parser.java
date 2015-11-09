@@ -210,9 +210,7 @@ public class Parser {
 		} else if (command.equalsIgnoreCase("add")) {
 			pc.setCommand(Command.ADD);
 
-			int numCurrentTask = ParsedCommand.getNumCurrentTask();
-			pc.setId(UUID.randomUUID().toString());
-			ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
+			addCommandSetId(pc);
 
 			/*
 			 * Case 1: not a deadline No. of parameters: 12 e.g. add eat sleep
@@ -479,7 +477,9 @@ public class Parser {
 			// Case 3: Subtask
 			// e.g. -a subtask drink repeat to 1, -st 2015/10/12, .......
 			pc.setCommand(Command.ADD);
-
+			
+			addCommandSetId(pc);
+			
 			int titleEndIndex, titleIndex;
 			String title;
 
@@ -575,6 +575,9 @@ public class Parser {
 		// 9am to 6pm at orchard road";
 		// String userInput = "meeting with colleagues on monday from 12pm to
 		// 2pm at my house";
+		
+		pc.setCommand(Command.ADD);
+		addCommandSetId(pc);
 
 		int titleEndIndex = getFirstKeywordIndex(userInput, keywords) - 1;
 		// Invalid command
@@ -644,7 +647,6 @@ public class Parser {
 					nextKeywordIndex = resultingString.indexOf(" ", endDateIndex) + 1;
 				} else if (dayKeyword.contains(nextToken)) {
 					startDate = getFlexibleDateFromDay(nextToken);
-
 					nextKeywordIndex = getNextKeywordIndex(resultingString, nextToken);
 				}
 
@@ -1095,6 +1097,12 @@ public class Parser {
 		} else if (recur.equalsIgnoreCase("yearly")) {
 			pc.setRecurFreq(Recurrence.YEARLY);
 		}
+	}
+	
+	public static void addCommandSetId(ParsedCommand pc) {
+		int numCurrentTask = ParsedCommand.getNumCurrentTask();
+		pc.setId(UUID.randomUUID().toString());
+		ParsedCommand.setNumCurrentTask(numCurrentTask + 1);
 	}
 
 	public static String getAttributeFromInput(String inputAfterCommand, String attr, int attrLength) {
