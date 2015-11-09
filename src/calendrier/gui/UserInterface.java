@@ -748,6 +748,7 @@ public class UserInterface extends Application implements OnRemindListener {
 				}
 			case EXIT:
 				System.exit(0);
+				break;
 			case PREVIOUS:
 				checkTimer();
 				isErrorMessage = PARAM_FALSE_VALUE;
@@ -777,6 +778,7 @@ public class UserInterface extends Application implements OnRemindListener {
 					viewMonth(this, month, year);
 					break;
 				}
+				break;
 			case VIEW_DAY:
 				if (setStorage) {
 					checkTimer();
@@ -788,34 +790,40 @@ public class UserInterface extends Application implements OnRemindListener {
 					viewDay(this, date, month, year, getDay(date, month, year), boolIsToday(date, month, year));
 					break;
 				}
+				break;
 			case NEXT_DAY:
 				if (setStorage) {
 					checkTimer();
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					setMessage = getNextDay(this);
 				}
+				break;
 			case PREVIOUS_DAY:
 				if (setStorage) {
 					checkTimer();
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					setMessage = getPreviousDay(this);
 				}
+				break;
 			case NEXT_MONTH:
 				if (setStorage) {
 					checkTimer();
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					setMessage = getNextMonth(this);
 				}
+				break;
 			case PREVIOUS_MONTH:
 				if (setStorage) {
 					checkTimer();
 					currentEventState = VALUE_GET_ALL_EVENTS;
 					setMessage = getPreviousMonth(this);
 				}
+				break;
 			default:
 				checkTimer();
 				isErrorMessage = PARAM_TRUE_VALUE;
 				setMessage = MESSAGE_INVALID_COMMAND;
+				break;
 			}
 		} catch (UserCommandException userCommandException) {
 			// e.printStackTrace();
