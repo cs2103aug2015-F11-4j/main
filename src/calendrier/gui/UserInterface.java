@@ -192,18 +192,18 @@ public class UserInterface extends Application implements OnRemindListener {
 		}
 
 	}
-	
-	private List<Event> rearrangeEvents(List<Event> events){
-		Calendar today= Calendar.getInstance();
+
+	private List<Event> rearrangeEvents(List<Event> events) {
+		Calendar today = Calendar.getInstance();
 		List<Event> ongoingEvents = new ArrayList<Event>();
 		List<Event> passedEvents = new ArrayList<Event>();
 		List<Event> results = new ArrayList<Event>();
-		
-		for(int i=0; i<events.size();i++){
-			if(events.get(i).getEndDateTime()!=null){
-				if(events.get(i).getEndDateTime().before(today)){
+
+		for (int i = 0; i < events.size(); i++) {
+			if (events.get(i).getEndDateTime() != null) {
+				if (events.get(i).getEndDateTime().before(today)) {
 					passedEvents.add(events.get(i));
-				}else{
+				} else {
 					ongoingEvents.add(events.get(i));
 				}
 			} else {
@@ -214,7 +214,7 @@ public class UserInterface extends Application implements OnRemindListener {
 		results.addAll(SortedEvents.sortEvents(passedEvents));
 		return results;
 	}
-	
+
 	/**
 	 * @@author A0126421U 
 	 * generate home view
@@ -763,10 +763,8 @@ public class UserInterface extends Application implements OnRemindListener {
 				setMessage = MESSAGE_INVALID_COMMAND;
 			}
 		} catch (UserCommandException userCommandException) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			setMessage = userCommandException.getMessage();
-		} catch(NullPointerException nullPointerException) {
+		} catch (NullPointerException nullPointerException) {
 			setMessage = MESSAGE_INVALID_COMMAND;
 		}
 		commandBarController.setMessage(setMessage);

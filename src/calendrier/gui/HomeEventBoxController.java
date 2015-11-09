@@ -21,12 +21,14 @@ public class HomeEventBoxController extends StackPane {
 	private GridPane homeEventGridPane;
 
 	private static final String SINGLE_DATED_EVENT_LAYOUT_FXML = "/calendrier/resources/HomeEventBox.fxml";
-	
+
 	/**
 	 * @@author A0126421U
-	 * Constructor to initialize the main components of homeEventBox
 	 * 
-	 * @param event - event to be display
+	 *          Constructor to initialize the main components of homeEventBox
+	 * 
+	 * @param event
+	 *            - event to be display
 	 * 
 	 */
 	public HomeEventBoxController(Event event, int id) {
@@ -41,23 +43,25 @@ public class HomeEventBoxController extends StackPane {
 
 		initEventValue(event, id);
 	}
-	
+
 	/**
 	 * @@author A0126421U
-	 * Set the detail in the homeEventBox
 	 * 
-	 * @param event - the event to be show
+	 *          Set the detail in the homeEventBox
+	 * 
+	 * @param event
+	 *            - the event to be show
 	 * 
 	 */
 	private void initEventValue(Event event, int id) {
 		lblHomeEventID.setText(String.format("%d.", id));
 		lblHomeEventTitle.setText(event.getTitle());
-		if(event.isDone()){
+		if (event.isDone()) {
 			changeTextDecoration(lblHomeEventTitle);
 		}
 		changeBorderColor(event.getPriority());
 	}
-	
+
 	/**
 	 * @@author A0126421U 
 	 * Strike through the event if is done
@@ -70,12 +74,14 @@ public class HomeEventBoxController extends StackPane {
 		lblEvent.getStyleClass().remove(lblEvent.styleProperty());
 		lblEvent.getStyleClass().add("lblEventStrikeThrough");
 	}
-	
+
 	/**
 	 * @@author A0126421U
-	 * Change the text color based on priority
 	 * 
-	 * @param priority - the priority of the current event
+	 *          Change the text color based on priority
+	 * 
+	 * @param priority
+	 *            - the priority of the current event
 	 * 
 	 */
 	private void changeBorderColor(Priority priority) {

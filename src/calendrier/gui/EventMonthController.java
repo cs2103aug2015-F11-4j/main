@@ -147,7 +147,7 @@ public class EventMonthController extends StackPane {
 			setEmptyData();
 		}
 	}
-	
+
 	/**
 	 * @@author A0126421U 
 	 * Set parameter for date

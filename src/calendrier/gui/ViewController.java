@@ -78,17 +78,17 @@ public class ViewController extends FlowPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		initHomeView(time, dayEvents, allEvents, floatTask, onGoingTask, passedTask);
 	}
 
 	private void initHomeView(long time, List<Event> dayEvents, List<Event> allEvents, int floatTask, int onGoingTask,
 			int passedTask) {
-		
+
 		Event nextEvent = new Event();
 		Calendar cal = Calendar.getInstance();
 		IdMapper idMapper = IdMapper.getInstance();
-		
+
 		int id = generateCurrentEvent(dayEvents, allEvents, idMapper);
 		nextEvent = generateNextEvent(allEvents, nextEvent, cal, idMapper, id);
 
@@ -102,8 +102,7 @@ public class ViewController extends FlowPane {
 		lblFloat.setText(Integer.toString(floatTask));
 		if (nextEvent.getTitle() != null) {
 			lblNextTask.setText(String.format("Countdown to %s", nextEvent.getTitle()));
-		}
-		else{
+		} else {
 			lblNextTask.setText(String.format("Countdown Not Avaliable"));
 		}
 	}
@@ -120,9 +119,9 @@ public class ViewController extends FlowPane {
 			day = (time / 3600000) / 24;
 
 			lbltimeDay.setText(String.format("%d", day));
-			lbltimeHour.setText(String.format("%d",hour));
-			lbltimeMin.setText(String.format("%d",min));
-			lbltimeSec.setText(String.format("%d",sec));
+			lbltimeHour.setText(String.format("%d", hour));
+			lbltimeMin.setText(String.format("%d", min));
+			lbltimeSec.setText(String.format("%d", sec));
 		} else {
 			lbltimeDay.setText("-");
 			lbltimeHour.setText("-");
@@ -145,7 +144,8 @@ public class ViewController extends FlowPane {
 					count++;
 					id++;
 					if (count == 5) {
-						//lblMoreNextEvent.setText(String.format("+%d more", allEvents.size()-count));
+						// lblMoreNextEvent.setText(String.format("+%d more",
+						// allEvents.size()-count));
 						break;
 					}
 				}
@@ -155,7 +155,7 @@ public class ViewController extends FlowPane {
 	}
 
 	private int generateCurrentEvent(List<Event> dayEvents, List<Event> allEvents, IdMapper idMapper) {
-		int count = 0, id=0;
+		int count = 0, id = 0;
 		for (int i = 0; i < dayEvents.size(); i++) {
 			if (dayEvents.get(i).getStartDateTime() != null) {
 				idMapper.set(Integer.toString(id), allEvents.get(i).getId());
@@ -163,7 +163,7 @@ public class ViewController extends FlowPane {
 				count++;
 				id++;
 				if (count == 5) {
-					lblMoreEvent.setText(String.format("+%d more", dayEvents.size()-count));
+					lblMoreEvent.setText(String.format("+%d more", dayEvents.size() - count));
 					break;
 				}
 			}
@@ -204,11 +204,11 @@ public class ViewController extends FlowPane {
 
 		int end;
 		List<String> idList;
-		
+
 		generateEmptyDate(month, year);
 		end = detectLengthofMonth(month, year);
 		idList = setIdMapper(events);
-		
+
 		setHeaderForMonthView(month, year);
 		generateDay(events, month, year, end, idList);
 	}
