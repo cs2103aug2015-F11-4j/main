@@ -1604,7 +1604,7 @@ public class ParserTest {
 	@Test
 	public void invalidCommand() {
 		Parser parser = new Parser();
-		String userInput = "blabla blablabla";
+		String userInput = "bla bla";
 		ParsedCommand pc = parser.parse(userInput);
 		assertEquals("command: ", null, pc.getCommand());
 	}

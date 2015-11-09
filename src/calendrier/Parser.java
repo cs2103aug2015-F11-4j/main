@@ -576,13 +576,16 @@ public class Parser {
 		// String userInput = "meeting with colleagues on monday from 12pm to
 		// 2pm at my house";
 		
-		pc.setCommand(Command.ADD);
-		addCommandSetId(pc);
+		
 
 		int titleEndIndex = getFirstKeywordIndex(userInput, keywords) - 1;
 		// Invalid command
-		if (titleEndIndex == KEYWORD_NOT_FOUND)
+		if (titleEndIndex == KEYWORD_NOT_FOUND) {
+			title = userInput;
 			return pc;
+		}
+		pc.setCommand(Command.ADD);
+		addCommandSetId(pc);
 		title = userInput.substring(0, titleEndIndex);
 		pc.setTitle(title);
 
